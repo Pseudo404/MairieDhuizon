@@ -1,0 +1,400 @@
+from django import forms
+from django.core.validators import RegexValidator
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
+from core.models import News, QuickLink, AdminAccount
+
+
+class IconSelectWidget(forms.Widget):    
+    def __init__(self, icons_choices=None, attrs=None):
+        super().__init__(attrs)
+        self.icons_choices = icons_choices or []
+    
+    def render(self, name, value, attrs=None, renderer=None):
+        widget_attrs = self.build_attrs(attrs or {}, {'name': name})
+        widget_id = widget_attrs.get('id', f'id_{name}')
+        html = f'<div class="icon-grid" id="{widget_id}" data-field="{name}">\n'
+        
+        for icon_value, icon_label in self.icons_choices:
+            checked = 'checked' if value == icon_value else ''
+            html += (
+                f'  <label class="icon-option" data-value="{icon_value}">\n'
+                f'    <input type="radio" name="{name}" value="{icon_value}" {checked} style="display:none;">\n'
+                f'    <span class="material-symbols-outlined">{icon_value}</span>\n'
+                f'  </label>\n'
+            )
+        
+        html += '</div>\n'
+        html += '''
+            <style>
+            .icon-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 12px;
+                margin-bottom: 16px;
+                padding: 12px;
+                background: #f9fafb;
+                border-radius: 12px;
+                border: 1px solid #e5e7eb;
+            }
+
+            .icon-option {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                aspect-ratio: 1;
+                border: 2px solid #d1d5db;
+                border-radius: 12px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                background: white;
+                padding: 8px;
+            }
+
+            .icon-option:hover {
+                border-color: #22c55e;
+                background: #f0fdf4;
+                transform: scale(1.05);
+            }
+
+            .icon-option input:checked + span,
+            .icon-option:has(input:checked) {
+                background: #22c55e;
+                border-color: #16a34a;
+                color: white;
+            }
+
+            .icon-option input:checked + span {
+                color: white;
+            }
+
+            .icon-option span {
+                font-size: 40px;
+                color: #374151;
+                font-weight: 400;
+                display: block;
+                line-height: 1;
+            }
+            </style>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.icon-grid').forEach(grid => {
+                    grid.querySelectorAll('.icon-option').forEach(label => {
+                        label.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const input = this.querySelector('input');
+                            input.checked = true;
+                        });
+                    });
+                });
+            });
+            </script>
+            '''
+        return mark_safe(html)
+
+class ContactForm(forms.Form):
+    nom = forms.CharField(
+        max_length=100,
+        label="Nom",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Turing',
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition',
+        }),
+    )
+    prenom = forms.CharField(
+        max_length=100,
+        label="Prénom",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Alan',
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition',
+        }),
+    )
+    email = forms.EmailField(
+        label="Adresse email",
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'alan.turing@domaine.com',
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition',
+        }),
+    )
+    telephone = forms.CharField(
+        max_length=20,
+        required=False,
+        label="Numéro de téléphone",
+        validators=[
+            RegexValidator(
+                regex=r'^[\d\s\+\-\.()]{0,20}$', #les chiffres, espaces, +, -, ., et parenthèses jusqu'à 20 caractères 
+                message="Numéro de téléphone invalide.",
+            ),
+        ],
+        widget=forms.TextInput(attrs={
+            'placeholder': '06 12 34 56 78',
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition',
+        }),
+    )
+    objet = forms.CharField(
+        max_length=200,
+        label="Objet",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Objet de votre demande',
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition',
+        }),
+    )
+    message = forms.CharField(
+        max_length=5000,
+        label="Message",
+        widget=forms.Textarea(attrs={
+            'rows': 7,
+            'placeholder': 'Écrivez votre message...',
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition resize-none',
+        }),
+    )
+
+
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ['title', 'short_description', 'content', 'image', 'event_date', 'author', 'is_published']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': "Titre de l'actualité",
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                     'focus:border-green-600 transition',
+            }),
+            'short_description': forms.Textarea(attrs={
+                'rows': 3,
+                'placeholder': 'Résumé court affiché dans la liste...',
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                     'focus:border-green-600 transition resize-none',
+            }),
+            'content': forms.Textarea(attrs={
+                'rows': 10,
+                'placeholder': "Contenu complet de l'actualité...",
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                     'focus:border-green-600 transition resize-none',
+            }),
+            'image': forms.ClearableFileInput(attrs={
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 '
+                     'file:bg-green-700 file:text-white file:cursor-pointer hover:file:bg-green-800 transition',
+            }),
+            'event_date': forms.DateInput(format='%Y-%m-%d', attrs={
+                'type': 'date',
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                         'focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                         'focus:border-green-600 transition',
+            }),
+            'author': forms.TextInput(attrs={
+                'placeholder': "Nom de l'auteur (optionnel)",
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                     'focus:border-green-600 transition',
+            }),
+            'is_published': forms.CheckboxInput(attrs={
+                'class': 'w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500 cursor-pointer',
+            }),
+        }
+        labels = {
+            'title': 'Titre',
+            'short_description': 'Description courte',
+            'content': 'Contenu',
+            'image': 'Image principale',
+            'event_date': "Date de l'événement",
+            'author': 'Auteur',
+            'is_published': 'Publier immédiatement',
+        }
+
+
+class AdminLoginForm(AuthenticationForm):
+    """
+    héritage du systeme de connexion de django
+    changement de l'apparence
+    """
+    username = forms.CharField(
+        max_length=254,
+        label="Nom d'utilisateur",
+        widget=forms.TextInput(attrs={
+            'placeholder': "Nom d'utilisateur",
+            'class': 'w-full px-5 py-3 rounded-2xl bg-white border border-gray-300 '
+                     'text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 '
+                     'focus:ring-green-500 focus:border-transparent transition',
+            'autocomplete': 'username',
+        }),
+    )
+    password = forms.CharField(
+        label="Mot de passe",
+        widget=forms.PasswordInput(attrs={
+            'placeholder': "Mot de passe",
+            'class': 'w-full px-5 py-3 rounded-2xl bg-white border border-gray-300 '
+                     'text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 '
+                     'focus:ring-green-500 focus:border-transparent transition',
+            'autocomplete': 'current-password',
+        }),
+    )
+
+class QuickLinkForm(forms.ModelForm):
+    class Meta:
+        model = QuickLink
+        fields = ['label', 'icon', 'url', 'order']
+        widgets = {
+            'label': forms.TextInput(attrs={
+                'placeholder': "Ex: École, Pharmacie, Sports...",
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                     'focus:border-green-600 transition',
+            }),
+            'url': forms.TextInput(attrs={
+                'placeholder': "Ex: /loisirs/#sport ou https://google.com",
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                     'focus:border-green-600 transition',
+            }),
+            'order': forms.NumberInput(attrs={
+                'placeholder': "Ordre d'affichage",
+                'min': '0',
+                'class': 'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+                     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+                     'focus:border-green-600 transition',
+            }),
+        }
+        labels = {
+            'label': 'Libellé',
+            'icon': 'Choisir une icône',
+            'url': 'Lien de destination',
+            'order': "Ordre d'affichage",
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['icon'].widget = IconSelectWidget(icons_choices=QuickLink.ICONS_CHOICES)
+
+
+_INPUT_CLASS = (
+    'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
+    'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
+    'focus:border-green-600 transition'
+)
+
+
+class AdminAccountForm(forms.Form):
+    """Création / modification d'un compte administrateur classique (employé mairie)."""
+
+    username = forms.CharField(
+        label="Nom d'utilisateur",
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': _INPUT_CLASS, 'autocomplete': 'username'}),
+    )
+    email = forms.EmailField(
+        label='E-mail',
+        required=False,
+        widget=forms.EmailInput(attrs={'class': _INPUT_CLASS, 'autocomplete': 'email'}),
+    )
+    first_name = forms.CharField(
+        label='Prénom',
+        required=False,
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': _INPUT_CLASS}),
+    )
+    last_name = forms.CharField(
+        label='Nom',
+        required=False,
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': _INPUT_CLASS}),
+    )
+    password = forms.CharField(
+        label='Mot de passe',
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            'class': _INPUT_CLASS,
+            'autocomplete': 'new-password',
+        }),
+        help_text='Minimum 8 caractères.',
+    )
+    password_confirm = forms.CharField(
+        label='Confirmer le mot de passe',
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            'class': _INPUT_CLASS,
+            'autocomplete': 'new-password',
+        }),
+    )
+
+    def __init__(self, *args, admin_account=None, **kwargs):
+        self.admin_account = admin_account
+        super().__init__(*args, **kwargs)
+        if admin_account:
+            user = admin_account.user
+            self.fields['username'].initial = user.username
+            self.fields['email'].initial = user.email
+            self.fields['first_name'].initial = user.first_name
+            self.fields['last_name'].initial = user.last_name
+            self.fields['password'].help_text = 'Laisser vide pour conserver le mot de passe actuel.'
+        else:
+            self.fields['password'].required = True
+            self.fields['password_confirm'].required = True
+
+    def clean_username(self):
+        username = self.cleaned_data['username'].strip()
+        qs = User.objects.filter(username__iexact=username)
+        if self.admin_account:
+            qs = qs.exclude(pk=self.admin_account.user_id)
+        if qs.exists():
+            raise forms.ValidationError("Ce nom d'utilisateur est déjà pris.")
+        return username
+
+    def clean(self):
+        cleaned = super().clean()
+        password = cleaned.get('password') or ''
+        password_confirm = cleaned.get('password_confirm') or ''
+        is_create = self.admin_account is None
+
+        if is_create or password:
+            if len(password) < 8:
+                self.add_error('password', 'Le mot de passe doit contenir au moins 8 caractères.')
+            elif password != password_confirm:
+                self.add_error('password_confirm', 'Les mots de passe ne correspondent pas.')
+        elif password_confirm:
+            self.add_error('password', 'Saisissez le nouveau mot de passe.')
+
+        return cleaned
+
+    def save(self):
+        data = self.cleaned_data
+        if self.admin_account:
+            user = self.admin_account.user
+            user.username = data['username']
+            user.email = data['email']
+            user.first_name = data['first_name']
+            user.last_name = data['last_name']
+            if data.get('password'):
+                user.set_password(data['password'])
+            user.save()
+            return self.admin_account
+
+        user = User.objects.create_user(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            is_staff=True,
+            is_superuser=False,
+        )
+        return AdminAccount.objects.create(user=user, is_super_admin=False)
+

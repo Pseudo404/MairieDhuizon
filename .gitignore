@@ -1,0 +1,32 @@
+# Secrets & environnement
+.env
+.env.*
+!.env.example
+note.txt
+.txt
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
+logs/
+*.log
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Node / Tailwind build
+node_modules/
+theme/static/css/dist/

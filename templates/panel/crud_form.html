@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+{% block title %}<title>{% if is_edit %}Modifier{% else %}Ajouter{% endif %} {{ model_name }} — Panneau de contrôle</title>{% endblock %}
+{% block extra_head %}{% include 'panel/_theme.html' %}{% endblock %}
+{% block content %}
+<main class="panel-bg py-12">
+    <div class="max-w-4xl mx-auto px-4 lg:px-6">
+        <div class="mb-8">
+            {% if is_singleton %}
+                <a href="{% url 'admin_settings' %}" class="panel-back inline-flex items-center gap-1 mb-2">← Retour aux paramètres</a>
+            {% else %}
+                <a href="{% url 'panel_crud_list' app_label model_slug %}{% if parent_id %}?parent_id={{ parent_id }}{% endif %}" class="panel-back inline-flex items-center gap-1 mb-2">← Retour à la liste</a>
+            {% endif %}
+            <h1 class="text-2xl font-semibold panel-title">
+                {% if is_edit %}Modifier {{ model_name }}{% else %}Ajouter {{ model_name }}{% endif %}
+            </h1>
+        </div>
+        {% if form.errors %}
+        <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-xl font-medium">
+            Veuillez corriger les erreurs ci-dessous.
+        </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data" class="panel-card p-6 sm:p-8">
+            {% csrf_token %}
+            <div class="space-y-6">
+                {% for field in form %}
+                <div class="flex flex-col gap-2">
+                    <label for="{{ field.id_for_label }}" class="font-bold text-gray-800">
+                        {{ field.label }} {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                    </label>
+                    {% if field.help_text %}
+                    <p class="text-sm text-gray-500">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                    <div class="relative">
+                        {{ field }}
+                    </div>
+                    {% if field.errors %}
+                    <div class="text-red-600 text-sm font-medium mt-1">
+                        {{ field.errors.0 }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-end gap-4">
+                {% if is_singleton %}
+                    <a href="{% url 'admin_settings' %}" class="px-6 py-3 font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">Annuler</a>
+                {% else %}
+                    <a href="{% url 'panel_crud_list' app_label model_slug %}{% if parent_id %}?parent_id={{ parent_id }}{% endif %}" class="px-6 py-3 font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">Annuler</a>
+                {% endif %}
+                <button type="submit" class="panel-btn-primary px-8 py-3 rounded-xl font-bold shadow-lg">
+                    Enregistrer
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+<style>
+/* champs generer par Django */
+form input[type="text"],
+form input[type="number"],
+form input[type="email"],
+form input[type="password"],
+form input[type="url"],
+form input[type="date"],
+form input[type="time"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #d1d5db;
+    background-color: #fff;
+    color: #111827;
+    transition: all 0.2s;
+}
+form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+form input[type="checkbox"] {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #d1d5db;
+    color: #16a34a;
+}
+</style>
+{% endblock %}

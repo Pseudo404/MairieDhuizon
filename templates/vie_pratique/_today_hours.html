@@ -1,0 +1,15 @@
+{% if today_slots %}
+<p class="text-sm font-semibold text-gray-900 mt-4 mb-2">Aujourd'hui ({{ today_label }})</p>
+<ul class="space-y-1 text-sm">
+    {% for slot in today_slots %}
+    <li class="flex items-center gap-2 text-gray-700">
+        {% if slot.ferme %}
+        <span class="text-red-600 font-medium">Fermé</span>
+        {% else %}
+        <span class="material-symbols-outlined text-green-800 text-base">schedule</span>
+        <span class="text-gray-800">{{ slot.label }}</span>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

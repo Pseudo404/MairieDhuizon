@@ -1,0 +1,101 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Description de la page">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo-dhuizon.webp' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
+    {% tailwind_css %}
+    {% block extra_head %}
+    {% endblock %}
+    
+</head>
+<body class="min-h-screen flex flex-col">
+    {% include 'partials/header.html' %}
+    <div class="flex-1">
+        {% block content %}{% endblock %}
+        {% block extra_scripts %}{% endblock %}
+    </div>
+    {% include 'partials/footer.html' %}
+    <div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-2xl p-4 md:p-6 z-50 transform translate-y-full transition-transform duration-500 hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex-1 text-sm text-gray-700">
+                <p>
+                    <strong>Gérer vos cookies.</strong> Nous utilisons des cookies pour réaliser des statistiques de visites (Matomo) et améliorer votre expérience sur notre site. 
+                    Vous pouvez accepter ou refuser ces cookies. <a href="{% url 'politique_confidentialite' %}" class="text-green-700 hover:underline">En savoir plus</a>.
+                </p>
+            </div>
+            <div class="flex gap-3 shrink-0">
+                <button id="cookie-decline" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                    Refuser
+                </button>
+                <button id="cookie-accept" class="px-4 py-2 text-sm font-medium text-white bg-green-700 hover:bg-green-800 rounded-lg transition-colors">
+                    Tout accepter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function(){
+        var banner = document.getElementById('cookie-banner');
+        var btnAccept = document.getElementById('cookie-accept');
+        var btnDecline = document.getElementById('cookie-decline');
+        
+        function initTracking() {
+            var p=window.location.pathname;
+            if(p.startsWith('/admin/')||p.startsWith('/control-panel/')||p.startsWith('/login-admin/'))return;
+
+            var csrfEl=document.querySelector('meta[name="csrf-token"]');
+            var csrfToken=csrfEl?csrfEl.getAttribute('content'):'';
+            var t=Date.now();
+
+            function send(){
+                var s=Math.round((Date.now()-t)/1000);
+                if(s>1&&s<3600){ // si + de 1s et - de 1h pour innactivité puis envoyé au backend
+                    fetch('/api/track-time/',{
+                        method:'POST',
+                        headers:{'Content-Type':'application/json','X-CSRFToken':csrfToken},
+                        body:JSON.stringify({time:s,path:p}),
+                        keepalive:true,
+                        credentials:'same-origin'
+                    }).catch(() => {});
+                }
+            }
+
+            document.addEventListener('visibilitychange',function(){ // minimize la page, change d'onglet etc...
+                if(document.visibilityState==='hidden')send(); // envoyer le temps passer sur la page.
+            });
+        }
+
+        var consent = localStorage.getItem('cookieConsent');
+        if (consent === 'granted') {
+            initTracking();
+        } else if (consent === null) {
+            banner.classList.remove('hidden');
+            // temps de transition (animation)
+            setTimeout(function() {
+                banner.classList.remove('translate-y-full');
+            }, 50);
+        }
+
+        btnAccept.addEventListener('click', function() {
+            localStorage.setItem('cookieConsent', 'granted');
+            banner.classList.add('translate-y-full');
+            setTimeout(function() { banner.classList.add('hidden'); }, 500);
+            initTracking();
+        });
+
+        btnDecline.addEventListener('click', function() {
+            localStorage.setItem('cookieConsent', 'denied');
+            banner.classList.add('translate-y-full');
+            setTimeout(function() { banner.classList.add('hidden'); }, 500);
+        });
+    })();
+    </script>
+</body>
+</html>

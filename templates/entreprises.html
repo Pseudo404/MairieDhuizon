@@ -1,0 +1,416 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}<title>{{ page_title }} — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="{{ page_intro }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+<style>
+    .horaires-panel { display: none; overflow: hidden; animation: slideDown 0.25s ease; }
+    .horaires-panel.open { display: block; }
+    .horaires-panel-tr { display: none; }
+    .horaires-panel-tr.open { display: table-row; animation: slideDown 0.25s ease; }
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-6px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .badge-ouvert { background:#dcfce7; color:#166534; border:1px solid #bbf7d0; }
+    .badge-ferme { background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
+    .badge-non-renseigne { background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }
+    tr.row-active td { background:#f0fdf4; }
+    .jour-today { background:#f0fdf4; font-weight:700; border-left:3px solid #16a34a; }
+</style>
+{% endblock %}
+{% block content %}
+<main class="bg-gradient-to-b from-green-50 to-white min-h-screen text-gray-900">
+    <section id="entreprises-commerces" class="mx-auto max-w-7xl px-4 md:px-6 pt-10 md:pt-14 pb-16 scroll-mt-6">
+
+        <div class="text-center mb-12">
+            <span class="inline-flex items-center gap-2 bg-green-100 text-green-800 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4 border border-green-200">
+                <span class="material-symbols-outlined text-sm">{{ page_icon }}</span>
+                {{ page_badge }}
+            </span>
+
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                {{ page_intro }}
+            </p>
+        </div>
+
+        {% for section in annuaire_sections %}
+        <div id="{{ section.id }}" class="scroll-mt-6 {% if not forloop.first %}mt-16 pt-8 border-t border-green-200/80{% endif %}">
+            <div class="flex items-center justify-center gap-4 mb-8">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 text-center">{{ section.title }}</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+
+            {% if section.data %}
+            <div class="hidden md:block bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+                <div class="bg-green-700 px-6 py-4 flex items-center gap-3">
+                    <span class="material-symbols-outlined text-white text-xl">{{ section.icon }}</span>
+                    <h3 class="text-white font-bold text-lg">Annuaire — {{ section.title }}</h3>
+                    <span class="ml-auto bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                        {{ section.data|length }} entrée{{ section.data|length|pluralize }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[30%]">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-green-700 text-base">storefront</span>
+                                    Nom de l'activité
+                                </div>
+                            </th>
+                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[25%]">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-green-700 text-base">location_on</span>
+                                    Adresse
+                                </div>
+                            </th>
+                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[20%]">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-green-700 text-base">person</span>
+                                    Personnel
+                                </div>
+                            </th>
+                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[15%]">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-green-700 text-base">call</span>
+                                    Téléphone
+                                </div>
+                            </th>
+                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[10%]">
+                                Statut
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        {% for item in section.data %}
+                        <tr id="row-{{ item.row_id }}"
+                            class="hover:bg-green-50/60 transition-colors duration-150 group cursor-pointer select-none"
+                            onclick="toggleHoraires('{{ item.row_id }}')"
+                            aria-expanded="false"
+                            role="button">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-semibold text-gray-900 group-hover:text-green-800 transition">
+                                    {{ item.fiche.nom_activite }}
+                                    </span>
+                                    {% if item.has_horaires %}
+                                    <span id="chevron-{{ item.row_id }}"
+                                        class="material-symbols-outlined text-gray-400 text-base transition-transform duration-200">
+                                        expand_more
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-gray-600">
+                                {% if item.fiche.adresse %}
+                                <span class="flex items-start gap-1">
+                                    <span class="material-symbols-outlined text-gray-400 text-sm shrink-0 mt-0.5">place</span>
+                                    {{ item.fiche.adresse }}
+                                </span>
+                                {% else %}—{% endif %}
+                            </td>
+                            <td class="px-6 py-4 text-gray-600">
+                                {{ item.fiche.personnel|default:"—" }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {% if item.fiche.telephone %}
+                                <a href="tel:{{ item.fiche.telephone }}"
+                                    class="inline-flex items-center gap-1 text-green-700 font-medium hover:underline"
+                                    onclick="event.stopPropagation()">
+                                    <span class="material-symbols-outlined text-sm">call</span>
+                                    {{ item.fiche.telephone }}
+                                </a>
+                                {% else %}
+                                <span class="text-gray-400">—</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4">
+                            {% if item.has_horaires %}
+                                {% if item.statut == 'ouvert' %}
+                                    <span class="badge-ouvert inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span>
+                                        Ouvert
+                                    </span>
+                                {% elif item.statut == 'ferme' %}
+                                <span class="badge-ferme inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>
+                                    Fermé
+                                </span>
+                                {% else %}
+                                <span class="badge-non-renseigne inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    —
+                                </span>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge-non-renseigne inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    —
+                                </span>
+                            {% endif %}
+                            </td>
+                        </tr>
+
+                        {% if item.has_horaires %}
+                        <tr id="panel-{{ item.row_id }}" class="horaires-panel-tr">
+                            <td colspan="5" class="px-0 py-0 bg-gray-50 border-b border-gray-200">
+                                <div class="px-6 py-5">
+                                    <div class="flex items-center gap-2 mb-4">
+                                        <span class="material-symbols-outlined text-green-700 text-lg">schedule</span>
+                                        <span class="font-semibold text-gray-800 text-sm">Horaires d'ouverture — {{ item.fiche.nom_activite }}</span>
+                                    </div>
+                                    <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:0.5rem;">
+                                        {% for jour in item.jours %}
+                                        <div class="rounded-lg border text-center py-3 px-1 text-xs
+                                            {% if jour.is_today %}jour-today border-green-300{% else %}border-gray-200 bg-white{% endif %}">
+                                            <div class="font-bold text-gray-700 mb-1.5">{{ jour.label|slice:":3" }}</div>
+                                            {% if jour.ferme %}
+                                            <div class="text-red-500 font-semibold">Fermé</div>
+                                            {% elif jour.non_renseigne %}
+                                            <div class="text-gray-400">—</div>
+                                            {% else %}
+                                            {% for creneau in jour.creneaux %}
+                                            <div class="text-green-700 font-semibold leading-tight {% if not forloop.first %}mt-1 pt-1 border-t border-gray-200{% endif %}">
+                                                {{ creneau.heure_ouverture|time:"H\hi" }}<br>
+                                                <span class="text-gray-400 font-normal">→</span><br>
+                                                {{ creneau.heure_fermeture|time:"H\hi" }}
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="md:hidden space-y-3">
+            {% for item in section.data %}
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="p-4 {% if item.has_horaires %}cursor-pointer select-none{% endif %}"
+                    {% if item.has_horaires %}onclick="toggleHorairesMobile('{{ item.row_id }}')" role="button" aria-expanded="false"{% endif %}>
+                    <div class="flex items-start justify-between gap-3">
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-bold text-gray-900 text-base leading-tight">
+                            {{ item.fiche.nom_activite }}
+                            </h3>
+                            <dl class="mt-2 space-y-1.5 text-sm text-gray-600">
+                            {% if item.fiche.adresse %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">location_on</span>
+                                <span>{{ item.fiche.adresse }}</span>
+                            </div>
+                            {% endif %}
+                            {% if item.fiche.personnel %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">person</span>
+                                <span>{{ item.fiche.personnel }}</span>
+                            </div>
+                            {% endif %}
+                            {% if item.fiche.telephone %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">call</span>
+                                <a href="tel:{{ item.fiche.telephone }}"
+                                class="text-green-700 font-medium hover:underline"
+                                onclick="event.stopPropagation()">
+                                {{ item.fiche.telephone }}
+                                </a>
+                            </div>
+                            {% endif %}
+                            <dl class="mt-2 space-y-1.5 text-sm text-gray-600">
+                                {% if item.fiche.adresse %}
+                                <div class="flex gap-2">
+                                    <span class="material-symbols-outlined text-green-700 text-base shrink-0">location_on</span>
+                                    <span>{{ item.fiche.adresse }}</span>
+                                </div>
+                                {% endif %}
+                                {% if item.fiche.personnel %}
+                                <div class="flex gap-2">
+                                    <span class="material-symbols-outlined text-green-700 text-base shrink-0">person</span>
+                                    <span>{{ item.fiche.personnel }}</span>
+                                </div>
+                                {% endif %}
+                                {% if item.fiche.telephone %}
+                                <div class="flex gap-2">
+                                    <span class="material-symbols-outlined text-green-700 text-base shrink-0">call</span>
+                                    <a href="tel:{{ item.fiche.telephone }}"
+                                    class="text-green-700 font-medium hover:underline"
+                                    onclick="event.stopPropagation()">
+                                    {{ item.fiche.telephone }}
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </dl>
+                        </div>
+                        <div class="flex flex-col items-end gap-2 shrink-0">
+                            {% if item.has_horaires %}
+                                {% if item.statut == 'ouvert' %}
+                                <span class="badge-ouvert inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span>
+                                    Ouvert
+                                </span>
+                                {% elif item.statut == 'ferme' %}
+                                <span class="badge-ferme inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>
+                                    Fermé
+                                </span>
+                                {% else %}
+                                <span class="badge-non-renseigne inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    Non renseigné
+                                </span>
+                                {% endif %}
+                                <span id="chevron-mobile-{{ item.row_id }}"
+                                        class="material-symbols-outlined text-gray-400 text-xl transition-transform duration-200">
+                                    expand_more
+                                </span>
+                                {% else %}
+                                <span class="badge-non-renseigne inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
+                                    —
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% if item.has_horaires %}
+            <div id="panel-mobile-{{ item.row_id }}" class="horaires-panel border-t border-gray-100">
+                <div class="px-4 py-4">
+                <div class="flex items-center gap-1.5 mb-3">
+                    <span class="material-symbols-outlined text-green-700 text-base">schedule</span>
+                    <span class="text-xs font-semibold text-gray-700 uppercase tracking-wide">Horaires</span>
+                </div>
+                <div class="space-y-1.5">
+                    {% for jour in item.jours %}
+                    <div class="flex items-start justify-between rounded-lg px-3 py-2 text-sm
+                    {% if jour.is_today %}jour-today{% else %}bg-gray-50{% endif %}">
+                    <span class="font-medium text-gray-700 w-24">{{ jour.label }}</span>
+                    {% if jour.ferme %}
+                        <span class="text-red-500 text-xs font-semibold">Fermé</span>
+                    {% elif jour.non_renseigne %}
+                        <span class="text-gray-400 text-xs">Non renseigné</span>
+                    {% else %}
+                        <div class="flex flex-col items-end gap-0.5">
+                        {% for creneau in jour.creneaux %}
+                        <span class="text-green-700 font-semibold text-xs">
+                            {{ creneau.heure_ouverture|time:"H\hi" }} – {{ creneau.heure_fermeture|time:"H\hi" }}
+                        </span>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                </div>
+            </div>
+            {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <p class="mt-6 text-center text-xs text-gray-400 flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-sm">info</span>
+            Cette liste est mise à jour régulièrement. Contactez la mairie pour toute mise à jour.
+        </p>
+        {% else %}
+        <div class="text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
+            <span class="material-symbols-outlined text-6xl text-green-200 mb-4 block">{{ section.empty_icon }}</span>
+            <h3 class="text-xl font-bold text-gray-700 mb-2">{{ section.empty_title }}</h3>
+            <p class="text-gray-500 text-sm">
+              {{ section.empty_message|safe }}
+            </p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </section>
+</main>
+<script>
+/*
+sans open :
+    display:none
+avec open :
+    display:block
+*/
+
+function toggleHoraires(id) {
+    /*
+    on recups les elements correspondant a l'entreprise
+    Exemple avec id = "boulangerie"
+    panel :
+        panel-boulangerie
+    chevron :
+        chevron-boulangerie
+    row :
+        row-boulangerie
+    */
+    const panel = document.getElementById('panel-' + id);
+    const chevron = document.getElementById('chevron-' + id);
+    const row = document.getElementById('row-' + id);
+
+    if (!panel) return; // evite l'erreur si pas d'horraire
+
+    const isOpen = panel.classList.contains('open'); // si un déjà ouvert
+
+    document.querySelectorAll('.horaires-panel, .horaires-panel-tr').forEach(p => p.classList.remove('open')); // fermer tous ce ouvert sauf celui cliquer
+
+    document
+    .querySelectorAll('[id^="chevron-"]:not([id*="mobile"])')
+    .forEach(c => {
+        c.style.transform = ''; // rotation de la flèche haut/bas
+        c.style.color = ''; // supprimer la couleur
+    });
+
+    document.querySelectorAll('tr[id^="row-"]').forEach(r => r.classList.remove('row-active')); // pareil on supprime toutes les lignes actives
+
+    if (!isOpen) {
+        panel.classList.add('open');
+        if (chevron) {
+            chevron.style.transform = 'rotate(180deg)';
+            chevron.style.color = '#16a34a';
+        }
+        row.classList.add('row-active');
+        row.setAttribute( // accèssibilité (lecteur d'écran) ligne ouverte
+            'aria-expanded',
+            'true'
+        );
+
+    } else {
+        row.setAttribute( // lecteur d'écrans ligne fermé
+            'aria-expanded',
+            'false'
+        );
+
+    }
+
+}
+
+function toggleHorairesMobile(id) {
+    const panel = document.getElementById('panel-mobile-' + id);
+    const chevron = document.getElementById('chevron-mobile-' + id);
+
+    if (!panel) return;
+    const isOpen =
+        panel.classList.contains('open');
+
+    document.querySelectorAll('[id^="panel-mobile-"]').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('[id^="chevron-mobile-"]').forEach(c => {
+        c.style.transform = '';
+        c.style.color = '';
+    });
+
+    if (!isOpen) {
+        panel.classList.add('open');
+        if (chevron) {
+            chevron.style.transform = 'rotate(180deg)';
+            chevron.style.color = '#16a34a';
+        }
+    }
+}
+</script>
+{% endblock %}

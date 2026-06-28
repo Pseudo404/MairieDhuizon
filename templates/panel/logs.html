@@ -1,0 +1,107 @@
+{% extends 'index.html' %}
+{% block title %}<title>Logs d'audit — Panneau de contrôle</title>{% endblock %}
+{% block extra_head %}{% include 'panel/_theme.html' %}{% endblock %}
+{% block content %}
+<main class="panel-bg py-12">
+<div class="max-w-6xl mx-auto px-4 lg:px-6">
+    <div class="mb-8">
+        <a href="{% url 'control_panel' %}" class="panel-back inline-flex items-center gap-1 mb-3">← Panneau de contrôle</a>
+        <h1 class="text-3xl lg:text-4xl font-extrabold panel-title mb-2">Historique des modifications</h1>
+        <p class="text-gray-500 text-lg">Suivi des actions effectuées sur le panneau de contrôle (3 derniers mois)</p>
+    </div>
+    <div class="panel-form-box mb-8 p-6">
+        <form method="get" class="flex flex-col md:flex-row gap-4 items-end">
+            <div class="flex-1">
+                <label for="action" class="panel-field-label">Type d'action</label>
+                <select name="action" id="action">
+                    <option value="">Toutes les actions</option>
+                    {% for val, label in actions %}
+                    <option value="{{ val }}" {% if action_filter == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="flex-1">
+                <label for="user" class="panel-field-label">Utilisateur</label>
+                <select name="user" id="user">
+                    <option value="">Tous les utilisateurs</option>
+                    {% for u in users %}
+                    <option value="{{ u.username }}" {% if user_filter == u.username %}selected{% endif %}>{{ u.get_full_name|default:u.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="panel-btn panel-btn-primary">Filtrer</button>
+            </div>
+        </form>
+    </div>
+    <div class="panel-table-wrap overflow-x-auto">
+        <table class="w-full text-left text-sm panel-table">
+            <thead>
+                <tr>
+                    <th class="p-4 font-bold text-gray-700">Date / Heure</th>
+                    <th class="p-4 font-bold text-gray-700">Utilisateur</th>
+                    <th class="p-4 font-bold text-gray-700">Action</th>
+                    <th class="p-4 font-bold text-gray-700">Section</th>
+                    <th class="p-4 font-bold text-gray-700">Élément</th>
+                    <th class="p-4 font-bold text-gray-700">Détails</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 text-gray-700">
+                {% for log in page_obj %}
+                <tr>
+                    <td class="p-4 whitespace-nowrap">{{ log.created_at|date:"d/m/Y H:i" }}</td>
+                    <td class="p-4 whitespace-nowrap font-medium text-gray-900">
+                        {{ log.user.get_full_name|default:log.user.username|default:"Système" }}
+                    </td>
+                    <td class="p-4 whitespace-nowrap">
+                        <span class="panel-badge 
+                            {% if log.action == 'cree' %}panel-badge-green
+                            {% elif log.action == 'modifie' %}bg-blue-100 text-blue-800
+                            {% elif log.action == 'supprime' %}bg-red-100 text-red-800
+                            {% else %}panel-badge-gray{% endif %}">
+                            {{ log.get_action_display }}
+                        </span>
+                    </td>
+                    <td class="p-4 whitespace-nowrap text-gray-500">{{ log.section_label|default:log.section_slug }}</td>
+                    <td class="p-4">
+                        <span class="font-medium text-gray-800">{{ log.object_repr }}</span>
+                        <div class="text-xs text-gray-400">#{{ log.object_pk }} ({{ log.model_name }})</div>
+                    </td>
+                    <td class="p-4 text-xs text-gray-500">
+                        {% if log.get_changes_display %}
+                        <ul class="list-disc pl-4">
+                            {% for change in log.get_changes_display %}
+                            <li><strong>{{ change.label }}</strong> : <span class="line-through opacity-75">{{ change.before }}</span> → <span class="text-green-700 font-medium">{{ change.after }}</span></li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="p-8 text-center text-gray-500">
+                        Aucun log trouvé pour ces critères.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if page_obj.has_other_pages %}
+    <div class="mt-6 flex justify-center gap-2">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if action_filter %}&action={{ action_filter }}{% endif %}{% if user_filter %}&user={{ user_filter }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Précédent</a>
+        {% endif %}
+        <span class="px-4 py-2 bg-green-50 border border-green-200 text-green-800 rounded-lg font-bold">
+            Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if action_filter %}&action={{ action_filter }}{% endif %}{% if user_filter %}&user={{ user_filter }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Suivant</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+</main>
+{% endblock %}

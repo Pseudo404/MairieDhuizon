@@ -1,0 +1,118 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}
+<title>{{ randonnee.nom }} — Mairie de Dhuizon</title>
+{% endblock %}
+{% block extra_head %}
+<meta name="description" content="{{ randonnee.description_courte }}">
+{% endblock %}
+{% block content %}
+<main class="bg-gray-50 min-h-screen py-8 md:py-12">
+    <section class="max-w-7xl mx-auto px-4 md:px-6">
+        <div class="mb-6">
+            <a href="{% url 'loisirs' %}#randonnees" class="inline-flex items-center text-green-800 hover:text-green-900 font-medium transition duration-200 bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-100 hover:shadow-md">
+                <span class="material-symbols-outlined mr-2">arrow_back</span> Retour aux loisirs
+            </a>
+        </div>
+        <div class="bg-white rounded-3xl shadow-md overflow-hidden mb-8 border border-gray-100">
+            {% if randonnee.image_principale %}
+            <div class="w-full h-64 md:h-96 relative">
+                <img src="{{ randonnee.image_principale|upload_url }}" alt="{{ randonnee.nom }}" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <h1 class="absolute bottom-6 left-6 md:left-10 text-3xl md:text-5xl font-extrabold text-white drop-shadow-lg">{{ randonnee.nom }}</h1>
+            </div>
+            {% else %}
+            <div class="w-full h-40 bg-gradient-to-r from-green-700 to-green-900 flex items-center px-6 md:px-10">
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white drop-shadow-lg">{{ randonnee.nom }}</h1>
+            </div>
+            {% endif %}
+            <div class="p-6 md:px-10 md:py-8 bg-white flex flex-wrap gap-4 md:gap-8 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-700 text-2xl">hiking</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Niveau</p>
+                        <p class="font-bold text-gray-900 capitalize">{{ randonnee.get_niveau_difficulte_display }}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-700 text-2xl">schedule</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Durée estimée</p>
+                        <p class="font-bold text-gray-900">{{ randonnee.temps_parcours }}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-green-700 text-2xl">straighten</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase font-bold tracking-wider">Distance</p>
+                        <p class="font-bold text-gray-900">{{ randonnee.distance_km }} km</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-8">
+            <div class="lg:w-2/3">
+                <div class="bg-white rounded-3xl shadow-md p-6 md:p-10 border border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-green-700">info</span>
+                        À propos du parcours
+                    </h2>
+                    <div class="prose prose-green max-w-none text-gray-700 leading-relaxed">
+                        {{ randonnee.description_detaillee|linebreaks }}
+                    </div>
+                    {% if randonnee.adresse_depart %}
+                    <div class="mt-8 pt-8 border-t border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-green-700 text-xl">location_on</span>
+                            Point de départ
+                        </h3>
+                        <p class="text-gray-700 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            {{ randonnee.adresse_depart }}
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="lg:w-1/3">
+                <div class="sticky top-24 space-y-6">
+                    {% if randonnee.carte_image %}
+                    <div class="bg-white rounded-3xl shadow-md p-4 border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 px-2 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-green-700">map</span>
+                            Carte du parcours
+                        </h3>
+                        <a href="{{ randonnee.carte_image|upload_url }}" target="_blank" class="block group relative overflow-hidden rounded-2xl">
+                            <img src="{{ randonnee.carte_image|upload_url }}" alt="Carte {{ randonnee.nom }}" class="w-full object-cover transition duration-500 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-white text-4xl">zoom_in</span>
+                            </div>
+                        </a>
+                        <p class="text-xs text-center text-gray-500 mt-3">Cliquez sur l'image pour agrandir</p>
+                    </div>
+                    {% endif %}                    
+                    <div class="bg-amber-50 rounded-3xl p-6 border border-amber-200">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-amber-600 text-3xl">warning</span>
+                            <div>
+                                <h4 class="font-bold text-amber-900 mb-2">Conseils pratiques</h4>
+                                <ul class="text-sm text-amber-800 space-y-2 list-disc list-inside">
+                                    <li>Prévoyez des chaussures adaptées</li>
+                                    <li>Emportez de l'eau en quantité suffisante</li>
+                                    <li>Respectez la faune et la flore locale</li>
+                                    <li>Gardez vos déchets avec vous</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accès refusé — Administration</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 32rem; margin: 4rem auto; padding: 0 1rem; color: #1f2937; }
+        h1 { font-size: 1.5rem; color: #166534; }
+        p { line-height: 1.6; }
+        code { background: #f3f4f6; padding: 0.15rem 0.4rem; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Accès refusé</h1>
+    <p>
+        L'interface d'administration Django (<code>/admin/</code>) n'est accessible
+        que depuis les adresses IP autorisées de la mairie.
+    </p>
+    {% if client_ip %}
+    <p>Votre adresse détectée : <code>{{ client_ip }}</code></p>
+    {% endif %}
+    <p>
+        Pour gérer la liste des IP, connectez-vous au
+        <strong>panneau de contrôle</strong> → Paramètres → IP autorisées (/admin/).
+    </p>
+</body>
+</html>

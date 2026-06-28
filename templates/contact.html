@@ -1,0 +1,97 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+<title>Contact — Mairie de Dhuizon</title>
+{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Contactez la mairie de Dhuizon">
+{% endblock %}
+{% block content %}
+<main class="bg-gradient-to-b from-green-50 to-white min-h-screen py-16">
+    <section id="contact" class="max-w-4xl mx-auto px-4 lg:px-6 scroll-mt-6">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Contactez la Mairie</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">Une question, une demande administrative ou un renseignement ? Envoyez-nous un message via le formulaire ci-dessous.</p>
+        </div>
+        {% if messages %}
+        <div class="mb-8">
+            {% for message in messages %}
+            <div class="flex items-center gap-3 px-6 py-4 rounded-2xl shadow-md mb-3
+                {% if message.tags == 'success' %}
+                    bg-green-50 border border-green-200 text-green-800
+                {% elif message.tags == 'error' %}
+                    bg-red-50 border border-red-200 text-red-800
+                {% else %}
+                    bg-blue-50 border border-blue-200 text-blue-800
+                {% endif %}">
+                {% if message.tags == 'success' %}
+                    <svg class="w-6 h-6 flex-shrink-0 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                {% elif message.tags == 'error' %}
+                    <svg class="w-6 h-6 flex-shrink-0 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                {% endif %}
+                <p class="font-medium">{{ message }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+            <form method="POST" action="{% url 'contact' %}" class="p-8 lg:p-10 space-y-8">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="id_nom" class="block text-sm font-semibold text-gray-700 mb-2">Nom</label>
+                        {{ form.nom }}
+                        {% if form.nom.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.nom.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_prenom" class="block text-sm font-semibold text-gray-700 mb-2">Prénom</label>
+                        {{ form.prenom }}
+                        {% if form.prenom.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.prenom.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="id_email" class="block text-sm font-semibold text-gray-700 mb-2">Adresse email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_telephone" class="block text-sm font-semibold text-gray-700 mb-2">Numéro de téléphone</label>
+                        {{ form.telephone }}
+                        {% if form.telephone.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.telephone.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <label for="id_objet" class="block text-sm font-semibold text-gray-700 mb-2">Objet</label>
+                    {{ form.objet }}
+                    {% if form.objet.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.objet.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label for="id_message" class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <p class="mt-1 text-sm text-red-600">{{ form.message.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div class="text-center pt-4">
+                    <button type="submit" class="inline-flex items-center justify-center bg-green-700 hover:bg-green-800 text-white font-semibold px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl transition duration-300">Envoyer le message</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock %}

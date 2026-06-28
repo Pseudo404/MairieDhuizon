@@ -1,0 +1,72 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+<title>Connexion Administrateur — Mairie de Dhuizon</title>
+{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Connectez-vous à l'espace administratif de la mairie de Dhuizon">
+{% endblock %}
+{% block content %}
+<main class="flex justify-center my-8 py-10">
+    <section class="w-1/2 flex flex-col items-center my-16 px-4">
+        <div class="max-w-md">
+            <h1 class="text-3xl font-bold text-black mb-8 text-center">Connexion Administrateur</h1>
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-6 p-4 rounded-2xl {% if message.tags %}bg-{{ message.tags }}-100 border border-{{ message.tags }}-300 text-{{ message.tags }}-700{% else %}bg-blue-100 border border-blue-300 text-blue-700{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                <div class="space-y-2">
+                    <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                        {{ form.username.label }}
+                    </label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-red-800 border-red-600 text-sm">
+                            {% for error in form.username.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="space-y-2">
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                        {{ form.password.label }}
+                    </label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="text-red-800 border-red-600 text-sm">
+                            {% for error in form.password.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="p-4 rounded-2xl bg-red-100 border border-red-300 text-red-700">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="flex flex-col items-center pt-4">
+                    <button class="w-1/2 rounded-2xl bg-green-600 text-black font-medium p-4 hover:bg-green-700 transition shadow-lg hover:shadow-2xl" type="submit">
+                        Se connecter
+                    </button>
+                </div>
+            </form>
+            <div class="text-center mt-8">
+                <p class="text-gray-600">
+                    <a href="{% url 'home' %}" class="text-green-600 hover:text-green-700 font-medium">
+                        Retour à l'accueil
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

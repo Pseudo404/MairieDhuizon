@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}<title>{{ asso.nom }} — Vie associative — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="{{ asso.description|truncatechars:160 }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+{% block content %}
+<main>
+    <section id="association-detail" class="mx-auto max-w-7xl px-4 md:px-6 py-8 scroll-mt-6">
+        <div class="mb-6">
+            <a href="{% url 'vie_associative' %}" class="inline-flex items-center text-green-800 hover:text-green-900 font-medium transition duration-200">
+                <span class="material-symbols-outlined mr-2">arrow_back</span> Retour aux associations
+            </a>
+        </div>
+        <div class="flex items-center justify-center gap-4 mb-8">
+            <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            <h1 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap text-center">{{ asso.nom }}</h1>
+            <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+        </div>
+        <div class="flex flex-col md:flex-row items-start gap-8 w-full">
+            <div class="w-full md:w-3/5 text-black leading-relaxed text-base tracking-wide py-2">
+                {% if asso.description %}
+                <div class="whitespace-pre-line">{{ asso.description }}</div>
+                {% else %}
+                <p class="text-gray-500 italic">Aucune description n'est disponible pour cette association.</p>
+                {% endif %}
+                <div class="mt-6 pt-4 border-t border-gray-200 flex flex-col gap-2">
+                    {% if asso.nom_contact %}
+                    <div class="text-sm text-start md:text-end text-green-800">
+                        <strong>Contact :</strong> {{ asso.nom_contact }}
+                    </div>
+                    {% endif %}
+                    {% if asso.telephone %}
+                    <div class="text-sm text-start md:text-end text-green-800">
+                        <strong>Téléphone :</strong> <a href="tel:{{ asso.telephone }}" class="hover:underline">{{ asso.telephone }}</a>
+                    </div>
+                    {% endif %}
+                    {% if asso.email %}
+                    <div class="text-sm text-start md:text-end text-green-800">
+                        <strong>Email :</strong> <a href="mailto:{{ asso.email }}" class="hover:underline">{{ asso.email }}</a>
+                    </div>
+                    {% endif %}
+                    {% if asso.site_web %}
+                    <div class="text-sm text-start md:text-end text-green-800">
+                        <strong>Site Web :</strong> <a href="{{ asso.site_web }}" target="_blank" rel="noopener noreferrer" class="hover:underline">Visiter le site</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if asso.logo %}
+            <div class="w-full md:w-2/5 py-2 mt-2 flex justify-center">
+                <img src="{{ asso.logo|upload_url }}" alt="Logo {{ asso.nom }}" class="w-full max-h-72 object-contain rounded-2xl shadow-lg border border-gray-100 p-4">
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}

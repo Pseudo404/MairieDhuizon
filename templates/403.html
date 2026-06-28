@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès refusé — Mairie de Dhuizon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background: linear-gradient(to bottom, #f0fdf4, #ffffff);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: #1f2937;
+        }
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 1px solid #e5e7eb;
+        }
+        .code {
+            font-size: 90px;
+            font-weight: 900;
+            color: #166534;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .info {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        code {
+            color: #166534;
+            font-weight: 600;
+        }
+        a {
+            display: inline-block;
+            background: #15803d;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        a:hover {
+            background: #166534;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="code">403</div>
+        <h1>Accès refusé</h1>
+        <p>
+            Vous n'avez pas l'autorisation d'accéder à cette page.
+            Cette zone est réservée aux utilisateurs autorisés.
+        </p>
+        {% if client_ip %}
+        <div class="info">
+            Adresse détectée :
+            <br>
+            <code>{{ client_ip }}</code>
+        </div>
+        {% endif %}
+        <a href="/">Retour à l'accueil</a>
+    </div>
+</body>
+</html>

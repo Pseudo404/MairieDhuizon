@@ -1,0 +1,113 @@
+{% load static %}
+<header class="sticky top-0 z-50 bg-white backdrop-blur-md shadow-md border-b border-gray-100">
+    <div class="max-w-dvw mx-auto px-4 lg:px-6">
+        <div class="flex items-center justify-between h-20">
+            <a href="{% url 'home' %}" class="flex items-center gap-3 shrink-0">
+                <div class="flex flex-row items-center leading-tight group">
+                    <img class="w-auto h-16 object-contain" src="{% static 'images/dhuizon.webp' %}" alt="Logo de la Mairie">
+                </div>
+            </a>
+            <nav class="hidden lg:flex items-center min-w-0">
+                <ul class="flex items-center gap-0.5 xl:gap-0.5 2xl:gap-1">
+                    <li><a href="{% url 'decouvrir_dhuizon' %}"  class="tracking-normal xl:tracking-wider px-2.5 xl:px-2 2xl:px-4 py-2 rounded-xl text-gray-700 font-medium text-sm xl:text-base transition duration-300 hover:bg-green-50 hover:text-green-700 whitespace-nowrap">La Commune</a></li>
+                    <li><a href="{% url 'vie_pratique' %}"       class="tracking-normal xl:tracking-wider px-2.5 xl:px-2 2xl:px-4 py-2 rounded-xl text-gray-700 font-medium text-sm xl:text-base transition duration-300 hover:bg-green-50 hover:text-green-700 whitespace-nowrap">Vie Pratique</a></li>
+                    <li><a href="{% url 'loisirs' %}"            class="tracking-normal xl:tracking-wider px-2.5 xl:px-2 2xl:px-4 py-2 rounded-xl text-gray-700 font-medium text-sm xl:text-base transition duration-300 hover:bg-green-50 hover:text-green-700 whitespace-nowrap">Loisirs</a></li>
+                    <li><a href="{% url 'entreprises' %}"          class="tracking-normal xl:tracking-wider px-2.5 xl:px-2 2xl:px-4 py-2 rounded-xl text-gray-700 font-medium text-sm xl:text-base transition duration-300 hover:bg-green-50 hover:text-green-700 whitespace-nowrap">Vie locale</a></li>
+                    <li><a href="{% url 'vie_associative' %}"    class="tracking-normal xl:tracking-wider px-2.5 xl:px-2 2xl:px-4 py-2 rounded-xl text-gray-700 font-medium text-sm xl:text-base transition duration-300 hover:bg-green-50 hover:text-green-700 whitespace-nowrap">Associations</a></li>
+                    <li><a href="{% url 'tourisme' %}"           class="tracking-normal xl:tracking-wider px-2.5 xl:px-2 2xl:px-4 py-2 rounded-xl text-gray-700 font-medium text-sm xl:text-base transition duration-300 hover:bg-green-50 hover:text-green-700 whitespace-nowrap">Tourisme</a></li>
+                    <li><a href="{% url 'contact' %}"            class="tracking-normal xl:tracking-wider px-2.5 xl:px-2 2xl:px-4 py-2 rounded-xl text-gray-700 font-medium text-sm xl:text-base transition duration-300 hover:bg-green-50 hover:text-green-700 whitespace-nowrap">Contact</a></li>
+                    <li class="hidden xl:block mx-1">
+                        <form action="{% url 'recherche' %}" method="GET" class="flex items-center">
+                            <input type="text" name="q" placeholder="Rechercher..."
+                                class="w-44 px-4 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-green-600">
+                        </form>
+                    </li>
+                    <li class="xl:hidden mx-0.5">
+                        <button id="search-icon-btn" type="button" class="flex items-center justify-center w-9 h-9 rounded-xl hover:bg-green-50 transition" aria-label="Ouvrir la recherche">
+                            <span class="material-symbols-outlined text-green-800" style="font-size:22px">search</span>
+                        </button>
+                    </li>
+                    <li class="ml-1">
+                        <a href="{% url 'conseil_municipal' %}"
+                            class="bg-green-700 hover:bg-green-800 text-white px-3 xl:px-5 py-2.5 rounded-xl font-semibold text-sm xl:text-base transition duration-300 shadow-md hover:shadow-lg whitespace-nowrap">
+                            Conseil Municipal
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <button id="menu-btn" class="lg:hidden relative z-50 flex flex-col justify-center items-center w-12 h-12 rounded-xl hover:bg-gray-100 transition">☰</button>
+        </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden absolute top-20 left-0 w-full bg-white shadow-xl border-t border-gray-100">
+        <nav class="px-6 py-6">
+            <ul class="flex flex-col gap-3">
+                <li><a href="{% url 'decouvrir_dhuizon' %}" class="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-green-50 hover:text-green-700 transition">La Commune</a></li>
+                <li><a href="{% url 'vie_pratique' %}" class="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-green-50 hover:text-green-700 transition">Vie Pratique</a></li>
+                <li><a href="{% url 'loisirs' %}" class="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-green-50 hover:text-green-700 transition">Loisirs</a></li>
+                <li><a href="{% url 'tourisme' %}" class="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-green-50 hover:text-green-700 transition">Tourisme</a></li>
+                <li><a href="{% url 'entreprises' %}" class="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-green-50 hover:text-green-700 transition">Vie locale</a></li>
+                <li><a href="{% url 'vie_associative' %}" class="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-green-50 hover:text-green-700 transition">Associations</a></li>
+                <li><a href="{% url 'contact' %}" class="block px-4 py-3 rounded-xl text-gray-700 font-medium hover:bg-green-50 hover:text-green-700 transition">Contact</a></li>
+                <li class="pb-3">
+                    <form action="{% url 'recherche' %}" method="GET">
+                        <input type="text" name="q" placeholder="Rechercher..."
+                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-600">
+                    </form>
+                </li>
+                <li class="pt-2">
+                    <a href="{% url 'conseil_municipal' %}" class="block text-center bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-xl font-semibold transition shadow-md">Conseil Municipal</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div id="search-overlay" style="display: none; position: fixed; inset: 0; z-index: 9999; background-color: rgba(255, 255, 255, 0.90); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); flex-direction: column; align-items: center; justify-content: center; padding: 0 1rem;">
+        <div style="width: 100%; max-width: 48rem; position: relative;">
+            <button id="close-search-btn" type="button" aria-label="Fermer la recherche" style="position: absolute; top: -70px; right: 0; color: #4b5563; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.8); border: 1px solid #e5e7eb; border-radius: 50%; width: 48px; height: 48px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s;">
+                <span class="material-symbols-outlined" style="font-size: 32px;">close</span>
+            </button>
+            <form action="{% url 'recherche' %}" method="GET" style="width: 100%; margin: 0;">
+                <div style="display: flex; align-items: center; background-color: white; border: 3px solid #15803d; border-radius: 2rem; padding: 1rem 1.5rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);">
+                    <span class="material-symbols-outlined" style="color: #15803d; font-size: 36px; margin-right: 16px;">search</span>
+                    <input id="search-input-overlay" type="text" name="q" placeholder="Que recherchez-vous ?" required style="flex: 1; background: transparent; border: none; outline: none; font-size: 1.5rem; color: #1f2937;">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        const searchIconBtn = document.getElementById('search-icon-btn');
+        const searchOverlay = document.getElementById('search-overlay');
+        const closeSearchBtn = document.getElementById('close-search-btn');
+        const searchInputOverlay = document.getElementById('search-input-overlay');
+
+        if (searchIconBtn) {
+            searchIconBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                searchOverlay.style.display = 'flex';
+                setTimeout(() => searchInputOverlay.focus(), 50);
+            });
+        }
+
+        if (closeSearchBtn) {
+            closeSearchBtn.addEventListener('click', () => {
+                searchOverlay.style.display = 'none';
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && searchOverlay.style.display === 'flex') {
+                searchOverlay.style.display = 'none';
+            }
+        });
+    </script>
+</header>

@@ -1,0 +1,375 @@
+{% extends 'index.html' %}
+{% block title %}<title>Dashboard Statistiques — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+{% include 'panel/_theme.html' %}
+<style>
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.anim-1{animation:fadeInUp .6s ease-out forwards}
+.anim-2{animation:fadeInUp .6s ease-out .1s forwards;opacity:0}
+.anim-3{animation:fadeInUp .6s ease-out .2s forwards;opacity:0}
+.anim-4{animation:fadeInUp .6s ease-out .3s forwards;opacity:0}
+.anim-5{animation:fadeInUp .6s ease-out .4s forwards;opacity:0}
+.pulse-live{animation:pulseDot 2s ease-in-out infinite}
+.glass{background:#f3f4f6;border:1px solid #d1d5db;border-radius:1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:all .3s cubic-bezier(.4,0,.2,1)}
+.glass:hover{border-color:#86efac;box-shadow:0 12px 40px rgba(21,128,61,.1);transform:translateY(-2px)}
+.glass-chart{background:#fff !important}
+.bar-fill{transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+</style>
+{% endblock %}
+{% block content %}
+<main class="panel-bg py-10">
+<div class="max-w-7xl mx-auto px-4 lg:px-6">
+    <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-10 gap-4 anim-1">
+        <div>
+            <a href="{% url 'control_panel' %}" class="panel-back inline-flex items-center gap-1 mb-2">← Panneau de contrôle</a>
+            <h1 class="text-3xl lg:text-4xl font-extrabold panel-title">Dashboard Statistiques</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <div id="realtime-badge" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-green-200 shadow-sm">
+                <span class="w-3 h-3 bg-green-500 rounded-full pulse-live"></span>
+                <span class="text-green-800 font-semibold text-sm"><span id="realtime-count">{{ realtime_count }}</span> visiteur{{ realtime_count|pluralize }} en ligne</span>
+            </div>
+            <a href="{% url 'api_export_csv' %}" class="panel-btn panel-btn-secondary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                Export CSV
+            </a>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+        <div class="glass rounded-2xl p-6 relative overflow-hidden transition-all duration-300 hover:scale-[1.03] anim-2">
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-400 to-emerald-600"></div>
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-gray-500 text-sm font-medium">Visites aujourd'hui</span>
+                <span class="text-2xl">👁️</span>
+            </div>
+            <p class="text-3xl font-extrabold text-gray-900 counter" data-target="{{ views_today }}">0</p>
+            <p class="text-green-700 text-xs mt-2">{{ unique_today }} visiteur{{ unique_today|pluralize }} unique{{ unique_today|pluralize }}</p>
+        </div>
+        <div class="glass rounded-2xl p-6 relative overflow-hidden transition-all duration-300 hover:scale-[1.03] anim-3">
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-400 to-violet-600"></div>
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-gray-500 text-sm font-medium">Visites ce mois</span>
+                <span class="text-2xl">📈</span>
+            </div>
+            <p class="text-3xl font-extrabold text-gray-900 counter" data-target="{{ views_month }}">0</p>
+            <div class="mt-2">
+                {% if growth > 0 %}
+                <span class="inline-flex items-center gap-1 text-xs font-semibold text-green-700">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7"/></svg>
+                    +{{ growth }}%
+                </span>
+                {% elif growth < 0 %}
+                <span class="inline-flex items-center gap-1 text-xs font-semibold text-red-400">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
+                    {{ growth }}%
+                </span>
+                {% else %}
+                <span class="text-xs text-gray-500">= mois précédent</span>
+                {% endif %}
+                <span class="text-xs text-gray-500 ml-1">vs mois dernier</span>
+            </div>
+        </div>
+        <div class="glass rounded-2xl p-6 relative overflow-hidden transition-all duration-300 hover:scale-[1.03] anim-4">
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-400 to-amber-600"></div>
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-gray-500 text-sm font-medium">Visiteurs uniques</span>
+                <span class="text-2xl">👥</span>
+            </div>
+            <p class="text-3xl font-extrabold text-gray-900 counter" data-target="{{ unique_month }}">0</p>
+            <p class="text-amber-700 text-xs mt-2">ce mois-ci</p>
+        </div>
+        <div class="glass rounded-2xl p-6 relative overflow-hidden transition-all duration-300 hover:scale-[1.03] anim-5">
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-400 to-sky-600"></div>
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-gray-500 text-sm font-medium">Temps moyen</span>
+                <span class="text-2xl">⏱️</span>
+            </div>
+            {% with minutes=avg_time|divisibleby:60 %}
+            <p class="text-3xl font-extrabold text-gray-900">
+                {% if avg_time >= 60 %}{{ avg_time|floatformat:"0" }}s{% else %}{{ avg_time }}s{% endif %}
+            </p>
+            {% endwith %}
+            <p class="text-sky-700 text-xs mt-2">par page</p>
+        </div>
+    </div>
+    <div class="glass rounded-2xl p-6 mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-gray-900">📊 Visites des 30 derniers jours</h2>
+            <span class="text-xs text-gray-500">Total : <span class="text-gray-600 font-semibold">{{ total_views }}</span> vues</span>
+        </div>
+        <div class="h-72 relative">
+            <canvas id="chart30days"></canvas>
+        </div>
+    </div>
+    <div class="glass rounded-2xl p-6 mb-8">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">🕐 Activité par heure — Aujourd'hui</h2>
+        <div class="h-52 relative">
+            <canvas id="chartHourly"></canvas>
+        </div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div class="glass rounded-2xl p-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">🌍 Pays des visiteurs</h2>
+            <div class="relative h-52 mb-2">
+                <canvas id="chartCountries"></canvas>
+                <p id="chartCountries-empty" class="hidden absolute inset-0 flex items-center justify-center text-sm text-gray-500">Aucune donnée</p>
+            </div>
+        </div>
+        <div class="glass rounded-2xl p-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">🔝 Pages les plus visitées</h2>
+            <div class="space-y-3">
+                {% for page in top_pages %}
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-bold text-gray-500 w-5">{{ forloop.counter }}</span>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm text-gray-600 truncate">{{ page.path }}</p>
+                        <div class="mt-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-emerald-500 to-sky-500 rounded-full bar-fill" style="width:0%" data-width="{% if top_pages.0.count %}{% widthratio page.count top_pages.0.count 100 %}{% else %}0{% endif %}%"></div>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold text-slate-400">{{ page.count }}</span>
+                </div>
+                {% empty %}
+                <p class="text-gray-500 text-sm text-center py-6">Aucune donnée</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="space-y-6">
+            <div class="glass rounded-2xl p-6">
+                <h2 class="text-lg font-bold text-gray-900 mb-4">🌐 Navigateurs</h2>
+                <div class="relative h-44">
+                    <canvas id="chartBrowsers"></canvas>
+                    <p id="chartBrowsers-empty" class="hidden absolute inset-0 flex items-center justify-center text-sm text-gray-500">Aucune donnée</p>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <h2 class="text-lg font-bold text-gray-900 mb-4">📱 Appareils</h2>
+                <div class="relative h-44">
+                    <canvas id="chartDevices"></canvas>
+                    <p id="chartDevices-empty" class="hidden absolute inset-0 flex items-center justify-center text-sm text-gray-500">Aucune donnée</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+{% endblock %}
+{% block extra_scripts %}
+{{ chart_labels|json_script:"chart-labels" }}
+{{ chart_data|json_script:"chart-data" }}
+{{ chart_unique_data|json_script:"chart-unique-data" }}
+{{ hourly_labels|json_script:"hourly-labels" }}
+{{ hourly_counts|json_script:"hourly-counts" }}
+{{ countries_json|json_script:"countries-data" }}
+{{ browsers_json|json_script:"browsers-data" }}
+{{ devices_json|json_script:"devices-data" }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    Chart.defaults.color = '#374151';
+    Chart.defaults.borderColor = 'rgba(209,213,219,0.9)';
+    Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
+
+    function readJson(id) {
+        var el = document.getElementById(id);
+        if (!el) return null;
+        return JSON.parse(el.textContent);
+    }
+
+    var cartesianScales = {
+        x: {
+            display: true,
+            grid: { display: false },
+            border: { display: true, color: '#9ca3af' },
+            ticks: {
+                color: '#374151',
+                font: { size: 11 },
+                maxRotation: 45,
+                minRotation: 0,
+                autoSkip: true,
+                maxTicksLimit: 12,
+            },
+        },
+        y: {
+            display: true,
+            beginAtZero: true,
+            grace: '8%',
+            border: { display: true, color: '#9ca3af' },
+            grid: { color: 'rgba(209,213,219,0.6)' },
+            ticks: {
+                color: '#374151',
+                precision: 0,
+                font: { size: 11 },
+            },
+        },
+    };
+
+    function initCharts() {
+        document.querySelectorAll('.bar-fill').forEach(function(bar) {
+            var w = bar.dataset.width || '0';
+            requestAnimationFrame(function() { bar.style.width = w; });
+        });
+
+        var canvas30 = document.getElementById('chart30days');
+        var ctx30 = canvas30.getContext('2d');
+        var labels30 = readJson('chart-labels');
+        var data30 = readJson('chart-data');
+        var unique30 = readJson('chart-unique-data');
+        var gradient1 = ctx30.createLinearGradient(0, 0, 0, 280);
+        gradient1.addColorStop(0, 'rgba(16,185,129,0.35)');
+        gradient1.addColorStop(1, 'rgba(16,185,129,0.02)');
+        var gradient2 = ctx30.createLinearGradient(0, 0, 0, 280);
+        gradient2.addColorStop(0, 'rgba(124,58,237,0.3)');
+        gradient2.addColorStop(1, 'rgba(124,58,237,0.02)');
+
+        var chart30 = new Chart(ctx30, {
+            type: 'line',
+            data: {
+                labels: labels30,
+                datasets: [{
+                    label: 'Visites totales',
+                    data: data30,
+                    borderColor: '#059669',
+                    backgroundColor: gradient1,
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.35,
+                    pointRadius: 2,
+                    pointHoverRadius: 5,
+                }, {
+                    label: 'Visiteurs uniques',
+                    data: unique30,
+                    borderColor: '#7c3aed',
+                    backgroundColor: gradient2,
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.35,
+                    pointRadius: 2,
+                    pointHoverRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'top', labels: { usePointStyle: true, padding: 16 } },
+                },
+                scales: cartesianScales,
+            }
+        });
+        var canvasH = document.getElementById('chartHourly');
+        var ctxH = canvasH.getContext('2d');
+        var gradH = ctxH.createLinearGradient(0, 0, 0, 200);
+        gradH.addColorStop(0, 'rgba(5,150,105,0.85)');
+        gradH.addColorStop(1, 'rgba(5,150,105,0.25)');
+
+        var chartHourly = new Chart(ctxH, {
+            type: 'bar',
+            data: {
+                labels: readJson('hourly-labels'),
+                datasets: [{
+                    label: 'Visites',
+                    data: readJson('hourly-counts'),
+                    backgroundColor: gradH,
+                    borderColor: '#047857',
+                    borderWidth: 1,
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: cartesianScales,
+            }
+        });
+
+        function doughnutChart(canvasId, emptyId, items, labelKey) {
+            var canvas = document.getElementById(canvasId);
+            var emptyEl = document.getElementById(emptyId);
+            if (!items || !items.length) {
+                canvas.classList.add('hidden');
+                emptyEl.classList.remove('hidden');
+                return null;
+            }
+            return new Chart(canvas, {
+                type: 'doughnut',
+                data: {
+                    labels: items.map(function(x) { return x[labelKey]; }),
+                    datasets: [{
+                        data: items.map(function(x) { return x.count; }),
+                        backgroundColor: ['#059669','#7c3aed','#d97706','#0891b2','#dc2626','#db2777','#0d9488','#ea580c'],
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '58%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { padding: 10, usePointStyle: true, font: { size: 11 } },
+                        },
+                    },
+                }
+            });
+        }
+
+        var deviceLabels = { desktop: 'Desktop', mobile: 'Mobile', tablet: 'Tablette' };
+        var devicesRaw = readJson('devices-data');
+        var devicesMapped = (devicesRaw || []).map(function(d) {
+            return { device_type: deviceLabels[d.device_type] || d.device_type || 'Autre', count: d.count };
+        });
+
+        var chartCountries = doughnutChart('chartCountries', 'chartCountries-empty', readJson('countries-data'), 'country');
+        var chartBrowsers = doughnutChart('chartBrowsers', 'chartBrowsers-empty', readJson('browsers-data'), 'browser');
+        var chartDevices = doughnutChart('chartDevices', 'chartDevices-empty', devicesMapped, 'device_type');
+
+        [chart30, chartHourly, chartCountries, chartBrowsers, chartDevices].forEach(function(ch) {
+            if (ch) ch.resize();
+        });
+    }
+
+    requestAnimationFrame(function() {
+        requestAnimationFrame(initCharts);
+    });
+
+    setInterval(function() {
+        fetch('{% url "api_realtime_count" %}', { credentials: 'same-origin' })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                var el = document.getElementById('realtime-count');
+                el.textContent = d.count;
+                var badge = document.getElementById('realtime-badge');
+                var label = badge.querySelector('span:last-child');
+                label.textContent = d.count + ' visiteur' + (d.count > 1 ? 's' : '') + ' en ligne';
+            }).catch(function() {});
+    }, 30000);
+
+    /* animés (apres affichage) */
+    var counters = document.querySelectorAll('.counter');
+    var counterObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            var target = parseInt(el.dataset.target, 10) || 0;
+            var duration = 1500;
+            var start = performance.now();
+            function step(now) {
+                var progress = Math.min((now - start) / duration, 1);
+                var ease = 1 - Math.pow(1 - progress, 3);
+                el.textContent = Math.round(ease * target).toLocaleString('fr-FR');
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+            counterObserver.unobserve(el);
+        });
+    }, { threshold: 0.2 });
+    counters.forEach(function(c) { counterObserver.observe(c); });
+});
+</script>
+{% endblock %}
