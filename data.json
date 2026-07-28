@@ -77,7 +77,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.390Z",
             "updated_at": "2026-06-23T14:19:10.744Z",
-            "presentation": "Dhuizon est une commune fran├ºaise situ├®e dans le d├®partement du Loir-et-Cher, en r├®gion Centre-Val de Loire. Nich├®e au coeur de la Sologne, elle offre un cadre de vie verdoyant, entre for├¬ts, ├®tangs et champs cultiv├®s. La commune attache une importance particuli├¿re au maintien de ses services de proximit├® et ├á la qualit├® de vie de ses habitants.",
+            "presentation": "Dhuizon est une commune française située dans le département du Loir-et-Cher, en région Centre-Val de Loire. Nichée au coeur de la Sologne, elle offre un cadre de vie verdoyant, entre forêts, étangs et champs cultivés. La commune attache une importance particulière au maintien de ses services de proximité et à la qualité de vie de ses habitants.",
             "population": 1195,
             "superficie_ha": "4334.00",
             "region": "Centre-Val de Loire",
@@ -191,10 +191,10 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.397Z",
             "updated_at": "2026-05-31T15:04:21.245Z",
-            "title": "F├¬te R├®publicaine",
+            "title": "Fête Républicaine",
             "slug": "refection-de-la-rue-de-la-foret",
-            "short_description": "F├¬te R├®pulicaine ├á Dhuizon\r\nAnimations et jeux pour tous.\r\nRepas.\r\nFeu d'artifices.",
-            "content": "Grande f├¬te place St Pierre",
+            "short_description": "Fête Répulicaine à Dhuizon\r\nAnimations et jeux pour tous.\r\nRepas.\r\nFeu d'artifices.",
+            "content": "Grande fête place St Pierre",
             "image": "images/actualites/image_2026-05-31_170401274.png",
             "event_date": "2026-07-12",
             "author": "Service Technique",
@@ -207,10 +207,10 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.406Z",
             "updated_at": "2026-06-04T17:14:12.312Z",
-            "title": "Dhuizon f├¬te sa musique ! 19 juin 2026",
+            "title": "Dhuizon fête sa musique ! 19 juin 2026",
             "slug": "fete-du-village-programme-2026",
-            "short_description": "Concert gratuit ouverts ├á tous, ├á 20h00 place St Pierre ├á Dhuizon",
-            "content": "Le 19 juin 2026, Dhuizon f├¬te la musique en partenariat avec le caf├® de mairie.\r\nTrompes de chasse ├á 20h00 suivi du groupe POP R├®plica ├á 20h.\r\nBoissons et restauration sur place.",
+            "short_description": "Concert gratuit ouverts à tous, à 20h00 place St Pierre à Dhuizon",
+            "content": "Le 19 juin 2026, Dhuizon fête la musique en partenariat avec le café de mairie.\r\nTrompes de chasse à 20h00 suivi du groupe POP Réplica à 20h.\r\nBoissons et restauration sur place.",
             "image": "images/actualites/image_2026-05-31_165415341.png",
             "event_date": "2026-06-19",
             "author": "Mairie de Dhuizon",
@@ -225,8 +225,8 @@
             "updated_at": "2026-06-15T15:26:38.459Z",
             "title": "OUVERTURE Centre de loisirs",
             "slug": "resultats-des-elections-municipales-partielles",
-            "short_description": "├Ç partir de septembre 2026, ouverture les mercredis, 1 semaine pendant les petites vacances et 4 semaines en juillet",
-            "content": "Centre de loisirs g├®r├® par la commune de Dhuizon.",
+            "short_description": "À partir de septembre 2026, ouverture les mercredis, 1 semaine pendant les petites vacances et 4 semaines en juillet",
+            "content": "Centre de loisirs géré par la commune de Dhuizon.",
             "image": "images/actualites/image_2026-05-31_164832502.png",
             "event_date": "2026-09-01",
             "author": "Mairie de Dhuizon",
@@ -239,7 +239,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.441Z",
             "updated_at": "2026-06-11T01:14:14.826Z",
-            "titre": "Conseil municipal du 10 f├®vrier 2026",
+            "titre": "Conseil municipal du 10 février 2026",
             "date": "2026-02-10",
             "pdf": "documents/conseils/PV-du-10-fevrier-2026.pdf",
             "description": "Approbation du budget primitif 2026, vote des subventions aux associations."
@@ -287,9 +287,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.754Z",
             "updated_at": "2026-06-04T14:50:29.655Z",
-            "nom": "Coop├®rative Scolaire",
+            "nom": "Coopérative Scolaire",
             "slug": "cooperative-scolaire",
-            "description": "Association d'aide ├á la scolarit├® et au bien-├¬tre des ├®l├¿ves. Organise des activit├®s p├®riscolaires et des sorties ├®ducatives.",
+            "description": "Association d'aide à la scolarité et au bien-être des élèves. Organise des activités périscolaires et des sorties éducatives.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -302,9 +302,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.762Z",
             "updated_at": "2026-06-04T14:50:29.653Z",
-            "nom": "Association des Parents d'├ël├¿ves",
+            "nom": "Association des Parents d'Élèves",
             "slug": "association-des-parents-deleves",
-            "description": "Association regroupant les parents d'├®l├¿ves pour am├®liorer le cadre de vie scolaire et favoriser le dialogue entre parents et ├®tablissements.",
+            "description": "Association regroupant les parents d'élèves pour améliorer le cadre de vie scolaire et favoriser le dialogue entre parents et établissements.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -319,7 +319,7 @@
             "updated_at": "2026-06-04T14:50:29.651Z",
             "nom": "Amicale des Sapeurs-Pompiers",
             "slug": "amicale-des-sapeurs-pompiers",
-            "description": "Association de soutien aux sapeurs-pompiers b├®n├®voles. Organise des formations, des ├®v├®nements de sensibilisation et soutient les jeunes pompiers.",
+            "description": "Association de soutien aux sapeurs-pompiers bénévoles. Organise des formations, des événements de sensibilisation et soutient les jeunes pompiers.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -334,7 +334,7 @@
             "updated_at": "2026-06-04T14:50:29.660Z",
             "nom": "Union Musicale",
             "slug": "union-musicale",
-            "description": "Orchestre et ensemble musical local. Propose des r├®p├®titions, des concerts et des ├®v├®nements musicaux tout au long de l'ann├®e.",
+            "description": "Orchestre et ensemble musical local. Propose des répétitions, des concerts et des événements musicaux tout au long de l'année.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -349,7 +349,7 @@
             "updated_at": "2026-06-04T14:50:29.652Z",
             "nom": "Amicale du Cochonnet Dhuizonnais",
             "slug": "amicale-du-cochonnet-dhuizonnais",
-            "description": "Club de p├®tanque et de boules lyonnaises. Organise des tournois amicaux et f├®d├®raux.",
+            "description": "Club de pétanque et de boules lyonnaises. Organise des tournois amicaux et fédéraux.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -364,7 +364,7 @@
             "updated_at": "2026-06-04T14:50:29.655Z",
             "nom": "Club de Tennis Intercommunal",
             "slug": "club-de-tennis-intercommunal",
-            "description": "Club de tennis proposant des cours pour tous les ├óges et des comp├®titions. Dispose de courts ├®quip├®s en dur.",
+            "description": "Club de tennis proposant des cours pour tous les âges et des compétitions. Dispose de courts équipés en dur.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -377,9 +377,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.811Z",
             "updated_at": "2026-06-04T14:50:29.657Z",
-            "nom": "Handball Sologne des ├ëtangs",
+            "nom": "Handball Sologne des Étangs",
             "slug": "handball-sologne-des-etangs",
-            "description": "Club de handball de la r├®gion. Accueille les jeunes et adultes pour des entra├«nements et des comp├®titions.",
+            "description": "Club de handball de la région. Accueille les jeunes et adultes pour des entraînements et des compétitions.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -394,7 +394,7 @@
             "updated_at": "2026-06-04T14:50:29.656Z",
             "nom": "Entente Sportive Dhuizonnais (ESD)",
             "slug": "entente-sportive-dhuizonnais-esd",
-            "description": "Club de football et de sports. Propose des ├®quipes jeunes et adultes avec entra├«nements et comp├®titions r├®guli├¿res.",
+            "description": "Club de football et de sports. Propose des équipes jeunes et adultes avec entraînements et compétitions régulières.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -409,7 +409,7 @@
             "updated_at": "2026-06-04T14:50:29.654Z",
             "nom": "CLAP (Compagnie de Loisirs et Arts Plastiques)",
             "slug": "clap-compagnie-de-loisirs-et-arts-plastiques",
-            "description": "Association culturelle proposant du th├®├ótre, des arts plastiques et des ateliers cr├®atifs pour tous les ├óges.",
+            "description": "Association culturelle proposant du théâtre, des arts plastiques et des ateliers créatifs pour tous les âges.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -424,7 +424,7 @@
             "updated_at": "2026-06-04T14:50:29.657Z",
             "nom": "Familles Rurales",
             "slug": "familles-rurales",
-            "description": "Association familiale regroupant les habitants pour d├®fendre les int├®r├¬ts des familles en milieu rural.",
+            "description": "Association familiale regroupant les habitants pour défendre les intérêts des familles en milieu rural.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -439,7 +439,7 @@
             "updated_at": "2026-06-04T14:50:29.651Z",
             "nom": "AFN (Association France Nature)",
             "slug": "afn-association-france-nature",
-            "description": "Association pour la protection de la nature et l'environnement. Organise des sorties et des actions de pr├®servation ├®cologique.",
+            "description": "Association pour la protection de la nature et l'environnement. Organise des sorties et des actions de préservation écologique.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -452,9 +452,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.837Z",
             "updated_at": "2026-06-04T14:50:29.656Z",
-            "nom": "Ensemble et Solidarit├®",
+            "nom": "Ensemble et Solidarité",
             "slug": "ensemble-et-solidarite",
-            "description": "Association g├®n├®raliste d'entraide et de solidarit├® locale. Aide les habitants en difficult├® et organise des actions citoyennes.",
+            "description": "Association généraliste d'entraide et de solidarité locale. Aide les habitants en difficulté et organise des actions citoyennes.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -469,7 +469,7 @@
             "updated_at": "2026-06-04T14:50:29.659Z",
             "nom": "Les Rottiaux",
             "slug": "les-rottiaux",
-            "description": "Association culturelle et th├®├ótrale. Organise des pi├¿ces de th├®├ótre et des ├®v├®nements culturels.",
+            "description": "Association culturelle et théâtrale. Organise des pièces de théâtre et des événements culturels.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -484,7 +484,7 @@
             "updated_at": "2026-06-04T14:50:29.659Z",
             "nom": "Rose & Co",
             "slug": "rose-co",
-            "description": "Association caritative et solidaire. ┼Æuvre pour la pr├®vention et l'aide aux personnes en situation difficile.",
+            "description": "Association caritative et solidaire. Œuvre pour la prévention et l'aide aux personnes en situation difficile.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -499,7 +499,7 @@
             "updated_at": "2026-06-04T14:50:29.650Z",
             "nom": "1001 Pattes",
             "slug": "1001-pattes",
-            "description": "Association de protection et de bien-├¬tre animal. Organise des actions de sensibilisation et aide les animaux en d├®tresse.",
+            "description": "Association de protection et de bien-être animal. Organise des actions de sensibilisation et aide les animaux en détresse.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -514,7 +514,7 @@
             "updated_at": "2026-06-04T14:50:29.658Z",
             "nom": "Les Dhuiz'Festives",
             "slug": "les-dhuizfestives",
-            "description": "Association organisant les ├®v├®nements et festivit├®s locales. Responsable des f├¬tes et ├®v├®nements communaux.",
+            "description": "Association organisant les événements et festivités locales. Responsable des fêtes et événements communaux.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -527,9 +527,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.867Z",
             "updated_at": "2026-06-04T14:50:29.654Z",
-            "nom": "Club de Mod├®lisme TRM41",
+            "nom": "Club de Modélisme TRM41",
             "slug": "club-de-modelisme-trm41",
-            "description": "Club de mod├®lisme proposant du mod├®lisme ferroviaire et automobile. Organise des expositions et des ├®changes.",
+            "description": "Club de modélisme proposant du modélisme ferroviaire et automobile. Organise des expositions et des échanges.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -542,9 +542,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.871Z",
             "updated_at": "2026-06-04T14:50:29.660Z",
-            "nom": "├ëcole de Trompes du Petit Theillay",
+            "nom": "École de Trompes du Petit Theillay",
             "slug": "ecole-de-trompes-du-petit-theillay",
-            "description": "├ëcole de chasse ├á courre et ├®cole de trompes. Enseigne la tradition et les techniques de la chasse traditionnelle.",
+            "description": "École de chasse à courre et école de trompes. Enseigne la tradition et les techniques de la chasse traditionnelle.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -559,7 +559,7 @@
             "updated_at": "2026-06-04T14:50:29.659Z",
             "nom": "SCC Team Loire-et-Cher",
             "slug": "scc-team-loire-et-cher",
-            "description": "Club automobile et de rallye. Organise des ├®v├®nements et des comp├®titions automobiles.",
+            "description": "Club automobile et de rallye. Organise des événements et des compétitions automobiles.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -572,9 +572,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.882Z",
             "updated_at": "2026-06-04T14:50:29.658Z",
-            "nom": "Le Jardin des A├«n├®s",
+            "nom": "Le Jardin des Aînés",
             "slug": "le-jardin-des-aines",
-            "description": "Jardin partag├® et espace de convivialit├® pour les personnes ├óg├®es. Propose des activit├®s de jardinage et des rencontres.",
+            "description": "Jardin partagé et espace de convivialité pour les personnes âgées. Propose des activités de jardinage et des rencontres.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -589,7 +589,7 @@
             "updated_at": "2026-06-04T14:50:29.657Z",
             "nom": "GIDEC Sologne",
             "slug": "gidec-sologne",
-            "description": "Groupement pour l'Initiative et le D├®veloppement ├ëconomique Communautaire. Soutient le d├®veloppement ├®conomique local.",
+            "description": "Groupement pour l'Initiative et le Développement Économique Communautaire. Soutient le développement économique local.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -602,9 +602,9 @@
         "fields": {
             "created_at": "2026-06-01T20:41:12.891Z",
             "updated_at": "2026-06-04T14:50:29.656Z",
-            "nom": "FNACA (F├®d├®ration Nationale des Anciens Combattants)",
+            "nom": "FNACA (Fédération Nationale des Anciens Combattants)",
             "slug": "fnaca-federation-nationale-des-anciens-combattants",
-            "description": "Association regroupant les anciens combattants. D├®fend leurs int├®r├¬ts et organise des ├®v├®nements m├®moriels.",
+            "description": "Association regroupant les anciens combattants. Défend leurs intérêts et organise des événements mémoriels.",
             "email": "",
             "telephone": "",
             "site_web": "",
@@ -673,7 +673,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.551Z",
             "updated_at": "2026-05-31T14:25:05.722Z",
-            "nom": "Terrain de p├®tanque",
+            "nom": "Terrain de pétanque",
             "icone": ""
         }
     },
@@ -698,9 +698,9 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.567Z",
             "updated_at": "2026-05-31T14:20:34.011Z",
-            "nom": "Courts de Tennis Ext├®rieurs",
+            "nom": "Courts de Tennis Extérieurs",
             "type_equipement": 12,
-            "description": "2 Courts ext├®rieurs",
+            "description": "2 Courts extérieurs",
             "adresse": "rue du bourg neuf 41220 Dhuizon",
             "latitude": null,
             "longitude": null,
@@ -715,7 +715,7 @@
             "updated_at": "2026-05-31T14:18:20.758Z",
             "nom": "City Stade",
             "type_equipement": 13,
-            "description": "Espace multisports cl├┤tur├®, libre d'acc├¿s.",
+            "description": "Espace multisports clôturé, libre d'accès.",
             "adresse": "rue de la gare 41220 Dhuizon",
             "latitude": null,
             "longitude": null,
@@ -728,7 +728,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.581Z",
             "updated_at": "2026-05-31T14:24:58.343Z",
-            "nom": "Terrain de p├®tanque",
+            "nom": "Terrain de pétanque",
             "type_equipement": 15,
             "description": "Amicale du cochonnet dhuizonnais",
             "adresse": "rue de la gare 41220 Dhuizon",
@@ -745,8 +745,8 @@
             "updated_at": "2026-05-31T14:30:26.677Z",
             "nom": "Stade Pierre HUBERT",
             "type_equipement": 11,
-            "description": "2 Terrains de football ├®clair├®s. Club Amiti├® Dhuizon",
-            "adresse": "rue de la fert├® Saint-Cyr 41220 Dhuizon",
+            "description": "2 Terrains de football éclairés. Club Amitié Dhuizon",
+            "adresse": "rue de la ferté Saint-Cyr 41220 Dhuizon",
             "latitude": null,
             "longitude": null,
             "image": ""
@@ -758,7 +758,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.595Z",
             "updated_at": "2026-06-03T16:47:13.591Z",
-            "nom": "Maison m├®dicale de Dhuizon",
+            "nom": "Maison médicale de Dhuizon",
             "adresse": "18 rue de Romorantin 41220 Dhuizon",
             "telephone": "02 54 98 31 17",
             "email": ""
@@ -807,7 +807,7 @@
             "centre": 3,
             "prenom": "Corinne",
             "nom": "MAGIORANI",
-            "profession": "Infirmi├¿re",
+            "profession": "Infirmière",
             "telephone": "02 54 98 32 80",
             "email": "",
             "adresse": "18 rue de Romorantin 41220",
@@ -839,7 +839,7 @@
             "created_at": "2026-05-12T20:04:57.631Z",
             "updated_at": "2026-06-10T12:49:55.228Z",
             "centre": 3,
-            "prenom": "L├®a",
+            "prenom": "Léa",
             "nom": "RUSSEIL",
             "profession": "Medecin generaliste",
             "telephone": "02 54 98 31 17",
@@ -856,9 +856,9 @@
             "created_at": "2026-05-31T14:07:50.293Z",
             "updated_at": "2026-06-09T22:32:25.838Z",
             "centre": 3,
-            "prenom": "Ang├®lique",
+            "prenom": "Angélique",
             "nom": "SANDRIER",
-            "profession": "Infirmi├¿re",
+            "profession": "Infirmière",
             "telephone": "02 54 98 32 80",
             "email": "",
             "adresse": "18 rue de Romorantin 41220",
@@ -875,7 +875,7 @@
             "centre": 3,
             "prenom": "Fabienne",
             "nom": "DELORY",
-            "profession": "Infirmi├¿re",
+            "profession": "Infirmière",
             "telephone": "02 54 98 32 80",
             "email": "",
             "adresse": "18 rue de Romorantin 41220",
@@ -908,7 +908,7 @@
             "updated_at": "2026-06-09T22:34:20.415Z",
             "centre": 3,
             "prenom": "Auriane",
-            "nom": "VIT├ë",
+            "nom": "VITÉ",
             "profession": "Kinesitherapeute",
             "telephone": "02 54 98 31 10",
             "email": "",
@@ -926,7 +926,7 @@
             "centre": 3,
             "prenom": "Paul",
             "nom": "ROJO RAMOS",
-            "profession": "Ost├®opathe",
+            "profession": "Ostéopathe",
             "telephone": "02 54 98 31 11",
             "email": "",
             "adresse": "18 rue de Romorantin 41220",
@@ -942,7 +942,7 @@
             "updated_at": "2026-06-09T22:33:12.734Z",
             "centre": 3,
             "prenom": "Johanne",
-            "nom": "CAV├ë",
+            "nom": "CAVÉ",
             "profession": "Orthophoniste",
             "telephone": "02 54 98 34 42",
             "email": "",
@@ -978,7 +978,7 @@
             "adresse": "1 route de Romorantin, 41220 Dhuizon",
             "telephone": "02 54 98 31 98",
             "email": "pharmacie.dhuizon@gmail.com",
-            "horaires": "Informations compl├®mentaires"
+            "horaires": "Informations complémentaires"
         }
     },
     {
@@ -1145,7 +1145,7 @@
             "adresse": "18 bis rue de Romorantin, 41220 Dhuizon.",
             "telephone": "02 54 98 55 00",
             "email": "",
-            "horaires": "Informations compl├®mentaires"
+            "horaires": "Informations complémentaires"
         }
     },
     {
@@ -1271,7 +1271,7 @@
             "type_dechet": "menagers",
             "jour": "jeudi",
             "heure": "12:00:00",
-            "description": "Collecte des ordures m├®nag├¿res (bac vert) - semaines impaires"
+            "description": "Collecte des ordures ménagères (bac vert) - semaines impaires"
         }
     },
     {
@@ -1293,7 +1293,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.712Z",
             "updated_at": "2026-05-31T18:27:43.234Z",
-            "nom": "D├®chetterie de Dhuizon",
+            "nom": "Déchetterie de Dhuizon",
             "adresse": "ZA du Maupas Route de Montrieux, 41220 Dhuizon",
             "telephone": "02 54 81 41 38",
             "email": ""
@@ -1527,7 +1527,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.852Z",
             "updated_at": "2026-06-27T06:57:55.079Z",
-            "label": "├ëcole",
+            "label": "École",
             "icon": "school",
             "url": "/vie-pratique#jeunesse",
             "order": 0
@@ -1551,7 +1551,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.865Z",
             "updated_at": "2026-06-27T07:01:10.537Z",
-            "label": "S├®nior",
+            "label": "Sénior",
             "icon": "elderly_woman",
             "url": "/vie-pratique#services",
             "order": 4
@@ -1563,7 +1563,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.872Z",
             "updated_at": "2026-06-27T06:59:35.217Z",
-            "label": "Sant├®",
+            "label": "Santé",
             "icon": "health_cross",
             "url": "/vie-pratique#sante",
             "order": 1
@@ -1575,7 +1575,7 @@
         "fields": {
             "created_at": "2026-05-12T20:04:57.879Z",
             "updated_at": "2026-06-27T07:02:05.681Z",
-            "label": "D├®chets",
+            "label": "Déchets",
             "icon": "delete",
             "url": "/vie-pratique#collecte-dechets",
             "order": 6
@@ -1613,9 +1613,9 @@
         "fields": {
             "created_at": "2026-05-12T20:16:49.967Z",
             "updated_at": "2026-05-13T20:54:57.912Z",
-            "title": "├ëtang communal",
+            "title": "Étang communal",
             "image": "commune/gallery/2026/etang.webp",
-            "description": "├ëtang communal de Dhuizon",
+            "description": "Étang communal de Dhuizon",
             "order": 3,
             "is_hero": false,
             "is_hero_tourisme": false
@@ -1627,9 +1627,9 @@
         "fields": {
             "created_at": "2026-05-12T20:17:20.642Z",
             "updated_at": "2026-05-13T20:55:16.931Z",
-            "title": "├ëtang",
+            "title": "Étang",
             "image": "commune/gallery/2026/dhuizon-etang.webp",
-            "description": "├ëtang ├á Dhuizon en for├¬t",
+            "description": "Étang à Dhuizon en forêt",
             "order": 7,
             "is_hero": false,
             "is_hero_tourisme": false
@@ -1641,9 +1641,9 @@
         "fields": {
             "created_at": "2026-05-12T20:18:05.207Z",
             "updated_at": "2026-05-13T20:55:06.959Z",
-            "title": "├ëcole",
+            "title": "École",
             "image": "commune/gallery/2026/ecole1.webp",
-            "description": "├ëcole primaire et maternel de Dhuizon",
+            "description": "École primaire et maternel de Dhuizon",
             "order": 4,
             "is_hero": false,
             "is_hero_tourisme": false
@@ -1655,9 +1655,9 @@
         "fields": {
             "created_at": "2026-05-12T20:18:27.082Z",
             "updated_at": "2026-05-12T20:18:27.082Z",
-            "title": "Maison de Sant├®",
+            "title": "Maison de Santé",
             "image": "commune/gallery/2026/maison-de-sante.webp",
-            "description": "Maison de sant├® de Dhuizon",
+            "description": "Maison de santé de Dhuizon",
             "order": 5,
             "is_hero": false,
             "is_hero_tourisme": false
@@ -1697,9 +1697,9 @@
         "fields": {
             "created_at": "2026-06-04T13:11:52.314Z",
             "updated_at": "2026-06-23T14:45:27.664Z",
-            "title": "O├╣-est-Dhuizon ?",
-            "image": "images/galerie/t├®l├®charger.jpg",
-            "description": "Dhuizon en pleine Sologne de la r├®gion Centre val-de-loir",
+            "title": "Où-est-Dhuizon ?",
+            "image": "images/galerie/télécharger.jpg",
+            "description": "Dhuizon en pleine Sologne de la région Centre val-de-loir",
             "order": 9,
             "is_hero": false,
             "is_hero_tourisme": true
@@ -1712,7 +1712,7 @@
             "created_at": "2026-05-18T09:31:43.222Z",
             "updated_at": "2026-05-18T09:31:43.222Z",
             "date_label": "1000",
-            "evenement": "La premi├¿re pierre de l'├®glise fut pos├®e vers lÔÇÖan 1000",
+            "evenement": "La première pierre de l'église fut posée vers l’an 1000",
             "order": 0
         }
     },
@@ -1723,7 +1723,7 @@
             "created_at": "2026-05-18T09:32:02.454Z",
             "updated_at": "2026-05-18T09:32:02.454Z",
             "date_label": "1913",
-            "evenement": "Le kiosque ├á musique construit par les musiciens de la commune en 1913",
+            "evenement": "Le kiosque à musique construit par les musiciens de la commune en 1913",
             "order": 1
         }
     },
@@ -1733,8 +1733,8 @@
         "fields": {
             "created_at": "2026-05-18T09:32:20.998Z",
             "updated_at": "2026-05-18T09:32:20.998Z",
-            "date_label": "XIXßÁë si├¿cle",
-            "evenement": "La mairie du XIX si├¿cle et de nombreux commerces",
+            "date_label": "XIXᵉ siècle",
+            "evenement": "La mairie du XIX siècle et de nombreux commerces",
             "order": 2
         }
     },
@@ -1744,7 +1744,7 @@
         "fields": {
             "created_at": "2026-05-18T09:32:34.652Z",
             "updated_at": "2026-05-18T09:32:34.652Z",
-            "date_label": "AujourdÔÇÖhui",
+            "date_label": "Aujourd’hui",
             "evenement": "Un village dynamique et accueillant",
             "order": 3
         }
@@ -1767,8 +1767,8 @@
         "fields": {
             "created_at": "2026-06-04T13:43:12.190Z",
             "updated_at": "2026-06-04T13:45:04.002Z",
-            "nom": "├ëglise",
-            "description": "├ëglise de Dhuizon",
+            "nom": "Église",
+            "description": "Église de Dhuizon",
             "image": "images/patrimoine/dhuizon-eglise.webp",
             "order": 2
         }
@@ -1779,8 +1779,8 @@
         "fields": {
             "created_at": "2026-06-04T13:44:59.274Z",
             "updated_at": "2026-06-04T13:44:59.274Z",
-            "nom": "├ëtang de ...",
-            "description": "├ëtang ... de Dhuizon ├á 5km avec ballade de 18km",
+            "nom": "Étang de ...",
+            "description": "Étang ... de Dhuizon à 5km avec ballade de 18km",
             "image": "images/patrimoine/dhuizon-etang.webp",
             "order": 1
         }
@@ -63132,7 +63132,7 @@
             "date": "2026-06-23",
             "heure": "19:00:00",
             "lieu": "Salle du conseil de la Mairie",
-            "notes": "Pas encore ├á l'ordre du jour"
+            "notes": "Pas encore à l'ordre du jour"
         }
     },
     {
@@ -63145,7 +63145,7 @@
             "nom": "Gardy",
             "role": "Maire",
             "comissions": "",
-            "photo": "images/conseillers/t├®l├®charg├®_1.jpg",
+            "photo": "images/conseillers/téléchargé_1.jpg",
             "is_conseil_jeunes": false,
             "order": 0
         }
@@ -63158,9 +63158,9 @@
             "updated_at": "2026-06-04T15:40:26.784Z",
             "prenom": "Claire",
             "nom": "SIMONNET",
-            "role": "1├¿re Adjointe",
-            "comissions": "Vice pr├®sidente de la Commission Finances et D├®veloppement",
-            "photo": "images/conseillers/t├®l├®charg├®_aCZf1aS.jpg",
+            "role": "1ère Adjointe",
+            "comissions": "Vice présidente de la Commission Finances et Développement",
+            "photo": "images/conseillers/téléchargé_aCZf1aS.jpg",
             "is_conseil_jeunes": false,
             "order": 1
         }
@@ -63173,8 +63173,8 @@
             "updated_at": "2026-06-04T15:40:36.078Z",
             "prenom": "Raymond",
             "nom": "BEY",
-            "role": "2├¿me adjoint",
-            "comissions": "Vice pr├®sident de la Commission S├®curit├® et Environnement",
+            "role": "2ème adjoint",
+            "comissions": "Vice président de la Commission Sécurité et Environnement",
             "photo": "images/conseillers/d8e588e1-6fbb-4464-ab49-1f8e1a7b47dd.jpg",
             "is_conseil_jeunes": false,
             "order": 2
@@ -63188,8 +63188,8 @@
             "updated_at": "2026-06-04T15:40:54.509Z",
             "prenom": "Manuela",
             "nom": "CIZEAU",
-            "role": "3├¿me adjointe",
-            "comissions": "Vice pr├®sidente de la Commission Jeunesse et Communication",
+            "role": "3ème adjointe",
+            "comissions": "Vice présidente de la Commission Jeunesse et Communication",
             "photo": "images/conseillers/398e966c-19e5-402e-985d-8ee30c63829f.jpg",
             "is_conseil_jeunes": false,
             "order": 3
@@ -63203,8 +63203,8 @@
             "updated_at": "2026-06-04T15:41:13.554Z",
             "prenom": "Jean-Louis",
             "nom": "Michaut",
-            "role": "4├¿me adjoint",
-            "comissions": "Vice pr├®sident de la Commission Travaux",
+            "role": "4ème adjoint",
+            "comissions": "Vice président de la Commission Travaux",
             "photo": "images/conseillers/aa7158c9-3ea1-4c07-a799-00adbeb75d98.jpg",
             "is_conseil_jeunes": false,
             "order": 4
@@ -63218,8 +63218,8 @@
             "updated_at": "2026-06-11T14:21:53.686Z",
             "prenom": "Carole",
             "nom": "Le Breton",
-            "role": "Conseill├¿re d├®l├®gu├®e",
-            "comissions": "Vice pr├®sidente de la Commission Attractivit├® et Vivre ensemble",
+            "role": "Conseillère déléguée",
+            "comissions": "Vice présidente de la Commission Attractivité et Vivre ensemble",
             "photo": "images/conseillers/6e679ddd-5434-46f4-9968-5ec21bfa2be6.jpg",
             "is_conseil_jeunes": false,
             "order": 5
@@ -63248,7 +63248,7 @@
             "updated_at": "2026-06-11T14:23:17.450Z",
             "prenom": "Adeline",
             "nom": "GOURDON",
-            "role": "Conseill├¿re municipale",
+            "role": "Conseillère municipale",
             "comissions": "",
             "photo": "images/conseillers/201eb6fa-6616-410b-8b1a-0f9c00d4a6fd.jpg",
             "is_conseil_jeunes": false,
@@ -63276,9 +63276,9 @@
         "fields": {
             "created_at": "2026-06-01T20:23:05.352Z",
             "updated_at": "2026-06-11T14:23:01.810Z",
-            "prenom": "Sol├¿ne",
-            "nom": "PR├ëVOST",
-            "role": "Conseill├¿re municipale",
+            "prenom": "Solène",
+            "nom": "PRÉVOST",
+            "role": "Conseillère municipale",
             "comissions": "",
             "photo": "images/conseillers/1a4d31cb-24b7-4ea9-957d-48fa4d13668e.jpg",
             "is_conseil_jeunes": false,
@@ -63336,9 +63336,9 @@
         "fields": {
             "created_at": "2026-06-01T20:26:37.607Z",
             "updated_at": "2026-06-11T14:23:42.806Z",
-            "prenom": "Laur├¿ne",
+            "prenom": "Laurène",
             "nom": "MORIN",
-            "role": "Conseill├¿re municipale",
+            "role": "Conseillère municipale",
             "comissions": "",
             "photo": "images/conseillers/f7633323-81c1-474d-8e9c-6aee215fd014.jpg",
             "is_conseil_jeunes": false,
@@ -63368,7 +63368,7 @@
             "updated_at": "2026-06-11T14:25:44.288Z",
             "prenom": "Camille",
             "nom": "FARLIN",
-            "role": "Conseill├¿re municipale suppl├®ante",
+            "role": "Conseillère municipale suppléante",
             "comissions": "",
             "photo": "images/conseillers/78f94057-358e-4db8-bd31-c16b72d39f8b.jpg",
             "is_conseil_jeunes": false,
@@ -63383,7 +63383,7 @@
             "updated_at": "2026-06-11T14:24:04.273Z",
             "prenom": "Yannick",
             "nom": "VOLANT",
-            "role": "Conseiller municipal suppl├®ant",
+            "role": "Conseiller municipal suppléant",
             "comissions": "",
             "photo": "images/conseillers/a363848d-8dc2-45d1-bf6b-7e202cbfdec1.jpg",
             "is_conseil_jeunes": false,
@@ -63411,9 +63411,9 @@
         "fields": {
             "created_at": "2026-06-11T14:21:38.699Z",
             "updated_at": "2026-06-11T14:22:12.368Z",
-            "prenom": "La├½titia",
+            "prenom": "Laëtitia",
             "nom": "TESNIER",
-            "role": "Conseill├¿re municipale",
+            "role": "Conseillère municipale",
             "comissions": "",
             "photo": "images/conseillers/a046b1b3-88c6-403d-8f35-72c9278f9498.jpg",
             "is_conseil_jeunes": false,
@@ -63429,7 +63429,7 @@
             "type_transport": "regulier",
             "nom": "Lamotte-Beuvron",
             "description": "Vendredi matin - Mairie",
-            "horaires": "Arriv├® - 9h00\r\nRetour - 11h00",
+            "horaires": "Arrivé - 9h00\r\nRetour - 11h00",
             "lien": "https://www.remi-centrevaldeloire.fr",
             "order": 0
         }
@@ -63442,8 +63442,8 @@
             "updated_at": "2026-06-03T19:56:29.810Z",
             "type_transport": "regulier",
             "nom": "Romorantin-Lanthenay",
-            "description": "Mercredi matin - place du G├®n├®ral de Gaulle",
-            "horaires": "Arriv├® - 9h00\r\nRetour - 11h30",
+            "description": "Mercredi matin - place du Général de Gaulle",
+            "horaires": "Arrivé - 9h00\r\nRetour - 11h30",
             "lien": "https://www.remi-centrevaldeloire.fr",
             "order": 0
         }
@@ -63456,8 +63456,8 @@
             "updated_at": "2026-06-03T19:56:46.403Z",
             "type_transport": "regulier",
             "nom": "Neung-sur-Beuvron",
-            "description": "Jeudi apr├¿s-midi - Relais services publics ÔÇô 7,rue Henry de Geoffre",
-            "horaires": "Arriv├® - 14h00\r\nRetour - 16h00",
+            "description": "Jeudi après-midi - Relais services publics – 7,rue Henry de Geoffre",
+            "horaires": "Arrivé - 14h00\r\nRetour - 16h00",
             "lien": "https://www.remi-centrevaldeloire.fr",
             "order": 0
         }
@@ -63469,9 +63469,9 @@
             "created_at": "2026-05-31T18:53:41.257Z",
             "updated_at": "2026-05-31T18:54:34.393Z",
             "type_transport": "scolaire",
-            "nom": "lyc├®e Romorantin",
+            "nom": "lycée Romorantin",
             "description": "car scolaire du lundi au vendredi",
-            "horaires": "d├®part 8h, arriv├®s ├á 18h et 19h30",
+            "horaires": "départ 8h, arrivés à 18h et 19h30",
             "lien": "https://www.remi-centrevaldeloire.fr",
             "order": 0
         }
@@ -63483,9 +63483,9 @@
             "created_at": "2026-05-31T18:54:17.190Z",
             "updated_at": "2026-05-31T18:54:17.190Z",
             "type_transport": "scolaire",
-            "nom": "lyc├®e Blois",
-            "description": "lundi ├á vendredi",
-            "horaires": "d├®part 7h30, arriv├® 19h",
+            "nom": "lycée Blois",
+            "description": "lundi à vendredi",
+            "horaires": "départ 7h30, arrivé 19h",
             "lien": "https://www.remi-centrevaldeloire.fr",
             "order": 0
         }
@@ -63497,7 +63497,7 @@
             "created_at": "2026-06-03T20:00:26.301Z",
             "updated_at": "2026-06-03T20:00:26.301Z",
             "type_transport": "scolaire",
-            "nom": "Coll├¿ge de Neung-sur-beuvron",
+            "nom": "Collège de Neung-sur-beuvron",
             "description": "",
             "horaires": "",
             "lien": "https://www.remi-centrevaldeloire.fr",
@@ -63514,8 +63514,8 @@
             "adresse": "1 rue de Thoury 41220 Dhuizon",
             "telephone": "02 54 98 50 00",
             "email": "mairie@dhuizon.fr",
-            "horaires": "Mercredis de 7h30 ├á 18h30\r\nPremi├¿re semaine des vacances scolaires (hors No├½l)\r\nTout le mois de juillet",
-            "description": "Le centre de loisirs accueille les enfants de 3 ├á 11 ans.",
+            "horaires": "Mercredis de 7h30 à 18h30\r\nPremière semaine des vacances scolaires (hors Noël)\r\nTout le mois de juillet",
+            "description": "Le centre de loisirs accueille les enfants de 3 à 11 ans.",
             "capacite_max": 30
         }
     },
@@ -63528,7 +63528,7 @@
             "centre": 1,
             "date": "2026-07-30",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├®"
+            "motif_fermeture": "Vacances d'été"
         }
     },
     {
@@ -63600,7 +63600,7 @@
             "centre": 1,
             "date": "2026-12-14",
             "status": "ouvert",
-            "motif_fermeture": "Vacances de No├½l 2026"
+            "motif_fermeture": "Vacances de Noël 2026"
         }
     },
     {
@@ -63612,7 +63612,7 @@
             "centre": 1,
             "date": "2026-12-15",
             "status": "ouvert",
-            "motif_fermeture": "Vacances de No├½l 2026"
+            "motif_fermeture": "Vacances de Noël 2026"
         }
     },
     {
@@ -63624,7 +63624,7 @@
             "centre": 1,
             "date": "2026-12-16",
             "status": "ouvert",
-            "motif_fermeture": "Vacances de No├½l 2026"
+            "motif_fermeture": "Vacances de Noël 2026"
         }
     },
     {
@@ -63636,7 +63636,7 @@
             "centre": 1,
             "date": "2026-12-17",
             "status": "ouvert",
-            "motif_fermeture": "Vacances de No├½l 2026"
+            "motif_fermeture": "Vacances de Noël 2026"
         }
     },
     {
@@ -63648,7 +63648,7 @@
             "centre": 1,
             "date": "2026-12-18",
             "status": "ouvert",
-            "motif_fermeture": "Vacances de No├½l 2026"
+            "motif_fermeture": "Vacances de Noël 2026"
         }
     },
     {
@@ -63720,7 +63720,7 @@
             "centre": 1,
             "date": "2026-07-06",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63732,7 +63732,7 @@
             "centre": 1,
             "date": "2026-07-07",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63744,7 +63744,7 @@
             "centre": 1,
             "date": "2026-07-08",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63756,7 +63756,7 @@
             "centre": 1,
             "date": "2026-07-09",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63768,7 +63768,7 @@
             "centre": 1,
             "date": "2026-07-10",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63780,7 +63780,7 @@
             "centre": 1,
             "date": "2026-07-13",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63792,7 +63792,7 @@
             "centre": 1,
             "date": "2026-07-14",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63804,7 +63804,7 @@
             "centre": 1,
             "date": "2026-07-15",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63816,7 +63816,7 @@
             "centre": 1,
             "date": "2026-07-16",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63828,7 +63828,7 @@
             "centre": 1,
             "date": "2026-07-17",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63840,7 +63840,7 @@
             "centre": 1,
             "date": "2026-07-20",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63852,7 +63852,7 @@
             "centre": 1,
             "date": "2026-07-21",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63864,7 +63864,7 @@
             "centre": 1,
             "date": "2026-07-22",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├® 2026"
+            "motif_fermeture": "Vacances d'été 2026"
         }
     },
     {
@@ -63876,7 +63876,7 @@
             "centre": 1,
             "date": "2026-07-23",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├®"
+            "motif_fermeture": "Vacances d'été"
         }
     },
     {
@@ -63888,7 +63888,7 @@
             "centre": 1,
             "date": "2026-07-24",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├®"
+            "motif_fermeture": "Vacances d'été"
         }
     },
     {
@@ -63900,7 +63900,7 @@
             "centre": 1,
             "date": "2026-07-27",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├®"
+            "motif_fermeture": "Vacances d'été"
         }
     },
     {
@@ -63912,7 +63912,7 @@
             "centre": 1,
             "date": "2026-07-28",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├®"
+            "motif_fermeture": "Vacances d'été"
         }
     },
     {
@@ -63924,7 +63924,7 @@
             "centre": 1,
             "date": "2026-07-29",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├®"
+            "motif_fermeture": "Vacances d'été"
         }
     },
     {
@@ -64512,7 +64512,7 @@
             "centre": 1,
             "date": "2026-07-31",
             "status": "ouvert",
-            "motif_fermeture": "Vacances d'├®t├®"
+            "motif_fermeture": "Vacances d'été"
         }
     },
     {
@@ -64604,7 +64604,7 @@
             "prenom_responsable_1": "Jean",
             "adresse_responsable_1": "8 rue de la Paix",
             "code_postal_1": "41220",
-            "ville_1": "La Fert├®-Saint-Cyr",
+            "ville_1": "La Ferté-Saint-Cyr",
             "telephone_1": "0254927631",
             "portable_1": "0672674909",
             "email_1": "parent1@example.com",
@@ -64642,7 +64642,7 @@
             "prenom_responsable_1": "Marie",
             "adresse_responsable_1": "83 rue de la Paix",
             "code_postal_1": "41220",
-            "ville_1": "La Fert├®-Saint-Cyr",
+            "ville_1": "La Ferté-Saint-Cyr",
             "telephone_1": "0254128981",
             "portable_1": "0692065689",
             "email_1": "parent2@example.com",
@@ -64674,13 +64674,13 @@
             "created_at": "2026-07-21T13:03:20.304Z",
             "updated_at": "2026-07-21T13:03:20.304Z",
             "nom_enfant": "Petit",
-            "prenom_enfant": "L├®o",
+            "prenom_enfant": "Léo",
             "date_naissance": "2021-12-26",
             "nom_responsable_1": "Petit",
             "prenom_responsable_1": "Alain",
             "adresse_responsable_1": "92 rue de la Paix",
             "code_postal_1": "41220",
-            "ville_1": "La Fert├®-Saint-Cyr",
+            "ville_1": "La Ferté-Saint-Cyr",
             "telephone_1": "0254271548",
             "portable_1": "0640358502",
             "email_1": "parent3@example.com",
@@ -64718,7 +64718,7 @@
             "prenom_responsable_1": "Marie",
             "adresse_responsable_1": "21 rue de la Paix",
             "code_postal_1": "41220",
-            "ville_1": "La Fert├®-Saint-Cyr",
+            "ville_1": "La Ferté-Saint-Cyr",
             "telephone_1": "0254218346",
             "portable_1": "0695129903",
             "email_1": "parent4@example.com",
@@ -64832,7 +64832,7 @@
             "prenom_responsable_1": "Nathalie",
             "adresse_responsable_1": "93 rue de la Paix",
             "code_postal_1": "41220",
-            "ville_1": "La Fert├®-Saint-Cyr",
+            "ville_1": "La Ferté-Saint-Cyr",
             "telephone_1": "0254631014",
             "portable_1": "0642704566",
             "email_1": "parent7@example.com",
@@ -64984,7 +64984,7 @@
             "prenom_responsable_1": "Philippe",
             "adresse_responsable_1": "75 rue de la Paix",
             "code_postal_1": "41220",
-            "ville_1": "La Fert├®-Saint-Cyr",
+            "ville_1": "La Ferté-Saint-Cyr",
             "telephone_1": "0254306293",
             "portable_1": "0691371077",
             "email_1": "parent11@example.com",
@@ -65016,7 +65016,7 @@
             "created_at": "2026-07-21T13:03:20.484Z",
             "updated_at": "2026-07-21T13:03:20.484Z",
             "nom_enfant": "Richard",
-            "prenom_enfant": "Rapha├½l",
+            "prenom_enfant": "Raphaël",
             "date_naissance": "2021-08-23",
             "nom_responsable_1": "Richard",
             "prenom_responsable_1": "Philippe",
@@ -65168,7 +65168,7 @@
             "created_at": "2026-07-21T20:00:18.104Z",
             "updated_at": "2026-07-21T20:00:18.104Z",
             "nom_enfant": "Cheramy--Manceau",
-            "prenom_enfant": "No├½lla",
+            "prenom_enfant": "Noëlla",
             "date_naissance": "2007-10-09",
             "nom_responsable_1": "CIZEAU",
             "prenom_responsable_1": "Manuela",
@@ -65212,7 +65212,7 @@
             "prenom_responsable_1": "Tom",
             "adresse_responsable_1": "2 rue de la grille",
             "code_postal_1": "45000",
-            "ville_1": "Orl├®ans",
+            "ville_1": "Orléans",
             "telephone_1": "0627564240",
             "portable_1": "0627564240",
             "email_1": "cizeautom@gmail.com",
@@ -65250,7 +65250,7 @@
             "prenom_responsable_1": "Tom",
             "adresse_responsable_1": "2 rue de la grille",
             "code_postal_1": "45000",
-            "ville_1": "Orl├®ans",
+            "ville_1": "Orléans",
             "telephone_1": "0627564240",
             "portable_1": "0627564240",
             "email_1": "cizeautom@gmail.com",
@@ -65288,7 +65288,7 @@
             "prenom_responsable_1": "Tom",
             "adresse_responsable_1": "2 rue de la grille",
             "code_postal_1": "45000",
-            "ville_1": "Orl├®ans",
+            "ville_1": "Orléans",
             "telephone_1": "0627564240",
             "portable_1": "0627564240",
             "email_1": "cizeautom@gmail.com",
@@ -65326,7 +65326,7 @@
             "prenom_responsable_1": "Tom",
             "adresse_responsable_1": "2 rue de la grille",
             "code_postal_1": "45000",
-            "ville_1": "Orl├®ans",
+            "ville_1": "Orléans",
             "telephone_1": "0627564240",
             "portable_1": "0627564240",
             "email_1": "cizeautom@gmail.com",
@@ -66517,7 +66517,7 @@
             "telephone": "06 82 75 78 64",
             "email": "",
             "places_disponibles": 10,
-            "infos": "Mme COULON Lydie 201 rue de la Fert├®-Saint-Cyr 41220 Dhuizon"
+            "infos": "Mme COULON Lydie 201 rue de la Ferté-Saint-Cyr 41220 Dhuizon"
         }
     },
     {
@@ -66545,7 +66545,7 @@
             "telephone": "06 49 58 87 78",
             "email": "",
             "places_disponibles": 10,
-            "infos": "Mme FOLTIER Pauline 610 F route de La Vall├®e des Ouches 41220 Dhuizon"
+            "infos": "Mme FOLTIER Pauline 610 F route de La Vallée des Ouches 41220 Dhuizon"
         }
     },
     {
@@ -66582,12 +66582,12 @@
         "fields": {
             "created_at": "2026-05-31T20:01:15.970Z",
             "updated_at": "2026-05-31T20:01:15.970Z",
-            "prenom": "M├®lina",
+            "prenom": "Mélina",
             "nom": "ISSOUFALI",
             "telephone": "06 28 35 70 07",
             "email": "",
             "places_disponibles": 10,
-            "infos": "Mme ISSOUFALI M├®lina 41 C rue de Chambord"
+            "infos": "Mme ISSOUFALI Mélina 41 C rue de Chambord"
         }
     },
     {
@@ -66596,12 +66596,12 @@
         "fields": {
             "created_at": "2026-05-31T20:02:56.807Z",
             "updated_at": "2026-05-31T20:02:56.807Z",
-            "prenom": "La├½titia",
+            "prenom": "Laëtitia",
             "nom": "TESNIER",
             "telephone": "06 30 65 59 05",
             "email": "",
             "places_disponibles": 10,
-            "infos": "Mme TESNIER La├½titia 144 rue de la Fert├®-Saint-Cyr 41220 Dhuizon"
+            "infos": "Mme TESNIER Laëtitia 144 rue de la Ferté-Saint-Cyr 41220 Dhuizon"
         }
     },
     {
@@ -66610,7 +66610,7 @@
         "fields": {
             "created_at": "2026-05-31T18:33:09.067Z",
             "updated_at": "2026-06-03T16:58:44.727Z",
-            "nom": "Point de collecte de Verre N┬░ 1",
+            "nom": "Point de collecte de Verre N° 1",
             "adresse": "rue de la gare 41220 Dhuizon",
             "description": "Point de collecte de verre",
             "order": 0
@@ -66622,7 +66622,7 @@
         "fields": {
             "created_at": "2026-05-31T18:33:45.671Z",
             "updated_at": "2026-06-03T16:58:58.126Z",
-            "nom": "Point de collecte de Verre N┬░ 2",
+            "nom": "Point de collecte de Verre N° 2",
             "adresse": "ZA du Maupas 41220 Dhuizon",
             "description": "Point de collectes de verre",
             "order": 1
@@ -66646,12 +66646,12 @@
         "fields": {
             "created_at": "2026-05-31T18:22:16.721Z",
             "updated_at": "2026-05-31T18:22:16.721Z",
-            "nom": "M├®diath├¿que de Dhuizon",
+            "nom": "Médiathèque de Dhuizon",
             "adresse": "Place Saint-Pierre 41220 Dhuizon",
             "telephone": "02 54 98 50 00",
             "email": "mairie@dhuizon.fr",
-            "horaires": "Lundi ├á mercredi : 8h30ÔÇô12h00\r\nJeudi : 8h30ÔÇô12h00 et 14h00ÔÇô17h30\r\nVendredi : 8h30ÔÇô12h00 et 14h00ÔÇô17h00",
-            "infos": "Biblioth├¿que partag├®e en libre-service install├®e dans une ancienne cabine t├®l├®phonique, aliment├®e par les habitants du village. Sur la place de l'├®glise."
+            "horaires": "Lundi à mercredi : 8h30–12h00\r\nJeudi : 8h30–12h00 et 14h00–17h30\r\nVendredi : 8h30–12h00 et 14h00–17h00",
+            "infos": "Bibliothèque partagée en libre-service installée dans une ancienne cabine téléphonique, alimentée par les habitants du village. Sur la place de l'église."
         }
     },
     {
@@ -66759,8 +66759,8 @@
             "created_at": "2026-06-04T13:31:00.994Z",
             "updated_at": "2026-06-23T15:26:51.535Z",
             "nom": "Chambord",
-            "description": "Le ch├óteau est situ├® dans la r├®gion naturelle de la Sologne, sur une courbe du Cosson, petit affluent du Beuvron, lui-m├¬me affluent de la Loire\r\nConstruit au c┼ôur du plus grand parc forestier clos dÔÇÖEurope (environ 50 km2 ceint par un mur de 32 km de long), il sÔÇÖagit du plus vaste des ch├óteaux de la Loire. Il b├®n├®ficie dÔÇÖun jardin dÔÇÖagr├®ment et dÔÇÖun parc de chasse class├®s au titre des monuments historiques. Qualifi├® de ┬½ diamant cach├® dans les bois ┬╗, Chambord est le seul domaine royal encore intact depuis sa cr├®ation.\r\nLe ch├óteau et son domaine font l'objet de plusieurs classements : inscription au patrimoine mondial de l'organisation des Nations unies pour l'├®ducation, la science et la culture (UNESCO) en 1981 puis classement depuis 2000 au sein de la r├®gion naturelle du Val de Loire ainsi que dans le r├®seau Natura 2000 en 2006.",
-            "temps_trajet": "15min en voitures et 35min ├á v├®lo",
+            "description": "Le château est situé dans la région naturelle de la Sologne, sur une courbe du Cosson, petit affluent du Beuvron, lui-même affluent de la Loire\r\nConstruit au cœur du plus grand parc forestier clos d’Europe (environ 50 km2 ceint par un mur de 32 km de long), il s’agit du plus vaste des châteaux de la Loire. Il bénéficie d’un jardin d’agrément et d’un parc de chasse classés au titre des monuments historiques. Qualifié de « diamant caché dans les bois », Chambord est le seul domaine royal encore intact depuis sa création.\r\nLe château et son domaine font l'objet de plusieurs classements : inscription au patrimoine mondial de l'organisation des Nations unies pour l'éducation, la science et la culture (UNESCO) en 1981 puis classement depuis 2000 au sein de la région naturelle du Val de Loire ainsi que dans le réseau Natura 2000 en 2006.",
+            "temps_trajet": "15min en voitures et 35min à vélo",
             "distance_km": "15.0",
             "lien": "https://www.chambord.org/fr/",
             "image": "images/tourisme/lieux/image_2026-06-04_153048411.png",
@@ -66774,11 +66774,11 @@
             "created_at": "2026-06-23T14:57:32.516Z",
             "updated_at": "2026-06-23T15:27:01.914Z",
             "nom": "La Maison du Cerf",
-            "description": "Villeny\r\nHoraires d'ouverture\r\nDU 8 MARS AU 30 NOVEMBRE, HORS VACANCES SCOLAIRES\r\nmercredi, samedi, dimanche et jours f├®ri├®s\r\nde 14 h ├á 18 h 30.\r\n\r\nVACANCES SCOLAIRES DES TROIS ZONES\r\ndu mardi au dimanche et jours f├®ri├®s \r\nde 14 h ├á 18 h 30.\r\n\r\nÔÇïDU 15 JUIN AU 15 SEPTEMBRE\r\nmardi de 13 h 30 ├á 18 h 30\r\ndu mercredi au dimanche (+ jours f├®ri├®s)\r\nde 10 h ├á 12 h 30 et de 13 h 30 ├á 18 h 30.\r\n\r\nÔÇïÔÇïFERMETURE ANNUELLE\r\nDU 1ER DECEMBRE 2025 AU 1ER F├ëVRIER 2026\r\n\r\nNous accueillons les groupes de plus de 10 personnes sur r├®servation pr├®alable toute l'ann├®e.",
+            "description": "Villeny\r\nHoraires d'ouverture\r\nDU 8 MARS AU 30 NOVEMBRE, HORS VACANCES SCOLAIRES\r\nmercredi, samedi, dimanche et jours fériés\r\nde 14 h à 18 h 30.\r\n\r\nVACANCES SCOLAIRES DES TROIS ZONES\r\ndu mardi au dimanche et jours fériés \r\nde 14 h à 18 h 30.\r\n\r\n​DU 15 JUIN AU 15 SEPTEMBRE\r\nmardi de 13 h 30 à 18 h 30\r\ndu mercredi au dimanche (+ jours fériés)\r\nde 10 h à 12 h 30 et de 13 h 30 à 18 h 30.\r\n\r\n​​FERMETURE ANNUELLE\r\nDU 1ER DECEMBRE 2025 AU 1ER FÉVRIER 2026\r\n\r\nNous accueillons les groupes de plus de 10 personnes sur réservation préalable toute l'année.",
             "temps_trajet": "8 min",
             "distance_km": "10.0",
             "lien": "https://www.maisonducerf.fr/",
-            "image": "images/tourisme/lieux/Capture_d├®cran_2026-06-23_165542.jpg",
+            "image": "images/tourisme/lieux/Capture_décran_2026-06-23_165542.jpg",
             "order": 6
         }
     },
@@ -66788,12 +66788,12 @@
         "fields": {
             "created_at": "2026-06-23T15:08:58.062Z",
             "updated_at": "2026-06-23T15:27:13.273Z",
-            "nom": "La Sologne ├á v├®lo",
-            "description": "Une belle d├®couverte de la Sologne ├á v├®lo, de ses for├¬ts, bruy├¿res mais aussi une possible rencontre avec la faune sauvage et qui sait voir le roi de la for├¬t : le Cerf ! De nombreux villages travers├®s par cet itin├®raire v├®lo tels que Crouy-sur-Cosson, Dhuizon, Montrieux-en-Sologne, Neung-sur-Beuvron, La Fert├®-Beauharnais, Saint-Vi├ótreÔÇª\r\nPentes et d├®nivel├®:\r\nMont├®es : 104m\r\nDescentes : 108m\r\nPoint le plus bas : 93m\r\nPoint le plus ├®lev├® : 133m",
+            "nom": "La Sologne à vélo",
+            "description": "Une belle découverte de la Sologne à vélo, de ses forêts, bruyères mais aussi une possible rencontre avec la faune sauvage et qui sait voir le roi de la forêt : le Cerf ! De nombreux villages traversés par cet itinéraire vélo tels que Crouy-sur-Cosson, Dhuizon, Montrieux-en-Sologne, Neung-sur-Beuvron, La Ferté-Beauharnais, Saint-Viâtre…\r\nPentes et dénivelé:\r\nMontées : 104m\r\nDescentes : 108m\r\nPoint le plus bas : 93m\r\nPoint le plus élevé : 133m",
             "temps_trajet": "2h25",
             "distance_km": "36.0",
             "lien": "",
-            "image": "images/tourisme/lieux/Capture_d├®cran_2026-06-23_170651.jpg",
+            "image": "images/tourisme/lieux/Capture_décran_2026-06-23_170651.jpg",
             "order": 4
         }
     },
@@ -66804,11 +66804,11 @@
             "created_at": "2026-06-23T15:15:31.483Z",
             "updated_at": "2026-06-23T16:19:25.988Z",
             "nom": "Eglise St Pierre de Dhuizon avec son caquetoire",
-            "description": "Eglise typiquement solognote dont l'origine remonte au XIe si├¿cle. Son caquetoire, la vo├╗te de la nef lambriss├®e, ses bancs en bois ferm├®s ainsi que sa tribune dat├®e de 1858 lui conf├¿rent un cachet bien particulier.\r\nDes fonds baptismaux dat├®s de 1558, une statue polychrome de Saint Pierre du XVIe si├¿cle et deux retables comportant de tr├¿s beaux tableaux du XVIe et XVIIIe si├¿cle ( restaur├®s en 2012).\r\n\r\nAnecdote :\r\nLors de la guerre de 1870, Dhuizon subit des repr├®sailles prussiennes apr├¿s quÔÇÖun soldat prussien fut tu├® par un braconnier. Le 29 janvier 1871, les Prussiens bombard├¿rent le village depuis le lieu-dit ┬½ Mon Id├®e ┬╗, au moment o├╣ les habitants sortaient de la messe. Plusieurs maisons furent d├®truites, le village fut saccag├®, et cinq habitants moururent.\r\nLe cur├®, lÔÇÖabb├® Guellier, tenta de porter secours aux bless├®s et dÔÇÖemp├¬cher lÔÇÖincendie de lÔÇÖ├®glise. Selon le r├®cit, les fagots plac├®s contre lÔÇÖ├®glise refus├¿rent miraculeusement de sÔÇÖenflammer. Furieux, les soldats prussiens tir├¿rent alors sur le coq du clocher, qui devint symboliquement le seul ┬½ fusill├® ┬╗ de lÔÇÖ├®pisode.\r\nUn monument au cimeti├¿re rend aujourdÔÇÖhui hommage aux cinq victimes du bombardement de Dhuizon du 29 janvier 1871.",
+            "description": "Eglise typiquement solognote dont l'origine remonte au XIe siècle. Son caquetoire, la voûte de la nef lambrissée, ses bancs en bois fermés ainsi que sa tribune datée de 1858 lui confèrent un cachet bien particulier.\r\nDes fonds baptismaux datés de 1558, une statue polychrome de Saint Pierre du XVIe siècle et deux retables comportant de très beaux tableaux du XVIe et XVIIIe siècle ( restaurés en 2012).\r\n\r\nAnecdote :\r\nLors de la guerre de 1870, Dhuizon subit des représailles prussiennes après qu’un soldat prussien fut tué par un braconnier. Le 29 janvier 1871, les Prussiens bombardèrent le village depuis le lieu-dit « Mon Idée », au moment où les habitants sortaient de la messe. Plusieurs maisons furent détruites, le village fut saccagé, et cinq habitants moururent.\r\nLe curé, l’abbé Guellier, tenta de porter secours aux blessés et d’empêcher l’incendie de l’église. Selon le récit, les fagots placés contre l’église refusèrent miraculeusement de s’enflammer. Furieux, les soldats prussiens tirèrent alors sur le coq du clocher, qui devint symboliquement le seul « fusillé » de l’épisode.\r\nUn monument au cimetière rend aujourd’hui hommage aux cinq victimes du bombardement de Dhuizon du 29 janvier 1871.",
             "temps_trajet": "0",
             "distance_km": "0.0",
             "lien": "",
-            "image": "images/tourisme/lieux/Capture_d├®cran_2026-06-23_171315.jpg",
+            "image": "images/tourisme/lieux/Capture_décran_2026-06-23_171315.jpg",
             "order": 1
         }
     },
@@ -66818,8 +66818,8 @@
         "fields": {
             "created_at": "2026-06-23T15:26:40.332Z",
             "updated_at": "2026-06-23T15:41:06.807Z",
-            "nom": "Le kiosque ├á musique de Dhuizon",
-            "description": "Pour les curieux, Dhuizon est une des seules communes de Sologne ├á poss├®der un kiosque ├á musique. Il se trouve sur la Place St.Pierre, place centrale du village ou on retrouve les deux b├ótiments les plus importants de la commune, son ├®glise, romane du XI├¿me si├¿cle, et sa Mairie-├®cole qui date de 1880.\r\nLe kiosque date de 1913 par les musiciens du village.\r\nBien en vue au centre du village, il est bien entretenu et participe aux animations locales.",
+            "nom": "Le kiosque à musique de Dhuizon",
+            "description": "Pour les curieux, Dhuizon est une des seules communes de Sologne à posséder un kiosque à musique. Il se trouve sur la Place St.Pierre, place centrale du village ou on retrouve les deux bâtiments les plus importants de la commune, son église, romane du XIème siècle, et sa Mairie-école qui date de 1880.\r\nLe kiosque date de 1913 par les musiciens du village.\r\nBien en vue au centre du village, il est bien entretenu et participe aux animations locales.",
             "temps_trajet": "0",
             "distance_km": "0.0",
             "lien": "",
@@ -66834,7 +66834,7 @@
             "created_at": "2026-06-23T16:19:13.088Z",
             "updated_at": "2026-06-23T16:19:13.088Z",
             "nom": "Mairie de Dhuizon",
-            "description": "La mairie de Dhuizon trouve son origine dans un projet communal lanc├® en 1850 : installer dans un m├¬me b├ótiment la mairie et lÔÇÖ├®cole. Ce projet ne se concr├®tise quÔÇÖen 1871. Une ├®cole de filles est ensuite d├®cid├®e en 1874 et achev├®e en 1877. Devenu trop v├®tuste et insalubre, le premier b├ótiment est remplac├® en 1896 par une nouvelle mairie-├®cole, aujourdÔÇÖhui mairie de Dhuizon, situ├®e sur la place du village face ├á lÔÇÖ├®glise. Sur son fronton figurent les lettres RF, pour R├®publique fran├ºaise, tandis que son horloge porte la signature de Charpigny, horloger ├á Lamotte-Beuvron.",
+            "description": "La mairie de Dhuizon trouve son origine dans un projet communal lancé en 1850 : installer dans un même bâtiment la mairie et l’école. Ce projet ne se concrétise qu’en 1871. Une école de filles est ensuite décidée en 1874 et achevée en 1877. Devenu trop vétuste et insalubre, le premier bâtiment est remplacé en 1896 par une nouvelle mairie-école, aujourd’hui mairie de Dhuizon, située sur la place du village face à l’église. Sur son fronton figurent les lettres RF, pour République française, tandis que son horloge porte la signature de Charpigny, horloger à Lamotte-Beuvron.",
             "temps_trajet": "0",
             "distance_km": "0.0",
             "lien": "",
@@ -66852,7 +66852,7 @@
             "description": "cabane 2 ouverte",
             "statut": "ouvert",
             "capacite": 3,
-            "tarif": "500Ôé¼/nuit",
+            "tarif": "500€/nuit",
             "lien": "https://dhuizon.fr",
             "image": "images/tourisme/cabanes/image_2026-06-08_213325297.png",
             "order": 0
@@ -66868,7 +66868,7 @@
             "description": "cabane 1 en construction",
             "statut": "en_construction",
             "capacite": 8,
-            "tarif": "1200Ôé¼/nuit",
+            "tarif": "1200€/nuit",
             "lien": "https://dhuizon.fr",
             "image": "images/tourisme/cabanes/image_2026-06-08_213315488.png",
             "order": 0
@@ -66884,7 +66884,7 @@
             "description": "cabane 3 en projet",
             "statut": "en_projet",
             "capacite": 40,
-            "tarif": "50000Ôé¼/nuit",
+            "tarif": "50000€/nuit",
             "lien": "https://dhuizon.fr",
             "image": "images/tourisme/cabanes/image_2026-06-08_213334860.png",
             "order": 0
@@ -66914,14 +66914,14 @@
             "created_at": "2026-06-23T13:17:24.383Z",
             "updated_at": "2026-06-23T13:50:22.698Z",
             "nom": "La Maison des Sublennes",
-            "description": "A 3 Km du centre du village avec tous commerces.\r\n\r\nMaison solognote de 15 couchages maximum. Au rez-de-chauss├®e : S├®jour/salle ├á manger (2 canap├®s-lit, 1 canap├®, chemin├®e avec bois ├á disposition, r├®frig├®rateur). Cuisine (lave-vaisselle, r├®frig├®rateur, micro-ondes, cuisini├¿re). 1 chambre (1 lit 80 ), 1 wc, 1 salle dÔÇÖeau (1 douche + 1 wc + lave-linge). \r\n\r\nAu 1er ├®tage : 1 chambre (1 lit 140), 1 chambre (1 lit 140), 1 coin couchage (1 lit 80), 1 salle de bain, 1 wc, 1 salle dÔÇÖeau (1 douche + 1 wc), 1 chambre (1 lit 90 + 2 x 2 lits superpos├®s),\r\n\r\nTARIFS\r\nSemaine en moyenne ou haute saison\t840 Ôé¼\r\nSemaine en basse saison\t580 Ôé¼\r\nWeek-End\t430 Ôé¼\r\nForfait m├®nage\t75 Ôé¼\r\nGrange (location uniquement avec le g├«te) Dhuizonnais : 80Ôé¼\r\nAutres : 140 Ôé¼",
+            "description": "A 3 Km du centre du village avec tous commerces.\r\n\r\nMaison solognote de 15 couchages maximum. Au rez-de-chaussée : Séjour/salle à manger (2 canapés-lit, 1 canapé, cheminée avec bois à disposition, réfrigérateur). Cuisine (lave-vaisselle, réfrigérateur, micro-ondes, cuisinière). 1 chambre (1 lit 80 ), 1 wc, 1 salle d’eau (1 douche + 1 wc + lave-linge). \r\n\r\nAu 1er étage : 1 chambre (1 lit 140), 1 chambre (1 lit 140), 1 coin couchage (1 lit 80), 1 salle de bain, 1 wc, 1 salle d’eau (1 douche + 1 wc), 1 chambre (1 lit 90 + 2 x 2 lits superposés),\r\n\r\nTARIFS\r\nSemaine en moyenne ou haute saison\t840 €\r\nSemaine en basse saison\t580 €\r\nWeek-End\t430 €\r\nForfait ménage\t75 €\r\nGrange (location uniquement avec le gîte) Dhuizonnais : 80€\r\nAutres : 140 €",
             "adresse": "347 route de Sublennes 41220 DHUIZON",
             "telephone": "02 54 98 50 00",
             "email": "mairie@dhuizon.fr",
             "site_web": "",
             "capacite": 15,
             "tarif": "Voir Tarifs dans la description",
-            "image": "images/tourisme/gites/Ext├®rieurs_IFVk0NY.jpg",
+            "image": "images/tourisme/gites/Extérieurs_IFVk0NY.jpg",
             "order": 0
         }
     },
@@ -66932,7 +66932,7 @@
             "created_at": "2026-06-23T13:46:19.722Z",
             "updated_at": "2026-06-23T13:46:19.722Z",
             "nom": "Les Caqueziaux",
-            "description": "Propri├®t├® comportant 3 g├«tes ayant chacun entr├®e et parcelle de terrain en pelouse clos et ind├®pendant (h├®bergement de groupe ├á proximit├®). Au Rez-de-chauss├®e : s├®jour, coin-cuisine (cuisini├¿re), salle d'eau avec douche, WC ind├®pendant. ├Ç l'├®tage : 1 chambre (1 lit de 1,40 m et 1 lit b├®b├®), 1 chambre (1 lit superpos├® et 1 lit de 90). Les tarifs s'entendent chauffage ├®lectrique et bois inclus. Wifi. H├®bergement non-fumeur. La location de draps est un forfait pour l'ensemble du g├«te. Pour les v├®hicules ├®lectriques, une borne de recharge est disponible dans le centre-ville de Dhuizon (Salle des F├¬tes).",
+            "description": "Propriété comportant 3 gîtes ayant chacun entrée et parcelle de terrain en pelouse clos et indépendant (hébergement de groupe à proximité). Au Rez-de-chaussée : séjour, coin-cuisine (cuisinière), salle d'eau avec douche, WC indépendant. À l'étage : 1 chambre (1 lit de 1,40 m et 1 lit bébé), 1 chambre (1 lit superposé et 1 lit de 90). Les tarifs s'entendent chauffage électrique et bois inclus. Wifi. Hébergement non-fumeur. La location de draps est un forfait pour l'ensemble du gîte. Pour les véhicules électriques, une borne de recharge est disponible dans le centre-ville de Dhuizon (Salle des Fêtes).",
             "adresse": "347 route des Sublennes 41220 DHUIZON",
             "telephone": "02 47 27 65 85",
             "email": "",
@@ -66950,7 +66950,7 @@
             "created_at": "2026-06-23T13:50:13.654Z",
             "updated_at": "2026-06-23T13:50:13.654Z",
             "nom": "Le Rousbi",
-            "description": "Propri├®t├® comportant 3 g├«tes ayant chacun entr├®e et parcelle de terrain en pelouse clos et ind├®pendant (h├®bergement de groupe ├á proximit├®). Au Rez de chauss├®e : s├®jour (clic-clac de 130), cuisine (cuisini├¿re), salle d'eau. WC ind├®pendant, 1 chambre (1 lit de 140 et 1 lit b├®b├®). ├Ç l'├®tage : 1 chambre (2 lits de 0.90). Rez-de-chauss├®e am├®nag├® pour personnes ├á mobilit├® r├®duite. Les tarifs s'entendent chauffage ├®lectrique et bois inclus. Wifi. La location de draps est un forfait pour l'ensemble du g├«te. H├®bergement non-fumeur. Pour les v├®hicules ├®lectriques, une borne de recharge est disponible dans le centre-ville de Dhuizon (Salle des F├¬tes).",
+            "description": "Propriété comportant 3 gîtes ayant chacun entrée et parcelle de terrain en pelouse clos et indépendant (hébergement de groupe à proximité). Au Rez de chaussée : séjour (clic-clac de 130), cuisine (cuisinière), salle d'eau. WC indépendant, 1 chambre (1 lit de 140 et 1 lit bébé). À l'étage : 1 chambre (2 lits de 0.90). Rez-de-chaussée aménagé pour personnes à mobilité réduite. Les tarifs s'entendent chauffage électrique et bois inclus. Wifi. La location de draps est un forfait pour l'ensemble du gîte. Hébergement non-fumeur. Pour les véhicules électriques, une borne de recharge est disponible dans le centre-ville de Dhuizon (Salle des Fêtes).",
             "adresse": "347 route de Sublennes 41220 DHUIZON",
             "telephone": "02 47 27 65 85",
             "email": "",
@@ -66968,7 +66968,7 @@
             "created_at": "2026-06-23T13:52:27.266Z",
             "updated_at": "2026-06-23T13:52:27.266Z",
             "nom": "Les Guernazelles",
-            "description": "Propri├®t├® comportant 3 g├«tes ayant chacun entr├®e et parcelle de terrain en pelouse clos et ind├®pendant (h├®bergement de groupe ├á proximit├®). R.d.c : s├®jour, coin-cuisine, salle d'eau, WC. ├ëtage : 1 ch (1 lit de 1.40m et 1 lit b├®b├®), 1 ch (1 lit superpos├® et 2 lits de 0.90m). Chauffage ├®lectrique et bois inclus. WIFI. La location de draps est un forfait pour l'ensemble du g├«te. H├®bergement non-fumeur. Pour les v├®hicules ├®lectriques, une borne de recharge est disponible dans le centre-ville de Dhuizon (Salle des F├¬tes).",
+            "description": "Propriété comportant 3 gîtes ayant chacun entrée et parcelle de terrain en pelouse clos et indépendant (hébergement de groupe à proximité). R.d.c : séjour, coin-cuisine, salle d'eau, WC. Étage : 1 ch (1 lit de 1.40m et 1 lit bébé), 1 ch (1 lit superposé et 2 lits de 0.90m). Chauffage électrique et bois inclus. WIFI. La location de draps est un forfait pour l'ensemble du gîte. Hébergement non-fumeur. Pour les véhicules électriques, une borne de recharge est disponible dans le centre-ville de Dhuizon (Salle des Fêtes).",
             "adresse": "347 route de Sublennes 41220 DHUIZON",
             "telephone": "02 47 27 65 85",
             "email": "",
@@ -66985,7 +66985,7 @@
         "fields": {
             "created_at": "2026-06-04T15:06:36.099Z",
             "updated_at": "2026-06-23T09:25:14.774Z",
-            "nom_activite": "Alimentation g├®n├®ral \"Au P'tit march├® de Camille\"",
+            "nom_activite": "Alimentation général \"Au P'tit marché de Camille\"",
             "adresse": "14 Place Saint Pierre 41220 DHUIZON",
             "personnel": "AUGRINET Camille",
             "telephone": "02 54 98 33 13",
@@ -66999,7 +66999,7 @@
             "created_at": "2026-06-04T15:08:32.903Z",
             "updated_at": "2026-06-23T09:27:40.803Z",
             "nom_activite": "Apiculteur",
-            "adresse": "610 A Route de La Vall├®e des Ouches 41220 DHUIZON",
+            "adresse": "610 A Route de La Vallée des Ouches 41220 DHUIZON",
             "personnel": "JAUNATRE Dominique",
             "telephone": "02 54 98 39 52",
             "order": 21
@@ -67024,7 +67024,7 @@
         "fields": {
             "created_at": "2026-06-04T15:11:30.087Z",
             "updated_at": "2026-06-23T09:26:28.130Z",
-            "nom_activite": "Bar station service \"Caf├® de la Mairie\"",
+            "nom_activite": "Bar station service \"Café de la Mairie\"",
             "adresse": "2 rue de Chambord 41220 DHUIZON",
             "personnel": "DROUIN Viviane",
             "telephone": "02 54 98 37 30",
@@ -67050,7 +67050,7 @@
         "fields": {
             "created_at": "2026-06-23T08:23:47.113Z",
             "updated_at": "2026-06-23T09:25:22.182Z",
-            "nom_activite": "Boulangerie P├ótisserie \"Fournil AUGER\"",
+            "nom_activite": "Boulangerie Pâtisserie \"Fournil AUGER\"",
             "adresse": "9 place saint Pierre 41220 DHUIZON",
             "personnel": "AUGER",
             "telephone": "02 54 98 30 87",
@@ -67089,7 +67089,7 @@
         "fields": {
             "created_at": "2026-06-23T08:29:14.182Z",
             "updated_at": "2026-06-23T09:26:15.369Z",
-            "nom_activite": "Robe de mariage \"Histoire de mari├®e\"",
+            "nom_activite": "Robe de mariage \"Histoire de mariée\"",
             "adresse": "10 place saint Pierre 41220 DHUIZON",
             "personnel": "",
             "telephone": "06 82 59 36 26",
@@ -67102,7 +67102,7 @@
         "fields": {
             "created_at": "2026-06-23T08:34:15.952Z",
             "updated_at": "2026-06-23T09:26:07.469Z",
-            "nom_activite": "Salon d'esth├®tique \"Tipha'nid Bien ├¬tre\"",
+            "nom_activite": "Salon d'esthétique \"Tipha'nid Bien être\"",
             "adresse": "5 place saint Pierre 41220 DHUIZON",
             "personnel": "DUMANOIR Tiphanie",
             "telephone": "07 85 79 83 90",
@@ -67141,7 +67141,7 @@
         "fields": {
             "created_at": "2026-06-23T08:40:53.049Z",
             "updated_at": "2026-06-23T09:05:19.581Z",
-            "nom_activite": "H├┤tel Restaurant \"Auberge du grand Dauphin\"",
+            "nom_activite": "Hôtel Restaurant \"Auberge du grand Dauphin\"",
             "adresse": "17 place saint Pierre 41220 DHUIZON",
             "personnel": "",
             "telephone": "02 54 98 31 12",
@@ -67154,7 +67154,7 @@
         "fields": {
             "created_at": "2026-06-23T08:43:53.825Z",
             "updated_at": "2026-06-23T09:07:17.859Z",
-            "nom_activite": "R├┤tisserie \"R├┤tisserie JARDO\"",
+            "nom_activite": "Rôtisserie \"Rôtisserie JARDO\"",
             "adresse": "39 rue du bourg neuf 41220 DHUIZON",
             "personnel": "JARDINIER Thierry",
             "telephone": "06 12 32 82 37",
@@ -67167,7 +67167,7 @@
         "fields": {
             "created_at": "2026-06-23T08:44:59.135Z",
             "updated_at": "2026-06-23T09:04:49.541Z",
-            "nom_activite": "Pizzeria \"Comme ├á la maison\"",
+            "nom_activite": "Pizzeria \"Comme à la maison\"",
             "adresse": "12 rue de la gare 41220 DHUIZON",
             "personnel": "",
             "telephone": "02 54 94 91 32",
@@ -67193,8 +67193,8 @@
         "fields": {
             "created_at": "2026-06-23T08:48:12.822Z",
             "updated_at": "2026-06-23T09:27:24.076Z",
-            "nom_activite": "Traiteur ap├®ritif \"A table en famille\"",
-            "adresse": "rue du pr├® carr├® 41220 DHUIZON",
+            "nom_activite": "Traiteur apéritif \"A table en famille\"",
+            "adresse": "rue du pré carré 41220 DHUIZON",
             "personnel": "CHAGNON Nathalie",
             "telephone": "06 62 91 21 39",
             "order": 19
@@ -67206,7 +67206,7 @@
         "fields": {
             "created_at": "2026-06-23T08:51:47.584Z",
             "updated_at": "2026-06-23T09:27:08.245Z",
-            "nom_activite": "Pizzas ├á emporter \" Le camion pizza La Cartolina\"",
+            "nom_activite": "Pizzas à emporter \" Le camion pizza La Cartolina\"",
             "adresse": "Place saint Pierre 41220 DHUIZON",
             "personnel": "",
             "telephone": "06 88 28 78 33",
@@ -69150,7 +69150,7 @@
         "fields": {
             "created_at": "2026-06-10T15:05:04.088Z",
             "updated_at": "2026-06-23T09:14:07.310Z",
-            "nom_activite": "Bureau d'├®tudes B E Services",
+            "nom_activite": "Bureau d'études B E Services",
             "adresse": "905 rue de Romorantin 41220 DHUIZON",
             "personnel": "CONCEICAO David",
             "telephone": "06 66 42 84 84",
@@ -69164,7 +69164,7 @@
             "created_at": "2026-06-23T09:15:50.635Z",
             "updated_at": "2026-06-23T09:15:50.635Z",
             "nom_activite": "Charpente Couverture",
-            "adresse": "10 rue du pr├® carr├® 41220 DHUIZON",
+            "adresse": "10 rue du pré carré 41220 DHUIZON",
             "personnel": "GREGOIRE Vincent",
             "telephone": "06 83 96 69 91",
             "order": 1
@@ -69215,8 +69215,8 @@
         "fields": {
             "created_at": "2026-06-23T09:22:02.423Z",
             "updated_at": "2026-06-23T09:24:31.585Z",
-            "nom_activite": "Construction de b├®quilles",
-            "adresse": "71 rue des entreprises Parc activit├®s des Sublennes 41220 DHUIZON",
+            "nom_activite": "Construction de béquilles",
+            "adresse": "71 rue des entreprises Parc activités des Sublennes 41220 DHUIZON",
             "personnel": "S I C M A P Laurent TORRES",
             "telephone": "02 54 95 53 43",
             "order": 6
@@ -69228,7 +69228,7 @@
         "fields": {
             "created_at": "2026-06-23T09:23:55.507Z",
             "updated_at": "2026-06-23T09:24:23.883Z",
-            "nom_activite": "Electricit├® G├®n├®rale",
+            "nom_activite": "Electricité Générale",
             "adresse": "47 bis rue de Chambord 41220 DHUIZON",
             "personnel": "BARBEREAU Julien",
             "telephone": "06 88 54 45 36",
@@ -69241,7 +69241,7 @@
         "fields": {
             "created_at": "2026-06-23T09:29:17.759Z",
             "updated_at": "2026-06-23T09:29:17.759Z",
-            "nom_activite": "Electricit├® G├®n├®rale Antenniste",
+            "nom_activite": "Electricité Générale Antenniste",
             "adresse": "6 rue de la grange de montplaisir 41220 DHUIZON",
             "personnel": "CENTRELEC 41",
             "telephone": "06 12 19 35 37",
@@ -69254,7 +69254,7 @@
         "fields": {
             "created_at": "2026-06-23T09:30:19.246Z",
             "updated_at": "2026-06-23T09:30:19.246Z",
-            "nom_activite": "Entretien des B├ótiments",
+            "nom_activite": "Entretien des Bâtiments",
             "adresse": "10 rue de la grange de montplaisir 41220 DHUIZON",
             "personnel": "VOLANT Yannick",
             "telephone": "06 84 18 06 08",
@@ -69267,9 +69267,9 @@
         "fields": {
             "created_at": "2026-06-23T09:32:02.650Z",
             "updated_at": "2026-06-23T09:33:21.007Z",
-            "nom_activite": "Ev├¿nementiel Mariage D├®coration",
+            "nom_activite": "Evènementiel Mariage Décoration",
             "adresse": "723 rue de Blois 41220 DHUIZON",
-            "personnel": "Les cr├®ations d'Aim├®e LELOUP RENARD Pascaline",
+            "personnel": "Les créations d'Aimée LELOUP RENARD Pascaline",
             "telephone": "07 64 10 10 20",
             "order": 12
         }
@@ -69280,7 +69280,7 @@
         "fields": {
             "created_at": "2026-06-23T09:33:12.843Z",
             "updated_at": "2026-06-23T09:33:12.843Z",
-            "nom_activite": "Ma├ºon Pl├ótrier Carreleur",
+            "nom_activite": "Maçon Plâtrier Carreleur",
             "adresse": "39 rue de Chambord 41220 DHUIZON",
             "personnel": "BOURRE Patrice",
             "telephone": "02 54 98 35 00",
@@ -69293,7 +69293,7 @@
         "fields": {
             "created_at": "2026-06-23T09:35:25.846Z",
             "updated_at": "2026-06-23T09:35:25.846Z",
-            "nom_activite": "Ma├ºonnerie Restauration Maisons Solognates",
+            "nom_activite": "Maçonnerie Restauration Maisons Solognates",
             "adresse": "711 rue de Romorantin 41220 DHUIZON",
             "personnel": "FOUCHER FOURNIER LAVIE Tom",
             "telephone": "02 54 98 33 37",
@@ -69306,7 +69306,7 @@
         "fields": {
             "created_at": "2026-06-23T09:36:28.840Z",
             "updated_at": "2026-06-23T09:36:28.840Z",
-            "nom_activite": "Ma├ºonnerie",
+            "nom_activite": "Maçonnerie",
             "adresse": "rue de Villeny 41220 DHUIZON",
             "personnel": "MASSICARD SARL",
             "telephone": "02 54 98 32 76",
@@ -69319,7 +69319,7 @@
         "fields": {
             "created_at": "2026-06-23T09:37:28.390Z",
             "updated_at": "2026-06-23T09:37:28.390Z",
-            "nom_activite": "Man├¿ges Forains",
+            "nom_activite": "Manèges Forains",
             "adresse": "41 rue des grandes maisons 41220 DHUIZON",
             "personnel": "SARL VILLETTE et Fils",
             "telephone": "06 07 43 68 71",
@@ -69334,7 +69334,7 @@
             "updated_at": "2026-06-23T09:39:36.435Z",
             "nom_activite": "Marchand de biens immobiliers",
             "adresse": "Le grand Theillay 41220 DHUIZON",
-            "personnel": "M├®thode R├®alisation D├®veloppement SAVIGNAC F.",
+            "personnel": "Méthode Réalisation Développement SAVIGNAC F.",
             "telephone": "02 54 98 32 28",
             "order": 17
         }
@@ -69345,7 +69345,7 @@
         "fields": {
             "created_at": "2026-06-23T09:40:57.186Z",
             "updated_at": "2026-06-23T09:40:57.186Z",
-            "nom_activite": "Menuiserie Eb├®nisterie",
+            "nom_activite": "Menuiserie Ebénisterie",
             "adresse": "22 impasse du Maupas 41220 DHUIZON",
             "personnel": "MIOSSEC Alain",
             "telephone": "06 20 57 10 15",
@@ -69359,7 +69359,7 @@
             "created_at": "2026-06-23T09:42:19.523Z",
             "updated_at": "2026-06-23T09:42:19.523Z",
             "nom_activite": "Menuiserie",
-            "adresse": "2 rue des entreprises Parc d'activit├®s des Sublennes 41220 DHUIZON",
+            "adresse": "2 rue des entreprises Parc d'activités des Sublennes 41220 DHUIZON",
             "personnel": "SOLOGNE MENUISERIE",
             "telephone": "02 54 98 51 01",
             "order": 20
@@ -69384,7 +69384,7 @@
         "fields": {
             "created_at": "2026-06-23T09:45:32.159Z",
             "updated_at": "2026-06-23T09:45:32.159Z",
-            "nom_activite": "Parfums Chogan Vente ├á domicile",
+            "nom_activite": "Parfums Chogan Vente à domicile",
             "adresse": "41220 DHUIZON",
             "personnel": "VILPONT Elodie",
             "telephone": "07 63 17 17 04",
@@ -69410,7 +69410,7 @@
         "fields": {
             "created_at": "2026-06-23T09:48:04.277Z",
             "updated_at": "2026-06-23T09:48:04.277Z",
-            "nom_activite": "Paysages et Am├®nagements de Sologne",
+            "nom_activite": "Paysages et Aménagements de Sologne",
             "adresse": "7 rue de la grange de montplaisir 41220 DHUIZON",
             "personnel": "COURTEMANCHE Pascal",
             "telephone": "06 74 76 30 26",
@@ -69425,7 +69425,7 @@
             "updated_at": "2026-06-23T09:48:53.711Z",
             "nom_activite": "Paysagiste",
             "adresse": "242 rue de Montrieux 41220 DHUIZON",
-            "personnel": "DOMINGUEZ Th├®o",
+            "personnel": "DOMINGUEZ Théo",
             "telephone": "07 61 97 56 16",
             "order": 27
         }
@@ -69438,7 +69438,7 @@
             "updated_at": "2026-06-23T09:49:43.233Z",
             "nom_activite": "Peinture",
             "adresse": "28 rue du Bourg Neuf 41220 DHUIZON",
-            "personnel": "GAUTHIER Micka├½l",
+            "personnel": "GAUTHIER Mickaël",
             "telephone": "06 08 14 39 15",
             "order": 28
         }
@@ -69451,7 +69451,7 @@
             "updated_at": "2026-06-23T09:50:20.747Z",
             "nom_activite": "Peinture",
             "adresse": "723 rue de Blois 41220 DHUIZON",
-            "personnel": "LELOUP Gr├®gory",
+            "personnel": "LELOUP Grégory",
             "telephone": "06 07 52 97 40",
             "order": 28
         }
@@ -69490,7 +69490,7 @@
             "updated_at": "2026-06-23T09:55:34.188Z",
             "nom_activite": "Sablage Gommage Hydrogommage",
             "adresse": "97 impasse du Maupas 41220 DHUIZON",
-            "personnel": "REHOUMA R├®za",
+            "personnel": "REHOUMA Réza",
             "telephone": "02 54 983 75 79",
             "order": 32
         }
@@ -69501,7 +69501,7 @@
         "fields": {
             "created_at": "2026-06-23T09:56:39.455Z",
             "updated_at": "2026-06-23T09:56:39.455Z",
-            "nom_activite": "Tapissier D├®corateur",
+            "nom_activite": "Tapissier Décorateur",
             "adresse": "258 rue de Romorantin 41220 DHUIZON",
             "personnel": "ALLOUIN Thierry",
             "telephone": "06 88 30 10 78",
@@ -69514,9 +69514,9 @@
         "fields": {
             "created_at": "2026-06-23T09:57:38.195Z",
             "updated_at": "2026-06-23T09:57:38.195Z",
-            "nom_activite": "Terrassement Am├®nagement de propri├®t├®",
+            "nom_activite": "Terrassement Aménagement de propriété",
             "adresse": "2529 rue de Montrieux 41220 DHUIZON",
-            "personnel": "TROISPOUX Fr├®d├®ric",
+            "personnel": "TROISPOUX Frédéric",
             "telephone": "06 70 16 48 63",
             "order": 35
         }
@@ -69527,7 +69527,7 @@
         "fields": {
             "created_at": "2026-06-23T09:58:40.479Z",
             "updated_at": "2026-06-23T09:58:40.479Z",
-            "nom_activite": "Tous Travaux B├ótiment",
+            "nom_activite": "Tous Travaux Bâtiment",
             "adresse": "203 rue des hauts de Rotte 41220 DHUIZON",
             "personnel": "P L M S LEVEAU Pascal",
             "telephone": "06 16 09 15 11",
@@ -69555,7 +69555,7 @@
             "updated_at": "2026-06-23T10:01:19.920Z",
             "nom_activite": "Travaux Forestiers \"Ca chauffe pour vous\"",
             "adresse": "664 rue de Rotte 41220 DHUIZON",
-            "personnel": "PAULIN St├®phane",
+            "personnel": "PAULIN Stéphane",
             "telephone": "06 70 30 10 93",
             "order": 42
         }
@@ -69566,7 +69566,7 @@
         "fields": {
             "created_at": "2026-06-23T10:02:40.369Z",
             "updated_at": "2026-06-23T10:02:40.369Z",
-            "nom_activite": "Vente et SAV mat├®riels des m├®tiers de bouches \"Boul'Pat\"",
+            "nom_activite": "Vente et SAV matériels des métiers de bouches \"Boul'Pat\"",
             "adresse": "8 rue de la gare 41220 DHUIZON",
             "personnel": "BOISSY Yannis",
             "telephone": "06 37 24 66 24",
@@ -69579,7 +69579,7 @@
         "fields": {
             "created_at": "2026-06-23T10:03:43.942Z",
             "updated_at": "2026-06-23T10:03:43.942Z",
-            "nom_activite": "Restauratrice de c├®ramiques et Kintugi",
+            "nom_activite": "Restauratrice de céramiques et Kintugi",
             "adresse": "2378 rue de Bonneville 41220 DHUIZON",
             "personnel": "GROLEAU Virginie",
             "telephone": "06 58 50 48 78",
@@ -69592,7 +69592,7 @@
         "fields": {
             "created_at": "2026-06-23T10:04:32.761Z",
             "updated_at": "2026-06-23T10:04:32.761Z",
-            "nom_activite": "Chanteur Vari├®t├®s Fran├ºaises",
+            "nom_activite": "Chanteur Variétés Françaises",
             "adresse": "1947 rue de Bonneville 41220 DHUIZON",
             "personnel": "ROMAIN Brice",
             "telephone": "06 89 70 29 06",
@@ -69608,7 +69608,7 @@
             "nom": "Agence Postale de Dhuizon",
             "adresse": "1 Place Saint Pierre, 41220 Dhuizon",
             "telephone": "",
-            "horaires": "lundi\t09:00ÔÇô12:00\r\nmardi\t09:00ÔÇô12:00\r\nmercredi\t09:00ÔÇô12:00\r\njeudi\t09:00ÔÇô12:00\r\nvendredi\t09:00ÔÇô12:00\r\nsamedi\t- Ferm├®\r\ndimanche - Ferm├®"
+            "horaires": "lundi\t09:00–12:00\r\nmardi\t09:00–12:00\r\nmercredi\t09:00–12:00\r\njeudi\t09:00–12:00\r\nvendredi\t09:00–12:00\r\nsamedi\t- Fermé\r\ndimanche - Fermé"
         }
     },
     {
@@ -69716,10 +69716,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "21",
-            "object_repr": "Fabienne DELORY ÔÇô Infirmi├¿re",
+            "object_repr": "Fabienne DELORY – Infirmière",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"1\"}]",
             "created_at": "2026-06-09T22:11:37.437Z"
         }
@@ -69731,10 +69731,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "26",
-            "object_repr": "Louis BIGOT ÔÇô Dentiste",
+            "object_repr": "Louis BIGOT – Dentiste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"6\"}]",
             "created_at": "2026-06-09T22:11:49.522Z"
         }
@@ -69746,10 +69746,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "15",
-            "object_repr": "Corinne MAGIORANI ÔÇô Infirmi├¿re",
+            "object_repr": "Corinne MAGIORANI – Infirmière",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"1\"}]",
             "created_at": "2026-06-09T22:32:15.670Z"
         }
@@ -69761,10 +69761,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "20",
-            "object_repr": "Ang├®lique SANDRIER ÔÇô Infirmi├¿re",
+            "object_repr": "Angélique SANDRIER – Infirmière",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"1\"}]",
             "created_at": "2026-06-09T22:32:25.850Z"
         }
@@ -69776,10 +69776,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "24",
-            "object_repr": "Paul ROJO RAMOS ÔÇô Ost├®opathe",
+            "object_repr": "Paul ROJO RAMOS – Ostéopathe",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"5\"}]",
             "created_at": "2026-06-09T22:33:06.157Z"
         }
@@ -69791,10 +69791,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "25",
-            "object_repr": "Johanne CAV├ë ÔÇô Orthophoniste",
+            "object_repr": "Johanne CAVÉ – Orthophoniste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"4\"}]",
             "created_at": "2026-06-09T22:33:12.744Z"
         }
@@ -69806,10 +69806,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "13",
-            "object_repr": "Perrine PACCOU ÔÇô Medecin generaliste",
+            "object_repr": "Perrine PACCOU – Medecin generaliste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"2\"}]",
             "created_at": "2026-06-09T22:33:33.681Z"
         }
@@ -69821,10 +69821,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "14",
-            "object_repr": "Mathilde MUNOZ ÔÇô Medecin generaliste",
+            "object_repr": "Mathilde MUNOZ – Medecin generaliste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"2\"}]",
             "created_at": "2026-06-09T22:33:38.565Z"
         }
@@ -69836,10 +69836,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "17",
-            "object_repr": "L├®a RUSSEIL ÔÇô Medecin generaliste",
+            "object_repr": "Léa RUSSEIL – Medecin generaliste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"2\"}]",
             "created_at": "2026-06-09T22:33:52.937Z"
         }
@@ -69851,10 +69851,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "16",
-            "object_repr": "Tristan GIGOUT ÔÇô Kinesitherapeute",
+            "object_repr": "Tristan GIGOUT – Kinesitherapeute",
             "changes": "[]",
             "created_at": "2026-06-09T22:34:04.814Z"
         }
@@ -69866,10 +69866,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "16",
-            "object_repr": "Tristan GIGOUT ÔÇô Kinesitherapeute",
+            "object_repr": "Tristan GIGOUT – Kinesitherapeute",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"3\"}]",
             "created_at": "2026-06-09T22:34:09.559Z"
         }
@@ -69881,10 +69881,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "22",
-            "object_repr": "Nathan THENIER ÔÇô Kinesitherapeute",
+            "object_repr": "Nathan THENIER – Kinesitherapeute",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"3\"}]",
             "created_at": "2026-06-09T22:34:15.352Z"
         }
@@ -69896,10 +69896,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "23",
-            "object_repr": "Auriane VIT├ë ÔÇô Kinesitherapeute",
+            "object_repr": "Auriane VITÉ – Kinesitherapeute",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"0\", \"after\": \"3\"}]",
             "created_at": "2026-06-09T22:34:20.427Z"
         }
@@ -69914,7 +69914,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "1",
-            "object_repr": "Lundi ÔÇö Mairie",
+            "object_repr": "Lundi — Mairie",
             "changes": "[]",
             "created_at": "2026-06-09T23:33:16.218Z"
         }
@@ -69929,7 +69929,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "1",
-            "object_repr": "Lundi ÔÇö Mairie",
+            "object_repr": "Lundi — Mairie",
             "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"08:30:00\"}]",
             "created_at": "2026-06-09T23:33:57.294Z"
         }
@@ -69944,7 +69944,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "2",
-            "object_repr": "Mardi ÔÇö Mairie",
+            "object_repr": "Mardi — Mairie",
             "changes": "[]",
             "created_at": "2026-06-09T23:34:18.473Z"
         }
@@ -69959,7 +69959,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "3",
-            "object_repr": "Mercredi ÔÇö Mairie",
+            "object_repr": "Mercredi — Mairie",
             "changes": "[]",
             "created_at": "2026-06-09T23:34:33.029Z"
         }
@@ -69974,7 +69974,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "4",
-            "object_repr": "Jeudi ÔÇö Mairie",
+            "object_repr": "Jeudi — Mairie",
             "changes": "[]",
             "created_at": "2026-06-09T23:34:43.603Z"
         }
@@ -69989,7 +69989,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "5",
-            "object_repr": "Vendredi ÔÇö Mairie",
+            "object_repr": "Vendredi — Mairie",
             "changes": "[]",
             "created_at": "2026-06-09T23:34:56.251Z"
         }
@@ -70004,7 +70004,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "6",
-            "object_repr": "Samedi ÔÇö Mairie",
+            "object_repr": "Samedi — Mairie",
             "changes": "[]",
             "created_at": "2026-06-09T23:35:06.734Z"
         }
@@ -70019,7 +70019,7 @@
             "section_label": "Horaires mairie",
             "model_name": "CommuneInfoSchedule",
             "object_pk": "7",
-            "object_repr": "Dimanche ÔÇö Mairie",
+            "object_repr": "Dimanche — Mairie",
             "changes": "[]",
             "created_at": "2026-06-09T23:35:16.168Z"
         }
@@ -70031,10 +70031,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "1",
-            "object_repr": "Lundi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Lundi — Médiathèque de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-09T23:42:29.566Z"
         }
@@ -70046,10 +70046,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "2",
-            "object_repr": "Mardi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Mardi — Médiathèque de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-09T23:42:39.492Z"
         }
@@ -70061,10 +70061,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "3",
-            "object_repr": "Mercredi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Mercredi — Médiathèque de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-09T23:42:50.368Z"
         }
@@ -70076,10 +70076,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "4",
-            "object_repr": "Jeudi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Jeudi — Médiathèque de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-09T23:43:05.283Z"
         }
@@ -70091,10 +70091,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "5",
-            "object_repr": "Vendredi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Vendredi — Médiathèque de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-09T23:43:24.825Z"
         }
@@ -70106,10 +70106,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "6",
-            "object_repr": "Samedi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Samedi — Médiathèque de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-09T23:43:38.574Z"
         }
@@ -70121,10 +70121,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "7",
-            "object_repr": "Dimanche ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Dimanche — Médiathèque de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-09T23:43:47.860Z"
         }
@@ -70136,11 +70136,11 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "7",
-            "object_repr": "Dimanche ÔÇö M├®diath├¿que de Dhuizon",
-            "changes": "[{\"field\": \"ferme\", \"label\": \"Ferm├® ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
+            "object_repr": "Dimanche — Médiathèque de Dhuizon",
+            "changes": "[{\"field\": \"ferme\", \"label\": \"Fermé ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
             "created_at": "2026-06-09T23:44:00.491Z"
         }
     },
@@ -70154,7 +70154,7 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "1",
-            "object_repr": "Lundi ÔÇö Agence Postale de Dhuizon",
+            "object_repr": "Lundi — Agence Postale de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-10T00:08:58.103Z"
         }
@@ -70169,7 +70169,7 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "2",
-            "object_repr": "Mardi ÔÇö Agence Postale de Dhuizon",
+            "object_repr": "Mardi — Agence Postale de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-10T00:09:07.620Z"
         }
@@ -70184,7 +70184,7 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "3",
-            "object_repr": "Mercredi ÔÇö Agence Postale de Dhuizon",
+            "object_repr": "Mercredi — Agence Postale de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-10T00:09:16.524Z"
         }
@@ -70199,7 +70199,7 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "4",
-            "object_repr": "Jeudi ÔÇö Agence Postale de Dhuizon",
+            "object_repr": "Jeudi — Agence Postale de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-10T00:09:27.648Z"
         }
@@ -70214,7 +70214,7 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "5",
-            "object_repr": "Vendredi ÔÇö Agence Postale de Dhuizon",
+            "object_repr": "Vendredi — Agence Postale de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-10T00:09:36.635Z"
         }
@@ -70229,7 +70229,7 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "6",
-            "object_repr": "Samedi ÔÇö Agence Postale de Dhuizon",
+            "object_repr": "Samedi — Agence Postale de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-10T00:09:45.643Z"
         }
@@ -70244,8 +70244,8 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "6",
-            "object_repr": "Samedi ÔÇö Agence Postale de Dhuizon",
-            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Ferm├® ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
+            "object_repr": "Samedi — Agence Postale de Dhuizon",
+            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Fermé ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
             "created_at": "2026-06-10T00:09:55.354Z"
         }
     },
@@ -70259,7 +70259,7 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "7",
-            "object_repr": "Dimanche ÔÇö Agence Postale de Dhuizon",
+            "object_repr": "Dimanche — Agence Postale de Dhuizon",
             "changes": "[]",
             "created_at": "2026-06-10T00:10:11.170Z"
         }
@@ -70274,8 +70274,8 @@
             "section_label": "Horaires agence postale",
             "model_name": "AgencePostaleSchedule",
             "object_pk": "7",
-            "object_repr": "Dimanche ÔÇö Agence Postale de Dhuizon",
-            "changes": "[{\"field\": \"ferme\", \"label\": \"Ferm├® ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
+            "object_repr": "Dimanche — Agence Postale de Dhuizon",
+            "changes": "[{\"field\": \"ferme\", \"label\": \"Fermé ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
             "created_at": "2026-06-10T00:10:19.388Z"
         }
     },
@@ -70286,10 +70286,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "1",
-            "object_repr": "Lundi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Lundi — Médiathèque de Dhuizon",
             "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"15:30:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"17:30:00\"}]",
             "created_at": "2026-06-10T00:13:57.899Z"
         }
@@ -70301,10 +70301,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "3",
-            "object_repr": "Mercredi ÔÇö M├®diath├¿que de Dhuizon",
+            "object_repr": "Mercredi — Médiathèque de Dhuizon",
             "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"15:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"17:00:00\"}]",
             "created_at": "2026-06-10T00:14:25.520Z"
         }
@@ -70316,11 +70316,11 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "2",
-            "object_repr": "Mardi ÔÇö M├®diath├¿que de Dhuizon",
-            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Ferm├® ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
+            "object_repr": "Mardi — Médiathèque de Dhuizon",
+            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Fermé ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
             "created_at": "2026-06-10T00:14:44.128Z"
         }
     },
@@ -70331,11 +70331,11 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "4",
-            "object_repr": "Jeudi ÔÇö M├®diath├¿que de Dhuizon",
-            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Ferm├® ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
+            "object_repr": "Jeudi — Médiathèque de Dhuizon",
+            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Fermé ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
             "created_at": "2026-06-10T00:14:56.167Z"
         }
     },
@@ -70346,11 +70346,11 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "5",
-            "object_repr": "Vendredi ÔÇö M├®diath├¿que de Dhuizon",
-            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Ferm├® ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
+            "object_repr": "Vendredi — Médiathèque de Dhuizon",
+            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"09:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"12:00:00\", \"after\": \"00:00:00\"}, {\"field\": \"ferme\", \"label\": \"Fermé ce jour\", \"before\": \"False\", \"after\": \"True\"}]",
             "created_at": "2026-06-10T00:15:05.637Z"
         }
     },
@@ -70361,11 +70361,11 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "mediatheque-horaires",
-            "section_label": "Horaires m├®diath├¿que",
+            "section_label": "Horaires médiathèque",
             "model_name": "MediathequeSchedule",
             "object_pk": "6",
-            "object_repr": "Samedi ÔÇö M├®diath├¿que de Dhuizon",
-            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"00:00:00\", \"after\": \"10:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"00:00:00\", \"after\": \"12:00:00\"}, {\"field\": \"ferme\", \"label\": \"Ferm├® ce jour\", \"before\": \"True\", \"after\": \"False\"}]",
+            "object_repr": "Samedi — Médiathèque de Dhuizon",
+            "changes": "[{\"field\": \"heure_ouverture\", \"label\": \"Heure d'ouverture\", \"before\": \"00:00:00\", \"after\": \"10:00:00\"}, {\"field\": \"heure_fermeture\", \"label\": \"Heure de fermeture\", \"before\": \"00:00:00\", \"after\": \"12:00:00\"}, {\"field\": \"ferme\", \"label\": \"Fermé ce jour\", \"before\": \"True\", \"after\": \"False\"}]",
             "created_at": "2026-06-10T00:15:22.159Z"
         }
     },
@@ -70376,10 +70376,10 @@
             "user": 1,
             "action": "supprime",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "19",
-            "object_repr": "Etienne CORBIER ÔÇô Infirmier",
+            "object_repr": "Etienne CORBIER – Infirmier",
             "changes": "",
             "created_at": "2026-06-10T12:46:46.569Z"
         }
@@ -70391,10 +70391,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "14",
-            "object_repr": "Mathilde MUNOZ ÔÇô Medecin generaliste",
+            "object_repr": "Mathilde MUNOZ – Medecin generaliste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"2\", \"after\": \"0\"}]",
             "created_at": "2026-06-10T12:47:15.227Z"
         }
@@ -70406,10 +70406,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "17",
-            "object_repr": "L├®a RUSSEIL ÔÇô Medecin generaliste",
+            "object_repr": "Léa RUSSEIL – Medecin generaliste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"2\", \"after\": \"0\"}]",
             "created_at": "2026-06-10T12:47:21.860Z"
         }
@@ -70421,10 +70421,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "13",
-            "object_repr": "Perrine PACCOU ÔÇô Medecin generaliste",
+            "object_repr": "Perrine PACCOU – Medecin generaliste",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"2\", \"after\": \"0\"}]",
             "created_at": "2026-06-10T12:47:39.826Z"
         }
@@ -70436,10 +70436,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "14",
-            "object_repr": "Mathilde MUNOZ ÔÇô Medecin generalistes",
+            "object_repr": "Mathilde MUNOZ – Medecin generalistes",
             "changes": "[{\"field\": \"profession\", \"label\": \"Profession\", \"before\": \"Medecin generaliste\", \"after\": \"Medecin generalistes\"}]",
             "created_at": "2026-06-10T12:48:24.407Z"
         }
@@ -70451,10 +70451,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "13",
-            "object_repr": "Perrine PACCOU ÔÇô Medecin generalistes",
+            "object_repr": "Perrine PACCOU – Medecin generalistes",
             "changes": "[{\"field\": \"profession\", \"label\": \"Profession\", \"before\": \"Medecin generaliste\", \"after\": \"Medecin generalistes\"}]",
             "created_at": "2026-06-10T12:48:35.359Z"
         }
@@ -70466,10 +70466,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "17",
-            "object_repr": "L├®a RUSSEIL ÔÇô Medecin generalistes",
+            "object_repr": "Léa RUSSEIL – Medecin generalistes",
             "changes": "[{\"field\": \"profession\", \"label\": \"Profession\", \"before\": \"Medecin generaliste\", \"after\": \"Medecin generalistes\"}]",
             "created_at": "2026-06-10T12:48:40.789Z"
         }
@@ -70481,10 +70481,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "14",
-            "object_repr": "Mathilde MUNOZ ÔÇô Medecin generaliste",
+            "object_repr": "Mathilde MUNOZ – Medecin generaliste",
             "changes": "[{\"field\": \"profession\", \"label\": \"Profession\", \"before\": \"Medecin generalistes\", \"after\": \"Medecin generaliste\"}]",
             "created_at": "2026-06-10T12:49:34.143Z"
         }
@@ -70496,10 +70496,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "13",
-            "object_repr": "Perrine PACCOU ÔÇô Medecin generaliste",
+            "object_repr": "Perrine PACCOU – Medecin generaliste",
             "changes": "[{\"field\": \"profession\", \"label\": \"Profession\", \"before\": \"Medecin generalistes\", \"after\": \"Medecin generaliste\"}]",
             "created_at": "2026-06-10T12:49:44.988Z"
         }
@@ -70511,10 +70511,10 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "sante-professionnels",
-            "section_label": "Professionnels de sant├®",
+            "section_label": "Professionnels de santé",
             "model_name": "HealthcareProfessional",
             "object_pk": "17",
-            "object_repr": "L├®a RUSSEIL ÔÇô Medecin generaliste",
+            "object_repr": "Léa RUSSEIL – Medecin generaliste",
             "changes": "[{\"field\": \"profession\", \"label\": \"Profession\", \"before\": \"Medecin generalistes\", \"after\": \"Medecin generaliste\"}]",
             "created_at": "2026-06-10T12:49:55.237Z"
         }
@@ -70529,7 +70529,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "1",
-            "object_repr": "Lundi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 08:00ÔÇô12:30",
+            "object_repr": "Lundi — Alimentation général \"Au P'tit marché de Camille\" : 08:00–12:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:37:01.012Z"
         }
@@ -70544,7 +70544,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "2",
-            "object_repr": "Lundi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 15:30ÔÇô19:30",
+            "object_repr": "Lundi — Alimentation général \"Au P'tit marché de Camille\" : 15:30–19:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:37:14.635Z"
         }
@@ -70559,7 +70559,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "3",
-            "object_repr": "Mercredi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 08:00ÔÇô12:30",
+            "object_repr": "Mercredi — Alimentation général \"Au P'tit marché de Camille\" : 08:00–12:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:37:40.754Z"
         }
@@ -70574,7 +70574,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "4",
-            "object_repr": "Mardi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 08:00ÔÇô12:30",
+            "object_repr": "Mardi — Alimentation général \"Au P'tit marché de Camille\" : 08:00–12:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:38:09.502Z"
         }
@@ -70589,7 +70589,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "5",
-            "object_repr": "Mardi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 15:30ÔÇô19:30",
+            "object_repr": "Mardi — Alimentation général \"Au P'tit marché de Camille\" : 15:30–19:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:38:22.524Z"
         }
@@ -70604,7 +70604,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "6",
-            "object_repr": "Jeudi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 08:00ÔÇô12:30",
+            "object_repr": "Jeudi — Alimentation général \"Au P'tit marché de Camille\" : 08:00–12:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:38:59.222Z"
         }
@@ -70619,7 +70619,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "7",
-            "object_repr": "Jeudi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 15:30ÔÇô19:30",
+            "object_repr": "Jeudi — Alimentation général \"Au P'tit marché de Camille\" : 15:30–19:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:39:17.150Z"
         }
@@ -70634,7 +70634,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "8",
-            "object_repr": "Vendredi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 08:00ÔÇô12:30",
+            "object_repr": "Vendredi — Alimentation général \"Au P'tit marché de Camille\" : 08:00–12:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:39:32.502Z"
         }
@@ -70649,7 +70649,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "9",
-            "object_repr": "Vendredi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 15:30ÔÇô19:30",
+            "object_repr": "Vendredi — Alimentation général \"Au P'tit marché de Camille\" : 15:30–19:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:39:49.000Z"
         }
@@ -70664,7 +70664,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "10",
-            "object_repr": "Samedi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 08:00ÔÇô12:30",
+            "object_repr": "Samedi — Alimentation général \"Au P'tit marché de Camille\" : 08:00–12:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:40:07.723Z"
         }
@@ -70679,7 +70679,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "11",
-            "object_repr": "Samedi ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 15:30ÔÇô19:30",
+            "object_repr": "Samedi — Alimentation général \"Au P'tit marché de Camille\" : 15:30–19:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:40:26.166Z"
         }
@@ -70694,7 +70694,7 @@
             "section_label": "Horaires des commerces",
             "model_name": "EntrepriseSchedule",
             "object_pk": "12",
-            "object_repr": "Dimanche ÔÇö Alimentation g├®n├®ral \"Au P'tit march├® de Camille\" : 08:00ÔÇô12:30",
+            "object_repr": "Dimanche — Alimentation général \"Au P'tit marché de Camille\" : 08:00–12:30",
             "changes": "[]",
             "created_at": "2026-06-10T13:40:46.917Z"
         }
@@ -70724,7 +70724,7 @@
             "section_label": "Horaires des entreprises",
             "model_name": "EntrepriseSchedule",
             "object_pk": "1",
-            "object_repr": "Lundi ÔÇö test : 08:12ÔÇô12:44",
+            "object_repr": "Lundi — test : 08:12–12:44",
             "changes": "[]",
             "created_at": "2026-06-11T00:53:12.852Z"
         }
@@ -70739,8 +70739,8 @@
             "section_label": "Conseil municipal",
             "model_name": "MunicipalCouncilReport",
             "object_pk": "9",
-            "object_repr": "Conseil municipal du 10 f├®vrier 2026 (2026-02-10)",
-            "changes": "[{\"field\": \"titre\", \"label\": \"Titre\", \"before\": \"Conseil municipal du 10 mars 2026\", \"after\": \"Conseil municipal du 10 f├®vrier 2026\"}, {\"field\": \"date\", \"label\": \"Date du conseil\", \"before\": \"2026-03-10\", \"after\": \"2026-02-10\"}, {\"field\": \"pdf\", \"label\": \"Fichier PDF\", \"before\": \"documents/conseils/CV_Tom_CIZEAU_qLkXT9e.pdf\", \"after\": \"PV-du-10-fevrier-2026.pdf\"}]",
+            "object_repr": "Conseil municipal du 10 février 2026 (2026-02-10)",
+            "changes": "[{\"field\": \"titre\", \"label\": \"Titre\", \"before\": \"Conseil municipal du 10 mars 2026\", \"after\": \"Conseil municipal du 10 février 2026\"}, {\"field\": \"date\", \"label\": \"Date du conseil\", \"before\": \"2026-03-10\", \"after\": \"2026-02-10\"}, {\"field\": \"pdf\", \"label\": \"Fichier PDF\", \"before\": \"documents/conseils/CV_Tom_CIZEAU_qLkXT9e.pdf\", \"after\": \"PV-du-10-fevrier-2026.pdf\"}]",
             "created_at": "2026-06-11T01:14:14.836Z"
         }
     },
@@ -70814,8 +70814,8 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "17",
-            "object_repr": "Yannick VOLANT ÔÇö Conseiller municipal suppl├®ant",
-            "changes": "[{\"field\": \"role\", \"label\": \"R├┤le / fonction\", \"before\": \"Conseiller municipal\", \"after\": \"Conseiller municipal suppl├®ant\"}, {\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"7\"}]",
+            "object_repr": "Yannick VOLANT — Conseiller municipal suppléant",
+            "changes": "[{\"field\": \"role\", \"label\": \"Rôle / fonction\", \"before\": \"Conseiller municipal\", \"after\": \"Conseiller municipal suppléant\"}, {\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"7\"}]",
             "created_at": "2026-06-11T14:12:41.750Z"
         }
     },
@@ -70829,8 +70829,8 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "16",
-            "object_repr": "Camille FARLIN ÔÇö Conseill├¿re municipale supl├®ante",
-            "changes": "[{\"field\": \"role\", \"label\": \"R├┤le / fonction\", \"before\": \"Conseill├¿re municipal\", \"after\": \"Conseill├¿re municipale supl├®ante\"}, {\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"7\"}]",
+            "object_repr": "Camille FARLIN — Conseillère municipale supléante",
+            "changes": "[{\"field\": \"role\", \"label\": \"Rôle / fonction\", \"before\": \"Conseillère municipal\", \"after\": \"Conseillère municipale supléante\"}, {\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"7\"}]",
             "created_at": "2026-06-11T14:13:03.446Z"
         }
     },
@@ -70844,8 +70844,8 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "8",
-            "object_repr": "Adeline GOURDON ÔÇö Conseill├¿re municipale",
-            "changes": "[{\"field\": \"role\", \"label\": \"R├┤le / fonction\", \"before\": \"Conseill├¿re municipal\", \"after\": \"Conseill├¿re municipale\"}]",
+            "object_repr": "Adeline GOURDON — Conseillère municipale",
+            "changes": "[{\"field\": \"role\", \"label\": \"Rôle / fonction\", \"before\": \"Conseillère municipal\", \"after\": \"Conseillère municipale\"}]",
             "created_at": "2026-06-11T14:13:26.614Z"
         }
     },
@@ -70859,8 +70859,8 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "14",
-            "object_repr": "Laur├¿ne MORIN ÔÇö Conseill├¿re municipale",
-            "changes": "[{\"field\": \"role\", \"label\": \"R├┤le / fonction\", \"before\": \"Conseill├¿re municipal\", \"after\": \"Conseill├¿re municipale\"}]",
+            "object_repr": "Laurène MORIN — Conseillère municipale",
+            "changes": "[{\"field\": \"role\", \"label\": \"Rôle / fonction\", \"before\": \"Conseillère municipal\", \"after\": \"Conseillère municipale\"}]",
             "created_at": "2026-06-11T14:13:34.234Z"
         }
     },
@@ -70874,8 +70874,8 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "10",
-            "object_repr": "Sol├¿ne PR├ëVOST ÔÇö Conseill├¿re municipale",
-            "changes": "[{\"field\": \"role\", \"label\": \"R├┤le / fonction\", \"before\": \"Conseill├¿re municipal\", \"after\": \"Conseill├¿re municipale\"}]",
+            "object_repr": "Solène PRÉVOST — Conseillère municipale",
+            "changes": "[{\"field\": \"role\", \"label\": \"Rôle / fonction\", \"before\": \"Conseillère municipal\", \"after\": \"Conseillère municipale\"}]",
             "created_at": "2026-06-11T14:13:45.428Z"
         }
     },
@@ -70889,7 +70889,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "13",
-            "object_repr": "Antoine BOEHM ÔÇö Conseiller municipal",
+            "object_repr": "Antoine BOEHM — Conseiller municipal",
             "changes": "[]",
             "created_at": "2026-06-11T14:14:07.796Z"
         }
@@ -70904,7 +70904,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "10",
-            "object_repr": "Sol├¿ne PR├ëVOST ÔÇö Conseill├¿re municipale",
+            "object_repr": "Solène PRÉVOST — Conseillère municipale",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"7\"}]",
             "created_at": "2026-06-11T14:14:18.479Z"
         }
@@ -70919,7 +70919,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "12",
-            "object_repr": "Christian Cadart ÔÇö Conseiller municipal",
+            "object_repr": "Christian Cadart — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"8\"}]",
             "created_at": "2026-06-11T14:14:27.944Z"
         }
@@ -70934,7 +70934,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "8",
-            "object_repr": "Adeline GOURDON ÔÇö Conseill├¿re municipale",
+            "object_repr": "Adeline GOURDON — Conseillère municipale",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"9\"}]",
             "created_at": "2026-06-11T14:14:34.779Z"
         }
@@ -70949,7 +70949,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "11",
-            "object_repr": "Raoul GAUTHIER ÔÇö Conseiller municipal",
+            "object_repr": "Raoul GAUTHIER — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"10\"}]",
             "created_at": "2026-06-11T14:14:42.447Z"
         }
@@ -70964,7 +70964,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "14",
-            "object_repr": "Laur├¿ne MORIN ÔÇö Conseill├¿re municipale",
+            "object_repr": "Laurène MORIN — Conseillère municipale",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"11\"}]",
             "created_at": "2026-06-11T14:14:49.480Z"
         }
@@ -70979,7 +70979,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "15",
-            "object_repr": "Guillaume LEMOINE ÔÇö Conseiller municipal",
+            "object_repr": "Guillaume LEMOINE — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"12\"}]",
             "created_at": "2026-06-11T14:14:56.946Z"
         }
@@ -70994,7 +70994,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "16",
-            "object_repr": "Camille FARLIN ÔÇö Conseill├¿re municipale supl├®ante",
+            "object_repr": "Camille FARLIN — Conseillère municipale supléante",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"7\", \"after\": \"13\"}]",
             "created_at": "2026-06-11T14:15:06.129Z"
         }
@@ -71009,7 +71009,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "17",
-            "object_repr": "Yannick VOLANT ÔÇö Conseiller municipal suppl├®ant",
+            "object_repr": "Yannick VOLANT — Conseiller municipal suppléant",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"7\", \"after\": \"14\"}]",
             "created_at": "2026-06-11T14:15:12.131Z"
         }
@@ -71024,7 +71024,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "19",
-            "object_repr": "La├½titia TESNIER ÔÇö Conseill├¿re municipale",
+            "object_repr": "Laëtitia TESNIER — Conseillère municipale",
             "changes": "[]",
             "created_at": "2026-06-11T14:21:38.705Z"
         }
@@ -71039,7 +71039,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "6",
-            "object_repr": "Carole Le Breton ÔÇö Conseill├¿re d├®l├®gu├®e",
+            "object_repr": "Carole Le Breton — Conseillère déléguée",
             "changes": "[]",
             "created_at": "2026-06-11T14:21:53.693Z"
         }
@@ -71054,7 +71054,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "12",
-            "object_repr": "Christian Cadart ÔÇö Conseiller municipal",
+            "object_repr": "Christian Cadart — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"8\", \"after\": \"6\"}]",
             "created_at": "2026-06-11T14:22:00.675Z"
         }
@@ -71069,7 +71069,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "19",
-            "object_repr": "La├½titia TESNIER ÔÇö Conseill├¿re municipale",
+            "object_repr": "Laëtitia TESNIER — Conseillère municipale",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"8\", \"after\": \"7\"}]",
             "created_at": "2026-06-11T14:22:12.377Z"
         }
@@ -71084,7 +71084,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "13",
-            "object_repr": "Antoine BOEHM ÔÇö Conseiller municipal",
+            "object_repr": "Antoine BOEHM — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"8\"}]",
             "created_at": "2026-06-11T14:22:22.948Z"
         }
@@ -71099,7 +71099,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "13",
-            "object_repr": "Antoine BOEHM ÔÇö Conseiller municipal",
+            "object_repr": "Antoine BOEHM — Conseiller municipal",
             "changes": "[]",
             "created_at": "2026-06-11T14:22:51.957Z"
         }
@@ -71114,7 +71114,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "10",
-            "object_repr": "Sol├¿ne PR├ëVOST ÔÇö Conseill├¿re municipale",
+            "object_repr": "Solène PRÉVOST — Conseillère municipale",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"7\", \"after\": \"9\"}]",
             "created_at": "2026-06-11T14:23:01.815Z"
         }
@@ -71129,7 +71129,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "9",
-            "object_repr": "Florian DOUSSET ÔÇö Conseiller municipal",
+            "object_repr": "Florian DOUSSET — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"6\", \"after\": \"10\"}]",
             "created_at": "2026-06-11T14:23:10.711Z"
         }
@@ -71144,7 +71144,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "8",
-            "object_repr": "Adeline GOURDON ÔÇö Conseill├¿re municipale",
+            "object_repr": "Adeline GOURDON — Conseillère municipale",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"9\", \"after\": \"11\"}]",
             "created_at": "2026-06-11T14:23:17.460Z"
         }
@@ -71159,7 +71159,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "11",
-            "object_repr": "Raoul GAUTHIER ÔÇö Conseiller municipal",
+            "object_repr": "Raoul GAUTHIER — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"10\", \"after\": \"12\"}]",
             "created_at": "2026-06-11T14:23:32.955Z"
         }
@@ -71174,7 +71174,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "14",
-            "object_repr": "Laur├¿ne MORIN ÔÇö Conseill├¿re municipale",
+            "object_repr": "Laurène MORIN — Conseillère municipale",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"11\", \"after\": \"12\"}]",
             "created_at": "2026-06-11T14:23:42.810Z"
         }
@@ -71189,7 +71189,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "15",
-            "object_repr": "Guillaume LEMOINE ÔÇö Conseiller municipal",
+            "object_repr": "Guillaume LEMOINE — Conseiller municipal",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"12\", \"after\": \"13\"}]",
             "created_at": "2026-06-11T14:23:51.231Z"
         }
@@ -71204,7 +71204,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "16",
-            "object_repr": "Camille FARLIN ÔÇö Conseill├¿re municipale supl├®ante",
+            "object_repr": "Camille FARLIN — Conseillère municipale supléante",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"13\", \"after\": \"15\"}]",
             "created_at": "2026-06-11T14:23:58.678Z"
         }
@@ -71219,7 +71219,7 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "17",
-            "object_repr": "Yannick VOLANT ÔÇö Conseiller municipal suppl├®ant",
+            "object_repr": "Yannick VOLANT — Conseiller municipal suppléant",
             "changes": "[{\"field\": \"order\", \"label\": \"Ordre d'affichage\", \"before\": \"14\", \"after\": \"16\"}]",
             "created_at": "2026-06-11T14:24:04.282Z"
         }
@@ -71234,8 +71234,8 @@
             "section_label": "Conseillers municipaux",
             "model_name": "MunicipalCouncilor",
             "object_pk": "16",
-            "object_repr": "Camille FARLIN ÔÇö Conseill├¿re municipale suppl├®ante",
-            "changes": "[{\"field\": \"role\", \"label\": \"R├┤le / fonction\", \"before\": \"Conseill├¿re municipale supl├®ante\", \"after\": \"Conseill├¿re municipale suppl├®ante\"}]",
+            "object_repr": "Camille FARLIN — Conseillère municipale suppléante",
+            "changes": "[{\"field\": \"role\", \"label\": \"Rôle / fonction\", \"before\": \"Conseillère municipale supléante\", \"after\": \"Conseillère municipale suppléante\"}]",
             "created_at": "2026-06-11T14:25:44.296Z"
         }
     },
@@ -71246,10 +71246,10 @@
             "user": 1,
             "action": "cree",
             "section_slug": "ips-admin",
-            "section_label": "IP autoris├®es (/admin/)",
+            "section_label": "IP autorisées (/admin/)",
             "model_name": "AdminAllowedIP",
             "object_pk": "3",
-            "object_repr": "autre moi ÔÇö 26.247.5.195 (active)",
+            "object_repr": "autre moi — 26.247.5.195 (active)",
             "changes": "[]",
             "created_at": "2026-06-11T14:31:06.164Z"
         }
@@ -71261,7 +71261,7 @@
             "user": 1,
             "action": "cree",
             "section_slug": "demarches",
-            "section_label": "D├®marches administratives",
+            "section_label": "Démarches administratives",
             "model_name": "DemarcheAdministrative",
             "object_pk": "1",
             "object_repr": "test",
@@ -71276,7 +71276,7 @@
             "user": 1,
             "action": "supprime",
             "section_slug": "demarches",
-            "section_label": "D├®marches administratives",
+            "section_label": "Démarches administratives",
             "model_name": "DemarcheAdministrative",
             "object_pk": "1",
             "object_repr": "test",
@@ -71291,7 +71291,7 @@
             "user": 1,
             "action": "cree",
             "section_slug": "randonnees",
-            "section_label": "Chemins de randonn├®e",
+            "section_label": "Chemins de randonnée",
             "model_name": "Randonnee",
             "object_pk": "1",
             "object_repr": "test",
@@ -71306,7 +71306,7 @@
             "user": 1,
             "action": "modifie",
             "section_slug": "randonnees",
-            "section_label": "Chemins de randonn├®e",
+            "section_label": "Chemins de randonnée",
             "model_name": "Randonnee",
             "object_pk": "1",
             "object_repr": "test",
@@ -71323,7 +71323,7 @@
             "nom": "test",
             "slug": "test_url",
             "description_courte": "test court",
-            "description_detaillee": "test detaill├®s",
+            "description_detaillee": "test detaillés",
             "temps_parcours": "temps parcours",
             "niveau_difficulte": "moyen",
             "distance_km": "14.9",
