@@ -3,7 +3,7 @@
         "model": "auth.user",
         "pk": 1,
         "fields": {
-            "password": "pbkdf2_sha256$1200000$LqKpA2sWeS3rz5ak4MJVCl$enPUm/DyZAcAEwUn1UB2FH0XqBEtyRxd/1YbhkHU4uk=",
+            "password": "pbkdf2_sha256+Lq1EfVqaYR/SY4T+GlGgEAuUobo=",
             "last_login": "2026-07-23T18:02:08.212Z",
             "is_superuser": true,
             "username": "cizea",
