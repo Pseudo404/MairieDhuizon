@@ -22,12 +22,12 @@ if not SECRET_KEY:
 if DEBUG:
     ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,26.221.140.19,26.247.5.195').split(',')
 else:
-    ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'www.dhuizon.fr,dhuizon.fr').split(',')
+    ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'www.dhuizon.fr,dhuizon.fr,cizeau-dev.onrender.com').split(',')
 
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()]
 
 if not DEBUG and not CSRF_TRUSTED_ORIGINS:
-    CSRF_TRUSTED_ORIGINS = ['https://www.dhuizon.fr', 'https://dhuizon.fr']
+    CSRF_TRUSTED_ORIGINS = ['https://www.dhuizon.fr', 'https://dhuizon.fr', 'https://cizeau-dev.onrender.com']
 
 TRUST_X_FORWARDED_FOR = os.environ.get('TRUST_X_FORWARDED_FOR', 'False') == 'True'
 ADMIN_IP_RESTRICTION_ENABLED = os.environ.get('ADMIN_IP_RESTRICTION_ENABLED', 'True') == 'True'
