@@ -134,7 +134,6 @@ PAGES_MODELES = {
 
 MODELES_RECHERCHE = [News, Association, School, HealthCenter, Pharmacy, Mediatheque, LieuTouristique, Nursery, WasteCollectionSchedule, RecyclingCenter, SportFacility, Commerce, Entreprise, Transport, Hebergement, Gite, AgencePostale, MunicipalCouncilor, MunicipalCouncilReport, NextCouncilMeeting, LeisureCenter, ChildcareProfessional, GlassCollectionPoint, TextileCollectionPoint, CabaneCocou, SeniorResidence]
 
-
 def _modele_correspond_aux_mots_cles(nom_modele: str, q: str) -> bool:
     """verifie si le mot est dans la liste pré-établie"""
     q_lower = q.lower().strip()
@@ -143,7 +142,6 @@ def _modele_correspond_aux_mots_cles(nom_modele: str, q: str) -> bool:
         if q_lower in mot or mot in q_lower:
             return True
     return False
-
 
 def _construire_requete_champs(modele, q: str) -> Q:
     """verifie si le mot est présent dans une table de la bdd"""
@@ -172,7 +170,6 @@ def _get_titre_objet(obj) -> str:
             return str(val)
     return str(obj)
 
-
 def _get_description_objet(obj) -> str:
     """une courte description"""
     for attr in ("short_description", "description_courte", "description", "description_detaillee", "content", "presentation", "infos", "infos_complementaires", "notes", "adresse"):
@@ -182,7 +179,6 @@ def _get_description_objet(obj) -> str:
             return texte[:150] + "…" if len(texte) > 150 else texte
     return ""
 
-
 def _get_url_objet(obj, url_base: str) -> str:
     """l'URL de l'objet, sinon l'URL de liste."""
     try:
@@ -191,7 +187,6 @@ def _get_url_objet(obj, url_base: str) -> str:
         if obj.pk:
             return f"{url_base}{obj.pk}/" #primary key
         return url_base
-
 
 def rechercher(q: str) -> list:
     """recherche dans les listes pré-définie et dans les tables de la bdd une correspondance"""
@@ -205,7 +200,6 @@ def rechercher(q: str) -> list:
         nom_modele = modele.__name__
         page_info = PAGES_MODELES.get(nom_modele, {"url": "/", "label": nom_modele})
 
-        #mots-clés (ex: "méd" -> HealthCenter)
         if _modele_correspond_aux_mots_cles(nom_modele, q):
             cle_page = page_info["url"]
             if cle_page not in pages_deja_ajoutees:
@@ -219,7 +213,6 @@ def rechercher(q: str) -> list:
                     "type": "page",
                 })
 
-        #recherche dans les champs texte des tables de la bdd
         requete = _construire_requete_champs(modele, q)
         if not requete:
             continue

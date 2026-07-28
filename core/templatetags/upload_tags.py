@@ -8,10 +8,8 @@ Fonction: Convertit FileField/ImageField en URLs sécurisées via serve_upload()
 Protection: Protège contre path traversal (../../.env est bloqué)
 
 python
-# Sans upload_tags:
 <a href="/media/documents/conseil.pdf">  ← Accès direct, pas de contrôle
 
-# Avec upload_tags (upload_url filter):
 <a href="/fichiers/documents/conseil.pdf">  ← URL via Django, sécurisée
 """
 

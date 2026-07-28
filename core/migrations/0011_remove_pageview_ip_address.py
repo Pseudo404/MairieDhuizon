@@ -1,7 +1,5 @@
-# Generated migration to remove ip_address from PageView (RGPD compliance)
 
 from django.db import migrations, models
-
 
 class Migration(migrations.Migration):
 

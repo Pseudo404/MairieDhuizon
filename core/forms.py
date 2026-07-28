@@ -3,8 +3,7 @@ from django.core.validators import RegexValidator
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
-from core.models import News, QuickLink, AdminAccount
-
+from core.models import News, QuickLink, AdminAccount, InscriptionCentreLoisirs
 
 class IconSelectWidget(forms.Widget):    
     def __init__(self, icons_choices=None, attrs=None):
@@ -163,7 +162,6 @@ class ContactForm(forms.Form):
         }),
     )
 
-
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
@@ -219,7 +217,6 @@ class NewsForm(forms.ModelForm):
             'author': 'Auteur',
             'is_published': 'Publier immédiatement',
         }
-
 
 class AdminLoginForm(AuthenticationForm):
     """
@@ -284,13 +281,11 @@ class QuickLinkForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['icon'].widget = IconSelectWidget(icons_choices=QuickLink.ICONS_CHOICES)
 
-
 _INPUT_CLASS = (
     'w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-gray-900 '
     'placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/30 '
     'focus:border-green-600 transition'
 )
-
 
 class AdminAccountForm(forms.Form):
     """Création / modification d'un compte administrateur classique (employé mairie)."""
@@ -334,6 +329,11 @@ class AdminAccountForm(forms.Form):
             'autocomplete': 'new-password',
         }),
     )
+    is_centre_loisirs = forms.BooleanField(
+        label='Est Admin Centre de Loisirs',
+        required=False,
+        help_text="Accès restreint au panneau de gestion du centre de loisirs."
+    )
 
     def __init__(self, *args, admin_account=None, **kwargs):
         self.admin_account = admin_account
@@ -344,6 +344,7 @@ class AdminAccountForm(forms.Form):
             self.fields['email'].initial = user.email
             self.fields['first_name'].initial = user.first_name
             self.fields['last_name'].initial = user.last_name
+            self.fields['is_centre_loisirs'].initial = admin_account.is_centre_loisirs
             self.fields['password'].help_text = 'Laisser vide pour conserver le mot de passe actuel.'
         else:
             self.fields['password'].required = True
@@ -385,6 +386,8 @@ class AdminAccountForm(forms.Form):
             if data.get('password'):
                 user.set_password(data['password'])
             user.save()
+            self.admin_account.is_centre_loisirs = data.get('is_centre_loisirs', False)
+            self.admin_account.save()
             return self.admin_account
 
         user = User.objects.create_user(
@@ -396,5 +399,88 @@ class AdminAccountForm(forms.Form):
             is_staff=True,
             is_superuser=False,
         )
-        return AdminAccount.objects.create(user=user, is_super_admin=False)
+        return AdminAccount.objects.create(user=user, is_super_admin=False, is_centre_loisirs=data.get('is_centre_loisirs', False))
+
+class InscriptionCentreLoisirsForm(forms.ModelForm):
+    class Meta:
+        model = InscriptionCentreLoisirs
+        exclude = ['token', 'nom_enfant', 'prenom_enfant', 'date_naissance', 'pai_sante', 'vaccins', 'assurance_scolaire']
+        widgets = {
+            'nom_responsable_1': forms.TextInput(attrs={
+                'placeholder': 'Nom de famille',
+                'class': _INPUT_CLASS,
+            }),
+            'prenom_responsable_1': forms.TextInput(attrs={
+                'placeholder': 'Prénom',
+                'class': _INPUT_CLASS,
+            }),
+            'adresse_responsable_1': forms.TextInput(attrs={
+                'placeholder': '12 Rue de la Mairie',
+                'class': _INPUT_CLASS,
+            }),
+            'code_postal_1': forms.TextInput(attrs={
+                'placeholder': '41220',
+                'class': _INPUT_CLASS,
+            }),
+            'ville_1': forms.TextInput(attrs={
+                'placeholder': 'Dhuizon',
+                'class': _INPUT_CLASS,
+            }),
+            'telephone_1': forms.TextInput(attrs={
+                'placeholder': '02 54 XX XX XX',
+                'class': _INPUT_CLASS,
+            }),
+            'portable_1': forms.TextInput(attrs={
+                'placeholder': '06 XX XX XX XX',
+                'class': _INPUT_CLASS,
+            }),
+            'email_1': forms.EmailInput(attrs={
+                'placeholder': 'parent@exemple.fr',
+                'class': _INPUT_CLASS,
+            }),
+            'nom_responsable_2': forms.TextInput(attrs={
+                'placeholder': 'Nom de famille',
+                'class': _INPUT_CLASS,
+            }),
+            'prenom_responsable_2': forms.TextInput(attrs={
+                'placeholder': 'Prénom',
+                'class': _INPUT_CLASS,
+            }),
+            'adresse_responsable_2': forms.TextInput(attrs={
+                'placeholder': '12 Rue de la Mairie',
+                'class': _INPUT_CLASS,
+            }),
+            'code_postal_2': forms.TextInput(attrs={
+                'placeholder': '41220',
+                'class': _INPUT_CLASS,
+            }),
+            'ville_2': forms.TextInput(attrs={
+                'placeholder': 'Dhuizon',
+                'class': _INPUT_CLASS,
+            }),
+            'telephone_2': forms.TextInput(attrs={
+                'placeholder': '02 54 XX XX XX',
+                'class': _INPUT_CLASS,
+            }),
+            'portable_2': forms.TextInput(attrs={
+                'placeholder': '06 XX XX XX XX',
+                'class': _INPUT_CLASS,
+            }),
+            'email_2': forms.EmailInput(attrs={
+                'placeholder': 'parent2@exemple.fr',
+                'class': _INPUT_CLASS,
+            }),
+            'coefficient_familial': forms.TextInput(attrs={
+                'placeholder': 'Ex : 800',
+                'class': _INPUT_CLASS,
+            }),
+            'livret_famille': forms.CheckboxInput(attrs={
+                'class': 'w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-500 cursor-pointer',
+            }),
+            'personnes_habilitees_texte': forms.Textarea(attrs={
+                'placeholder': 'Noms et prénoms des personnes',
+                'class': _INPUT_CLASS + ' h-24',
+                'rows': 3
+            }),
+        }
 

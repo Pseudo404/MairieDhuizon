@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+
+{% block title %}Centre de loisirs - Administration{% endblock %}
+
+{% block extra_head %}
+{% include 'panel/_theme.html' %}
+{% endblock %}
+
+{% block content %}
+<main class="panel-bg py-12 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6">
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+                <p class="text-sm uppercase tracking-widest text-blue-700 font-semibold mb-1">Administration</p>
+                <h1 class="text-3xl font-semibold text-gray-900">Centre de loisirs</h1>
+            </div>
+            <a href="{% url 'logout_admin' %}" class="panel-logout panel-btn shrink-0">🚪 Déconnexion</a>
+        </div>
+
+        <div class="mb-8 flex flex-wrap gap-3">
+            <a href="{% url 'admin_cl_dashboard' %}" class="panel-btn panel-btn-secondary hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300">Dashboard</a>
+            <a href="{% url 'admin_cl_reservations' %}" class="panel-btn panel-btn-secondary hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300">Réservations en attente</a>
+            <a href="{% url 'admin_cl_calendrier' %}" class="panel-btn panel-btn-secondary hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300">Calendrier</a>
+            <a href="{% url 'admin_cl_gestion_jours' %}" class="panel-btn panel-btn-secondary hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300">Gestion des jours</a>
+            <a href="{% url 'admin_cl_historique' %}" class="panel-btn panel-btn-secondary hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300">Historique</a>
+        </div>
+
+        {% if messages %}
+            <div class="mb-8 space-y-3">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}panel-msg-error{% elif message.tags == 'warning' %}panel-msg-error !bg-orange-50 !border-orange-200 !text-orange-700{% else %}panel-msg-success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block cl_content %}{% endblock %}
+
+        {% if user.is_staff and not request.user.admin_account.is_centre_loisirs %}
+            <p class="text-center mt-12 text-sm text-gray-400"><a href="{% url 'control_panel' %}" class="panel-back hover:no-underline">← Retour au panneau de contrôle</a></p>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

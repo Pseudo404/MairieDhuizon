@@ -17,7 +17,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import EmailValidator, RegexValidator
 from django.urls import reverse
-from core.validators import validate_image_upload, validate_pdf_upload, validate_safe_link_url
+from core.validators import validate_image_upload, validate_pdf_upload, validate_safe_link_url, validate_document_upload
 
 class BaseModel(models.Model):
     """ Modèle de base """
@@ -26,7 +26,6 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
-
 
 class BaseSchedule(BaseModel):
     """ Horaire de base """
@@ -42,7 +41,6 @@ class BaseSchedule(BaseModel):
         }
         self.jour_index = mapping.get(getattr(self, "jour", "lundi"), 1)
         super().save(*args, **kwargs)
-
 
 class CommuneInfo(BaseModel):
     """ Informations de la commune """
@@ -95,7 +93,6 @@ class CommuneInfo(BaseModel):
                 "Une seule entrée 'Informations commune' est autorisée."
             )
 
-
 class CommuneInfoSchedule(BaseSchedule):
     """ Horaires des informations de la commune """
     class Weekday(models.TextChoices):
@@ -128,7 +125,6 @@ class CommuneInfoSchedule(BaseSchedule):
 
     def __str__(self):
         return f"{self.get_jour_display()} — Mairie"
-
 
 class News(BaseModel):
     """ Actualité """
@@ -189,7 +185,6 @@ class News(BaseModel):
     def get_absolute_url(self):
         return "/#actualite/"
 
-
 class MunicipalCouncilReport(BaseModel):
     """ Compte-rendu du conseil municipal """
     titre = models.CharField(
@@ -220,7 +215,6 @@ class MunicipalCouncilReport(BaseModel):
     
     def get_absolute_url(self):
         return "/conseil-municipal#comptes-rendus"
-
 
 class Association(BaseModel):
     """ Association """
@@ -283,7 +277,6 @@ class Association(BaseModel):
     def get_absolute_url(self):
         return "/vie-associative/{}".format(self.slug)
 
-
 class School(BaseModel):
     """ École """
     nom = models.CharField(
@@ -328,7 +321,6 @@ class School(BaseModel):
     def get_absolute_url(self):
         return "/vie-pratique#ecole-{}".format(self.pk)
 
-
 class SportFacilityType(BaseModel):
     """ Type d'installation sportive """
     nom = models.CharField(
@@ -350,7 +342,6 @@ class SportFacilityType(BaseModel):
 
     def __str__(self):
         return self.nom
-
 
 class SportFacility(BaseModel):
     """ Installation sportive """
@@ -402,7 +393,6 @@ class SportFacility(BaseModel):
     def __str__(self):
         return f"{self.nom} ({self.type_equipement})"
 
-
 class HealthCenter(BaseModel):
     """ Maison de santé """
     nom = models.CharField(
@@ -433,7 +423,6 @@ class HealthCenter(BaseModel):
     
     def get_absolute_url(self):
         return "/vie-pratique#sante-{}".format(self.pk)
-
 
 class HealthcareProfessional(BaseModel):
     """ Professionnel de santé """
@@ -492,7 +481,6 @@ class HealthcareProfessional(BaseModel):
     def __str__(self):
         return f"{self.prenom} {self.nom} – {self.profession}"
 
-
 class Pharmacy(BaseModel):
     """ Pharmacie """
     nom = models.CharField(
@@ -524,7 +512,6 @@ class Pharmacy(BaseModel):
 
     def __str__(self):
         return self.nom
-
 
 class PharmacySchedule(BaseSchedule):
     """ Horaires de la pharmacie """
@@ -560,7 +547,6 @@ class PharmacySchedule(BaseSchedule):
     def __str__(self):
         return f"{self.get_jour_display()} — {self.pharmacie.nom}"
 
-
 class SeniorResidence(BaseModel):
     """ Résidence pour personnes âgées """
     nom = models.CharField(
@@ -593,7 +579,6 @@ class SeniorResidence(BaseModel):
 
     def __str__(self):
         return self.nom
-
 
 class SeniorResidenceSchedule(BaseSchedule):
     """ Horaires de la résidence sénior """
@@ -628,7 +613,6 @@ class SeniorResidenceSchedule(BaseSchedule):
 
     def __str__(self):
         return f"{self.get_jour_display()} — {self.residence.nom}"
-
 
 class Nursery(BaseModel):
     """ Crèche """
@@ -677,7 +661,6 @@ class Nursery(BaseModel):
     
     def get_absolute_url(self):
         return "/vie-pratique#petite-enfance"
-
 
 class WasteCollectionSchedule(BaseSchedule):
     """ Calendrier de collecte des déchets """
@@ -730,7 +713,6 @@ class WasteCollectionSchedule(BaseSchedule):
     
     def get_absolute_url(self):
         return "/vie-pratique#collecte-dechets"
-
 
 class RecyclingCenter(BaseModel):
     """ Déchetterie """
@@ -812,7 +794,6 @@ class RecyclingCenterSchedule(BaseSchedule):
         verbose_name = "Horaire de déchetterie"
         verbose_name_plural = "Horaires de déchetterie"
         ordering = ["centre", "saison", "jour_index"]
-        # Un seul horaire par centre / saison / jour
         unique_together = [("centre", "saison", "jour")]
 
     def __str__(self):
@@ -821,7 +802,6 @@ class RecyclingCenterSchedule(BaseSchedule):
             f"{self.get_jour_display()} : "
             f"{self.heure_ouverture:%H:%M}–{self.heure_fermeture:%H:%M}"
         )
-
 
 class QuickLink(BaseModel):
     """ Lien rapide """
@@ -922,7 +902,6 @@ class QuickLink(BaseModel):
                 return label
         return self.icon
 
-
 class CommuneMedia(BaseModel):
     """ Média de la commune """
     title = models.CharField(
@@ -962,7 +941,6 @@ class CommuneMedia(BaseModel):
     def __str__(self):
         return self.title
 
-
 class HistoireDhuizon(BaseModel):
     """ Histoire de Dhuizon """
     date_label = models.CharField(
@@ -987,7 +965,6 @@ class HistoireDhuizon(BaseModel):
 
     def __str__(self):
         return f"{self.date_label} – {self.evenement[:50]}"
-
 
 class PatrimoineItem(BaseModel):
     """ Patrimoine de Dhuizon """
@@ -1021,7 +998,6 @@ class PatrimoineItem(BaseModel):
 
     def __str__(self):
         return self.nom
-
 
 class AdminAllowedIP(BaseModel):
     """ IP autorisée pour l'administration """
@@ -1061,6 +1037,11 @@ class AdminAccount(BaseModel):
         verbose_name="Est Super Admin (Mairie)",
         help_text="Les Super Admins peuvent créer et gérer d'autres administrateurs."
     )
+    is_centre_loisirs = models.BooleanField(
+        default=False,
+        verbose_name="Est Admin Centre de Loisirs",
+        help_text="Accès restreint au panneau de gestion du centre de loisirs."
+    )
 
     class Meta:
         verbose_name = "Compte administrateur"
@@ -1068,9 +1049,13 @@ class AdminAccount(BaseModel):
         ordering = ['user__username']
 
     def __str__(self):
-        role = "Super Admin" if self.is_super_admin else "Admin Classique"
+        if self.is_super_admin:
+            role = "Super Admin"
+        elif self.is_centre_loisirs:
+            role = "Admin Centre de Loisirs"
+        else:
+            role = "Admin Classique"
         return f"{self.user.username} ({role})"
-
 
 class PageView(BaseModel):
     """ Vue de page (statistique) """
@@ -1127,7 +1112,6 @@ class PageView(BaseModel):
     def __str__(self):
         return f"{self.path} — {self.created_at:%d/%m/%Y %H:%M}"
 
-
 class NextCouncilMeeting(BaseModel):
     """ Prochaine réunion du conseil """
     date = models.DateField(
@@ -1163,7 +1147,6 @@ class NextCouncilMeeting(BaseModel):
         
     def get_absolute_url(self):
         return "/conseil-municipal#prochain-conseil"
-
 
 class MunicipalCouncilor(BaseModel):
     """ Conseiller municipaux """
@@ -1215,7 +1198,6 @@ class MunicipalCouncilor(BaseModel):
     def get_absolute_url(self):
         return "/conseil-municipal#elus"
 
-
 class Transport(BaseModel):
     """ Transport """
 
@@ -1262,7 +1244,6 @@ class Transport(BaseModel):
     def get_absolute_url(self):
         return "/vie-pratique#transports"
 
-
 class LeisureCenter(BaseModel):
     """ Centre de loisirs """
     nom = models.CharField(
@@ -1292,6 +1273,11 @@ class LeisureCenter(BaseModel):
         blank=True,
         verbose_name="Description",
     )
+    capacite_max = models.PositiveIntegerField(
+        default=30,
+        verbose_name="Capacité journalière maximale",
+        help_text="Nombre maximum d'enfants pouvant être accueillis par jour."
+    )
 
     class Meta:
         verbose_name = "Centre de loisirs"
@@ -1304,6 +1290,108 @@ class LeisureCenter(BaseModel):
     def get_absolute_url(self):
         return "/vie-pratique#jeunesse"
 
+class LeisureDayStatus(BaseModel):
+    """ Statut d'un jour pour le centre de loisirs """
+    centre = models.ForeignKey('LeisureCenter', on_delete=models.CASCADE, related_name='jours_statuts')
+    date = models.DateField(verbose_name="Date")
+    status = models.CharField(
+        max_length=20,
+        choices=[('ouvert', 'Ouvert'), ('ferme', 'Fermé'), ('ferie', 'Férié')],
+        default='ouvert',
+        verbose_name="Statut"
+    )
+    motif_fermeture = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Motif de fermeture (optionnel)"
+    )
+
+    class Meta:
+        verbose_name = "Statut journalier du centre de loisirs"
+        verbose_name_plural = "Statuts journaliers du centre de loisirs"
+        unique_together = ('centre', 'date')
+        ordering = ['-date']
+
+    def __str__(self):
+        return f"{self.date.strftime('%d/%m/%Y')} - {self.get_status_display()}"
+
+class InscriptionCentreLoisirs(BaseModel):
+    """ Fiche d'inscription d'un enfant au centre de loisirs """
+    nom_enfant = models.CharField(max_length=100, verbose_name="Nom de l'enfant")
+    prenom_enfant = models.CharField(max_length=100, verbose_name="Prénom de l'enfant")
+    date_naissance = models.DateField(verbose_name="Date de naissance")
+    
+    nom_responsable_1 = models.CharField(max_length=100, verbose_name="Nom (Responsable 1)")
+    prenom_responsable_1 = models.CharField(max_length=100, verbose_name="Prénom (Responsable 1)")
+    adresse_responsable_1 = models.CharField(max_length=255, verbose_name="Adresse (Responsable 1)")
+    code_postal_1 = models.CharField(max_length=20, verbose_name="Code postal (Responsable 1)")
+    ville_1 = models.CharField(max_length=100, verbose_name="Ville (Responsable 1)")
+    telephone_1 = models.CharField(max_length=20, blank=True, verbose_name="Téléphone (Responsable 1)")
+    portable_1 = models.CharField(max_length=20, verbose_name="Portable (Responsable 1)")
+    email_1 = models.EmailField(verbose_name="Email (Responsable 1)")
+
+    nom_responsable_2 = models.CharField(max_length=100, blank=True, verbose_name="Nom (Responsable 2)")
+    prenom_responsable_2 = models.CharField(max_length=100, blank=True, verbose_name="Prénom (Responsable 2)")
+    adresse_responsable_2 = models.CharField(max_length=255, blank=True, verbose_name="Adresse (Responsable 2)")
+    code_postal_2 = models.CharField(max_length=20, blank=True, verbose_name="Code postal (Responsable 2)")
+    ville_2 = models.CharField(max_length=100, blank=True, verbose_name="Ville (Responsable 2)")
+    telephone_2 = models.CharField(max_length=20, blank=True, verbose_name="Téléphone (Responsable 2)")
+    portable_2 = models.CharField(max_length=20, blank=True, verbose_name="Portable (Responsable 2)")
+    email_2 = models.EmailField(blank=True, verbose_name="Email (Responsable 2)")
+
+    coefficient_familial = models.CharField(max_length=50, blank=True, verbose_name="Coefficient familial")
+    justificatif_quotient_familial = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Justificatif quotient familial")
+    
+    livret_famille = models.BooleanField(default=False, verbose_name="Livret de famille fourni (Ancien)")
+    livret_famille_doc = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Livret de famille (Document)")
+    jugement_familial = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Jugement familial")
+    personnes_habilitees_identite = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Pièce d'identité (Personnes habilitées)")
+    personnes_habilitees_texte = models.TextField(blank=True, verbose_name="Personnes habilitées à venir chercher l'enfant")
+    
+    pai_sante = models.TextField(blank=True, verbose_name="PAI informations de santé (lunettes, fauteuil, etc.)")
+    vaccins = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Vaccins")
+    assurance_scolaire = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Assurance extra-scolaire")
+
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    class Meta:
+        verbose_name = "Inscription au centre de loisirs"
+        verbose_name_plural = "Inscriptions au centre de loisirs"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.prenom_enfant} {self.nom_enfant}"
+
+    @property
+    def age(self):
+        import datetime
+        today = datetime.date.today()
+        return today.year - self.date_naissance.year - ((today.month, today.day) < (self.date_naissance.month, self.date_naissance.day))
+
+class ReservationCentreLoisirs(BaseModel):
+    """ Une réservation pour un jour donné """
+    STATUT_CHOICES = [
+        ('en_attente', 'En attente'),
+        ('validee', 'Validée'),
+        ('refusee', 'Refusée'),
+        ('annulee', 'Annulée'),
+    ]
+    inscription = models.ForeignKey('InscriptionCentreLoisirs', on_delete=models.CASCADE, related_name='reservations')
+    date = models.DateField(verbose_name="Date réservée")
+    statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente', verbose_name="Statut")
+    token_annulation = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    date_validation = models.DateTimeField(null=True, blank=True, verbose_name="Date de validation/refus")
+    validee_par = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='reservations_validees')
+    motif_refus = models.CharField(max_length=255, blank=True, verbose_name="Motif de refus")
+
+    class Meta:
+        verbose_name = "Réservation centre de loisirs"
+        verbose_name_plural = "Réservations centre de loisirs"
+        unique_together = ('inscription', 'date')
+        ordering = ['-date']
+
+    def __str__(self):
+        return f"{self.inscription} - {self.date.strftime('%d/%m/%Y')} ({self.get_statut_display()})"
 
 class ChildcareProfessional(BaseModel):
     """ Nourisses """
@@ -1345,7 +1433,6 @@ class ChildcareProfessional(BaseModel):
     def get_absolute_url(self):
         return "/vie-pratique#petite-enfance"
 
-
 class GlassCollectionPoint(BaseModel):
     """ Point de collecte du verre """
     nom = models.CharField(
@@ -1378,7 +1465,6 @@ class GlassCollectionPoint(BaseModel):
     def get_absolute_url(self):
         return "/vie-pratique#collecte-dechets"
 
-
 class TextileCollectionPoint(BaseModel):
     """ Point de collecte des textiles """
     nom = models.CharField(
@@ -1409,7 +1495,6 @@ class TextileCollectionPoint(BaseModel):
     
     def get_absolute_url(self):
         return "/vie-pratique#collecte-dechets"
-
 
 class Mediatheque(BaseModel):
     """ Médiathèque """
@@ -1457,7 +1542,6 @@ class Mediatheque(BaseModel):
     def get_absolute_url(self):
         return "/vie-pratique#mairie-mediatheque"
 
-
 class MediathequeSchedule(BaseSchedule):
     """ Horaires de la médiathèque """
     class Weekday(models.TextChoices):
@@ -1490,7 +1574,6 @@ class MediathequeSchedule(BaseSchedule):
 
     def __str__(self):
         return f"{self.get_jour_display()} — {self.mediatheque.nom}"
-
 
 class LieuTouristique(BaseModel):
     """ Lieu touristique """
@@ -1542,7 +1625,6 @@ class LieuTouristique(BaseModel):
     
     def get_absolute_url(self):
         return "/tourisme#a-visiter"
-
 
 class CabaneCocou(BaseModel):
     """ Cabane Cocou """
@@ -1602,7 +1684,6 @@ class CabaneCocou(BaseModel):
     
     def get_absolute_url(self):
         return "/tourisme#cabanes-cocou"
-
 
 class Hebergement(BaseModel):
     """ Hébergement """
@@ -1669,7 +1750,6 @@ class Hebergement(BaseModel):
     def get_absolute_url(self):
         return "/tourisme#hebergements"
 
-
 class Gite(BaseModel):
     """ Gîte """
     nom = models.CharField(
@@ -1733,7 +1813,6 @@ class Gite(BaseModel):
     def get_absolute_url(self):
         return "/tourisme#gites"
 
-
 class Commerce(BaseModel):
     """ Commerce """
     nom_activite = models.CharField(
@@ -1770,7 +1849,6 @@ class Commerce(BaseModel):
     
     def get_absolute_url(self):
         return "/commerces/"
-
 
 class CommerceSchedule(BaseSchedule):
     """ Horaires des commerces """
@@ -1827,7 +1905,6 @@ class CommerceSchedule(BaseSchedule):
             )
         return f"{self.get_jour_display()} — {self.commerce.nom_activite} : Non renseigné"
 
-
 class Entreprise(BaseModel):
     """ Entreprises """
     nom_activite = models.CharField(
@@ -1864,7 +1941,6 @@ class Entreprise(BaseModel):
 
     def get_absolute_url(self):
         return "/entreprises/"
-
 
 class EntrepriseSchedule(BaseSchedule):
     """ Horaires des entreprises """
@@ -1922,7 +1998,6 @@ class EntrepriseSchedule(BaseSchedule):
             )
         return f"{self.get_jour_display()} — {self.entreprise.nom_activite} : Non renseigné"
 
-
 class AgencePostale(BaseModel):
     """ Agence postale """
     nom = models.CharField(
@@ -1960,7 +2035,6 @@ class AgencePostale(BaseModel):
     def get_absolute_url(self):
         return "/vie-pratique#agence-postale"
 
-
 class AgencePostaleSchedule(BaseSchedule):
     """ Horaires de l'agence postale """
     class Weekday(models.TextChoices):
@@ -1994,7 +2068,6 @@ class AgencePostaleSchedule(BaseSchedule):
     def __str__(self):
         return f"{self.get_jour_display()} — {self.agence_postale.nom}"
 
-
 class DemarcheAdministrative(BaseModel):
     """ Démarche administrative """
     titre = models.CharField(max_length=255, verbose_name="Titre de la démarche")
@@ -2014,7 +2087,6 @@ class DemarcheAdministrative(BaseModel):
 
     def get_absolute_url(self):
         return "/vie-pratique/#demarches"
-
 
 class AuditLog(models.Model):
     """ Journal d'audit """
@@ -2094,7 +2166,6 @@ class AuditLog(models.Model):
             return json.loads(self.changes)
         except (json.JSONDecodeError, ValueError):
             return []
-
 
 class Randonnee(BaseModel):
     """ Randonnée """

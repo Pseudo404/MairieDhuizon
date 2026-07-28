@@ -14,7 +14,6 @@ from core.security import get_client_ip, is_admin_access_allowed
 
 logger = logging.getLogger(__name__)
 
-#(ex: admin, images, API)
 EXCLUDED_PATHS = [
     re.compile(r'^/admin/'),
     re.compile(r'^/assets/'),
@@ -25,7 +24,6 @@ EXCLUDED_PATHS = [
     re.compile(r'^/control-panel/'),
 ]
 
-#robots (bots) d'indexation
 BOT_PATTERNS = [
     'bot', 'spider', 'crawl', 'slurp', 'baiduspider',
     'googlebot', 'bingbot', 'yandexbot', 'duckduckbot',
@@ -34,21 +32,17 @@ BOT_PATTERNS = [
     'curl', 'wget', 'httpclient', 'libwww-perl', 'scrapy',
 ]
 
-
 class AdminIPRestrictionMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         path = request.path
-        #si l'URL commence par /admin/ et que l'ip n'est pas dans la whitelist alors "bloquer"
         if path.startswith('/admin/') and not is_admin_access_allowed(request):
             client_ip = get_client_ip(request)
             logger.warning('Accès /admin/ refusé pour IP %s', client_ip)
             return render(request, '403_admin_ip.html', {'client_ip': client_ip}, status=403)
-        #laisser passer
         return self.get_response(request)
-
 
 class PageViewTrackingMiddleware:
     """
@@ -60,46 +54,37 @@ class PageViewTrackingMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        #django génère la réponse (la page)
         response = self.get_response(request)
 
-        #ignorer les 'POST' et les page d'erreur
         if request.method != 'GET' or response.status_code != 200:
             return response
 
-        #ignorer les autre contenu que HTML
         content_type = response.get('Content-Type', '')
         if 'text/html' not in content_type:
             return response
 
         path = request.path
 
-        #ignorer les chemin exlus
         for pattern in EXCLUDED_PATHS:
             if pattern.match(path):
                 return response
 
-        #ignore les visites des moteurs de recherche (Google, Bing, etc...)
         user_agent = request.META.get('HTTP_USER_AGENT', '')
         ua_lower = user_agent.lower()
         if any(bot in ua_lower for bot in BOT_PATTERNS):
             return response
 
-        #creer une session si l'utilisateur n'en a pas encore
         if not request.session.session_key:
             request.session.create()
 
-        #deduit le navigateur et le type d'appareil depuis le "User-Agent"
         browser = self._parse_browser(ua_lower)
         device_type = self._parse_device(ua_lower)
 
-        # recupere la page depuis laquelle l'utilisateur vient
         referer = request.META.get('HTTP_REFERER', '')
         if referer and len(referer) > 200:
             referer = referer[:200]
         referer = referer or None
 
-        #enregistre la visite dans la base de donné
         try:
             from core.models import PageView
             PageView.objects.create(

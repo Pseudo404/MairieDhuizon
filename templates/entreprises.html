@@ -337,7 +337,6 @@ sans open :
 avec open :
     display:block
 */
-
 function toggleHoraires(id) {
     /*
     on recups les elements correspondant a l'entreprise
@@ -352,22 +351,16 @@ function toggleHoraires(id) {
     const panel = document.getElementById('panel-' + id);
     const chevron = document.getElementById('chevron-' + id);
     const row = document.getElementById('row-' + id);
-
     if (!panel) return; // evite l'erreur si pas d'horraire
-
     const isOpen = panel.classList.contains('open'); // si un déjà ouvert
-
     document.querySelectorAll('.horaires-panel, .horaires-panel-tr').forEach(p => p.classList.remove('open')); // fermer tous ce ouvert sauf celui cliquer
-
     document
     .querySelectorAll('[id^="chevron-"]:not([id*="mobile"])')
     .forEach(c => {
         c.style.transform = ''; // rotation de la flèche haut/bas
         c.style.color = ''; // supprimer la couleur
     });
-
     document.querySelectorAll('tr[id^="row-"]').forEach(r => r.classList.remove('row-active')); // pareil on supprime toutes les lignes actives
-
     if (!isOpen) {
         panel.classList.add('open');
         if (chevron) {
@@ -379,31 +372,24 @@ function toggleHoraires(id) {
             'aria-expanded',
             'true'
         );
-
     } else {
         row.setAttribute( // lecteur d'écrans ligne fermé
             'aria-expanded',
             'false'
         );
-
     }
-
 }
-
 function toggleHorairesMobile(id) {
     const panel = document.getElementById('panel-mobile-' + id);
     const chevron = document.getElementById('chevron-mobile-' + id);
-
     if (!panel) return;
     const isOpen =
         panel.classList.contains('open');
-
     document.querySelectorAll('[id^="panel-mobile-"]').forEach(p => p.classList.remove('open'));
     document.querySelectorAll('[id^="chevron-mobile-"]').forEach(c => {
         c.style.transform = '';
         c.style.color = '';
     });
-
     if (!isOpen) {
         panel.classList.add('open');
         if (chevron) {

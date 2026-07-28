@@ -84,12 +84,10 @@
                 mobileMenu.classList.add('hidden');
             }
         });
-
         const searchIconBtn = document.getElementById('search-icon-btn');
         const searchOverlay = document.getElementById('search-overlay');
         const closeSearchBtn = document.getElementById('close-search-btn');
         const searchInputOverlay = document.getElementById('search-input-overlay');
-
         if (searchIconBtn) {
             searchIconBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -97,13 +95,11 @@
                 setTimeout(() => searchInputOverlay.focus(), 50);
             });
         }
-
         if (closeSearchBtn) {
             closeSearchBtn.addEventListener('click', () => {
                 searchOverlay.style.display = 'none';
             });
         }
-
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && searchOverlay.style.display === 'flex') {
                 searchOverlay.style.display = 'none';

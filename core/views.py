@@ -21,7 +21,7 @@ from core.forms import ContactForm, NewsForm, AdminLoginForm, AdminAccountForm
 from core.email_service import send_contact_email, send_confirmation_email
 from core.uploads import file_response_for_path
 from core.security import require_admin_ip
-from core.permissions import user_is_super_admin
+from core.permissions import user_is_super_admin, user_is_panel_admin
 from core.opening_hours import (build_annuaire_horaires, current_recycling_season, evaluate_weekly_schedules, season_label, today_weekday_key, WEEKDAY_LABELS)
 from core.recherche import rechercher
 from django_ratelimit.decorators import ratelimit
@@ -39,7 +39,6 @@ def home(request):
         'gallery': gallery,
         'hero_image': hero_image,
     })
-
 
 @ratelimit(key='ip', rate='30/m', block=True)
 def decouvrir_dhuizon(request):
@@ -85,8 +84,6 @@ def tourisme(request):
         'gites': gites,
     })
 
-
-
 @ratelimit(key='ip', rate='30/m', block=True)
 def entreprises(request):
     commerces = Commerce.objects.prefetch_related('horaires').all()
@@ -126,7 +123,6 @@ def entreprises(request):
             },
         ],
     })
-
 
 @ratelimit(key='ip', rate='30/m', block=True)
 def vie_pratique(request):
@@ -226,14 +222,12 @@ def vie_pratique(request):
         'poubelle_semaine': poubelle_semaine,
     })
 
-
 @ratelimit(key='ip', rate='30/m', block=True)
 def actualite_detail(request, news_id):
     news_item = get_object_or_404(News, id=news_id, is_published=True)
     return render(request, 'actualite_detail.html', {
         'news_item': news_item
     })
-
 
 @ratelimit(key='ip', rate='5/m', block=True)
 def contact(request):
@@ -269,7 +263,6 @@ def contact(request):
         form = ContactForm(initial=initial)
     return render(request, 'contact.html', {'form': form})
 
-
 @ratelimit(key='ip', rate='30/m', block=True)
 def conseil_municipal(request):
     all_conseil = MunicipalCouncilReport.objects.all().order_by('-date')
@@ -283,7 +276,6 @@ def conseil_municipal(request):
         'prochain_conseil': prochain_conseil,
     })
 
-
 @ratelimit(key='ip', rate='30/m', block=True)
 def vie_associative(request):
     from core.models import Association
@@ -291,7 +283,6 @@ def vie_associative(request):
     return render(request, 'vie_associative.html', {
         'associations': associations,
     })
-
 
 @ratelimit(key='ip', rate='30/m', block=True)
 def association_detail(request, slug):
@@ -301,16 +292,13 @@ def association_detail(request, slug):
         'asso': asso,
     })
 
-
 @ratelimit(key='ip', rate='30/m', block=True)
 def demarches(request):
     return redirect('/vie-pratique/#demarches')
 
-
 @ratelimit(key='ip', rate='30/m', block=True)
 def etat_civil(request):
     return render(request, 'etat_civil.html')
-
 
 @ratelimit(key='ip', rate='60/m', block=True)
 def vue_recherche(request):
@@ -318,20 +306,19 @@ def vue_recherche(request):
     resultats = rechercher(q)
     return render(request, "recherche.html", {"resultats": resultats, "q": q})
 
-
 @ratelimit(key='ip', rate='60/m', block=True)
 def serve_upload(request, relative_path):
     """fichiers (PDF, images)"""
     return file_response_for_path(relative_path)
 
-# ------------#
-# PAGES ADMIN #
-# ------------#
-
 @require_admin_ip
 @ratelimit(key='ip', rate='4/m', block=True)
 def login_admin(request):
+    from core.permissions import user_is_only_centre_loisirs_admin, user_is_panel_admin
+    
     if request.user.is_authenticated and request.user.is_staff:
+        if user_is_only_centre_loisirs_admin(request.user):
+            return redirect('admin_cl_dashboard')
         return redirect('control_panel')
     
     if request.method == 'POST':
@@ -348,6 +335,8 @@ def login_admin(request):
                     require_https=request.is_secure(),
                 ):
                     return redirect(next_url)
+                if user_is_only_centre_loisirs_admin(user):
+                    return redirect('admin_cl_dashboard')
                 return redirect('control_panel')
             else:
                 messages.error(request, "Vous n'avez pas les droits d'accès administrateur.")
@@ -363,12 +352,11 @@ def logout_admin(request):
     messages.success(request, "Vous avez été déconnecté.")
     return redirect('home')
 
-
 @require_admin_ip
 @login_required(login_url='login_admin')
 @ratelimit(key='ip', rate='10/m', block=True)
 def control_panel(request):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
     today = timezone.now().date()
     views_today = PageView.objects.filter(created_at__date=today).count()
@@ -376,12 +364,11 @@ def control_panel(request):
         'views_today': views_today,
     })
 
-
 @require_admin_ip
 @login_required(login_url='login_admin')
 @ratelimit(key='ip', rate='10/m', block=True)
 def admin_settings(request):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
     from core.panel import SETTINGS_MENU
     menu = []
@@ -399,12 +386,11 @@ def admin_settings(request):
             menu.append({'title': group_title, 'items': group_items})
     return render(request, 'panel/settings.html', {'settings_groups': menu})
 
-
 @require_admin_ip
 @login_required(login_url='login_admin')
 @ratelimit(key='user', rate='120/m', block=True)
 def admin_stats(request):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
 
     now = timezone.now()
@@ -416,7 +402,6 @@ def admin_stats(request):
     else:
         first_day_prev_month = today.replace(month=today.month - 1, day=1)
 
-    # KPIs
     views_today = PageView.objects.filter(created_at__date=today).count()
     views_month = PageView.objects.filter(created_at__date__gte=first_day_of_month).count()
     views_prev_month = PageView.objects.filter(
@@ -520,17 +505,15 @@ def admin_stats(request):
     }
     return render(request, 'panel/stats.html', context)
 
-
 @require_admin_ip
 @login_required(login_url='login_admin')
 @ratelimit(key='user', rate='10/h', block=True)
 def api_realtime_count(request):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return JsonResponse({'error': 'Non autorisé'}, status=403)
     five_min_ago = timezone.now() - timedelta(minutes=5)
     count = PageView.objects.filter(created_at__gte=five_min_ago).values('session_key').distinct().count()
     return JsonResponse({'count': count})
-
 
 @require_POST
 @ratelimit(key='ip', rate='30/m', block=True)
@@ -554,12 +537,11 @@ def api_track_time(request):
             pv.save(update_fields=['time_on_page'])
     return JsonResponse({'ok': True})
 
-
 @require_admin_ip
 @login_required(login_url='login_admin')
 @ratelimit(key='user', rate='5/h', block=True)
 def api_export_csv(request):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return HttpResponse(status=403)
 
     today = timezone.now().date()
@@ -577,7 +559,6 @@ def api_export_csv(request):
             pv.device_type, pv.time_on_page if pv.time_on_page is not None else '',
         ])
     return response
-
 
 def custom_404(request, exception=None):
     return render(request, '404.html', status=404)
@@ -597,21 +578,18 @@ def ratelimited_error(request, exception=None):
 def too_many_requests(request):
     return render(request, 'ratelimited.html', status=429)
 
-
 @login_required(login_url='login_admin')
 def admin_audit_logs(request):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
 
     from django.utils import timezone
     from datetime import timedelta
     from core.models import AuditLog
 
-    # Filtrer par défaut sur les 3 derniers mois
     three_months_ago = timezone.now() - timedelta(days=90)
     logs_qs = AuditLog.objects.select_related('user').filter(created_at__gte=three_months_ago)
 
-    # Filtres optionnels
     action_filter = request.GET.get('action')
     if action_filter:
         logs_qs = logs_qs.filter(action=action_filter)
@@ -620,7 +598,6 @@ def admin_audit_logs(request):
     if user_filter:
         logs_qs = logs_qs.filter(user__username=user_filter)
 
-    # Pagination
     from django.core.paginator import Paginator
     paginator = Paginator(logs_qs, 50)
     page_number = request.GET.get('page')
@@ -638,19 +615,16 @@ def admin_audit_logs(request):
         'actions': AuditLog.Action.choices,
     })
 
-
 SINGLETON_MODELS = [
     'communeinfo', 'school', 'healthcenter', 'pharmacy',
     'seniorresidence', 'nursery', 'mediatheque', 'recyclingcenter',
     'agencepostale', 'leisurecenter', 'nextcouncilmeeting'
 ]
 
-
 def _require_super_admin(request):
     if not user_is_super_admin(request.user):
         return custom_403(request)
     return None
-
 
 def _admin_account_protected(instance, request):
     """Comptes Super Admin non modifiables depuis le panel."""
@@ -665,7 +639,7 @@ def _admin_account_protected(instance, request):
 @require_admin_ip
 @login_required(login_url='login_admin')
 def panel_crud_list(request, app_label, model_name):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
     if model_name.lower() == 'adminaccount':
         denied = _require_super_admin(request)
@@ -732,7 +706,7 @@ def panel_crud_list(request, app_label, model_name):
 @require_admin_ip
 @login_required(login_url='login_admin')
 def panel_crud_form(request, app_label, model_name, pk=None):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
     if model_name.lower() == 'adminaccount':
         denied = _require_super_admin(request)
@@ -804,7 +778,7 @@ def panel_crud_form(request, app_label, model_name, pk=None):
 @require_admin_ip
 @login_required(login_url='login_admin')
 def panel_crud_delete(request, app_label, model_name, pk):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
     if model_name.lower() == 'adminaccount':
         denied = _require_super_admin(request)
@@ -843,7 +817,7 @@ def panel_crud_delete(request, app_label, model_name, pk):
 @login_required(login_url='login_admin')
 @require_POST
 def panel_crud_toggle_publish(request, app_label, model_name, pk):
-    if not request.user.is_staff:
+    if not user_is_panel_admin(request.user):
         return custom_403(request)
     try:
         model = apps.get_model(app_label, model_name)

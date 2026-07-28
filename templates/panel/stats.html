@@ -170,13 +170,11 @@ document.addEventListener('DOMContentLoaded', function() {
     Chart.defaults.color = '#374151';
     Chart.defaults.borderColor = 'rgba(209,213,219,0.9)';
     Chart.defaults.font.family = 'system-ui, -apple-system, sans-serif';
-
     function readJson(id) {
         var el = document.getElementById(id);
         if (!el) return null;
         return JSON.parse(el.textContent);
     }
-
     var cartesianScales = {
         x: {
             display: true,
@@ -204,13 +202,11 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         },
     };
-
     function initCharts() {
         document.querySelectorAll('.bar-fill').forEach(function(bar) {
             var w = bar.dataset.width || '0';
             requestAnimationFrame(function() { bar.style.width = w; });
         });
-
         var canvas30 = document.getElementById('chart30days');
         var ctx30 = canvas30.getContext('2d');
         var labels30 = readJson('chart-labels');
@@ -222,7 +218,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var gradient2 = ctx30.createLinearGradient(0, 0, 0, 280);
         gradient2.addColorStop(0, 'rgba(124,58,237,0.3)');
         gradient2.addColorStop(1, 'rgba(124,58,237,0.02)');
-
         var chart30 = new Chart(ctx30, {
             type: 'line',
             data: {
@@ -264,7 +259,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var gradH = ctxH.createLinearGradient(0, 0, 0, 200);
         gradH.addColorStop(0, 'rgba(5,150,105,0.85)');
         gradH.addColorStop(1, 'rgba(5,150,105,0.25)');
-
         var chartHourly = new Chart(ctxH, {
             type: 'bar',
             data: {
@@ -285,7 +279,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 scales: cartesianScales,
             }
         });
-
         function doughnutChart(canvasId, emptyId, items, labelKey) {
             var canvas = document.getElementById(canvasId);
             var emptyEl = document.getElementById(emptyId);
@@ -318,26 +311,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-
         var deviceLabels = { desktop: 'Desktop', mobile: 'Mobile', tablet: 'Tablette' };
         var devicesRaw = readJson('devices-data');
         var devicesMapped = (devicesRaw || []).map(function(d) {
             return { device_type: deviceLabels[d.device_type] || d.device_type || 'Autre', count: d.count };
         });
-
         var chartCountries = doughnutChart('chartCountries', 'chartCountries-empty', readJson('countries-data'), 'country');
         var chartBrowsers = doughnutChart('chartBrowsers', 'chartBrowsers-empty', readJson('browsers-data'), 'browser');
         var chartDevices = doughnutChart('chartDevices', 'chartDevices-empty', devicesMapped, 'device_type');
-
         [chart30, chartHourly, chartCountries, chartBrowsers, chartDevices].forEach(function(ch) {
             if (ch) ch.resize();
         });
     }
-
     requestAnimationFrame(function() {
         requestAnimationFrame(initCharts);
     });
-
     setInterval(function() {
         fetch('{% url "api_realtime_count" %}', { credentials: 'same-origin' })
             .then(function(r) { return r.json(); })
@@ -349,7 +337,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 label.textContent = d.count + ' visiteur' + (d.count > 1 ? 's' : '') + ' en ligne';
             }).catch(function() {});
     }, 30000);
-
     /* animés (apres affichage) */
     var counters = document.querySelectorAll('.counter');
     var counterObserver = new IntersectionObserver(function(entries) {

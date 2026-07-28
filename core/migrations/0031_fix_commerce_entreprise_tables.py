@@ -1,8 +1,5 @@
-# Correction après application de l'ancienne migration 0029 incorrecte :
-# les données commerces se retrouvaient dans core_entreprise au lieu de core_commerce.
 
 from django.db import migrations
-
 
 def _table_exists(cursor, vendor, table_name):
     if vendor == "sqlite":
@@ -16,7 +13,6 @@ def _table_exists(cursor, vendor, table_name):
             [table_name],
         )
     return cursor.fetchone() is not None
-
 
 def fix_commerce_tables(apps, schema_editor):
     connection = schema_editor.connection
@@ -64,7 +60,6 @@ def fix_commerce_tables(apps, schema_editor):
     schema_editor.create_model(Entreprise)
     schema_editor.create_model(EntrepriseSchedule)
 
-
 def reverse_fix(apps, schema_editor):
     connection = schema_editor.connection
     vendor = connection.vendor
@@ -104,7 +99,6 @@ def reverse_fix(apps, schema_editor):
                     "ALTER TABLE core_entrepriseschedule "
                     "RENAME COLUMN commerce_id TO entreprise_id"
                 )
-
 
 class Migration(migrations.Migration):
 

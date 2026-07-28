@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from core import views
+from core import views, centre_loisirs_views, centre_loisirs_admin_views
 
 urlpatterns = [
-    # path('admin/', admin.site.urls), # dev uniquement
     path('', views.home, name='home'),
     path('decouvrir-dhuizon/', views.decouvrir_dhuizon, name='decouvrir_dhuizon'),
     path('vie-pratique/', views.vie_pratique, name='vie_pratique'),
@@ -36,7 +35,30 @@ urlpatterns = [
     path('api/export-csv/', views.api_export_csv, name='api_export_csv'),
     path('recherche/', views.vue_recherche, name='recherche'),
     path('politique-confidentialite/', views.politique_confidentialite, name='politique_confidentialite'),
+
+    path('centre-loisirs/inscription/', centre_loisirs_views.centre_loisirs_choix_dates, name='centre_loisirs_inscription'),
+    path('centre-loisirs/inscription/formulaire/', centre_loisirs_views.centre_loisirs_formulaire, name='centre_loisirs_formulaire'),
+    path('centre-loisirs/reservation/<uuid:token>/', centre_loisirs_views.centre_loisirs_reservation, name='centre_loisirs_reservation'),
+    path('centre-loisirs/confirmation/<uuid:token>/', centre_loisirs_views.centre_loisirs_confirmation, name='centre_loisirs_confirmation'),
+    path('centre-loisirs/annulation/<uuid:token>/', centre_loisirs_views.centre_loisirs_annulation, name='centre_loisirs_annulation'),
+    path('api/calendrier-loisirs/', centre_loisirs_views.api_calendrier_data, name='api_calendrier_data'),
+    
+    path('control-panel/centre-loisirs/', centre_loisirs_admin_views.admin_cl_dashboard, name='admin_cl_dashboard'),
+    path('control-panel/centre-loisirs/reservations/', centre_loisirs_admin_views.admin_cl_reservations, name='admin_cl_reservations'),
+    path('control-panel/centre-loisirs/reservations/<int:pk>/valider/', centre_loisirs_admin_views.admin_cl_valider_reservation, name='admin_cl_valider_reservation'),
+    path('control-panel/centre-loisirs/reservations/<int:pk>/refuser/', centre_loisirs_admin_views.admin_cl_refuser_reservation, name='admin_cl_refuser_reservation'),
+    path('control-panel/centre-loisirs/reservations/<int:pk>/supprimer/', centre_loisirs_admin_views.admin_cl_supprimer_reservation, name='admin_cl_supprimer_reservation'),
+    path('control-panel/centre-loisirs/jours/', centre_loisirs_admin_views.admin_cl_gestion_jours, name='admin_cl_gestion_jours'),
+    path('control-panel/centre-loisirs/historique/', centre_loisirs_admin_views.admin_cl_historique, name='admin_cl_historique'),
+    path('control-panel/centre-loisirs/jours/<str:date>/', centre_loisirs_admin_views.admin_cl_detail_jour, name='admin_cl_detail_jour'),
+    path('control-panel/centre-loisirs/calendrier/', centre_loisirs_admin_views.admin_cl_calendrier, name='admin_cl_calendrier'),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'core.views.custom_404'
 handler500 = 'core.views.custom_500'

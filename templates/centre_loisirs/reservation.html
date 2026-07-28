@@ -1,0 +1,135 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Réservation Centre de loisirs - Dhuizon{% endblock %}
+{% block meta_description %}Calendrier de réservation pour le centre de loisirs.{% endblock %}
+
+{% block extra_head %}
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<style>
+    .fc-day-ouvert { background-color: #d1fae5 !important; cursor: pointer; } 
+    .fc-day-complet { background-color: #fee2e2 !important; cursor: not-allowed; } 
+    .fc-day-ferme { background-color: #f3f4f6 !important; cursor: not-allowed; } 
+    .fc-day-ferie { background-color: #e5e7eb !important; cursor: not-allowed; } 
+    .fc-day-selected { background-color: #3b82f6 !important; color: white !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6 text-blue-900">Réservation pour {{ inscription.prenom_enfant }}</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="p-4 mb-4 rounded {% if message.tags == 'error' %}bg-red-100 text-red-700{% elif message.tags == 'warning' %}bg-orange-100 text-orange-700{% else %}bg-green-100 text-green-700{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 bg-white p-4 rounded shadow">
+            <div id="calendar"></div>
+        </div>
+        
+        <div class="bg-white p-4 rounded shadow h-fit">
+            <h2 class="text-xl font-bold mb-4">Dates sélectionnées</h2>
+            <form method="post" id="reservation-form">
+                {% csrf_token %}
+                <ul id="selected-dates-list" class="mb-4 space-y-2">
+                    <li class="text-gray-500 italic">Aucune date sélectionnée</li>
+                </ul>
+                <div id="hidden-inputs"></div>
+                <button type="submit" id="submit-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full opacity-50 cursor-not-allowed" disabled>
+                    Valider la demande de réservation
+                </button>
+            </form>
+            
+            <div class="mt-6 border-t pt-4">
+                <h3 class="font-bold mb-2">Légende</h3>
+                <ul class="space-y-1 text-sm">
+                    <li><span class="inline-block w-4 h-4 bg-green-100 mr-2 border"></span> Disponible</li>
+                    <li><span class="inline-block w-4 h-4 bg-red-100 mr-2 border"></span> Complet</li>
+                    <li><span class="inline-block w-4 h-4 bg-gray-100 mr-2 border"></span> Fermé</li>
+                    <li><span class="inline-block w-4 h-4 bg-blue-500 mr-2 border"></span> Sélectionné</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let selectedDates = [];
+    const listEl = document.getElementById('selected-dates-list');
+    const hiddenEl = document.getElementById('hidden-inputs');
+    const btn = document.getElementById('submit-btn');
+    function updateList() {
+        if (selectedDates.length === 0) {
+            listEl.innerHTML = '<li class="text-gray-500 italic">Aucune date sélectionnée</li>';
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+            hiddenEl.innerHTML = '';
+        } else {
+            listEl.innerHTML = '';
+            hiddenEl.innerHTML = '';
+            selectedDates.sort().forEach(d => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center bg-blue-50 p-2 rounded';
+                const dObj = new Date(d);
+                li.innerHTML = `<span>${dObj.toLocaleDateString('fr-FR')}</span>
+                    <button type="button" class="text-red-500 hover:text-red-700" onclick="removeDate('${d}')">&times;</button>`;
+                listEl.appendChild(li);
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'dates';
+                input.value = d;
+                hiddenEl.appendChild(input);
+            });
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    }
+    window.removeDate = function(d) {
+        selectedDates = selectedDates.filter(x => x !== d);
+        updateList();
+        calendar.render();
+    };
+    const calendarEl = document.getElementById('calendar');
+    fetch('{% url "api_calendrier_data" %}')
+        .then(res => res.json())
+        .then(data => {
+            window.calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'fr',
+                initialView: 'dayGridMonth',
+                validRange: {
+                    start: new Date()
+                },
+                selectable: false,
+                dayCellClassNames: function(arg) {
+                    const dStr = arg.date.toISOString().split('T')[0];
+                    const status = data[dStr] || 'ferme';
+                    let classes = [`fc-day-${status}`];
+                    if (selectedDates.includes(dStr)) {
+                        classes.push('fc-day-selected');
+                    }
+                    return classes;
+                },
+                dateClick: function(info) {
+                    const dStr = info.dateStr;
+                    const status = data[dStr] || 'ferme';
+                    if (status !== 'ouvert') return;
+                    if (selectedDates.includes(dStr)) {
+                        selectedDates = selectedDates.filter(x => x !== dStr);
+                    } else {
+                        selectedDates.push(dStr);
+                    }
+                    updateList();
+                    calendar.render();
+                }
+            });
+            calendar.render();
+        });
+});
+</script>
+{% endblock %}

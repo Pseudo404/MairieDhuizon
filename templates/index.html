@@ -45,15 +45,12 @@
         var banner = document.getElementById('cookie-banner');
         var btnAccept = document.getElementById('cookie-accept');
         var btnDecline = document.getElementById('cookie-decline');
-        
         function initTracking() {
             var p=window.location.pathname;
             if(p.startsWith('/admin/')||p.startsWith('/control-panel/')||p.startsWith('/login-admin/'))return;
-
             var csrfEl=document.querySelector('meta[name="csrf-token"]');
             var csrfToken=csrfEl?csrfEl.getAttribute('content'):'';
             var t=Date.now();
-
             function send(){
                 var s=Math.round((Date.now()-t)/1000);
                 if(s>1&&s<3600){ // si + de 1s et - de 1h pour innactivité puis envoyé au backend
@@ -66,30 +63,25 @@
                     }).catch(() => {});
                 }
             }
-
             document.addEventListener('visibilitychange',function(){ // minimize la page, change d'onglet etc...
                 if(document.visibilityState==='hidden')send(); // envoyer le temps passer sur la page.
             });
         }
-
         var consent = localStorage.getItem('cookieConsent');
         if (consent === 'granted') {
             initTracking();
         } else if (consent === null) {
             banner.classList.remove('hidden');
-            // temps de transition (animation)
             setTimeout(function() {
                 banner.classList.remove('translate-y-full');
             }, 50);
         }
-
         btnAccept.addEventListener('click', function() {
             localStorage.setItem('cookieConsent', 'granted');
             banner.classList.add('translate-y-full');
             setTimeout(function() { banner.classList.add('hidden'); }, 500);
             initTracking();
         });
-
         btnDecline.addEventListener('click', function() {
             localStorage.setItem('cookieConsent', 'denied');
             banner.classList.add('translate-y-full');

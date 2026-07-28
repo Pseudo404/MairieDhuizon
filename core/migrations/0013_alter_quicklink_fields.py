@@ -1,7 +1,5 @@
-# Generated migration for QuickLink model changes
 
 from django.db import migrations, models
-
 
 class Migration(migrations.Migration):
 
@@ -10,7 +8,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # Supprimer le champ 'url' et le champ 'icon' existant
         migrations.RemoveField(
             model_name='quicklink',
             name='url',
@@ -46,7 +43,6 @@ class Migration(migrations.Migration):
                 help_text='Sélectionnez une icône prédéfinie',
             ),
         ),
-        # Ajouter les nouveaux champs
         migrations.AddField(
             model_name='quicklink',
             name='page',

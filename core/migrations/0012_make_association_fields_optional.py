@@ -1,8 +1,6 @@
-# Generated migration - Make email and telephone optional for Association
 
 from django.db import migrations, models
 import django.core.validators
-
 
 class Migration(migrations.Migration):
 

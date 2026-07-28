@@ -29,6 +29,7 @@ SETTINGS_MENU = [
         ('Équipements sportifs', 'Terrains, salles et installations sportives', '⚽', 'panel_crud_list', {'app_label': 'core', 'model_name': 'sportfacility'}),
         ('Types d\'équipements sportifs', 'Catégories d\'équipements sportifs', '🏟️', 'panel_crud_list', {'app_label': 'core', 'model_name': 'sportfacilitytype'}),
         ('Centre de loisirs', 'Centre de loisirs municipal', '🎨', 'panel_crud_list', {'app_label': 'core', 'model_name': 'leisurecenter'}),
+        ('Centre de loisirs - Réservations', 'Gérer les inscriptions et les réservations', '📅', 'admin_cl_dashboard', {}),
         ('Chemins de randonnée', 'Parcours et sentiers locaux', '🥾', 'panel_crud_list', {'app_label': 'core', 'model_name': 'randonnee'}),
     ]),
     ('Autres contenus', [

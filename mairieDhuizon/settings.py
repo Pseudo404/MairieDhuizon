@@ -36,51 +36,35 @@ ADMIN_ALLOW_LOCALHOST_IN_DEBUG = os.environ.get('ADMIN_ALLOW_LOCALHOST_IN_DEBUG'
 
 if not DEBUG:
 
-    # Force HTTPS → empêche le MITM
     SECURE_SSL_REDIRECT = True
 
-    # Cookies de session uniquement en HTTPS
     SESSION_COOKIE_SECURE = True
 
-    # Cookie CSRF uniquement en HTTPS
-    # empêche l’interception du token CSRF (attaque CSRF + MITM)
     CSRF_COOKIE_SECURE = True
 
-    # HTTP Strict Transport Security (HSTS)
-    # empêche les downgrade attacks
     SECURE_HSTS_SECONDS = 15768000  # 6 mois
 
-    # protège toute l’architecture contre downgrade HTTPS
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-    # empêche toute connexion HTTP initiale (anti downgrade global)
     SECURE_HSTS_PRELOAD = True
 
-    # évite les fausses détections HTTP derrière reverse proxy
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-    # protège contre clickjacking (iframe)
     X_FRAME_OPTIONS = 'DENY'
 
     # protège contre exécution de fichiers mal interprétés (XSS indirect)
     SECURE_CONTENT_TYPE_NOSNIFF = True
 
-    # évite fuite d’URL sensibles vers sites externes
     SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
-    # protège contre vol de token CSRF via XSS
     CSRF_COOKIE_HTTPONLY = True
 
-    # protège contre vol de session via XSS
     SESSION_COOKIE_HTTPONLY = True
 
-    # protège contre CSRF (cross-site request forgery)
     SESSION_COOKIE_SAMESITE = 'Lax'
 
-    # réduit l’impact du vol de session (session hijacking)
     SESSION_COOKIE_AGE = 60 * 60 * 2  # 2 heures
 
-# upload (10 Mo) max
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
@@ -109,6 +93,7 @@ TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -139,26 +124,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mairieDhuizon.wsgi.application'
 
-#postgresql
-# if os.environ.get('DB_ENGINE') == 'postgresql':
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': os.environ.get('DB_NAME', 'mairie_dhuizon'),
-#             'USER': os.environ.get('DB_USER', ''),
-#             'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-#             'HOST': os.environ.get('DB_HOST', 'localhost'),
-#             'PORT': os.environ.get('DB_PORT', '5432'),
-#         }
-#     }
-# else:
+import dj_database_url
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600, conn_health_checks=True)
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -176,8 +155,30 @@ STATIC_URL = '/assets/'
 STATICFILES_DIRS = [BASE_DIR / 'assets']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# CLOUDINARY EN PRODUCTION POUR LES MÉDIAS (Disque éphémère de Railway)
+if not DEBUG and os.environ.get('CLOUDINARY_URL'):
+    import cloudinary
+    import cloudinary.uploader
+    import cloudinary.api
+    
+    INSTALLED_APPS.insert(0, 'cloudinary_storage')
+    INSTALLED_APPS.insert(0, 'cloudinary')
+    
+    STORAGES["default"] = {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"
+    }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block title %}Annuler une réservation - Centre de loisirs{% endblock %}
+
+{% block content %}
+<main class="container mx-auto px-4 py-16 text-center">
+    <div class="bg-white p-8 rounded shadow max-w-lg mx-auto">
+        <h1 class="text-3xl font-bold mb-4 text-red-600">Annulation de réservation</h1>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="p-4 mb-4 rounded {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% if reservation.statut != 'annulee' %}
+            <p class="text-gray-600 mb-6">Êtes-vous sûr de vouloir annuler la réservation pour <strong>{{ reservation.inscription.prenom_enfant }}</strong> le <strong>{{ reservation.date|date:"d/m/Y" }}</strong> ?</p>
+            <p class="text-sm text-gray-500 mb-6">Rappel : Les annulations doivent être faites au moins 48h à l'avance.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded mr-2">Confirmer l'annulation</button>
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-gray-800 inline-block py-2 px-6">Retour</a>
+            </form>
+        {% else %}
+            <p class="text-gray-600 mb-6">Cette réservation a déjà été annulée.</p>
+            <a href="{% url 'home' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">Retour à l'accueil</a>
+        {% endif %}
+    </div>
+</main>
+{% endblock %}

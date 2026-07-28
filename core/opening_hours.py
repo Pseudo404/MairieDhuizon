@@ -45,7 +45,6 @@ def evaluate_weekly_schedules(schedules, *, season=None):
         if s.ferme:
             slots.append({'ferme': True, 'label': 'Fermé'})
         else:
-            #"09:00 - 12:00"
             slots.append({
                 'ferme': False,
                 'ouverture': s.heure_ouverture,
@@ -91,12 +90,10 @@ def build_annuaire_horaires(queryset):
                 )
                 statut, statut_label = ('ouvert', 'Ouvert') if is_open else ('ferme', 'Fermé')
 
-        #tableau dépliant de la semaine complete
         jours_liste = []
         for jour_key in WEEKDAY_NAMES:
             slots = horaires_par_jour[jour_key]
             
-            #liste de creneaux de la journé
             creneaux = [
                 {'heure_ouverture': s.heure_ouverture, 'heure_fermeture': s.heure_fermeture}
                 for s in slots if not s.ferme and s.heure_ouverture and s.heure_fermeture

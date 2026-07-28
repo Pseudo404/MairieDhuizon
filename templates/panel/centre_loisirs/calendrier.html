@@ -1,0 +1,108 @@
+{% extends 'panel/centre_loisirs/_base_cl.html' %}
+
+{% block extra_head %}
+{{ block.super }}
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+<style>
+    /* FullCalendar overrides */
+    :root {
+        --fc-border-color: #f3f4f6;
+        --fc-neutral-bg-color: #f9fafb;
+        --fc-neutral-text-color: #6b7280;
+        --fc-today-bg-color: #eff6ff;
+    }
+    .fc-theme-standard .fc-scrollgrid { border-color: transparent; }
+    .fc-theme-standard th { padding: 1rem 0; font-weight: 700; color: #374151; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+    .fc-theme-standard td { border-color: #e5e7eb; }
+    .fc-daygrid-day-frame { padding: 0.25rem; min-height: 90px !important; }
+    .fc-daygrid-day-top { justify-content: flex-start; }
+    .fc-daygrid-day-number { font-weight: 700; color: #4b5563; text-decoration: none !important; padding: 0.25rem 0.5rem; font-size: 0.9rem; }
+    .fc-event { cursor: pointer; padding: 2px 6px; border-radius: 6px; font-weight: 600; border: none; font-size: 0.78rem; }
+    .fc-toolbar-title { font-weight: 800 !important; font-size: 1.5rem !important; color: #111827; text-transform: capitalize; }
+    .fc-button {
+        background-color: #fff !important;
+        border: 1.5px solid #e5e7eb !important;
+        color: #374151 !important;
+        border-radius: 0.625rem !important;
+        font-weight: 600 !important;
+        text-transform: capitalize !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,.05) !important;
+        transition: all .15s ease !important;
+    }
+    .fc-button:hover { background-color: #f9fafb !important; border-color: #d1d5db !important; }
+    .fc-button-active { background-color: #f3f4f6 !important; color: #111827 !important; }
+    .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+        background: #3b82f6;
+        color: #fff;
+        border-radius: 50%;
+        width: 28px; height: 28px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.8rem;
+    }
+    .fc-bg-event { opacity: 0.25 !important; border-radius: 0 !important; }
+</style>
+{% endblock %}
+
+{% block cl_content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">📅 Calendrier des réservations</h1>
+    <p class="text-gray-500">Vue d'ensemble des jours d'ouverture et du nombre d'inscrits. Cliquez sur un jour pour voir le détail.</p>
+</div>
+
+
+<div class="flex flex-wrap gap-4 mb-6">
+    <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
+        <span class="w-3.5 h-3.5 rounded-sm bg-emerald-500 inline-block shrink-0"></span>
+        <span class="text-sm font-medium text-gray-700">Inscrits (cliquer pour voir)</span>
+    </div>
+    <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
+        <span class="w-3.5 h-3.5 rounded-sm bg-red-400 inline-block shrink-0 opacity-40"></span>
+        <span class="text-sm font-medium text-gray-700">Jour fermé</span>
+    </div>
+    <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
+        <span class="w-3.5 h-3.5 rounded-sm bg-amber-400 inline-block shrink-0 opacity-40"></span>
+        <span class="text-sm font-medium text-gray-700">Ouvert (exception)</span>
+    </div>
+    <a href="{% url 'admin_cl_gestion_jours' %}"
+       class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl px-4 py-2.5 shadow-sm transition-all text-sm font-semibold ml-auto">
+        ⚙️ Gérer les jours
+    </a>
+</div>
+
+<div class="panel-card p-6 bg-white shadow rounded-2xl">
+    <div id="calendar" class="w-full"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    const eventsData = {{ events_json|safe }};
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        locale: 'fr',
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth'
+        },
+        events: eventsData,
+        firstDay: 1, // Lundi
+        height: 'auto',
+        dayMaxEvents: 3,
+        eventClick: function(info) {
+            if (info.event.url) {
+                window.location.href = info.event.url;
+                info.jsEvent.preventDefault();
+            }
+        },
+        dateClick: function(info) {
+            window.location.href = `/control-panel/centre-loisirs/jours/${info.dateStr}/`;
+        },
+        eventMouseEnter: function(info) {
+            info.el.title = info.event.title;
+        }
+    });
+    calendar.render();
+});
+</script>
+{% endblock %}
