@@ -484,3 +484,94 @@ class InscriptionCentreLoisirsForm(forms.ModelForm):
             }),
         }
 
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Formulaire d'inscription périscolaire (Garderie / Cantine) - Version PDF Exacte
+# ──────────────────────────────────────────────────────────────────────────────
+
+PHONE_VALIDATOR = RegexValidator(
+    regex=r'^[\d\s\+\-\.()]{0,20}$',
+    message="Numéro de téléphone invalide.",
+)
+
+class InscriptionPeriscolaireForm(forms.Form):
+    # ── Enfant ──
+    nom_enfant = forms.CharField(max_length=100, label="Nom", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    prenom_enfant = forms.CharField(max_length=100, label="Prénom", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    date_naissance_enfant = forms.DateField(label="Date de naissance", widget=forms.DateInput(attrs={'type': 'date', 'class': _INPUT_CLASS}))
+    classe_enfant = forms.CharField(max_length=100, label="Classe", required=False, widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+
+    # ── Responsables légaux ──
+    responsable_1_nom_prenom = forms.CharField(max_length=200, label="Responsable 1", widget=forms.TextInput(attrs={'placeholder': 'Nom et Prénom', 'class': _INPUT_CLASS}))
+    responsable_1_adresse = forms.CharField(max_length=300, label="Adresse", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    responsable_1_telephone = forms.CharField(max_length=20, label="Téléphone", validators=[PHONE_VALIDATOR], widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    responsable_1_courriel = forms.EmailField(label="Courriel", widget=forms.EmailInput(attrs={'class': _INPUT_CLASS}))
+
+    responsable_2_nom_prenom = forms.CharField(max_length=200, required=False, label="Responsable 2", widget=forms.TextInput(attrs={'placeholder': 'Nom et Prénom', 'class': _INPUT_CLASS}))
+    responsable_2_adresse = forms.CharField(max_length=300, required=False, label="Adresse", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    responsable_2_telephone = forms.CharField(max_length=20, required=False, label="Téléphone", validators=[PHONE_VALIDATOR], widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    responsable_2_courriel = forms.EmailField(required=False, label="Courriel", widget=forms.EmailInput(attrs={'class': _INPUT_CLASS}))
+
+    # ── Responsable financier ──
+    responsable_financier = forms.CharField(max_length=200, required=False, label="Nom et Prénom", widget=forms.TextInput(attrs={'placeholder': '', 'class': _INPUT_CLASS}))
+    responsable_financier_adresse = forms.CharField(max_length=300, required=False, label="Adresse", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+
+    # ── Service demandé (Grille) ──
+    # Garderie du matin
+    gm_lundi = forms.BooleanField(required=False)
+    gm_mardi = forms.BooleanField(required=False)
+    # gm_mercredi = forms.BooleanField(required=False)
+    gm_jeudi = forms.BooleanField(required=False)
+    gm_vendredi = forms.BooleanField(required=False)
+    gm_regulier = forms.BooleanField(required=False)
+    gm_occasionnel = forms.BooleanField(required=False)
+
+    # Cantine
+    can_lundi = forms.BooleanField(required=False)
+    can_mardi = forms.BooleanField(required=False)
+    # can_mercredi = forms.BooleanField(required=False)
+    can_jeudi = forms.BooleanField(required=False)
+    can_vendredi = forms.BooleanField(required=False)
+    can_regulier = forms.BooleanField(required=False)
+    can_occasionnel = forms.BooleanField(required=False)
+
+    # Garderie du soir
+    gs_lundi = forms.BooleanField(required=False)
+    gs_mardi = forms.BooleanField(required=False)
+    # gs_mercredi = forms.BooleanField(required=False)
+    gs_jeudi = forms.BooleanField(required=False)
+    gs_vendredi = forms.BooleanField(required=False)
+    gs_regulier = forms.BooleanField(required=False)
+    gs_occasionnel = forms.BooleanField(required=False)
+
+    # ── Précisions horaires ──
+    heure_arrivee = forms.TimeField(required=False, label="Heure habituelle d'arrivée le matin", widget=forms.TimeInput(attrs={'type': 'time', 'class': _INPUT_CLASS}))
+    heure_depart = forms.TimeField(required=False, label="Heure habituelle de départ le soir", widget=forms.TimeInput(attrs={'type': 'time', 'class': _INPUT_CLASS}))
+
+    # ── Santé et restauration ──
+    PAI_CHOICES = [('Oui', 'Oui'), ('Non', 'Non')]
+    pai_en_cours = forms.ChoiceField(choices=PAI_CHOICES, widget=forms.RadioSelect(attrs={'class': 'peer sr-only'}), label="PAI en cours", required=False)
+    allergies = forms.CharField(max_length=1000, required=False, label="Allergies / intolérances / consignes particulières", widget=forms.Textarea(attrs={'rows': 4, 'class': _INPUT_CLASS}))
+
+    # ── Personnes à prévenir en cas d'urgence ──
+    urgence_nom_prenom = forms.CharField(max_length=200, required=False, label="Nom et prénom", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    urgence_lien = forms.CharField(max_length=100, required=False, label="Lien avec l'enfant", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    urgence_telephone = forms.CharField(max_length=20, required=False, label="Téléphone", validators=[PHONE_VALIDATOR], widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+
+    # ── Assurance extra-scolaire ──
+    assurance_coordonnees = forms.CharField(max_length=300, required=False, label="Coordonnées de l'assurance", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    assurance_souscripteur = forms.CharField(max_length=200, required=False, label="Souscripteur", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    assurance_numero = forms.CharField(max_length=100, required=False, label="Numéro de contrat", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+
+    # ── Personnes autorisées (hors responsables légaux) ──
+    auth_1 = forms.CharField(max_length=300, required=False, label="Nom, prénom et lien avec l'enfant", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    auth_2 = forms.CharField(max_length=300, required=False, label="Nom, prénom et lien avec l'enfant", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+
+    # ── Engagement ──
+    soussigne = forms.CharField(max_length=200, required=True, label="Je soussigné(e)", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    fait_a = forms.CharField(max_length=100, required=True, label="Fait à", widget=forms.TextInput(attrs={'class': _INPUT_CLASS}))
+    le_date = forms.DateField(required=True, label="Le", widget=forms.DateInput(attrs={'type': 'date', 'class': _INPUT_CLASS}))
+    engagement_certifie = forms.BooleanField(required=True, label="Je certifie exacts les renseignements portés sur cette fiche et m'engage à signaler toute modification à la mairie.")
+    engagement_cantine = forms.BooleanField(required=True, label="Je reconnais avoir pris connaissance du règlement et des règles de vie de la cantine scolaire.")
+    engagement_garderie = forms.BooleanField(required=True, label="Je reconnais avoir pris connaissance du règlement et des règles de vie de la garderie périscolaire.")
+

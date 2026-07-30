@@ -10,6 +10,7 @@ SETTINGS_MENU = [
     ]),
     ('Vie pratique', [
         ('École', "Informations sur l'école de la commune", '🎓', 'panel_crud_list', {'app_label': 'core', 'model_name': 'school'}),
+        ('Inscription périscolaire', 'Informations et formulaire', '🎒', 'panel_crud_list', {'app_label': 'core', 'model_name': 'periscolaireinfo'}),
         ('Centre de santé', 'Centre médical et professionnels de santé', '🏥', 'panel_crud_list', {'app_label': 'core', 'model_name': 'healthcenter'}),
         ('Pharmacie', 'Coordonnées de la pharmacie locale', '💊', 'panel_crud_list', {'app_label': 'core', 'model_name': 'pharmacy'}),
         ('Résidence seniors', 'Foyer et services pour les aînés', '👵', 'panel_crud_list', {'app_label': 'core', 'model_name': 'seniorresidence'}),

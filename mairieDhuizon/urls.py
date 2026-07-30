@@ -35,6 +35,7 @@ urlpatterns = [
     path('api/export-csv/', views.api_export_csv, name='api_export_csv'),
     path('recherche/', views.vue_recherche, name='recherche'),
     path('politique-confidentialite/', views.politique_confidentialite, name='politique_confidentialite'),
+    path('inscription-periscolaire/', views.inscription_periscolaire, name='inscription_periscolaire'),
 
     path('centre-loisirs/inscription/', centre_loisirs_views.centre_loisirs_choix_dates, name='centre_loisirs_inscription'),
     path('centre-loisirs/inscription/formulaire/', centre_loisirs_views.centre_loisirs_formulaire, name='centre_loisirs_formulaire'),

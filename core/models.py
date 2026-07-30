@@ -2250,3 +2250,16 @@ class Randonnee(BaseModel):
         if not self.slug:
             self.slug = slugify(self.nom)
         super().save(*args, **kwargs)
+
+class PeriscolaireInfo(BaseModel):
+    titre = models.CharField(max_length=255, default="Inscription aux services périscolaires", verbose_name="Titre de la section")
+    presentation = models.TextField(blank=True, verbose_name="Texte de présentation", help_text="Ce texte s'affichera au-dessus du formulaire d'inscription.")
+    reglement_cantine_pdf = models.FileField(upload_to="documents/periscolaire/", blank=True, null=True, verbose_name="Règlement de la cantine (PDF)", validators=[validate_pdf_upload])
+    reglement_garderie_pdf = models.FileField(upload_to="documents/periscolaire/", blank=True, null=True, verbose_name="Règlement de la garderie (PDF)", validators=[validate_pdf_upload])
+
+    class Meta:
+        verbose_name = "Information Périscolaire"
+        verbose_name_plural = "Informations Périscolaires"
+
+    def __str__(self):
+        return self.titre

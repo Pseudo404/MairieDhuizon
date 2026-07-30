@@ -100,6 +100,9 @@ MOTS_CLES_MODELES = {
     ],
     "MunicipalCouncilor": [
         "conseiller municipal", "membre du conseil", "conseil municipal", "municipal", "conseiller", "membre", "conseillers",
+    ],
+    "PeriscolaireInfo": [
+        "périscolaire", "periscolaire", "inscription", "garderie", "cantine", "inscriptions", "inscription périscolaire", "inscription periscolaire", "activités périscolaires", "activites periscolaires", "activité périscolaire", "activite periscolaire", "inscription", "loisirs", "loisir", "centre de loisirs", "centre de loisir", "jeunesse", "jeunese", "enfant", "enfants", "midi", "soir", "matin", "vacances scolaires", "vacances", "vacance", "scolaire", "garderie", "cantine", "repas", "repas du midi", "repas du soir", "repas du matin", "repas du midi et du soir", "repas du midi et du matin", "repas du soir et du matin", "repas du midi, du soir et du matin", "manger"
     ]
 }
 
@@ -130,9 +133,10 @@ PAGES_MODELES = {
     "WasteCollectionSchedule": {"url": "/vie-pratique#collecte-dechets", "label": "Collecte des déchets"},
     "SportFacility": {"url": "/loisirs/#sport", "label": "Installations sportives"},
     "SeniorResidence": {"url": "/vie-pratique#seniors", "label": "Résidence seniors"},
+    "PeriscolaireInfo": {"url": "/inscription-periscolaire/", "label": "Inscription périscolaire"},
 }
 
-MODELES_RECHERCHE = [News, Association, School, HealthCenter, Pharmacy, Mediatheque, LieuTouristique, Nursery, WasteCollectionSchedule, RecyclingCenter, SportFacility, Commerce, Entreprise, Transport, Hebergement, Gite, AgencePostale, MunicipalCouncilor, MunicipalCouncilReport, NextCouncilMeeting, LeisureCenter, ChildcareProfessional, GlassCollectionPoint, TextileCollectionPoint, CabaneCocou, SeniorResidence]
+MODELES_RECHERCHE = [News, Association, School, HealthCenter, Pharmacy, Mediatheque, LieuTouristique, Nursery, WasteCollectionSchedule, RecyclingCenter, SportFacility, Commerce, Entreprise, Transport, Hebergement, Gite, AgencePostale, MunicipalCouncilor, MunicipalCouncilReport, NextCouncilMeeting, LeisureCenter, ChildcareProfessional, GlassCollectionPoint, TextileCollectionPoint, CabaneCocou, SeniorResidence, PeriscolaireInfo]
 
 def _modele_correspond_aux_mots_cles(nom_modele: str, q: str) -> bool:
     """verifie si le mot est dans la liste pré-établie"""

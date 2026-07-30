@@ -1,0 +1,425 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}<title>Inscription Périscolaire — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Formulaire d'inscription à la garderie et à la cantine de l'école de Dhuizon.">
+<style>
+    .pdf-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        border: 1px solid #e5e7eb;
+        font-family: Arial, sans-serif;
+        color: #000;
+    }
+    .pdf-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .pdf-title {
+        color: #174291;
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+    .pdf-subtitle {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .pdf-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    .pdf-table th, .pdf-table td {
+        border: 1px solid #000;
+        padding: 8px 12px;
+        vertical-align: middle;
+        font-size: 13px;
+    }
+    .pdf-table th.section-title {
+        background-color: #d9e1f2;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        text-transform: uppercase;
+    }
+    .pdf-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-family: inherit;
+        font-size: inherit;
+        box-shadow: 5px 4px 10px rgba(0,0,0,0.4);
+    }
+    .pdf-input:focus {
+        background: #d7ffe3;
+    }
+    .pdf-label {
+        font-weight: bold;
+        margin-right: 5px;
+        white-space: nowrap;
+    }
+    .checkbox-cell {
+        text-align: center;
+    }
+    .checkbox-cell input[type="checkbox"] {
+        width: 18px; height: 18px; cursor: pointer;
+    }
+    
+    /* Errors */
+    .field-error { color: #ef4444; font-size: 11px; display: block; margin-top: 2px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="bg-white py-12">
+    <form method="POST" action="{% url 'inscription_periscolaire' %}" novalidate class="pdf-container">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+        <div class="bg-red-50 border border-red-200 text-red-800 p-4 mb-6">
+            {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+        {% endif %}
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="p-4 mb-2 {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="pdf-header flex justify-between items-center">
+            <div class="flex-1 text-center">
+                <div class="pdf-title">FICHE D'INSCRIPTION AUX SERVICES PÉRISCOLAIRES</div>
+                <div class="pdf-subtitle">Année scolaire {{ annee_scolaire }} • Garderie du matin • Cantine • Garderie du soir</div>
+            </div>
+            <img src="{% static 'images/dhuizon.webp' %}" alt="Logo Dhuizon" class="h-20 ml-4 hidden md:block">
+        </div>
+
+        <table class="pdf-table">
+            <tr><th colspan="2" class="section-title">RENSEIGNEMENTS CONCERNANT L'ENFANT</th></tr>
+            <tr>
+                <td style="width: 50%;">
+                    <div class="flex items-center">
+                        <span class="pdf-label">Nom :</span>
+                        {{ form.nom_enfant }}
+                    </div>
+                    {% if form.nom_enfant.errors %}<span class="field-error">{{ form.nom_enfant.errors.0 }}</span>{% endif %}
+                </td>
+                <td style="width: 50%;">
+                    <div class="flex items-center">
+                        <span class="pdf-label">Prénom :</span>
+                        {{ form.prenom_enfant }}
+                    </div>
+                    {% if form.prenom_enfant.errors %}<span class="field-error">{{ form.prenom_enfant.errors.0 }}</span>{% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Date de naissance :</span>
+                        {{ form.date_naissance_enfant }}
+                    </div>
+                    {% if form.date_naissance_enfant.errors %}<span class="field-error">{{ form.date_naissance_enfant.errors.0 }}</span>{% endif %}
+                </td>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Classe :</span>
+                        {{ form.classe_enfant }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <table class="pdf-table">
+            <tr><th colspan="2" class="section-title">RESPONSABLES LÉGAUX</th></tr>
+            <tr>
+                <td style="width: 50%;">
+                    <div class="flex items-center">
+                        <span class="pdf-label">Responsable 1 :</span>
+                        {{ form.responsable_1_nom_prenom }}
+                    </div>
+                    {% if form.responsable_1_nom_prenom.errors %}<span class="field-error">{{ form.responsable_1_nom_prenom.errors.0 }}</span>{% endif %}
+                </td>
+                <td style="width: 50%;">
+                    <div class="flex items-center">
+                        <span class="pdf-label">Responsable 2 :</span>
+                        {{ form.responsable_2_nom_prenom }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Adresse :</span>
+                        {{ form.responsable_1_adresse }}
+                    </div>
+                    {% if form.responsable_1_adresse.errors %}<span class="field-error">{{ form.responsable_1_adresse.errors.0 }}</span>{% endif %}
+                </td>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Adresse :</span>
+                        {{ form.responsable_2_adresse }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Téléphone :</span>
+                        {{ form.responsable_1_telephone }}
+                    </div>
+                    {% if form.responsable_1_telephone.errors %}<span class="field-error">{{ form.responsable_1_telephone.errors.0 }}</span>{% endif %}
+                </td>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Téléphone :</span>
+                        {{ form.responsable_2_telephone }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Courriel :</span>
+                        {{ form.responsable_1_courriel }}
+                    </div>
+                    {% if form.responsable_1_courriel.errors %}<span class="field-error">{{ form.responsable_1_courriel.errors.0 }}</span>{% endif %}
+                </td>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Courriel :</span>
+                        {{ form.responsable_2_courriel }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <table class="pdf-table">
+            <tr><th colspan="2" class="section-title">RESPONSABLE FINANCIER (1 seul personne)</th></tr>
+            <tr>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Nom et Prénom :</span>
+                        {{ form.responsable_financier }}
+                    </div>
+                    {% if form.responsable_financier.errors %}<span class="field-error block">{{ form.responsable_financier.errors.0 }}</span>{% endif %}
+                </td>
+                <td>
+                    <div class="flex items-center">
+                        <span class="pdf-label">Adresse :</span>
+                        {{ form.responsable_financier_adresse }}
+                    </div>
+                    {% if form.responsable_financier_adresse.errors %}<span class="field-error block">{{ form.responsable_financier_adresse.errors.0 }}</span>{% endif %}
+                </td>
+            </tr>
+        </table>
+
+        <table class="pdf-table">
+            <tr>
+                <th style="background-color: #d9e1f2;">SERVICE DEMANDÉ</th>
+                <th style="background-color: #d9e1f2; text-align: center;">Lundi</th>
+                <th style="background-color: #d9e1f2; text-align: center;">Mardi</th>
+                <th style="background-color: #d9e1f2; text-align: center;">Jeudi</th>
+                <th style="background-color: #d9e1f2; text-align: center;">Vendredi</th>
+                <th style="background-color: #d9e1f2; text-align: center;">Régulier</th>
+                <th style="background-color: #d9e1f2; text-align: center;">Occasionnel <br> Ticket à retirer en mairie</th>
+            </tr>
+            <tr>
+                <td class="font-bold">Garderie du matin</td>
+                <td class="checkbox-cell">{{ form.gm_lundi }}</td>
+                <td class="checkbox-cell">{{ form.gm_mardi }}</td>
+                <td class="checkbox-cell">{{ form.gm_jeudi }}</td>
+                <td class="checkbox-cell">{{ form.gm_vendredi }}</td>
+                <td class="checkbox-cell">{{ form.gm_regulier }}</td>
+                <td class="checkbox-cell">{{ form.gm_occasionnel }}</td>
+            </tr>
+            <tr>
+                <td class="font-bold">Cantine</td>
+                <td class="checkbox-cell">{{ form.can_lundi }}</td>
+                <td class="checkbox-cell">{{ form.can_mardi }}</td>
+                <td class="checkbox-cell">{{ form.can_jeudi }}</td>
+                <td class="checkbox-cell">{{ form.can_vendredi }}</td>
+                <td class="checkbox-cell">{{ form.can_regulier }}</td>
+                <td class="checkbox-cell">{{ form.can_occasionnel }}</td>
+            </tr>
+            <tr>
+                <td class="font-bold">Garderie du soir</td>
+                <td class="checkbox-cell">{{ form.gs_lundi }}</td>
+                <td class="checkbox-cell">{{ form.gs_mardi }}</td>
+                <td class="checkbox-cell">{{ form.gs_jeudi }}</td>
+                <td class="checkbox-cell">{{ form.gs_vendredi }}</td>
+                <td class="checkbox-cell">{{ form.gs_regulier }}</td>
+                <td class="checkbox-cell">{{ form.gs_occasionnel }}</td>
+            </tr>
+        </table>
+        
+        <div class="mb-6 flex flex-col md:flex-row gap-8 items-start md:items-center text-sm font-bold">
+            <div class="flex items-center gap-2">
+                <span>Précisions : heure habituelle d'arrivée le matin :</span>
+                {{ form.heure_arrivee }}
+            </div>
+            <div class="flex items-center gap-2">
+                <span>heure habituelle de départ le soir :</span>
+                {{ form.heure_depart }}
+            </div>
+        </div>
+
+        <table class="pdf-table">
+            <tr>
+                <th class="section-title" style="width: 50%;">SANTÉ ET RESTAURATION</th>
+                <th class="section-title" style="width: 50%;">PERSONNES À PRÉVENIR EN CAS D'URGENCE</th>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="pdf-label">PAI en cours :</span>
+                        {% for radio in form.pai_en_cours %}
+                        <label class="flex items-center gap-1 cursor-pointer">
+                            <input type="radio" name="{{ form.pai_en_cours.html_name }}" value="{{ radio.choice_value }}" {% if radio.choice_value == form.pai_en_cours.value %}checked{% endif %}>
+                            {{ radio.choice_label }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-2 flex flex-col">
+                        <span class="pdf-label block mb-1">Allergies / intolérances / consignes particulières :</span>
+                        {{ form.allergies }}
+                    </div>
+                </td>
+                <td style="vertical-align: top;">
+                    <div class="flex items-center mb-2 w-full">
+                        <span class="pdf-label">Nom et prénom :</span>
+                        <div class="flex-1">{{ form.urgence_nom_prenom }}</div>
+                    </div>
+                    {% if form.soussigne.errors %}<span class="field-error block">{{ form.soussigne.errors.0 }}</span>{% endif %}
+                    <div class="flex items-center mb-2 w-full">
+                        <span class="pdf-label">Lien avec l'enfant :</span>
+                        <div class="flex-1">{{ form.urgence_lien }}</div>
+                    </div>
+                    {% if form.soussigne.errors %}<span class="field-error block">{{ form.soussigne.errors.0 }}</span>{% endif %}
+                    <div class="flex items-center w-full">
+                        <span class="pdf-label">Téléphone :</span>
+                        <div class="flex-1">{{ form.urgence_telephone }}</div>
+                    </div>
+                    {% if form.soussigne.errors %}<span class="field-error block">{{ form.soussigne.errors.0 }}</span>{% endif %}
+                </td>
+            </tr>
+        </table>
+
+        <table class="pdf-table">
+            <tr><th class="section-title">ASSURANCE EXTRA-SCOLAIRE</th></tr>
+            <tr>
+                <td>
+                    <div class="flex items-center mb-2 w-full">
+                        <span class="pdf-label">Companie d'assurance :</span>
+                        <div class="flex-1">{{ form.assurance_coordonnees }}</div>
+                    </div>
+                    {% if form.assurance_coordonnees.errors %}<span class="field-error block">{{ form.assurance_coordonnees.errors.0 }}</span>{% endif %}
+                    <div class="flex items-center mb-2 w-full">
+                        <span class="pdf-label">Souscripteur :</span>
+                        <div class="flex-1">{{ form.assurance_souscripteur }}</div>
+                    </div>
+                    {% if form.assurance_souscripteur.errors %}<span class="field-error block">{{ form.assurance_souscripteur.errors.0 }}</span>{% endif %}
+                    <div class="flex items-center w-full">
+                        <span class="pdf-label">Numéro de contrat :</span>
+                        <div class="flex-1">{{ form.assurance_numero }}</div>
+                    </div>
+                    {% if form.assurance_numero.errors %}<span class="field-error block">{{ form.assurance_numero.errors.0 }}</span>{% endif %}
+                </td>
+            </tr>
+        </table>
+
+        <table class="pdf-table">
+            <tr><th class="section-title">PERSONNES AUTORISÉES À RÉCUPÉRER L'ENFANT (personne majeure et hors responsables légaux)</th></tr>
+            <tr>
+                <td>
+                    <div class="flex items-center mb-2 w-full">
+                        <span class="pdf-label">Nom, prénom et lien avec l'enfant :</span>
+                        <div class="flex-1">{{ form.auth_1 }}</div>
+                    </div>
+                    <div class="flex items-center w-full">
+                        <span class="pdf-label">Nom, prénom et lien avec l'enfant :</span>
+                        <div class="flex-1">{{ form.auth_2 }}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <table class="pdf-table">
+            <tr>
+                <th class="section-title" style="width: 50%;">ENGAGEMENT DU RESPONSABLE LÉGAL</th>
+                <th class="section-title" style="width: 50%;">SIGNATURE</th>
+            </tr>
+            <tr>
+                <td style="vertical-align: top;">
+                    <div class="flex items-center mb-4 w-full">
+                        <span class="pdf-label">Je soussigné(e)</span>
+                        <div class="flex-1">{{ form.soussigne }}</div>
+                    </div>
+                    {% if form.soussigne.errors %}<span class="field-error block">{{ form.soussigne.errors.0 }}</span>{% endif %}
+                    
+                    <label class="flex items-start gap-2 cursor-pointer text-sm">
+                        {{ form.engagement_certifie }}
+                        <span>certifie exacts les renseignements portés sur cette fiche et m'engage à signaler toute modification à la mairie.</span>
+                    </label>
+                    {% if form.engagement_certifie.errors %}<span class="field-error block">{{ form.engagement_certifie.errors.0 }}</span>{% endif %}
+                    <label class="flex items-start gap-2 cursor-pointer text-sm">
+                        {{ form.engagement_cantine }}
+                        <span>Je reconnais avoir pris connaissance du règlement et des règles de vie de la cantine scolaire. 
+                        {% if periscolaire_info and periscolaire_info.reglement_cantine_pdf %}
+                        <a class="text-blue-500 font-bold underline" href="{{ periscolaire_info.reglement_cantine_pdf.url }}" target="_blank">Voir document</a>
+                        {% endif %}
+                        </span>
+                    </label>
+                    {% if form.engagement_cantine.errors %}<span class="field-error block">{{ form.engagement_cantine.errors.0 }}</span>{% endif %}
+                    <label class="flex items-start gap-2 cursor-pointer text-sm">
+                        {{ form.engagement_garderie }}
+                        <span>Je reconnais avoir pris connaissance du règlement et des règles de vie de la garderie périscolaire. 
+                        {% if periscolaire_info and periscolaire_info.reglement_garderie_pdf %}
+                        <a class="text-blue-500 font-bold underline" href="{{ periscolaire_info.reglement_garderie_pdf.url }}" target="_blank">Voir document</a>
+                        {% endif %}
+                        </span>
+                    </label>
+                    {% if form.engagement_garderie.errors %}<span class="field-error block">{{ form.engagement_garderie.errors.0 }}</span>{% endif %}
+                </td>
+                <td style="vertical-align: top;">
+                    <div class="flex items-center mb-2 w-full">
+                        <span class="pdf-label">Fait à :</span>
+                        <div class="flex-1">{{ form.fait_a }}</div>
+                    </div>
+                    {% if form.fait_a.errors %}<span class="field-error block">{{ form.fait_a.errors.0 }}</span>{% endif %}
+                    
+                    <div class="flex items-center mb-4 w-full">
+                        <span class="pdf-label">Le :</span>
+                        <div class="flex-1">{{ form.le_date }}</div>
+                    </div>
+                    {% if form.le_date.errors %}<span class="field-error block">{{ form.le_date.errors.0 }}</span>{% endif %}
+                    
+                    <div class="text-sm italic text-gray-500">
+                        Signature : En soumettant ce formulaire, vous apposez votre signature numérique.
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="text-center mt-8">
+            <button type="submit" class="bg-green-700 text-white hover:bg-green-900 hover:text-green-200 font-bold py-3 px-8 rounded shadow transition">
+                Envoyer le formulaire à la mairie
+            </button>
+        </div>
+    </form>
+</main>
+<script>
+    document.querySelectorAll('.pdf-input, input[type="text"], input[type="date"], input[type="time"], input[type="email"], textarea').forEach(el => {
+        el.classList.add('pdf-input');
+    });
+</script>
+{% endblock %}

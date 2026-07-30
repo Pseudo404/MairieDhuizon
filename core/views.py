@@ -17,8 +17,8 @@ from django.db.models.functions import TruncHour
 from django.apps import apps
 from django.forms import modelform_factory
 from core.models import (AgencePostale, CabaneCocou, ChildcareProfessional, CommuneInfo,Commerce, CommerceSchedule, Entreprise, GlassCollectionPoint, HealthCenter,Gite, HealthcareProfessional, Hebergement, LeisureCenter, LieuTouristique,Mediatheque, MunicipalCouncilReport,MunicipalCouncilor, News, NextCouncilMeeting, Nursery, PatrimoineItem, Pharmacy, QuickLink,CommuneMedia, HistoireDhuizon, RecyclingCenter, School, SeniorResidence,SportFacility, TextileCollectionPoint, Transport, WasteCollectionSchedule, PageView,DemarcheAdministrative, Randonnee)
-from core.forms import ContactForm, NewsForm, AdminLoginForm, AdminAccountForm
-from core.email_service import send_contact_email, send_confirmation_email
+from core.forms import ContactForm, NewsForm, AdminLoginForm, AdminAccountForm, InscriptionPeriscolaireForm
+from core.email_service import send_contact_email, send_confirmation_email, send_periscolaire_email
 from core.uploads import file_response_for_path
 from core.security import require_admin_ip
 from core.permissions import user_is_super_admin, user_is_panel_admin
@@ -835,3 +835,45 @@ def panel_crud_toggle_publish(request, app_label, model_name, pk):
         messages.error(request, "Cet élément n'a pas de statut de publication.")
         
     return redirect('panel_crud_list', app_label=app_label, model_name=model_name)
+
+
+@ratelimit(key='ip', rate='10/m', block=True)
+def inscription_periscolaire(request):
+    """
+    Formulaire d'inscription périscolaire (Garderie / Cantine).
+    Envoie les données par email à la mairie via Brevo.
+    """
+    # Plus de préremplissage avec un service unique puisque c'est une grille
+    initial = {}
+
+    import datetime
+    now = datetime.datetime.now()
+    if now.month < 7:
+        annee_scolaire = f"{now.year - 1}-{now.year}"
+    else:
+        annee_scolaire = f"{now.year}-{now.year + 1}"
+
+
+    if request.method == 'POST':
+        form = InscriptionPeriscolaireForm(request.POST)
+        if form.is_valid():
+            success, error_msg = send_periscolaire_email(form.cleaned_data)
+            if success:
+                messages.success(
+                    request,
+                    "Votre demande d'inscription a bien été envoyée ! "
+                    "Vous allez recevoir un accusé de réception par email."
+                )
+                return redirect('inscription_periscolaire')
+            else:
+                messages.error(
+                    request,
+                    error_msg or "Une erreur est survenue lors de l'envoi. Veuillez réessayer."
+                )
+    else:
+        form = InscriptionPeriscolaireForm(initial=initial)
+
+    from core.models import PeriscolaireInfo
+    periscolaire_info = PeriscolaireInfo.objects.first()
+
+    return render(request, 'inscription_periscolaire.html', {'form': form, 'annee_scolaire': annee_scolaire, 'periscolaire_info': periscolaire_info})
