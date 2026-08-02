@@ -7,8 +7,6 @@
 <style>
     .horaires-panel { display: none; overflow: hidden; animation: slideDown 0.25s ease; }
     .horaires-panel.open { display: block; }
-    .horaires-panel-tr { display: none; }
-    .horaires-panel-tr.open { display: table-row; animation: slideDown 0.25s ease; }
     @keyframes slideDown {
         from { opacity: 0; transform: translateY(-6px); }
         to   { opacity: 1; transform: translateY(0); }
@@ -16,7 +14,6 @@
     .badge-ouvert { background:#dcfce7; color:#166534; border:1px solid #bbf7d0; }
     .badge-ferme { background:#fee2e2; color:#991b1b; border:1px solid #fecaca; }
     .badge-non-renseigne { background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }
-    tr.row-active td { background:#f0fdf4; }
     .jour-today { background:#f0fdf4; font-weight:700; border-left:3px solid #16a34a; }
 </style>
 {% endblock %}
@@ -54,146 +51,7 @@
                 </div>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                    <thead>
-                        <tr class="bg-gray-50 border-b border-gray-200">
-                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[30%]">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-green-700 text-base">storefront</span>
-                                    Nom de l'activité
-                                </div>
-                            </th>
-                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[25%]">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-green-700 text-base">location_on</span>
-                                    Adresse
-                                </div>
-                            </th>
-                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[20%]">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-green-700 text-base">person</span>
-                                    Personnel
-                                </div>
-                            </th>
-                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[15%]">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-green-700 text-base">call</span>
-                                    Téléphone
-                                </div>
-                            </th>
-                            <th class="text-left px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 w-[10%]">
-                                Statut
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        {% for item in section.data %}
-                        <tr id="row-{{ item.row_id }}"
-                            class="hover:bg-green-50/60 transition-colors duration-150 group cursor-pointer select-none"
-                            onclick="toggleHoraires('{{ item.row_id }}')"
-                            aria-expanded="false"
-                            role="button">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-2">
-                                    <span class="font-semibold text-gray-900 group-hover:text-green-800 transition">
-                                    {{ item.fiche.nom_activite }}
-                                    </span>
-                                    {% if item.has_horaires %}
-                                    <span id="chevron-{{ item.row_id }}"
-                                        class="material-symbols-outlined text-gray-400 text-base transition-transform duration-200">
-                                        expand_more
-                                    </span>
-                                    {% endif %}
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-gray-600">
-                                {% if item.fiche.adresse %}
-                                <span class="flex items-start gap-1">
-                                    <span class="material-symbols-outlined text-gray-400 text-sm shrink-0 mt-0.5">place</span>
-                                    {{ item.fiche.adresse }}
-                                </span>
-                                {% else %}—{% endif %}
-                            </td>
-                            <td class="px-6 py-4 text-gray-600">
-                                {{ item.fiche.personnel|default:"—" }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {% if item.fiche.telephone %}
-                                <a href="tel:{{ item.fiche.telephone }}"
-                                    class="inline-flex items-center gap-1 text-green-700 font-medium hover:underline"
-                                    onclick="event.stopPropagation()">
-                                    <span class="material-symbols-outlined text-sm">call</span>
-                                    {{ item.fiche.telephone }}
-                                </a>
-                                {% else %}
-                                <span class="text-gray-400">—</span>
-                                {% endif %}
-                            </td>
-                            <td class="px-6 py-4">
-                            {% if item.has_horaires %}
-                                {% if item.statut == 'ouvert' %}
-                                    <span class="badge-ouvert inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span>
-                                        Ouvert
-                                    </span>
-                                {% elif item.statut == 'ferme' %}
-                                <span class="badge-ferme inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-red-400 inline-block"></span>
-                                    Fermé
-                                </span>
-                                {% else %}
-                                <span class="badge-non-renseigne inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
-                                    —
-                                </span>
-                                {% endif %}
-                            {% else %}
-                                <span class="badge-non-renseigne inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full">
-                                    —
-                                </span>
-                            {% endif %}
-                            </td>
-                        </tr>
-
-                        {% if item.has_horaires %}
-                        <tr id="panel-{{ item.row_id }}" class="horaires-panel-tr">
-                            <td colspan="5" class="px-0 py-0 bg-gray-50 border-b border-gray-200">
-                                <div class="px-6 py-5">
-                                    <div class="flex items-center gap-2 mb-4">
-                                        <span class="material-symbols-outlined text-green-700 text-lg">schedule</span>
-                                        <span class="font-semibold text-gray-800 text-sm">Horaires d'ouverture — {{ item.fiche.nom_activite }}</span>
-                                    </div>
-                                    <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:0.5rem;">
-                                        {% for jour in item.jours %}
-                                        <div class="rounded-lg border text-center py-3 px-1 text-xs
-                                            {% if jour.is_today %}jour-today border-green-300{% else %}border-gray-200 bg-white{% endif %}">
-                                            <div class="font-bold text-gray-700 mb-1.5">{{ jour.label|slice:":3" }}</div>
-                                            {% if jour.ferme %}
-                                            <div class="text-red-500 font-semibold">Fermé</div>
-                                            {% elif jour.non_renseigne %}
-                                            <div class="text-gray-400">—</div>
-                                            {% else %}
-                                            {% for creneau in jour.creneaux %}
-                                            <div class="text-green-700 font-semibold leading-tight {% if not forloop.first %}mt-1 pt-1 border-t border-gray-200{% endif %}">
-                                                {{ creneau.heure_ouverture|time:"H\hi" }}<br>
-                                                <span class="text-gray-400 font-normal">→</span><br>
-                                                {{ creneau.heure_fermeture|time:"H\hi" }}
-                                            </div>
-                                            {% endfor %}
-                                            {% endif %}
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="md:hidden space-y-3">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
             {% for item in section.data %}
             <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                 <div class="p-4 {% if item.has_horaires %}cursor-pointer select-none{% endif %}"
@@ -304,6 +162,7 @@
             </p>
         </div>
         {% endif %}
+        </div>
     {% endfor %}
     </section>
 </main>
@@ -314,48 +173,6 @@ sans open :
 avec open :
     display:block
 */
-function toggleHoraires(id) {
-    /*
-    on recups les elements correspondant a l'entreprise
-    Exemple avec id = "boulangerie"
-    panel :
-        panel-boulangerie
-    chevron :
-        chevron-boulangerie
-    row :
-        row-boulangerie
-    */
-    const panel = document.getElementById('panel-' + id);
-    const chevron = document.getElementById('chevron-' + id);
-    const row = document.getElementById('row-' + id);
-    if (!panel) return; // evite l'erreur si pas d'horraire
-    const isOpen = panel.classList.contains('open'); // si un déjà ouvert
-    document.querySelectorAll('.horaires-panel, .horaires-panel-tr').forEach(p => p.classList.remove('open')); // fermer tous ce ouvert sauf celui cliquer
-    document
-    .querySelectorAll('[id^="chevron-"]:not([id*="mobile"])')
-    .forEach(c => {
-        c.style.transform = ''; // rotation de la flèche haut/bas
-        c.style.color = ''; // supprimer la couleur
-    });
-    document.querySelectorAll('tr[id^="row-"]').forEach(r => r.classList.remove('row-active')); // pareil on supprime toutes les lignes actives
-    if (!isOpen) {
-        panel.classList.add('open');
-        if (chevron) {
-            chevron.style.transform = 'rotate(180deg)';
-            chevron.style.color = '#16a34a';
-        }
-        row.classList.add('row-active');
-        row.setAttribute( // accèssibilité (lecteur d'écran) ligne ouverte
-            'aria-expanded',
-            'true'
-        );
-    } else {
-        row.setAttribute( // lecteur d'écrans ligne fermé
-            'aria-expanded',
-            'false'
-        );
-    }
-}
 function toggleHorairesMobile(id) {
     const panel = document.getElementById('panel-mobile-' + id);
     const chevron = document.getElementById('chevron-mobile-' + id);
