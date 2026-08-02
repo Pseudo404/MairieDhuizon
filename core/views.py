@@ -701,6 +701,7 @@ def panel_crud_list(request, app_label, model_name):
         'objects': objects,
         'parent_instance': parent_instance,
         'is_admin_accounts': model_name.lower() == 'adminaccount',
+        'current_user_is_super_admin': user_is_super_admin(request.user),
     })
 
 @require_admin_ip

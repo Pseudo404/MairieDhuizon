@@ -42,8 +42,8 @@ def user_is_centre_loisirs_admin(user):
     Ont accès :
       - Les superusers Django
       - Les super admins (is_super_admin)
-      - Les comptes avec is_centre_loisirs
-      - Les admins classiques du panel (is_staff et compte admin existant)
+      - Les comptes avec is_centre_loisirs (accès CL uniquement)
+      - Les admins classiques avec can_access_centre_loisirs (panel + CL)
     N'ont PAS accès :
       - Les utilisateurs non authentifiés
     """
@@ -54,5 +54,8 @@ def user_is_centre_loisirs_admin(user):
     account = get_admin_account(user)
     if account is None:
         return False
-    # Super admin, centre loisirs, ou admin classique du panel
-    return account.is_super_admin or account.is_centre_loisirs or (user.is_staff and not account.is_centre_loisirs)
+    return (
+        account.is_super_admin
+        or account.is_centre_loisirs
+        or account.can_access_centre_loisirs
+    )

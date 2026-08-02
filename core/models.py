@@ -1047,8 +1047,13 @@ class AdminAccount(BaseModel):
     )
     is_centre_loisirs = models.BooleanField(
         default=False,
-        verbose_name="Est Admin Centre de Loisirs",
-        help_text="Accès restreint au panneau de gestion du centre de loisirs."
+        verbose_name="Est Admin Centre de Loisirs uniquement",
+        help_text="Accès restreint au panneau de gestion du centre de loisirs (pas d'accès au panel général)."
+    )
+    can_access_centre_loisirs = models.BooleanField(
+        default=False,
+        verbose_name="Accès Centre de Loisirs",
+        help_text="En plus de l'accès au panel général, cet admin peut aussi accéder au centre de loisirs."
     )
 
     class Meta:
@@ -1061,6 +1066,8 @@ class AdminAccount(BaseModel):
             role = "Super Admin"
         elif self.is_centre_loisirs:
             role = "Admin Centre de Loisirs"
+        elif self.can_access_centre_loisirs:
+            role = "Admin + Centre de Loisirs"
         else:
             role = "Admin Classique"
         return f"{self.user.username} ({role})"

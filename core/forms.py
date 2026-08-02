@@ -330,9 +330,14 @@ class AdminAccountForm(forms.Form):
         }),
     )
     is_centre_loisirs = forms.BooleanField(
-        label='Est Admin Centre de Loisirs',
+        label='Admin Centre de Loisirs uniquement',
         required=False,
-        help_text="Accès restreint au panneau de gestion du centre de loisirs."
+        help_text="Accès restreint au centre de loisirs seulement (pas de panel général)."
+    )
+    can_access_centre_loisirs = forms.BooleanField(
+        label='Accès Centre de Loisirs (en plus du panel)',
+        required=False,
+        help_text="Cet admin garde l'accès au panel général ET peut aussi gérer le centre de loisirs."
     )
 
     def __init__(self, *args, admin_account=None, **kwargs):
@@ -345,6 +350,7 @@ class AdminAccountForm(forms.Form):
             self.fields['first_name'].initial = user.first_name
             self.fields['last_name'].initial = user.last_name
             self.fields['is_centre_loisirs'].initial = admin_account.is_centre_loisirs
+            self.fields['can_access_centre_loisirs'].initial = admin_account.can_access_centre_loisirs
             self.fields['password'].help_text = 'Laisser vide pour conserver le mot de passe actuel.'
         else:
             self.fields['password'].required = True
@@ -387,6 +393,7 @@ class AdminAccountForm(forms.Form):
                 user.set_password(data['password'])
             user.save()
             self.admin_account.is_centre_loisirs = data.get('is_centre_loisirs', False)
+            self.admin_account.can_access_centre_loisirs = data.get('can_access_centre_loisirs', False)
             self.admin_account.save()
             return self.admin_account
 
@@ -399,7 +406,12 @@ class AdminAccountForm(forms.Form):
             is_staff=True,
             is_superuser=False,
         )
-        return AdminAccount.objects.create(user=user, is_super_admin=False, is_centre_loisirs=data.get('is_centre_loisirs', False))
+        return AdminAccount.objects.create(
+            user=user,
+            is_super_admin=False,
+            is_centre_loisirs=data.get('is_centre_loisirs', False),
+            can_access_centre_loisirs=data.get('can_access_centre_loisirs', False),
+        )
 
 class InscriptionCentreLoisirsForm(forms.ModelForm):
     class Meta:
