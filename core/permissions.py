@@ -37,10 +37,22 @@ def user_is_panel_admin(user):
     return get_admin_account(user) is not None
 
 def user_is_centre_loisirs_admin(user):
-    """ Acces au panel centre de loisirs """
+    """
+    Acces au panel centre de loisirs.
+    Ont accès :
+      - Les superusers Django
+      - Les super admins (is_super_admin)
+      - Les comptes avec is_centre_loisirs
+      - Les admins classiques du panel (is_staff et compte admin existant)
+    N'ont PAS accès :
+      - Les utilisateurs non authentifiés
+    """
     if not user.is_authenticated:
         return False
     if user.is_superuser:
         return True
     account = get_admin_account(user)
-    return account is not None and (account.is_super_admin or account.is_centre_loisirs)
+    if account is None:
+        return False
+    # Super admin, centre loisirs, ou admin classique du panel
+    return account.is_super_admin or account.is_centre_loisirs or (user.is_staff and not account.is_centre_loisirs)

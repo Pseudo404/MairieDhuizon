@@ -70,9 +70,96 @@
     .checkbox-cell input[type="checkbox"] {
         width: 18px; height: 18px; cursor: pointer;
     }
-    
+
     /* Errors */
     .field-error { color: #ef4444; font-size: 11px; display: block; margin-top: 2px; }
+
+    /* ── RESPONSIVE MOBILE ─────────────────────────────────────── */
+    @media (max-width: 767px) {
+        .pdf-container {
+            padding: 16px;
+            box-shadow: none;
+            border: none;
+        }
+        .pdf-title {
+            font-size: 17px;
+        }
+        .pdf-subtitle {
+            font-size: 12px;
+        }
+
+        /* Convertir tous les tableaux en blocs empilés */
+        .pdf-table,
+        .pdf-table thead,
+        .pdf-table tbody,
+        .pdf-table tfoot,
+        .pdf-table tr,
+        .pdf-table th,
+        .pdf-table td {
+            display: block;
+            width: 100%;
+        }
+
+        /* En-têtes de section : garder le fond bleu */
+        .pdf-table th.section-title {
+            border-bottom: 2px solid #174291;
+            margin-bottom: 0;
+        }
+
+        /* Colonnes 50/50 → pleine largeur + séparateur */
+        .pdf-table td {
+            border-top: none;
+            border-left: 3px solid #d9e1f2;
+            border-right: none;
+            border-bottom: 1px solid #c8d0e0;
+            padding: 10px 12px;
+        }
+        .pdf-table tr {
+            margin-bottom: 6px;
+            border: 1px solid #000;
+        }
+        /* Retirer la bordure double entre th et 1ère td */
+        .pdf-table tr:first-child td {
+            border-top: none;
+        }
+
+        /* Tableau des services (garderie/cantine) :
+           scroll horizontal pour garder les colonnes jours */
+        .pdf-table.services-table {
+            display: table;
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+        }
+        .pdf-table.services-table thead,
+        .pdf-table.services-table tbody,
+        .pdf-table.services-table tr,
+        .pdf-table.services-table th,
+        .pdf-table.services-table td {
+            display: revert;
+        }
+        .pdf-table.services-table {
+            font-size: 11px;
+        }
+        .pdf-table.services-table th,
+        .pdf-table.services-table td {
+            padding: 6px 4px;
+            white-space: nowrap;
+        }
+
+        /* Champs flex → colonne */
+        .pdf-table td .flex {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+        .pdf-label {
+            white-space: normal;
+        }
+        .pdf-input {
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+    }
 </style>
 {% endblock %}
 
@@ -101,7 +188,11 @@
                 <div class="pdf-title">FICHE D'INSCRIPTION AUX SERVICES PÉRISCOLAIRES</div>
                 <div class="pdf-subtitle">Année scolaire {{ annee_scolaire }} • Garderie du matin • Cantine • Garderie du soir</div>
             </div>
+            {% if site_logo %}
+            <img src="{{ site_logo.url }}" alt="Logo Dhuizon" class="h-20 ml-4 hidden md:block">
+            {% else %}
             <img src="{% static 'images/dhuizon.webp' %}" alt="Logo Dhuizon" class="h-20 ml-4 hidden md:block">
+            {% endif %}
         </div>
 
         <table class="pdf-table">
@@ -223,7 +314,7 @@
             </tr>
         </table>
 
-        <table class="pdf-table">
+        <table class="pdf-table services-table">
             <tr>
                 <th style="background-color: #d9e1f2;">SERVICE DEMANDÉ</th>
                 <th style="background-color: #d9e1f2; text-align: center;">Lundi</th>

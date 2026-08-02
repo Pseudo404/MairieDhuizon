@@ -77,6 +77,14 @@ class CommuneInfo(BaseModel):
         verbose_name="Horaires d'ouverture",
         help_text="Exemple : Lundi-Vendredi 9h-12h / 14h-17h",
     )
+    logo = models.ImageField(
+        upload_to="images/commune/",
+        blank=True,
+        null=True,
+        verbose_name="Logo de la commune",
+        help_text="Logo affiché dans le header du site et sur les formulaires. Laissez vide pour utiliser le logo par défaut.",
+        validators=[validate_image_upload],
+    )
 
     class Meta:
         verbose_name = "Information commune"
