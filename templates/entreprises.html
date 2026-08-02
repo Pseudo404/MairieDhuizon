@@ -226,29 +226,6 @@
                                 </a>
                             </div>
                             {% endif %}
-                            <dl class="mt-2 space-y-1.5 text-sm text-gray-600">
-                                {% if item.fiche.adresse %}
-                                <div class="flex gap-2">
-                                    <span class="material-symbols-outlined text-green-700 text-base shrink-0">location_on</span>
-                                    <span>{{ item.fiche.adresse }}</span>
-                                </div>
-                                {% endif %}
-                                {% if item.fiche.personnel %}
-                                <div class="flex gap-2">
-                                    <span class="material-symbols-outlined text-green-700 text-base shrink-0">person</span>
-                                    <span>{{ item.fiche.personnel }}</span>
-                                </div>
-                                {% endif %}
-                                {% if item.fiche.telephone %}
-                                <div class="flex gap-2">
-                                    <span class="material-symbols-outlined text-green-700 text-base shrink-0">call</span>
-                                    <a href="tel:{{ item.fiche.telephone }}"
-                                    class="text-green-700 font-medium hover:underline"
-                                    onclick="event.stopPropagation()">
-                                    {{ item.fiche.telephone }}
-                                    </a>
-                                </div>
-                                {% endif %}
                             </dl>
                         </div>
                         <div class="flex flex-col items-end gap-2 shrink-0">
