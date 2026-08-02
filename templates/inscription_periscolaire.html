@@ -188,8 +188,8 @@
                 <div class="pdf-title">FICHE D'INSCRIPTION AUX SERVICES PÉRISCOLAIRES</div>
                 <div class="pdf-subtitle">Année scolaire {{ annee_scolaire }} • Garderie du matin • Cantine • Garderie du soir</div>
             </div>
-            {% if site_logo %}
-            <img src="{{ site_logo.url }}" alt="Logo Dhuizon" class="h-20 ml-4 hidden md:block">
+            {% if site_logo_url %}
+            <img src="{{ site_logo_url }}" alt="Logo Dhuizon" class="h-20 ml-4 hidden md:block">
             {% else %}
             <img src="{% static 'images/dhuizon.webp' %}" alt="Logo Dhuizon" class="h-20 ml-4 hidden md:block">
             {% endif %}

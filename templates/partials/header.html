@@ -4,8 +4,8 @@
         <div class="flex items-center justify-between h-20">
             <a href="{% url 'home' %}" class="flex items-center gap-3 shrink-0">
                 <div class="flex flex-row items-center leading-tight group">
-                    {% if site_logo %}
-                    <img class="w-auto h-16 object-contain" src="{{ site_logo.url }}" alt="Logo de la Mairie">
+                    {% if site_logo_url %}
+                    <img class="w-auto h-16 object-contain" src="{{ site_logo_url }}" alt="Logo de la Mairie">
                     {% else %}
                     <img class="w-auto h-16 object-contain" src="{% static 'images/dhuizon.webp' %}" alt="Logo de la Mairie">
                     {% endif %}
