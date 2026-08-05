@@ -38,10 +38,10 @@
                             <h3 class="text-lg font-bold text-gray-800 leading-tight">{{ resa.inscription.prenom_enfant }} {{ resa.inscription.nom_enfant }}</h3>
                             <p class="text-sm font-medium text-gray-500">
                                 {{ resa.inscription.age }} ans
-                                {% if resa.inscription.age >= 11 %}
-                                    <span class="ml-1 bg-purple-100 text-purple-700 text-xs font-bold px-1.5 py-0.5 rounded-full">Ado</span>
+                                {% if resa.inscription.age >= 6 %}
+                                    <span class="ml-1 bg-green-100 text-green-700 text-xs font-bold px-1.5 py-0.5 rounded-full">+ de 6 ans</span>
                                 {% else %}
-                                    <span class="ml-1 bg-sky-100 text-sky-700 text-xs font-bold px-1.5 py-0.5 rounded-full">Enfant</span>
+                                    <span class="ml-1 bg-red-100 text-red-700 text-xs font-bold px-1.5 py-0.5 rounded-full">- de 6 ans</span>
                                 {% endif %}
                             </p>
                         </div>
@@ -103,10 +103,10 @@
                                 <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide">Informations Enfant</h4>
                                 <p><strong>Date de naissance :</strong> {{ resa.inscription.date_naissance|date:"d/m/Y" }}</p>
                                 <p><strong>Âge :</strong> {{ resa.inscription.age }} ans
-                                    {% if resa.inscription.age >= 11 %}
-                                        <span class="ml-1 bg-purple-100 text-purple-700 text-xs font-bold px-1.5 py-0.5 rounded-full">Ado</span>
+                                    {% if resa.inscription.age >= 6 %}
+                                        <span class="ml-1 bg-green-100 text-green-700 text-xs font-bold px-1.5 py-0.5 rounded-full">+ de 6 ans</span>
                                     {% else %}
-                                        <span class="ml-1 bg-sky-100 text-sky-700 text-xs font-bold px-1.5 py-0.5 rounded-full">Enfant</span>
+                                        <span class="ml-1 bg-red-100 text-red-700 text-xs font-bold px-1.5 py-0.5 rounded-full">- de 6 ans</span>
                                     {% endif %}
                                 </p>
                                 {% if resa.inscription.pai_sante %}
@@ -270,7 +270,7 @@
                                     <span class="text-sm text-gray-700">✏️ <strong>Autre motif</strong></span>
                                 </label>
                             </div>
-                            <input type="text" id="refus-custom-input-{{ resa.id }}"
+                            <input type="text" id="refus-custom-input-{{ resa.id }}" name="motif_custom"
                                 placeholder="Précisez le motif…"
                                 class="w-full mt-3 border-gray-300 rounded-xl shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 transition-all p-3 text-sm hidden">
                         </div>
@@ -306,13 +306,8 @@ document.querySelectorAll('[id^="valid-templates-"]').forEach(container => {
         radio.addEventListener('change', () => {
             if (customRadio.checked) {
                 customArea.classList.remove('hidden');
-                customArea.setAttribute('name', 'message_personnalise');
-                container.querySelectorAll('input[type="radio"]').forEach(r => {
-                    if (r !== customRadio) r.removeAttribute('name');
-                });
             } else {
                 customArea.classList.add('hidden');
-                customArea.value = '';
             }
         });
     });
@@ -326,12 +321,8 @@ document.querySelectorAll('[id^="refus-custom-radio-"]').forEach(radio => {
         r.addEventListener('change', () => {
             if (radio.checked) {
                 customInput.classList.remove('hidden');
-                customInput.setAttribute('name', 'motif');
-                allRadios.forEach(other => { if (other !== radio) other.removeAttribute('name'); });
             } else {
                 customInput.classList.add('hidden');
-                customInput.removeAttribute('name');
-                allRadios.forEach(other => other.setAttribute('name', 'motif'));
             }
         });
     });

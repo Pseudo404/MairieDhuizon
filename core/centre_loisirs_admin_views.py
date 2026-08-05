@@ -46,7 +46,7 @@ def admin_cl_dashboard(request):
 def admin_cl_reservations(request):
     if denied := _require_cl_admin(request): return denied
 
-    reservations = ReservationCentreLoisirs.objects.filter(statut='en_attente').select_related('inscription').order_by('inscription__created_at', 'date')
+    reservations = ReservationCentreLoisirs.objects.filter(statut='en_attente').select_related('inscription').order_by('date', 'inscription__created_at')
 
     return render(request, 'panel/centre_loisirs/reservations.html', {
         'reservations': reservations,
@@ -58,7 +58,12 @@ def admin_cl_valider_reservation(request, pk):
     if denied := _require_cl_admin(request): return denied
     if request.method == 'POST':
         resa = get_object_or_404(ReservationCentreLoisirs, pk=pk)
-        message_personnalise = request.POST.get('message_personnalise')
+        message_type = request.POST.get('message_type')
+        if message_type == 'custom':
+            message_personnalise = request.POST.get('message_personnalise')
+        else:
+            message_personnalise = message_type
+
         resa.statut = 'validee'
         resa.date_validation = datetime.datetime.now()
         resa.validee_par = request.user
@@ -73,7 +78,12 @@ def admin_cl_refuser_reservation(request, pk):
     if denied := _require_cl_admin(request): return denied
     if request.method == 'POST':
         resa = get_object_or_404(ReservationCentreLoisirs, pk=pk)
-        motif = request.POST.get('motif', 'Capacité maximale atteinte')
+        motif_type = request.POST.get('motif')
+        if motif_type == 'custom':
+            motif = request.POST.get('motif_custom') or 'Capacité maximale atteinte'
+        else:
+            motif = motif_type or 'Capacité maximale atteinte'
+
         resa.statut = 'refusee'
         resa.motif_refus = motif
         resa.date_validation = datetime.datetime.now()
@@ -197,7 +207,7 @@ def admin_cl_historique(request):
     elif type_filter == 'vacances':
         reservations = reservations.exclude(date__iso_week_day=3)
 
-    reservations = reservations.order_by('-date', 'inscription__nom_enfant')
+    reservations = reservations.order_by('date', 'inscription__nom_enfant')
 
     if request.GET.get('export') == 'csv':
         response = HttpResponse(content_type='text/csv')
@@ -260,7 +270,7 @@ def admin_cl_detail_jour(request, date):
             pass
 
     for r in reservations:
-        r.is_ado = r.inscription.age >= 11
+        r.is_grand = r.inscription.age >= 6
 
     return render(request, 'panel/centre_loisirs/detail_jour.html', {
         'date': date_obj,
