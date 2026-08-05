@@ -11,7 +11,7 @@ MAIRIE_SENDER_EMAIL = "cizeautom@gmail.com"
 MAIRIE_SENDER_NAME = "Mairie de Dhuizon"
 
 # refuser ou accepter au centre de loisirs
-CENTRE_LOISIRS_SENDER_EMAIL = "cizeautom@gmail.com"
+CENTRE_LOISIRS_SENDER_EMAIL = "centre-de-loisirs@dhuizon.fr"
 CENTRE_LOISIRS_SENDER_NAME = "Centre de Loisirs de Dhuizon"
 
 # inscription garderie et cantine
