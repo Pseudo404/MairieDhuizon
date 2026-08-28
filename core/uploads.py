@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import unquote
 from django.conf import settings
 from django.http import FileResponse, Http404
+from django.utils.http import content_disposition_header
 
 def _safe_media_path(relative_path: str) -> Path:
     # Décode les caractères encodés dans l'URL (%C3%A9 → é)
@@ -32,5 +33,8 @@ def file_response_for_path(relative_path: str, download_name: str | None = None)
         filename=download_name or full_path.name,
     )
     if content_type == 'application/pdf':
-        response['Content-Disposition'] = f'inline; filename="{full_path.name}"'
+        response['Content-Disposition'] = content_disposition_header(
+            as_attachment=False,
+            filename=full_path.name,
+        )
     return response
