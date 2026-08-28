@@ -350,6 +350,11 @@
                     style="width:100%;padding:11px;border-radius:9px;font-weight:700;font-size:.875rem;color:white;background:oklch(52.7% 0.154 150.069);border:none;cursor:not-allowed;opacity:.45;transition:all .15s;">
                     💾 Valider la sélection
                 </button>
+                <button type="button" id="btn-reset-default" disabled
+                    style="width:100%;padding:9px;border-radius:9px;font-weight:600;font-size:.82rem;color:#374151;background:#f3f4f6;border:1px solid #d1d5db;cursor:not-allowed;opacity:.45;transition:all .15s;"
+                    onclick="resetSelectedDates()">
+                    ↩️ Rétablir par défaut
+                </button>
                 <button type="button" onclick="clearSelection()"
                     style="width:100%;padding:9px;border-radius:9px;font-weight:600;font-size:.82rem;color:white;background:oklch(52.7% 0.154 150.069);border:none;cursor:pointer;transition:background .15s;"
                     onmouseover="this.style.background='oklch(60% 0.154 150.069)'" onmouseout="this.style.background='green'">
@@ -423,6 +428,7 @@
     const datesInput   = document.getElementById('dates-json-input');
     const calendarMonthInput = document.getElementById('calendar-month-input');
     const btnSubmit    = document.getElementById('btn-submit');
+    const btnResetDefault = document.getElementById('btn-reset-default');
     const datesList    = document.getElementById('dates-list');
     const datesPreview = document.getElementById('dates-preview');
     const motifSelect  = document.getElementById('motif-select');
@@ -530,6 +536,9 @@
         btnSubmit.style.opacity = count > 0 ? '1' : '.45';
         btnSubmit.style.cursor  = count > 0 ? 'pointer' : 'not-allowed';
         btnSubmit.style.background = count > 0 ? 'green' : 'oklch(52.7% 0.154 150.069)';
+        btnResetDefault.disabled = count === 0;
+        btnResetDefault.style.opacity = count > 0 ? '1' : '.45';
+        btnResetDefault.style.cursor = count > 0 ? 'pointer' : 'not-allowed';
         if (count > 0) {
             datesPreview.style.display = 'block';
             datesList.innerHTML = sorted.map(iso =>
@@ -543,6 +552,13 @@
         selectedDates.clear();
         updateUI();
         renderCalendar();
+    };
+    window.resetSelectedDates = function () {
+        if (selectedDates.size === 0) return;
+        if (!confirm('Rétablir les dates sélectionnées par défaut ?')) return;
+        document.querySelector('#form-validation input[name="action_type"]').value = 'retablir_defaut';
+        calendarMonthInput.value = `${year}-${String(month + 1).padStart(2, '0')}`;
+        document.getElementById('form-validation').submit();
     };
     const typeLabels = ['vacances','mercredi','ouvert','ferme'];
     window.setType = function (type, clickedLabel) {

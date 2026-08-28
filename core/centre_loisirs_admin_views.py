@@ -162,6 +162,25 @@ def admin_cl_gestion_jours(request):
             except Exception as e:
                 messages.error(request, f"Erreur : {e}")
 
+        elif action_type == 'retablir_defaut':
+            dates_json = request.POST.get('dates_json', '[]')
+            try:
+                dates_list = json.loads(dates_json)
+                dates = [
+                    datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+                    for date_str in dates_list
+                ]
+                deleted, _ = LeisureDayStatus.objects.filter(
+                    centre=centre,
+                    date__in=dates,
+                ).delete()
+                if deleted:
+                    messages.success(request, f"{deleted} date(s) rétablie(s) par défaut.")
+                else:
+                    messages.warning(request, "Aucune exception à supprimer pour ces dates.")
+            except (json.JSONDecodeError, TypeError, ValueError) as e:
+                messages.error(request, f"Erreur dans les dates : {e}")
+
         calendar_month = request.POST.get('calendar_month')
         if calendar_month:
             return redirect(f"{request.path}?month={calendar_month}")
