@@ -1,4 +1,5 @@
 {% extends 'panel/centre_loisirs/_base_cl.html' %}
+{% load upload_tags %}
 
 {% block cl_content %}
 <div class="mb-8">
@@ -140,25 +141,25 @@
                             <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide mb-3">Documents joints</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                                 {% if resa.inscription.justificatif_quotient_familial.name %}
-                                <a href="{{ resa.inscription.justificatif_quotient_familial.url }}" target="_blank"
+                                <a href="{{ resa.inscription.justificatif_quotient_familial|upload_url }}" target="_blank"
                                     class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
                                     📄 <span class="font-medium text-gray-700">Justificatif quotient familial</span>
                                 </a>
                                 {% endif %}
                                 {% if resa.inscription.livret_famille_doc.name %}
-                                <a href="{{ resa.inscription.livret_famille_doc.url }}" target="_blank"
+                                <a href="{{ resa.inscription.livret_famille_doc|upload_url }}" target="_blank"
                                     class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
                                     📄 <span class="font-medium text-gray-700">Livret de famille</span>
                                 </a>
                                 {% endif %}
                                 {% if resa.inscription.vaccins.name %}
-                                <a href="{{ resa.inscription.vaccins.url }}" target="_blank"
+                                <a href="{{ resa.inscription.vaccins|upload_url }}" target="_blank"
                                     class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
                                     📄 <span class="font-medium text-gray-700">Carnet de vaccins</span>
                                 </a>
                                 {% endif %}
                                 {% if resa.inscription.assurance_scolaire.name %}
-                                <a href="{{ resa.inscription.assurance_scolaire.url }}" target="_blank"
+                                <a href="{{ resa.inscription.assurance_scolaire|upload_url }}" target="_blank"
                                     class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
                                     📄 <span class="font-medium text-gray-700">Assurance extra-scolaire</span>
                                 </a>

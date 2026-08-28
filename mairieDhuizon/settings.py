@@ -65,7 +65,8 @@ if not DEBUG:
 
     SESSION_COOKIE_AGE = 60 * 60 * 2  # 2 heures
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
+# Les documents sont limites a 10 Mo chacun ; la requete doit accepter plusieurs fichiers.
+DATA_UPLOAD_MAX_MEMORY_SIZE = 64 * 1024 * 1024
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
 CACHES = {
@@ -158,7 +159,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STORAGES = {
     "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "core.storage.VPSMediaStorage",
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

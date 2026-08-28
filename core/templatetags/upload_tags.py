@@ -1,16 +1,12 @@
 from django import template
-from django.urls import reverse
 
 register = template.Library()
 
 """
-Fonction: Convertit FileField/ImageField en URLs sécurisées via serve_upload()
-Protection: Protège contre path traversal (../../.env est bloqué)
+Convertit FileField/ImageField en URL accessible en production.
 
-python
-<a href="/media/documents/conseil.pdf">  ← Accès direct, pas de contrôle
-
-<a href="/fichiers/documents/conseil.pdf">  ← URL via Django, sécurisée
+- Stockage local (VPS) : /fichiers/... via VPSMediaStorage + serve_upload()
+- Cloudinary (CDN)     : URL absolue https://res.cloudinary.com/...
 """
 
 @register.filter
@@ -18,9 +14,6 @@ def upload_url(file_field):
     if not file_field:
         return ''
     try:
-        name = file_field.name
+        return file_field.url
     except (AttributeError, ValueError):
         return ''
-    if not name:
-        return ''
-    return reverse('serve_upload', kwargs={'relative_path': name})

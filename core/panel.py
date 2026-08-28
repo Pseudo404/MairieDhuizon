@@ -23,6 +23,7 @@ SETTINGS_MENU = [
         ('Points de collecte du verre', 'Adresses des conteneurs verre', '♻️', 'panel_crud_list', {'app_label': 'core', 'model_name': 'glasscollectionpoint'}),
         ('Points de collecte de textiles', 'Adresses des bâches textiles', '👕', 'panel_crud_list', {'app_label': 'core', 'model_name': 'textilecollectionpoint'}),
         ('Déchèterie', "Adresse et horaires d'ouverture", '🏭', 'panel_crud_list', {'app_label': 'core', 'model_name': 'recyclingcenter'}),
+        ('Horaires Déchetterie', 'Gérer les horaires été / hiver de la déchetterie', '🕒', 'panel_crud_list', {'app_label': 'core', 'model_name': 'recyclingcenterschedule'}),
         ('Agence postale', "Coordonnées et horaires de l'agence postale", '✉️', 'panel_crud_list', {'app_label': 'core', 'model_name': 'agencepostale'}),
         ('Horaires Agence postale', 'Gérer les horaires d\'ouverture de l\'agence postale', '🕒', 'panel_crud_list', {'app_label': 'core', 'model_name': 'agencepostaleschedule'}),
     ]),
