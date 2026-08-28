@@ -11,6 +11,25 @@ from core.permissions import user_is_centre_loisirs_admin
 from core.email_service import send_reservation_validee_email, send_reservation_refusee_email
 from core.security import require_admin_ip
 
+
+def supprimer_reservations_anciennes():
+    """Supprime les réservations dont la date est passée depuis au moins un mois."""
+    today = datetime.date.today()
+    year = today.year
+    month = today.month - 1
+    if month == 0:
+        month = 12
+        year -= 1
+
+    try:
+        seuil = today.replace(year=year, month=month)
+    except ValueError:
+        seuil = today.replace(year=year, month=month, day=1)
+
+    deleted, _ = ReservationCentreLoisirs.objects.filter(date__lt=seuil).delete()
+    return deleted
+
+
 def _require_cl_admin(request):
     if not user_is_centre_loisirs_admin(request.user):
         from core.views import custom_403
@@ -143,6 +162,9 @@ def admin_cl_gestion_jours(request):
             except Exception as e:
                 messages.error(request, f"Erreur : {e}")
 
+        calendar_month = request.POST.get('calendar_month')
+        if calendar_month:
+            return redirect(f"{request.path}?month={calendar_month}")
         return redirect('admin_cl_gestion_jours')
 
     jours = LeisureDayStatus.objects.filter(centre=centre).order_by('-date')[:200]
@@ -164,6 +186,8 @@ def admin_cl_gestion_jours(request):
 @login_required(login_url='login_admin')
 def admin_cl_historique(request):
     if denied := _require_cl_admin(request): return denied
+
+    supprimer_reservations_anciennes()
 
     if request.method == 'POST':
         resa_id = request.POST.get('resa_id')

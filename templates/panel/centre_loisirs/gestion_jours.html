@@ -265,6 +265,7 @@
             {% csrf_token %}
             <input type="hidden" name="action_type" value="multi_dates">
             <input type="hidden" name="dates_json" id="dates-json-input" value="[]">
+            <input type="hidden" name="calendar_month" id="calendar-month-input" value="">
 
             
             <div style="background:oklch(52.7% 0.154 150.069);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
@@ -409,8 +410,10 @@
     const EXISTING = {{ jours_json|safe }};
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    let year  = today.getFullYear();
-    let month = today.getMonth();
+    const displayedMonth = new URLSearchParams(window.location.search).get('month');
+    const displayedMonthMatch = displayedMonth && displayedMonth.match(/^(\d{4})-(\d{2})$/);
+    let year  = displayedMonthMatch ? Number(displayedMonthMatch[1]) : today.getFullYear();
+    let month = displayedMonthMatch ? Number(displayedMonthMatch[2]) - 1 : today.getMonth();
     let selectedDates = new Set();  // 'YYYY-MM-DD'
     let currentType = 'vacances';   // vacances | mercredi | ouvert | ferme
     const calTitle     = document.getElementById('cal-title');
@@ -418,6 +421,7 @@
     const calGrid      = document.getElementById('cal-grid');
     const selBadge     = document.getElementById('sel-badge');
     const datesInput   = document.getElementById('dates-json-input');
+    const calendarMonthInput = document.getElementById('calendar-month-input');
     const btnSubmit    = document.getElementById('btn-submit');
     const datesList    = document.getElementById('dates-list');
     const datesPreview = document.getElementById('dates-preview');
@@ -584,6 +588,9 @@
     document.getElementById('btn-next').addEventListener('click', () => {
         month++; if (month > 11) { month = 0; year++; }
         renderCalendar();
+    });
+    document.getElementById('form-validation').addEventListener('submit', () => {
+        calendarMonthInput.value = `${year}-${String(month + 1).padStart(2, '0')}`;
     });
     renderHeaders();
     renderCalendar();
