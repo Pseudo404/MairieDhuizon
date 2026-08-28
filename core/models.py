@@ -2277,4 +2277,4 @@ class PeriscolaireInfo(BaseModel):
         verbose_name_plural = "Informations Périscolaires"
 
     def __str__(self):
-        return self.titre
+        return self.titre
