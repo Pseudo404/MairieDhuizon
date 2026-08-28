@@ -65,9 +65,13 @@ def centre_loisirs_formulaire(request):
             inscriptions_creees = []
             resas_creees_global = []
 
-            i = 0
             MAX_ENFANTS = 10
-            while f'nom_enfant_{i}' in request.POST and i < MAX_ENFANTS:
+            enfant_indices = sorted({
+                int(key.rsplit('_', 1)[1])
+                for key in request.POST
+                if key.startswith('nom_enfant_') and key.rsplit('_', 1)[1].isdigit()
+            })[:MAX_ENFANTS]
+            for i in enfant_indices:
                 nom_enfant = request.POST.get(f'nom_enfant_{i}')
                 prenom_enfant = request.POST.get(f'prenom_enfant_{i}')
                 date_naissance = request.POST.get(f'date_naissance_{i}')
@@ -119,8 +123,6 @@ def centre_loisirs_formulaire(request):
                     
                     if resas_creees:
                         send_reservation_demande_email(inscription, resas_creees)
-
-                i += 1
 
             if inscriptions_creees:
                 return redirect('centre_loisirs_confirmation', token=inscriptions_creees[0].token)
