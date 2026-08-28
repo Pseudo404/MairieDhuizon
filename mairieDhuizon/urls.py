@@ -18,6 +18,8 @@ urlpatterns = [
     path('vie-associative/', views.vie_associative, name='vie_associative'),
     path('vie-associative/<slug:slug>/', views.association_detail, name='association_detail'),
     path('fichiers/<path:relative_path>', views.serve_upload, name='serve_upload'),
+    # Rétrocompatibilité : anciens liens /media/ (admin Django, favoris…)
+    path('media/<path:relative_path>', views.serve_upload, name='serve_media_legacy'),
     path('control-panel/', views.control_panel, name='control_panel'),
     path('control-panel/parametres/', views.admin_settings, name='admin_settings'),
     path('control-panel/manage/<str:app_label>/<str:model_name>/', views.panel_crud_list, name='panel_crud_list'),
