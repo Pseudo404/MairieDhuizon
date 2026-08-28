@@ -5,6 +5,7 @@ from django.core.validators import FileExtensionValidator
 ALLOWED_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif']
 ALLOWED_PDF_EXTENSIONS = ['pdf']
 ALLOWED_DOCUMENT_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png', 'webp', 'gif']
+MAX_INSCRIPTION_DOCUMENT_SIZE = 10 * 1024 * 1024
 
 validate_image_upload = FileExtensionValidator(
     allowed_extensions=ALLOWED_IMAGE_EXTENSIONS,
@@ -18,6 +19,10 @@ validate_document_upload = FileExtensionValidator(
     allowed_extensions=ALLOWED_DOCUMENT_EXTENSIONS,
     message='Format non autorisé. Utilisez : PDF, JPG, PNG ou WEBP.',
 )
+
+def validate_inscription_document_size(value):
+    if value and value.size > MAX_INSCRIPTION_DOCUMENT_SIZE:
+        raise ValidationError('Chaque document ne doit pas dépasser 10 Mo.')
 
 _UNSAFE_URL_SCHEMES = re.compile(r'^(javascript|data|vbscript):', re.I) # interdi d'avoir dans le lien "javascript:", "data:" ou "vbscript:", XSS
 

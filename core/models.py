@@ -17,7 +17,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import EmailValidator, RegexValidator
 from django.urls import reverse
-from core.validators import validate_image_upload, validate_pdf_upload, validate_safe_link_url, validate_document_upload
+from core.validators import validate_image_upload, validate_pdf_upload, validate_safe_link_url, validate_document_upload, validate_inscription_document_size
 
 class BaseModel(models.Model):
     """ Modèle de base """
@@ -1355,17 +1355,17 @@ class InscriptionCentreLoisirs(BaseModel):
     email_2 = models.EmailField(blank=True, verbose_name="Email (Responsable 2)")
 
     coefficient_familial = models.CharField(max_length=50, blank=True, verbose_name="Coefficient familial")
-    justificatif_quotient_familial = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Justificatif quotient familial")
+    justificatif_quotient_familial = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Justificatif quotient familial")
     
     livret_famille = models.BooleanField(default=False, verbose_name="Livret de famille fourni (Ancien)")
-    livret_famille_doc = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Livret de famille (Document)")
-    jugement_familial = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Jugement familial")
-    personnes_habilitees_identite = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Pièce d'identité (Personnes habilitées)")
+    livret_famille_doc = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Livret de famille (Document)")
+    jugement_familial = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Jugement familial")
+    personnes_habilitees_identite = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Pièce d'identité (Personnes habilitées)")
     personnes_habilitees_texte = models.TextField(blank=True, verbose_name="Personnes habilitées à venir chercher l'enfant")
     
     pai_sante = models.TextField(blank=True, verbose_name="PAI informations de santé (lunettes, fauteuil, etc.)")
-    vaccins = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Vaccins")
-    assurance_scolaire = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload], blank=True, null=True, verbose_name="Assurance extra-scolaire")
+    vaccins = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Vaccins")
+    assurance_scolaire = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Assurance extra-scolaire")
 
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
