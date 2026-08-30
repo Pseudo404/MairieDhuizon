@@ -170,31 +170,33 @@
             <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
         </div>
         <div class="mx-auto max-w-7xl px-6">
-            <div class="bg-green-700 px-5 py-4 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
-                    <span class="material-symbols-outlined text-white text-lg">edit_square</span>
+            <div class="rounded-2xl">
+                <div class="mb-2 px-5 py-4 flex items-center gap-3" style="background:#0f766e">
+                    <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-outlined text-white text-lg">edit_square</span>
+                    </div>
+                    <h3 class="text-white font-medium text-sm">Inscriptions</h3>
                 </div>
-                <h3 class="text-white font-medium text-sm leading-snug">Inscriptions</h3>
-            </div>
-            <div class="grid mb-8 gap-6 md:grid-cols-3 max-w-5xl mx-auto">
-                <a href="{% url 'centre_loisirs_inscription' %}" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
-                    <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">sports_esports</span>
-                    <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Centre de Loisirs</h3>
-                    <p class="text-gray-600 relative z-10">Inscription pour les mercredis et les vacances scolaires.</p>
-                </a>
-                <a href="{% url 'inscription_periscolaire' %}?service=cantine" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
-                    <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">restaurant</span>
-                    <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Cantine Scolaire</h3>
-                    <p class="text-gray-600 relative z-10">Inscription à la cantine scolaire.</p>
-                </a>
-                <a href="{% url 'inscription_periscolaire' %}?service=garderie" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
-                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
-                    <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">child_care</span>
-                    <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Garderie</h3>
-                    <p class="text-gray-600 relative z-10">Inscription à la garderie du matin et du soir.</p>
-                </a>
+                <div class="grid mb-8 gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+                    <a href="{% url 'centre_loisirs_inscription' %}" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
+                        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                        <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">sports_esports</span>
+                        <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Centre de Loisirs</h3>
+                        <p class="text-gray-600 relative z-10">Inscription pour les mercredis et les vacances scolaires.</p>
+                    </a>
+                    <a href="{% url 'inscription_periscolaire' %}?service=cantine" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
+                        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                        <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">restaurant</span>
+                        <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Cantine Scolaire</h3>
+                        <p class="text-gray-600 relative z-10">Inscription à la cantine scolaire.</p>
+                    </a>
+                    <a href="{% url 'inscription_periscolaire' %}?service=garderie" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
+                        <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                        <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">child_care</span>
+                        <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Garderie</h3>
+                        <p class="text-gray-600 relative z-10">Inscription à la garderie du matin et du soir.</p>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8 items-stretch">
