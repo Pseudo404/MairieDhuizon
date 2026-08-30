@@ -170,8 +170,11 @@
             <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
         </div>
         <div class="mx-auto max-w-7xl px-6">
-            <div class="mb-10 flex items-center justify-center">
-                <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Inscriptions</h2>
+            <div class="bg-green-700 px-5 py-4 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-white text-lg">edit_square</span>
+                </div>
+                <h3 class="text-white font-medium text-sm leading-snug">Inscriptions</h3>
             </div>
             <div class="grid mb-8 gap-6 md:grid-cols-3 max-w-5xl mx-auto">
                 <a href="{% url 'centre_loisirs_inscription' %}" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
