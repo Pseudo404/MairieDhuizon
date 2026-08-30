@@ -35,7 +35,7 @@
             </div>
             {% if news_item.image %}
             <div class="w-full md:w-2/5 py-2 mt-2 flex justify-center">
-                <img src="{{ news_item.image|upload_url }}" alt="{{ news_item.title }}" class="w-full max-h-72 object-cover rounded-2xl shadow-lg">
+                <img src="{{ news_item.image|upload_url }}" alt="{{ news_item.title }}" class="w-full object-contain rounded-2xl shadow-lg">
             </div>
             {% endif %}
         </div>
