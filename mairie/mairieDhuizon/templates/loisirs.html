@@ -1,0 +1,117 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block extra_head %}
+<meta name="description" content="Découvrez les activités de loisirs, les équipements sportifs, le centre de loisirs et les chemins de randonnée proposés par la commune de Dhuizon.">
+{% endblock %}*
+{% block content %}
+<div class="bg-gradient-to-br from-green-800 to-green-950 text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+    <div class="container mx-auto px-4 py-16 md:py-24 relative z-10 text-center">
+        <span class="material-symbols-outlined text-5xl md:text-6xl text-white mb-4 animate-bounce">directions_run</span>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">Loisirs & Sports</h1>
+        <p class="text-lg md:text-2xl text-white max-w-3xl mx-auto font-light leading-relaxed">
+            Profitez des installations sportives et des chemins de randonnée pour vos activités en plein air.
+        </p>
+    </div>
+</div>
+<main class="bg-gray-50 py-12 md:py-20 relative">
+    <section class="container mx-auto px-4 max-w-6xl">
+        <section id="sport" class="scroll-mt-24 mb-16">
+            <div class="flex items-center gap-3 mb-8 justify-center md:justify-start">
+                <span class="material-symbols-outlined text-green-700 text-3xl">sports_soccer</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Équipements sportifs</h2>
+            </div>
+            {% if sports %}
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for sport in sports %}
+                <article class="group bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    {% if sport.image %}
+                    <img src="{{ sport.image|upload_url }}" alt="{{ sport.nom }}" class="h-40 w-full object-cover">
+                    {% else %}
+                    <div class="h-2 bg-green-700 w-full"></div>
+                    {% endif %}
+                    <div class="p-5 {% if sport.image %}border-t border-gray-100{% endif %}">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-green-700">{{ sport.type_equipement }}</span>
+                        <h3 class="text-lg font-bold text-gray-900 mt-1">{{ sport.nom }}</h3>
+                        {% if sport.description %}<p class="text-sm text-gray-600 mt-2 leading-relaxed">{{ sport.description }}</p>{% endif %}
+                        {% if sport.adresse %}
+                        <p class="text-sm text-gray-600 mt-2 flex items-start gap-1">
+                            <span class="material-symbols-outlined text-green-800 text-base shrink-0">place</span>
+                            {{ sport.adresse }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-center text-gray-500 bg-white p-8 rounded-2xl shadow-sm border border-gray-200">Aucun équipement sportif enregistré.</p>
+            {% endif %}
+        </section>
+        <section id="centre-loisirs" class="scroll-mt-24 pt-8 border-t border-green-200/80 mb-16">
+            <div class="flex items-center gap-3 mb-8 justify-center md:justify-start">
+                <span class="material-symbols-outlined text-green-700 text-3xl">family_star</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Centre de loisirs</h2>
+            </div>
+            <a href="{% url 'vie_pratique' %}#jeunesse" class="group block max-w-2xl mx-auto md:mx-0">
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden flex flex-col sm:flex-row transition-all duration-300 hover:shadow-xl hover:border-green-400 hover:-translate-y-1">
+                    <div class="sm:w-2/5 bg-gradient-to-br from-green-700 to-green-900 flex items-center justify-center min-h-[140px] p-8">
+                        <span class="material-symbols-outlined text-white text-7xl group-hover:scale-110 transition-transform duration-500">sports_gymnastics</span>
+                    </div>
+                    <div class="p-6 sm:w-3/5 flex flex-col justify-center gap-3">
+                        <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide w-fit">Accueil de loisirs</span>
+                        <h3 class="text-xl font-bold text-gray-900">Centre de loisirs municipal</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">Retrouvez toutes les informations sur le centre de loisirs : horaires, contacts et activités proposées aux enfants.</p>
+                        <span class="inline-flex items-center gap-2 text-green-700 font-bold text-sm group-hover:text-green-800 transition-colors mt-1">
+                            Voir les infos <span class="material-symbols-outlined text-base">arrow_forward</span>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </section>
+        <section id="randonnees" class="scroll-mt-24 pt-8 border-t border-green-200/80">
+            <div class="flex items-center gap-3 mb-8 justify-center md:justify-start">
+                <span class="material-symbols-outlined text-green-700 text-3xl">hiking</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-900">Chemins de randonnée</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% if randonnees %}
+                {% for randonnee in randonnees %}
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col sm:flex-row group border border-gray-200 transition-all hover:border-green-400 hover:shadow-lg">
+                    <div class="sm:w-2/5 bg-green-100 relative min-h-[160px] sm:min-h-full flex items-center justify-center overflow-hidden">
+                        {% if randonnee.image_principale %}
+                        <img src="{{ randonnee.image_principale|upload_url }}" alt="{{ randonnee.nom }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                        {% else %}
+                        <span class="material-symbols-outlined text-green-600 text-6xl group-hover:scale-110 transition-transform duration-500">landscape</span>
+                        {% endif %}
+                        <div class="absolute inset-0 bg-green-700/10"></div>
+                    </div>
+                    <div class="p-6 sm:w-3/5 flex flex-col justify-center">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wide">{{ randonnee.get_niveau_difficulte_display }}</span>
+                            <span class="text-gray-500 text-sm flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">schedule</span> {{ randonnee.temps_parcours }}</span>
+                            <span class="text-gray-500 text-sm flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">straighten</span> {{ randonnee.distance_km }} km</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">{{ randonnee.nom }}</h3>
+                        <p class="text-gray-600 text-sm mb-4">{{ randonnee.description_courte }}</p>
+                        <div class="mt-auto">
+                            <a href="{% url 'randonnee_detail' randonnee.slug %}" class="inline-flex items-center gap-2 text-green-700 font-bold hover:text-green-800 transition-colors">
+                                Plus d'infos <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="col-span-full text-center text-gray-500 bg-white p-8 rounded-2xl shadow-sm border border-gray-200">Aucun chemin de randonnée enregistré.</p>
+                {% endif %}
+            </div>
+            <div class="mt-8 bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center text-amber-900 max-w-3xl mx-auto shadow-sm">
+                <span class="material-symbols-outlined text-amber-500 text-4xl mb-2">map</span>
+                <h3 class="text-lg font-bold mb-2">D'autres parcours à venir</h3>
+                <p class="text-sm">La mairie mettra prochainement à disposition des cartes détaillées et des tracés GPS pour toutes les randonnées praticables autour de la commune.</p>
+            </div>
+        </section>
+    </section>
+</main>
+{% endblock %}

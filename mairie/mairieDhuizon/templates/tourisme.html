@@ -1,0 +1,313 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}<title>Tourisme — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Découvrez les attractions touristiques de Dhuizon : Chambord, les Cabanes Coocou, l'Auberge du Grand Dauphin et les lieux incontournables de la région.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+{% block content %}
+<main class="bg-gradient-to-b from-green-50 to-white min-h-screen text-gray-900">
+    {% if hero_image %}
+    <section id="tourisme-hero" class="relative w-full flex items-end overflow-hidden"
+        style="background-color: #166534; min-height: 20rem;">
+        <img src="{{ hero_image.image|upload_url }}" alt="Tourisme Dhuizon"
+             style="display:block; width:100%; height:auto; max-height:520px; object-fit:contain; position:relative; z-index:0;">
+    {% else %}
+    <section id="tourisme-hero" class="relative w-full flex items-end overflow-hidden"
+        style="background: linear-gradient(135deg, #14532d 0%, #166534 60%, #15803d 100%); min-height: 20rem;">
+    {% endif %}
+        <div class="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/75 via-black/30 to-transparent px-4 md:px-8 pb-8 pt-20">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-wrap gap-3 mt-6">
+                    <a href="#a-visiter" class="inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                        <span class="material-symbols-outlined text-base">place</span> À visiter
+                    </a>
+                    <a href="#cabanes-cocou" class="inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                        <span class="material-symbols-outlined text-base">cabin</span> Cabanes Coocou
+                    </a>
+                    <a href="#hebergements" class="inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                        <span class="material-symbols-outlined text-base">hotel</span> Hôtel
+                    </a>
+                    <a href="#gites" class="inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-xl text-sm font-medium transition">
+                        <span class="material-symbols-outlined text-base">cottage</span> Gîtes
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mx-auto max-w-7xl px-4 md:px-6 pt-10 pb-16">
+        <section id="a-visiter" class="scroll-mt-6 mb-16">
+            <div class="flex items-center justify-center gap-4 mb-10">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap">À visiter</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+            {% if lieux %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for lieu in lieux %}
+                <article class="group bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    {% if lieu.image %}
+                    <div class="h-44 overflow-hidden">
+                        <img src="{{ lieu.image|upload_url }}" alt="{{ lieu.nom }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    </div>
+                    {% else %}
+                    <div class="h-2 bg-green-700 w-full"></div>
+                    {% endif %}
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-900 mb-1">{{ lieu.nom }}</h3>
+                        {% if lieu.description %}
+                        <p class="text-sm text-gray-600 leading-relaxed mb-3">{{ lieu.description }}</p>
+                        {% endif %}
+                        <div class="flex flex-wrap gap-3 mt-3">
+                            {% if lieu.temps_trajet %}
+                            <span class="inline-flex items-center gap-1 text-xs font-semibold bg-green-50 border border-green-200 text-green-800 px-3 py-1.5 rounded-full">
+                                <span class="material-symbols-outlined text-sm">directions_car</span>
+                                {{ lieu.temps_trajet }}
+                            </span>
+                            {% endif %}
+                            {% if lieu.distance_km %}
+                            <span class="inline-flex items-center gap-1 text-xs font-semibold bg-green-50 border border-green-200 text-green-800 px-3 py-1.5 rounded-full">
+                                <span class="material-symbols-outlined text-sm">route</span>
+                                {{ lieu.distance_km }} km
+                            </span>
+                            {% endif %}
+                        </div>
+                        {% if lieu.lien %}
+                        <a href="{{ lieu.lien }}" target="_blank" rel="noopener noreferrer"
+                           class="mt-4 inline-flex items-center gap-1 text-sm text-green-700 font-semibold hover:text-green-900 hover:underline transition">
+                            <span class="material-symbols-outlined text-base">open_in_new</span>
+                            Site officiel
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                <span class="material-symbols-outlined text-5xl text-green-300 mb-3 block">travel_explore</span>
+                <p class="text-gray-500">Aucun lieu touristique renseigné pour le moment.<br>
+                <span class="text-sm">Ajoutez-en depuis le panneau d'administration.</span></p>
+            </div>
+            {% endif %}
+        </section>
+        <section id="cabanes-cocou" class="scroll-mt-6 mb-16 pt-8 border-t border-green-200/80">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap">Cabanes Coocou</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+            <p class="text-center text-gray-600 max-w-2xl mx-auto mb-10 text-base leading-relaxed">
+                Des hébergements insolites, nichés au cœur de la forêt solognote. Un projet ambitieux pour développer le tourisme durable à Dhuizon.
+            </p>
+            {% if cabanes %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for cabane in cabanes %}
+                <article class="group bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    {% if cabane.image %}
+                    <div class="h-44 overflow-hidden relative">
+                        <img src="{{ cabane.image|upload_url }}" alt="{{ cabane.nom }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                        <div class="absolute top-3 right-3">
+                            <span class="text-xs font-bold px-3 py-1.5 rounded-full shadow
+                                {% if cabane.statut == 'ouvert' %}bg-green-500 text-white
+                                {% elif cabane.statut == 'en_construction' %}bg-orange-400 text-white
+                                {% else %}bg-blue-500 text-white{% endif %}">
+                                {{ cabane.get_statut_display }}
+                            </span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="h-2 w-full {% if cabane.statut == 'ouvert' %}bg-green-500{% elif cabane.statut == 'en_construction' %}bg-orange-400{% else %}bg-blue-500{% endif %}"></div>
+                    {% endif %}
+                    <div class="p-5">
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <h3 class="text-lg font-bold text-gray-900">{{ cabane.nom }}</h3>
+                            {% if not cabane.image %}
+                            <span class="shrink-0 text-xs font-bold px-2.5 py-1 rounded-full
+                                {% if cabane.statut == 'ouvert' %}bg-green-100 text-green-800
+                                {% elif cabane.statut == 'en_construction' %}bg-orange-100 text-orange-800
+                                {% else %}bg-blue-100 text-blue-800{% endif %}">
+                                {{ cabane.get_statut_display }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-3">{{ cabane.description }}</p>
+                        <dl class="space-y-1.5 text-sm mt-3">
+                            {% if cabane.capacite %}
+                            <div class="flex gap-2 text-gray-600">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">group</span>
+                                Jusqu'à {{ cabane.capacite }} personnes
+                            </div>
+                            {% endif %}
+                            {% if cabane.tarif %}
+                            <div class="flex gap-2 text-gray-600">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">euro</span>
+                                {{ cabane.tarif }}
+                            </div>
+                            {% endif %}
+                        </dl>
+                        {% if cabane.lien %}
+                        <a href="{{ cabane.lien }}" target="_blank" rel="noopener noreferrer"
+                           class="mt-4 inline-flex items-center gap-1 text-sm text-green-700 font-semibold hover:text-green-900 hover:underline transition">
+                            <span class="material-symbols-outlined text-base">open_in_new</span>
+                            Réserver / En savoir plus
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="bg-white border-2 border-dashed border-green-200 rounded-2xl p-10 text-center">
+                <span class="material-symbols-outlined text-6xl text-green-300 mb-4 block">cabin</span>
+                <h3 class="text-xl font-bold text-green-900 mb-2">Projet en cours</h3>
+                <p class="text-gray-600 max-w-lg mx-auto text-sm leading-relaxed">
+                    Les Cabanes Coocou seront bientôt construites à Dhuizon. 
+                    Ce projet d'hébergement insolite en pleine nature solognote est en cours de développement.
+                    Restez connectés pour les prochaines annonces !
+                </p>
+                <div class="mt-6 inline-flex items-center gap-2 bg-green-100 text-green-800 px-5 py-2.5 rounded-full text-sm font-semibold border border-green-200">
+                    <span class="material-symbols-outlined text-base">schedule</span>
+                    Bientôt disponible
+                </div>
+            </div>
+            {% endif %}
+        </section>
+        <section id="gites" class="scroll-mt-6 mb-16 pt-8 border-t border-green-200/80">
+            <div class="flex items-center justify-center gap-4 mb-10">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap">Gîtes</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+            {% if gites %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for gite in gites %}
+                <article class="group bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    {% if gite.image %}
+                    <div class="h-44 overflow-hidden">
+                        <img src="{{ gite.image|upload_url }}" alt="{{ gite.nom }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    </div>
+                    {% else %}
+                    <div class="h-2 bg-green-700 w-full"></div>
+                    {% endif %}
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ gite.nom }}</h3>
+                        {% if gite.description %}
+                        <p class="text-sm text-gray-600 leading-relaxed mb-3">{{ gite.description }}</p>
+                        {% endif %}
+                        <dl class="space-y-1.5 text-sm text-gray-700 mt-3">
+                            {% if gite.adresse %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">location_on</span>
+                                <span>{{ gite.adresse }}</span>
+                            </div>
+                            {% endif %}
+                            {% if gite.capacite %}
+                            <div class="flex gap-2 text-gray-600">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">group</span>
+                                Jusqu'à {{ gite.capacite }} personnes
+                            </div>
+                            {% endif %}
+                            {% if gite.tarif %}
+                            <div class="flex gap-2 text-gray-600">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">euro</span>
+                                {{ gite.tarif }}
+                            </div>
+                            {% endif %}
+                            {% if gite.telephone %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">call</span>
+                                <a href="tel:{{ gite.telephone }}" class="text-green-800 font-medium hover:underline">{{ gite.telephone }}</a>
+                            </div>
+                            {% endif %}
+                            {% if gite.email %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">mail</span>
+                                <a href="mailto:{{ gite.email }}" class="text-green-800 hover:underline break-all">{{ gite.email }}</a>
+                            </div>
+                            {% endif %}
+                        </dl>
+                        {% if gite.site_web %}
+                        <a href="{{ gite.site_web }}" target="_blank" rel="noopener noreferrer"
+                           class="mt-4 inline-flex items-center gap-1 text-sm text-green-700 font-semibold hover:text-green-900 hover:underline transition">
+                            <span class="material-symbols-outlined text-base">open_in_new</span>
+                            Voir le site web
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                <span class="material-symbols-outlined text-5xl text-green-300 mb-3 block">cottage</span>
+                <p class="text-gray-500">Aucun gîte renseigné pour le moment.<br>
+                <span class="text-sm">Ajoutez-en depuis le panneau d'administration.</span></p>
+            </div>
+            {% endif %}
+        </section>
+        <section id="hebergements" class="scroll-mt-6 pt-8 border-t border-green-200/80">
+            <div class="flex items-center justify-center gap-4 mb-10">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap">Hôtel</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+            {% if hebergements %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for heb in hebergements %}
+                <article class="group bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    {% if heb.image %}
+                    <div class="h-44 overflow-hidden">
+                        <img src="{{ heb.image|upload_url }}" alt="{{ heb.nom }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    </div>
+                    {% else %}
+                    <div class="h-2 bg-green-700 w-full"></div>
+                    {% endif %}
+                    <div class="p-5">
+                        <span class="inline-block text-xs font-semibold uppercase tracking-wider text-green-700 mb-1">{{ heb.get_type_hebergement_display }}</span>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">{{ heb.nom }}</h3>
+                        {% if heb.description %}
+                        <p class="text-sm text-gray-600 leading-relaxed mb-3">{{ heb.description }}</p>
+                        {% endif %}
+                        <dl class="space-y-1.5 text-sm text-gray-700 mt-3">
+                            {% if heb.adresse %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">location_on</span>
+                                <span>{{ heb.adresse }}</span>
+                            </div>
+                            {% endif %}
+                            {% if heb.telephone %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">call</span>
+                                <a href="tel:{{ heb.telephone }}" class="text-green-800 font-medium hover:underline">{{ heb.telephone }}</a>
+                            </div>
+                            {% endif %}
+                            {% if heb.email %}
+                            <div class="flex gap-2">
+                                <span class="material-symbols-outlined text-green-700 text-base shrink-0">mail</span>
+                                <a href="mailto:{{ heb.email }}" class="text-green-800 hover:underline break-all">{{ heb.email }}</a>
+                            </div>
+                            {% endif %}
+                        </dl>
+                        {% if heb.site_web %}
+                        <a href="{{ heb.site_web }}" target="_blank" rel="noopener noreferrer"
+                           class="mt-4 inline-flex items-center gap-1 text-sm text-green-700 font-semibold hover:text-green-900 hover:underline transition">
+                            <span class="material-symbols-outlined text-base">open_in_new</span>
+                            Voir le site web
+                        </a>
+                        {% endif %}
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                <span class="material-symbols-outlined text-5xl text-green-300 mb-3 block">hotel</span>
+                <p class="text-gray-500">Aucun hébergement renseigné pour le moment.<br>
+                <span class="text-sm">Ajoutez-en depuis le panneau d'administration.</span></p>
+            </div>
+            {% endif %}
+        </section>
+    </section>
+</main>
+{% endblock %}

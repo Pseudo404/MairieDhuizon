@@ -1,0 +1,34 @@
+
+import django.core.validators
+from django.db import migrations, models
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('core', '0017_cabanecocou_commerceprofessionnel_hebergement_and_more'),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='PatrimoineItem',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Date de création')),
+                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Date de modification')),
+                ('nom', models.CharField(help_text='Ex: Mairie, Église Saint-Pierre, Étangs…', max_length=200, verbose_name='Nom du lieu')),
+                ('description', models.TextField(blank=True, help_text='Texte affiché sous le nom du lieu.', verbose_name='Description')),
+                ('image', models.ImageField(blank=True, null=True, upload_to='images/patrimoine/', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'webp', 'gif'], message='Format image non autorisé. Utilisez : JPG, PNG, WEBP ou GIF.')], verbose_name='Photo')),
+                ('order', models.PositiveSmallIntegerField(default=0, help_text='Les éléments sont affichés par ordre croissant.', verbose_name="Ordre d'affichage")),
+            ],
+            options={
+                'verbose_name': 'Élément de patrimoine',
+                'verbose_name_plural': 'Éléments de patrimoine',
+                'ordering': ['order', 'nom'],
+            },
+        ),
+        migrations.AlterField(
+            model_name='quicklink',
+            name='page',
+            field=models.CharField(choices=[('accueil', 'Accueil'), ('vie-pratique', 'Vie pratique'), ('tourisme', 'Tourisme'), ('commerces', 'Commerces & Professionnels'), ('decouvrir', 'Découvrir Dhuizon'), ('conseil-municipal', 'Conseil municipal'), ('vie-associative', 'Vie associative'), ('contact', 'Contact')], help_text='Page vers laquelle pointer le lien', max_length=50, verbose_name='Page de destination'),
+        ),
+    ]

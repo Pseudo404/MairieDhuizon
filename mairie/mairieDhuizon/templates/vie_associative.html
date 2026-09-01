@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}<title>Vie associative — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Associations, clubs sportifs et vie associative à Dhuizon — contacts et coordonnées.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+{% block content %}
+<main class="bg-gradient-to-b from-green-50 to-white min-h-screen text-gray-900">
+    <section id="vie-associative" class="mx-auto max-w-7xl px-4 md:px-6 pt-10 md:pt-14 pb-16 scroll-mt-6">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Vie associative</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Associations, clubs sportifs et activités locales — retrouvez tous les contacts pour vous engager et participer à la vie de Dhuizon.
+            </p>
+        </div>
+        {% if associations %}
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for asso in associations %}
+            <article class="group relative bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                <div class="h-2 bg-green-700 w-full"></div>
+                <div class="p-6 flex flex-col h-full">
+                    {% if asso.logo %}
+                    <div class="mb-4 flex justify-center">
+                        <img src="{{ asso.logo|upload_url }}" alt="Logo {{ asso.nom }}"
+                             class="h-20 w-auto object-contain rounded-lg">
+                    </div>
+                    {% else %}
+                    <div class="mb-4 flex justify-center">
+                        <div class="h-14 w-14 rounded-xl bg-green-100 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-3xl text-green-700">groups</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <h2 class="text-lg font-bold text-gray-900 text-center mb-2">
+                        <a href="{% url 'association_detail' slug=asso.slug %}" class="hover:text-green-700 transition" style="text-decoration: none;">
+                            {{ asso.nom }}
+                            <span style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1;"></span>
+                        </a>
+                    </h2>
+                    {% if asso.description %}
+                    <p class="text-sm text-gray-600 leading-relaxed flex-1 text-center mb-4">{{ asso.description }}</p>
+                    {% endif %}
+                    <dl class="space-y-2 text-sm border-t border-gray-100 pt-4 mt-auto relative" style="z-index: 10;">
+                        {% if asso.telephone %}
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-symbols-outlined text-green-700 text-base shrink-0">call</span>
+                            <a href="tel:{{ asso.telephone }}" class="text-green-800 font-medium hover:underline">{{ asso.telephone }}</a>
+                        </div>
+                        {% endif %}
+                        {% if asso.email %}
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-symbols-outlined text-green-700 text-base shrink-0">mail</span>
+                            <a href="mailto:{{ asso.email }}" class="text-green-800 hover:underline break-all">{{ asso.email }}</a>
+                        </div>
+                        {% endif %}
+                        {% if asso.site_web %}
+                        <div class="flex items-center gap-2 text-gray-700">
+                            <span class="material-symbols-outlined text-green-700 text-base shrink-0">language</span>
+                            <a href="{{ asso.site_web }}" target="_blank" rel="noopener noreferrer"
+                               class="text-green-800 hover:underline break-all">Site web</a>
+                        </div>
+                        {% endif %}
+                    </dl>
+                    <div class="group mt-1 flex justify-center text-green-700">
+                        <span class="material-symbols-outlined text-2xl">arrow_forward</span>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-20">
+            <span class="material-symbols-outlined text-6xl text-gray-300 mb-4 block">groups</span>
+            <p class="text-gray-500 text-lg">Aucune association enregistrée pour le moment.</p>
+            <p class="text-gray-400 text-sm mt-2">Les informations seront ajoutées prochainement.</p>
+        </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

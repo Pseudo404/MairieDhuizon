@@ -1,0 +1,27 @@
+
+import core.validators
+from django.db import migrations, models
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('core', '0014_fix_quicklink_icons'),
+    ]
+
+    operations = [
+        migrations.AddField(
+            model_name='nursery',
+            name='lien',
+            field=models.URLField(blank=True, help_text='Lien vers le site de la crèche ou de la gestionnaire.', validators=[core.validators.validate_safe_link_url], verbose_name='Lien vers le site de la crèche'),
+        ),
+        migrations.AlterField(
+            model_name='quicklink',
+            name='icon',
+            field=models.CharField(choices=[('school', '🎓'), ('sports_soccer', '⚽'), ('local_pharmacy', '💊'), ('home', '🏠'), ('info', 'ℹ️'), ('location_on', '📍'), ('phone', '☎️'), ('email', '✉️'), ('people', '👥'), ('event', '📅'), ('library_books', '📚'), ('elderly_woman', '👵'), ('child_care', '👶'), ('recycling', '♻️'), ('delete', '🗑️'), ('medical_services', '🏥'), ('directions_car', '🚌'), ('restaurant', '🍽️'), ('shopping_cart', '🛒'), ('park', '🌳'), ('directions', '🗺️'), ('account_balance', '🏛️'), ('newspaper', '📰'), ('calendar_month', '📅'), ('mail', '📧'), ('alarm', '🕒'), ('pin_drop', '📍'), ('book_ribbon', '📚'), ('celebration', '🎉'), ('construction', '🏗️'), ('home_repair_service', '🔨'), ('forest', '🌲'), ('compost', '♻️'), ('how_to_vote', '🗳️'), ('diversity_3', '👥'), ('trophy', '🏆'), ('comedy_mask', '🎭'), ('festival', '🎪'), ('shield', '🛡️'), ('badge', '👮'), ('local_fire_department', '🔥'), ('map', '🗺️'), ('church', '⛪'), ('file_export', '📄'), ('assignment', '📋'), ('photo', '🖼️'), ('send', '📨'), ('accessibility', '♿')], help_text='Sélectionnez une icône prédéfinie', max_length=50, verbose_name='Icône'),
+        ),
+        migrations.AlterField(
+            model_name='quicklink',
+            name='page',
+            field=models.CharField(choices=[('accueil', 'Accueil'), ('vie-pratique', 'Vie pratique'), ('contact', 'Contact'), ('conseil-municipal', 'Conseil municipal'), ('decouvrir', 'Découvrir Dhuizon'), ('vie-associative', 'Vie associative')], help_text='Page vers laquelle pointer le lien', max_length=50, verbose_name='Page de destination'),
+        ),
+    ]

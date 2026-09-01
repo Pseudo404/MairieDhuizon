@@ -1,0 +1,88 @@
+{% extends 'panel/centre_loisirs/_base_cl.html' %}
+
+{% block cl_content %}
+<div class="mb-4">
+    <a href="{% url 'admin_cl_calendrier' %}" class="text-blue-600 hover:underline font-semibold">&larr; Retour au calendrier</a>
+</div>
+
+<h1 class="text-2xl font-bold mb-6">Détail du jour : {{ date|date:"l d F Y" }}</h1>
+
+
+<div class="bg-white p-4 rounded shadow mb-6 border-l-4 border-blue-500">
+    <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+        <div>
+            <label class="block text-sm font-semibold mb-1">Enfant</label>
+            <input type="text" name="enfant" value="{{ filters.enfant }}" placeholder="Nom ou prénom" class="w-full border-gray-300 rounded p-2">
+        </div>
+        <div>
+            <label class="block text-sm font-semibold mb-1">Parent</label>
+            <input type="text" name="parent" value="{{ filters.parent }}" placeholder="Nom parent" class="w-full border-gray-300 rounded p-2">
+        </div>
+        <div>
+            <label class="block text-sm font-semibold mb-1">Âge de l'enfant</label>
+            <input type="number" name="age" value="{{ filters.age }}" placeholder="ex: 8" class="w-full border-gray-300 rounded p-2">
+        </div>
+        <div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow">
+                🔍 Filtrer
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="bg-white p-6 rounded shadow mb-6">
+    <h2 class="text-xl font-bold mb-4">Total : {{ reservations|length }} inscrit(s)</h2>
+    
+    {% if reservations %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100 border-b">
+                        <th class="p-3">Catégorie</th>
+                        <th class="p-3">Enfant</th>
+                        <th class="p-3">Âge</th>
+                        <th class="p-3">Responsable</th>
+                        <th class="p-3">Contact</th>
+                        <th class="p-3">Allergies/PAI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resa in reservations %}
+                    <tr class="border-b hover:bg-gray-50 {% if resa.is_grand %}bg-green-50{% else %}bg-red-50{% endif %}">
+                        <td class="p-3 text-center">
+                            {% if resa.is_grand %}
+                                <span class="bg-green-200 text-green-800 px-2 py-1 rounded text-xs font-bold uppercase">+ de 6 ans</span>
+                            {% else %}
+                                <span class="bg-red-200 text-red-800 px-2 py-1 rounded text-xs font-bold uppercase">- de 6 ans</span>
+                            {% endif %}
+                        </td>
+                        <td class="p-3 font-bold">{{ resa.inscription.prenom_enfant }} {{ resa.inscription.nom_enfant }}</td>
+                        <td class="p-3 font-bold {% if resa.is_grand %}text-green-700{% else %}text-red-700{% endif %}">
+                            {{ resa.inscription.age }} ans
+                        </td>
+                        <td class="p-3">{{ resa.inscription.prenom_responsable_1 }} {{ resa.inscription.nom_responsable_1 }}</td>
+                        <td class="p-3 text-sm">
+                            {{ resa.inscription.portable_1|default:resa.inscription.telephone_1 }}<br>
+                            {% if resa.inscription.portable_2 %}{{ resa.inscription.portable_2 }}{% endif %}
+                        </td>
+                        <td class="p-3">
+                            {% if resa.inscription.pai_sante %}
+                                <span class="text-red-600 font-bold text-sm">{{ resa.inscription.pai_sante|truncatechars:50 }}</span>
+                            {% else %}
+                                <span class="text-gray-400 font-normal text-sm">Aucun PAI</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-4 pt-4 border-t flex space-x-6 text-sm font-bold">
+            <div class="flex items-center"><span class="w-4 h-4 bg-red-200 rounded-full inline-block mr-2 shadow-sm"></span> Moins de 6 ans</div>
+            <div class="flex items-center"><span class="w-4 h-4 bg-green-200 rounded-full inline-block mr-2 shadow-sm"></span> 6 ans et plus</div>
+        </div>
+    {% else %}
+        <p class="text-gray-500 italic p-4 text-center">Aucune réservation validée correspondant à ces critères.</p>
+    {% endif %}
+</div>
+{% endblock %}

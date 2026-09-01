@@ -1,0 +1,439 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Choix des dates — Centre de loisirs de Dhuizon{% endblock %}
+{% block meta_description %}Sélectionnez vos dates de réservation pour le centre de loisirs de Dhuizon.{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* ── Date Button ── */
+    .date-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border-radius: 16px;
+        background: #f0fdf4;
+        border: 2px solid #bbf7d0;
+        color: #15803d;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(.4,0,.2,1);
+        user-select: none;
+        position: relative;
+    }
+    .date-btn:hover {
+        background: #dcfce7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(21,128,61,0.15);
+    }
+    .date-btn.selected {
+        background: linear-gradient(135deg, #15803d, #22c55e);
+        color: white;
+        border-color: #15803d;
+        box-shadow: 0 4px 14px rgba(21,128,61,0.35);
+        transform: translateY(-2px);
+    }
+    .date-btn.selected::after {
+        content: '✓';
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        font-size: 0.9rem;
+        font-weight: 900;
+    }
+    .date-btn .day-name {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.8;
+    }
+    .date-btn .day-number {
+        font-size: 1.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+    }
+    .date-btn .month-name {
+        font-size: 0.85rem;
+    }
+
+    /* ── Period Section ── */
+    .period-section {
+        background: white;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+        border: 1px solid #f3f4f6;
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+    .period-header {
+        padding: 18px 24px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .period-header.mercredi { background: linear-gradient(135deg, #15803d, #16a34a); }
+    .period-header.toussaint { background: linear-gradient(135deg, #c2410c, #ea580c); }
+    .period-header.noel { background: linear-gradient(135deg, #b91c1c, #dc2626); }
+    .period-header.hiver { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
+    .period-header.printemps { background: linear-gradient(135deg, #ca8a04, #eab308); }
+    .period-header.ete { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+    .period-header.default { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+
+    .period-body {
+        padding: 20px 24px 24px;
+    }
+    .dates-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+    }
+    .period-badge {
+        font-size: 0.75rem;
+        background: rgba(255,255,255,0.25);
+        padding: 2px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+    }
+
+    /* ── Select-all button ── */
+    .btn-select-all {
+        font-size: 0.8rem;
+        padding: 4px 12px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.2);
+        color: white;
+        border: 1px solid rgba(255,255,255,0.3);
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 600;
+        margin-left: auto;
+    }
+    .btn-select-all:hover {
+        background: rgba(255,255,255,0.35);
+    }
+
+    /* ── Selected dates pills ── */
+    .date-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        border: 1px solid #86efac;
+        color: #15803d;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    .date-pill:hover {
+        background: #fee2e2;
+        border-color: #fca5a5;
+        color: #dc2626;
+    }
+    .date-pill .remove-x {
+        font-size: 1rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    /* ── Fade in animation ── */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+        animation: fadeInUp 0.5s ease-out both;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="bg-gradient-to-b from-green-50 to-white min-h-screen py-12 pb-24">
+    <section class="max-w-5xl mx-auto px-4 lg:px-6">
+        
+        <div class="text-center mb-10 animate-fade-in-up">
+            <div class="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+                <span class="material-symbols-outlined" style="font-size:18px">event</span>
+                Étape 1 sur 2
+            </div>
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Choisissez vos dates</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Sélectionnez les dates disponibles (mercredis et vacances scolaires) pour inscrire votre/vos enfant(s) au centre de loisirs.
+            </p>
+        </div>
+
+        
+        <div class="flex flex-wrap justify-center gap-4 mb-10 animate-fade-in-up" style="animation-delay: 0.05s">
+            <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <span class="w-5 h-5 rounded-lg bg-green-100 border-2 border-green-300 inline-block"></span> Disponible
+            </span>
+            <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                <span class="w-5 h-5 rounded-lg inline-block" style="background: linear-gradient(135deg, #15803d, #22c55e); border: 1px solid #15803d;"></span> Sélectionné
+            </span>
+        </div>
+
+        
+        <div id="loading-state" class="text-center py-20">
+            <div class="inline-flex items-center gap-3 text-gray-500">
+                <svg class="animate-spin h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span class="text-lg font-medium">Chargement des dates disponibles…</span>
+            </div>
+        </div>
+
+        <div id="no-dates-message" class="text-center py-10" style="display:none">
+            <div class="inline-flex items-center gap-3 bg-blue-50 text-blue-700 px-6 py-4 rounded-2xl">
+                <span class="material-symbols-outlined">info</span>
+                <p class="font-medium">Aucune date n'est actuellement ouverte à la réservation.</p>
+            </div>
+        </div>
+
+        
+        <div id="available-dates-container" class="mb-10" style="display:none"></div>
+
+        
+        <div id="selection-recap" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 lg:p-8 mb-6 animate-fade-in-up" style="display:none">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-green-600" style="font-size:24px">check_circle</span>
+                    Dates sélectionnées (<span id="dates-count">0</span>)
+                </h2>
+            </div>
+            <div id="selected-pills" class="flex flex-wrap gap-2 mb-6"></div>
+            
+            <div class="text-center pt-4 border-t border-gray-100">
+                <button onclick="goToForm()" class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition duration-300 text-lg">
+                    Valider les dates
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let selectedDates = [];
+    const JOURS = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+    const MOIS_NOMS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    const container = document.getElementById('available-dates-container');
+    const loadingEl = document.getElementById('loading-state');
+    const noDatesEl = document.getElementById('no-dates-message');
+    const recapEl = document.getElementById('selection-recap');
+    const pillsEl = document.getElementById('selected-pills');
+    const countEl = document.getElementById('dates-count');
+    try {
+        const saved = sessionStorage.getItem('cl_selected_dates');
+        if (saved) selectedDates = JSON.parse(saved);
+    } catch(e) {}
+    function getPeriodClass(periodName) {
+        if (!periodName) return 'mercredi';
+        const lower = periodName.toLowerCase();
+        if (lower.includes('toussaint')) return 'toussaint';
+        if (lower.includes('noël') || lower.includes('noel')) return 'noel';
+        if (lower.includes('hiver')) return 'hiver';
+        if (lower.includes('printemps')) return 'printemps';
+        if (lower.includes('été') || lower.includes('ete')) return 'ete';
+        return 'default';
+    }
+    function getPeriodIcon(periodName) {
+        if (!periodName) return 'school';
+        const lower = periodName.toLowerCase();
+        if (lower.includes('toussaint')) return 'park';
+        if (lower.includes('noël') || lower.includes('noel')) return 'ac_unit';
+        if (lower.includes('hiver')) return 'cloudy_snowing';
+        if (lower.includes('printemps')) return 'local_florist';
+        if (lower.includes('été') || lower.includes('ete')) return 'wb_sunny';
+        return 'calendar_month';
+    }
+    fetch('{% url "api_calendrier_data" %}')
+        .then(r => r.json())
+        .then(data => {
+            loadingEl.style.display = 'none';
+            const groups = {};  // key: period name, value: {dates: [], order: number}
+            let orderCounter = 0;
+            const sortedDates = Object.keys(data).sort();
+            for (const dStr of sortedDates) {
+                const entry = data[dStr];
+                const statut = entry.statut || entry;  // backward compat
+                if (statut !== 'ouvert') continue;
+                const periode = entry.periode || null;
+                const groupKey = periode || 'Mercredis';
+                if (!groups[groupKey]) {
+                    groups[groupKey] = { dates: [], order: orderCounter++, periode: periode };
+                }
+                groups[groupKey].dates.push(dStr);
+            }
+            if (Object.keys(groups).length === 0) {
+                noDatesEl.style.display = '';
+                return;
+            }
+            container.style.display = '';
+            const sortedGroups = Object.entries(groups).sort((a, b) => a[1].order - b[1].order);
+            let delay = 0.1;
+            for (const [groupName, groupData] of sortedGroups) {
+                const section = document.createElement('div');
+                section.className = 'period-section animate-fade-in-up';
+                section.style.animationDelay = delay + 's';
+                delay += 0.1;
+                const periodClass = getPeriodClass(groupData.periode);
+                const periodIcon = getPeriodIcon(groupData.periode);
+                const header = document.createElement('div');
+                header.className = `period-header ${periodClass}`;
+                header.innerHTML = `
+                    <span class="material-symbols-outlined" style="font-size:22px">${periodIcon}</span>
+                    <span>${groupName}</span>
+                    <span class="period-badge">${groupData.dates.length} jour${groupData.dates.length > 1 ? 's' : ''}</span>
+                    <button type="button" class="btn-select-all" data-group="${groupName}">Tout sélectionner</button>
+                `;
+                section.appendChild(header);
+                const body = document.createElement('div');
+                body.className = 'period-body';
+                const datesByMonth = {};
+                groupData.dates.forEach(dStr => {
+                    const [y, m, d] = dStr.split('-').map(Number);
+                    const monthKey = `${y}-${m}`;
+                    if (!datesByMonth[monthKey]) {
+                        datesByMonth[monthKey] = [];
+                    }
+                    datesByMonth[monthKey].push(dStr);
+                });
+                const monthKeys = Object.keys(datesByMonth).sort((a,b) => {
+                    const [ya, ma] = a.split('-').map(Number);
+                    const [yb, mb] = b.split('-').map(Number);
+                    if (ya !== yb) return ya - yb;
+                    return ma - mb;
+                });
+                monthKeys.forEach((monthKey, idx) => {
+                    const [y, m] = monthKey.split('-').map(Number);
+                    const monthName = MOIS_NOMS[m - 1];
+                    if (monthKeys.length > 1) {
+                        const monthHeader = document.createElement('h4');
+                        monthHeader.className = idx === 0 
+                            ? 'text-gray-700 font-bold mb-3 flex items-center gap-2' 
+                            : 'text-gray-700 font-bold mb-3 mt-6 pt-4 border-t border-gray-100 flex items-center gap-2';
+                        monthHeader.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> ${monthName} ${y}`;
+                        body.appendChild(monthHeader);
+                    }
+                    const grid = document.createElement('div');
+                    grid.className = 'dates-grid';
+                    grid.dataset.group = groupName;
+                    datesByMonth[monthKey].forEach(dStr => {
+                        const [dy, dm, dd] = dStr.split('-').map(Number);
+                        const dateObj = new Date(dy, dm - 1, dd);
+                        const dayName = JOURS[dateObj.getDay()];
+                        const dayNumber = dateObj.getDate();
+                        const shortMonthName = MOIS_NOMS[dateObj.getMonth()].substring(0, 3);
+                        const btn = document.createElement('div');
+                        btn.className = 'date-btn';
+                        btn.dataset.date = dStr;
+                        btn.innerHTML = `
+                            <span class="day-name">${dayName}</span>
+                            <span class="day-number">${dayNumber}</span>
+                            <span class="month-name">${shortMonthName}</span>
+                        `;
+                        if (selectedDates.includes(dStr)) {
+                            btn.classList.add('selected');
+                        }
+                        btn.addEventListener('click', () => toggleDate(dStr));
+                        grid.appendChild(btn);
+                    });
+                    body.appendChild(grid);
+                });
+                section.appendChild(body);
+                container.appendChild(section);
+                const selectAllBtn = header.querySelector('.btn-select-all');
+                selectAllBtn.addEventListener('click', function() {
+                    const allSelected = groupData.dates.every(d => selectedDates.includes(d));
+                    if (allSelected) {
+                        groupData.dates.forEach(d => {
+                            selectedDates = selectedDates.filter(x => x !== d);
+                            document.querySelectorAll(`.date-btn[data-date="${d}"]`).forEach(el => el.classList.remove('selected'));
+                        });
+                        this.textContent = 'Tout sélectionner';
+                    } else {
+                        groupData.dates.forEach(d => {
+                            if (!selectedDates.includes(d)) {
+                                selectedDates.push(d);
+                                document.querySelectorAll(`.date-btn[data-date="${d}"]`).forEach(el => el.classList.add('selected'));
+                            }
+                        });
+                        this.textContent = 'Tout désélectionner';
+                    }
+                    updateUI();
+                });
+            }
+            updateUI();
+        })
+        .catch(() => {
+            loadingEl.innerHTML = '<p class="text-red-600 font-medium">Erreur lors du chargement des dates. Veuillez rafraîchir la page.</p>';
+        });
+    function toggleDate(dStr) {
+        if (selectedDates.includes(dStr)) {
+            selectedDates = selectedDates.filter(x => x !== dStr);
+        } else {
+            selectedDates.push(dStr);
+        }
+        document.querySelectorAll(`.date-btn[data-date="${dStr}"]`).forEach(el => {
+            el.classList.toggle('selected');
+        });
+        updateUI();
+    }
+    window.removeDate = function(dStr) {
+        toggleDate(dStr);
+    };
+    function updateUI() {
+        selectedDates.sort();
+        sessionStorage.setItem('cl_selected_dates', JSON.stringify(selectedDates));
+        const n = selectedDates.length;
+        countEl.textContent = n;
+        if (n > 0) {
+            recapEl.style.display = '';
+            pillsEl.innerHTML = '';
+            selectedDates.forEach(dStr => {
+                const [y, m, d] = dStr.split('-').map(Number);
+                const dateObj = new Date(y, m - 1, d);
+                const label = dateObj.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'long' });
+                const pill = document.createElement('button');
+                pill.className = 'date-pill';
+                pill.title = 'Cliquer pour retirer';
+                pill.innerHTML = `<span>${label}</span><span class="remove-x">×</span>`;
+                pill.addEventListener('click', () => removeDate(dStr));
+                pillsEl.appendChild(pill);
+            });
+        } else {
+            recapEl.style.display = 'none';
+        }
+        document.querySelectorAll('.btn-select-all').forEach(btn => {
+            const groupName = btn.dataset.group;
+            const grids = document.querySelectorAll(`.dates-grid[data-group="${groupName}"]`);
+            if (grids.length > 0) {
+                let allSelected = true;
+                let hasBtns = false;
+                grids.forEach(grid => {
+                    const btns = grid.querySelectorAll('.date-btn');
+                    if (btns.length > 0) hasBtns = true;
+                    btns.forEach(b => {
+                        if (!selectedDates.includes(b.dataset.date)) allSelected = false;
+                    });
+                });
+                btn.textContent = (hasBtns && allSelected) ? 'Tout désélectionner' : 'Tout sélectionner';
+            }
+        });
+    }
+    window.goToForm = function() {
+        if (selectedDates.length === 0) return;
+        sessionStorage.setItem('cl_selected_dates', JSON.stringify(selectedDates));
+        window.location.href = '{% url "centre_loisirs_formulaire" %}';
+    };
+});
+</script>
+{% endblock %}

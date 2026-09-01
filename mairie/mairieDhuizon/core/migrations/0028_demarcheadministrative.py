@@ -1,0 +1,31 @@
+
+import django.core.validators
+from django.db import migrations, models
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('core', '0027_alter_agencepostaleschedule_options_and_more'),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='DemarcheAdministrative',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('updated_at', models.DateTimeField(auto_now=True)),
+                ('titre', models.CharField(max_length=255, verbose_name='Titre de la démarche')),
+                ('description', models.TextField(blank=True, verbose_name='Description / Explications')),
+                ('lien_service_public', models.URLField(blank=True, verbose_name='Lien externe (ex: service-public.fr)')),
+                ('fichier_pdf', models.FileField(blank=True, null=True, upload_to='demarches/', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['pdf'], message='Seuls les fichiers PDF sont autorisés.')], verbose_name='Fichier PDF à télécharger (ex: CERFA)')),
+                ('icone', models.CharField(default='article', help_text="Ex: 'description', 'favorite', 'home'", max_length=50, verbose_name='Icône Google Material')),
+                ('ordre', models.PositiveSmallIntegerField(default=10, verbose_name="Ordre d'affichage")),
+            ],
+            options={
+                'verbose_name': 'Démarche administrative',
+                'verbose_name_plural': 'Démarches administratives',
+                'ordering': ['ordre', 'titre'],
+            },
+        ),
+    ]

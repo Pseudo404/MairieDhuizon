@@ -1,0 +1,52 @@
+
+import django.db.models.deletion
+from django.db import migrations, models
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('core', '0024_alter_commerceschedule_options_and_more'),
+    ]
+
+    operations = [
+        migrations.AlterModelOptions(
+            name='mediatheque',
+            options={'verbose_name': 'Médiathèque', 'verbose_name_plural': 'Médiathèque'},
+        ),
+        migrations.CreateModel(
+            name='CommuneInfoSchedule',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Date de création')),
+                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Date de modification')),
+                ('jour', models.CharField(choices=[('lundi', 'Lundi'), ('mardi', 'Mardi'), ('mercredi', 'Mercredi'), ('jeudi', 'Jeudi'), ('vendredi', 'Vendredi'), ('samedi', 'Samedi'), ('dimanche', 'Dimanche')], max_length=10, verbose_name='Jour')),
+                ('heure_ouverture', models.TimeField(verbose_name="Heure d'ouverture")),
+                ('heure_fermeture', models.TimeField(verbose_name='Heure de fermeture')),
+                ('ferme', models.BooleanField(default=False, verbose_name='Fermé ce jour')),
+                ('commune', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='horaires_planning', to='core.communeinfo', verbose_name='Mairie')),
+            ],
+            options={
+                'verbose_name': 'Horaire mairie',
+                'verbose_name_plural': 'Horaires mairie',
+                'ordering': ['jour', 'heure_ouverture'],
+            },
+        ),
+        migrations.CreateModel(
+            name='MediathequeSchedule',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Date de création')),
+                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Date de modification')),
+                ('jour', models.CharField(choices=[('lundi', 'Lundi'), ('mardi', 'Mardi'), ('mercredi', 'Mercredi'), ('jeudi', 'Jeudi'), ('vendredi', 'Vendredi'), ('samedi', 'Samedi'), ('dimanche', 'Dimanche')], max_length=10, verbose_name='Jour')),
+                ('heure_ouverture', models.TimeField(verbose_name="Heure d'ouverture")),
+                ('heure_fermeture', models.TimeField(verbose_name='Heure de fermeture')),
+                ('ferme', models.BooleanField(default=False, verbose_name='Fermé ce jour')),
+                ('mediatheque', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='horaires_planning', to='core.mediatheque', verbose_name='Médiathèque')),
+            ],
+            options={
+                'verbose_name': 'Horaire médiathèque',
+                'verbose_name_plural': 'Horaires médiathèque',
+                'ordering': ['jour', 'heure_ouverture'],
+            },
+        ),
+    ]

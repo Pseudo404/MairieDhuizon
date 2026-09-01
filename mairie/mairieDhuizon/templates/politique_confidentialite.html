@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+{% block title %}
+<title>Politique de confidentialité — Mairie de Dhuizon</title>
+{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Consultez la politique de confidentialité, la gestion des cookies et le traitement des données personnelles de la Mairie de Dhuizon.">
+{% endblock %}
+{% block content %}
+<main class="bg-gray-50 min-h-screen py-12">
+    <section class="max-w-4xl mx-auto px-4 md:px-6">
+        <div class="bg-white rounded-3xl shadow-md p-8 md:p-12 border border-gray-100">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-green-900 mb-8">Politique de confidentialité et Cookies</h1>
+            <div class="prose prose-green max-w-none text-gray-700 leading-relaxed">
+                <h2>1. Collecte des données de navigation (Statistiques)</h2>
+                <p>Afin d'améliorer l'expérience utilisateur et de comprendre comment notre site est utilisé, nous utilisons un outil de statistiques, ainsi qu'un outil de suivi de temps passé sur les pages.</p>
+                <p>Ces outils collectent des informations anonymisées telles que les pages visitées, le temps passé et le type de navigateur utilisé. <strong>Aucune donnée permettant de vous identifier personnellement n'est collectée à votre insu.</strong></p>
+                <h2>2. Utilisation des Cookies</h2>
+                <p>Un "cookie" est un petit fichier texte enregistré sur votre appareil lors de la visite du site. Nous utilisons :</p>
+                <ul>
+                    <li><strong>Des cookies techniques (strictement nécessaires) :</strong> Indispensables au bon fonctionnement du site (ex: gestion de votre session, sauvegarde de votre choix concernant les cookies). Ils ne requièrent pas votre consentement.</li>
+                    <li><strong>Des cookies de mesure d'audience :</strong> Ces cookies nous permettent d'établir des statistiques de fréquentation. Ils ne sont déposés que si vous donnez votre accord via le bandeau prévu à cet effet.</li>
+                </ul>
+                <h2>3. Gestion de vos préférences (Consentement)</h2>
+                <p>Lors de votre première visite, un bandeau vous permet d'accepter ou de refuser les cookies de mesure d'audience. Vous pouvez à tout moment modifier votre choix en cliquant sur le bouton ci-dessous :</p>
+                <div class="my-6">
+                    <button onclick="localStorage.removeItem('cookieConsent'); window.location.reload();" class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-6 rounded-xl transition-colors">
+                        Réinitialiser mes choix de cookies
+                    </button>
+                </div>
+                <h2>4. Formulaire de contact et données personnelles</h2>
+                <p>Si vous utilisez notre formulaire de contact, les informations que vous saisissez (nom, adresse email, message) sont utilisées uniquement pour répondre à votre demande. Elles ne sont ni vendues, ni cédées à des tiers.</p>
+                <h2>5. Vos droits (RGPD)</h2>
+                <p>Conformément à la réglementation (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition au traitement de vos données. Pour exercer ces droits, veuillez contacter la mairie de Dhuizon :</p>
+                <ul>
+                    <li>Par email : <a href="mailto:mairie@dhuizon.fr" class="text-green-700 hover:underline">mairie@dhuizon.fr</a></li>
+                    <li>Par courrier : Mairie de Dhuizon, Place de l'Église, 41220 Dhuizon</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

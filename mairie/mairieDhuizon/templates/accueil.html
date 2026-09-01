@@ -1,0 +1,116 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}<title>Mairie — Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Page d'accueil de la Mairie de Dhuizon">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+{% block content %}
+<main>
+    {% if hero_image %}
+    <section id="accueil" class="text-center text-white h-128 gap-4 w-full flex flex-col items-center justify-center mb-4 scroll-mt-6"
+        style="background: url('{{ hero_image.image|upload_url }}') center / cover; background-size: cover;">
+    {% else %}
+    <section id="accueil" class="text-center text-white h-128 gap-4 w-full flex flex-col items-center justify-center mb-4 scroll-mt-6"
+        style="background: linear-gradient(135deg, #14532d 0%, #166534 60%, #15803d 100%);">
+    {% endif %}
+        <h1 class="[-webkit-text-stroke:2px_black] text-white text-5xl md:text-7xl font-bold drop-shadow-lg">DHUIZON</h1>
+        <a href="{% url 'decouvrir_dhuizon' %}" class="shadow px-4 py-2 duration-400 transition bg-green-900 text-white rounded-lg hover:scale-110">Découvrir la commune</a>
+    </section>
+    <section id="actualite" class="mx-auto max-w-7xl px-6 py-16 scroll-mt-6">
+        <div class="mb-10 flex items-center justify-center">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Actualités</h2>
+        </div>
+        <div class="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+            {% for news in all_news %}
+            <article
+                class="group overflow-hidden rounded-3xl bg-white shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                <div class="overflow-hidden">
+                    {% if news.image %}
+                    <img class="h-64 w-full object-cover transition duration-500 group-hover:scale-110" src="{{ news.image|upload_url }}" alt="{{ news.title }}">
+                    {% endif %}
+                </div>
+                <div class="flex flex-col gap-4 p-6">
+                    <div class="flex items-center justify-between">
+                        <span
+                            class="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800">Événement</span>
+                        <span class="text-sm text-gray-500">{{ news.event_date }}</span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 transition group-hover:text-green-800">{{ news.title }}
+                    </h3>
+                    <p class="leading-relaxed text-gray-600">{{ news.short_description }}</p>
+                    <a href="{% url 'actualite_detail' news.id %}" class="mt-2 w-fit rounded-xl bg-green-900 px-5 py-3 font-medium text-white transition hover:bg-green-800">Lire plus</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="inscriptions" class="bg-white py-16 scroll-mt-6">
+        <div class="mx-auto max-w-7xl px-6">
+            <div class="mb-10 flex items-center justify-center">
+                <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Inscriptions</h2>
+            </div>
+            <div class="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+                <a href="{% url 'centre_loisirs_inscription' %}" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">sports_esports</span>
+                    <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Centre de Loisirs</h3>
+                    <p class="text-gray-600 relative z-10">Inscription pour les mercredis et les vacances scolaires.</p>
+                </a>
+                <a href="{% url 'inscription_periscolaire' %}?service=cantine" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">restaurant</span>
+                    <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Cantine Scolaire</h3>
+                    <p class="text-gray-600 relative z-10">Inscription à la cantine scolaire.</p>
+                </a>
+                <a href="{% url 'inscription_periscolaire' %}?service=garderie" class="group relative overflow-hidden bg-white shadow-xl rounded-3xl p-8 transition duration-300 hover:-translate-y-2 hover:shadow-2xl border border-gray-100 flex flex-col items-center text-center">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-green-100 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <span class="material-symbols-outlined text-green-700 group-hover:text-green-600 mb-5 relative z-10" style="font-size:4rem;">child_care</span>
+                    <h3 class="font-bold text-2xl text-gray-900 mb-3 relative z-10 group-hover:text-green-700 transition-colors">Garderie</h3>
+                    <p class="text-gray-600 relative z-10">Inscription à la garderie du matin et du soir.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section id="infos-pratiques" class="mx-auto max-w-7xl px-6 py-16 scroll-mt-6">
+        <div class="mb-10 flex items-center justify-center">
+            <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Infos pratiques</h2>
+        </div>
+        <div class="flex flex-row flex-wrap items-center justify-center gap-4 w-full">
+            {% for link in quick_links %}
+            <a href="{{ link.url }}" class="group flex flex-col items-center shadow-2xl rounded-lg p-4 gap-4 w-64 transition duration-300 hover:scale-105 hover:bg-stone-200">
+                <span class="material-symbols-outlined text-green-900 group-hover:text-green-800"
+                    style="font-size:4rem;">{{ link.icon }}</span>
+                <span class="font-medium text-gray-700">{{ link.label }}</span>
+            </a>
+            {% empty %}
+            <p class="text-gray-500">Aucun raccourci configuré.</p>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="galerie" class="bg-stone-50 py-16 scroll-mt-6">
+        <div class="mx-auto max-w-7xl px-6">
+            <div class="mb-10 flex items-center justify-center">
+                <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Galerie photo</h2>
+            </div>
+            {% if gallery %}
+            <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+                {% for photo in gallery %}
+                <div class="group relative overflow-hidden rounded-2xl shadow-md break-inside-avoid">
+                    <a href="{{ photo.image|upload_url }}" target="_blank" class="group relative overflow-hidden rounded-2xl shadow-md break-inside-avoid block">
+                        <img class="w-full object-cover transition duration-500 group-hover:scale-105" src="{{ photo.image|upload_url }}" alt="{{ photo.title }}" loading="lazy">
+                    </a>
+                    <div class="absolute pointer-events-none inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex items-end p-4">
+                        <span class="text-white font-semibold text-sm">{{ photo.title }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-center text-gray-400 py-12">Aucune photo pour l'instant.
+            </p>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}

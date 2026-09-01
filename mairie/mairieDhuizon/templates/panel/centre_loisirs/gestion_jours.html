@@ -1,0 +1,617 @@
+{% extends 'panel/centre_loisirs/_base_cl.html' %}
+
+{% block extra_head %}
+{{ block.super }}
+<style>
+/* ─── Reset conflits thème ────────────────────────────────────────── */
+/* Le thème écrase les couleurs de tous les inputs/selects — on neutralise
+   les styles du thème sur les éléments purement décoratifs du calendrier */
+#cal-wrapper button,
+#cal-wrapper button:hover,
+#cal-wrapper button:focus {
+    all: unset;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+/* Pas d'animation translateY sur la card calendrier */
+#cal-wrapper .cal-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07);
+    overflow: hidden;
+}
+#cal-wrapper .cal-card:hover {
+    transform: none !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07) !important;
+    border-color: #e5e7eb !important;
+}
+
+/* ─── Header navigation ─────────────────────────────────────────── */
+.cal-nav {
+    background: oklch(52.7% 0.154 150.069);           /* slate-800 — très lisible */
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.cal-nav-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.12);
+    color: #fff !important;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+    line-height: 1;
+}
+.cal-nav-btn:hover { background: rgba(255,255,255,.25) !important; }
+.cal-nav-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: capitalize;
+    letter-spacing: .01em;
+    flex: 1;
+    text-align: center;
+}
+
+/* ─── Grille ────────────────────────────────────────────────────── */
+.cal-grid-wrap { padding: 12px; }
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+.cal-day-hdr {
+    text-align: center;
+    font-size: .68rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 4px 0 8px;
+}
+/* Jours de WE dans les headers */
+.cal-day-hdr.weekend { color: #fca5a5; }
+
+.cal-day {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    font-weight: 600;
+    color: #374151;
+    background: #f9fafb;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background .12s, border-color .12s, transform .1s;
+    min-height: 38px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.cal-day.empty  { background: transparent; cursor: default; pointer-events: none; }
+.cal-day.past   { color: #d1d5db; background: transparent; cursor: not-allowed; pointer-events: none; }
+.cal-day.today  { border-color: #3b82f6; font-weight: 800; }
+.cal-day.weekend { color: #9ca3af; }
+
+/* ── Statuts existants (légers, non-sélectionnés) ── */
+.cal-day.st-vacances    { background: #fef3c7; color: #92400e; }   /* amber */
+.cal-day.st-mercredi    { background: #dbeafe; color: #1e40af; }   /* blue  */
+.cal-day.st-ouvert      { background: #d1fae5; color: #065f46; }   /* green */
+.cal-day.st-ferme       { background: #fee2e2; color: #991b1b; }   /* red   */
+
+/* Petite étiquette en bas de la cellule */
+.cal-day-label {
+    font-size: .5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    line-height: 1;
+    margin-top: 2px;
+    opacity: .8;
+}
+
+/* ── Hover sur les jours cliquables ── */
+.cal-day:not(.empty):not(.past):hover:not(.sel-ouvert):not(.sel-ferme):not(.sel-vacances):not(.sel-mercredi) {
+    background: #e0f2fe;
+    border-color: #7dd3fc;
+}
+
+/* ── Sélection active ── */
+.cal-day.sel-vacances {
+    background: #f59e0b;
+    color: #fff;
+    border-color: #d97706;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(245,158,11,.35);
+    z-index: 2;
+}
+.cal-day.sel-mercredi {
+    background: #3b82f6;
+    color: #fff;
+    border-color: #2563eb;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(59,130,246,.35);
+    z-index: 2;
+}
+.cal-day.sel-ouvert {
+    background: #10b981;
+    color: #fff;
+    border-color: #059669;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(16,185,129,.35);
+    z-index: 2;
+}
+.cal-day.sel-ferme {
+    background: #ef4444;
+    color: #fff;
+    border-color: #dc2626;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(239,68,68,.35);
+    z-index: 2;
+}
+
+/* ─── Panneau latéral ───────────────────────────────────────────── */
+.type-radio-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
+.type-radio-label:hover { border-color: #93c5fd; background: #f0f9ff; }
+.type-radio-label.checked-vacances  { border-color: #f59e0b; background: #fffbeb; }
+.type-radio-label.checked-mercredi  { border-color: #3b82f6; background: #eff6ff; }
+.type-radio-label.checked-ouvert    { border-color: #10b981; background: #f0fdf4; }
+.type-radio-label.checked-ferme     { border-color: #ef4444; background: #fef2f2; }
+
+/* ─── Badge compteur ────────────────────────────────────────────── */
+.sel-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 24px; height: 24px;
+    background: oklch(36.075% 0.09978 149.834); color: #fff;
+    border-radius: 9999px;
+    font-size: .75rem; font-weight: 700;
+    padding: 0 7px;
+    transition: background .2s, transform .15s;
+}
+.sel-badge.has-items { background: #10b981; transform: scale(1.1); }
+
+/* ─── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .gestion-layout { display: block !important; }
+    #panel-lateral  { margin-top: 1.5rem; }
+}
+@media (max-width: 480px) {
+    .cal-day { min-height: 30px; font-size: .72rem; }
+    .cal-day-hdr { font-size: .6rem; padding-bottom: 5px; }
+    .cal-day-label { display: none; }
+    .cal-nav-title { font-size: .95rem; }
+}
+
+/* ─── Liste exceptions ──────────────────────────────────────────── */
+.exc-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; border-bottom: 1px solid #f3f4f6; }
+.exc-row:last-child { border-bottom: none; }
+.exc-row:hover { background: #fafafa; }
+.exc-del-btn {
+    opacity: 0;
+    transition: opacity .15s;
+    background: none; border: none;
+    color: #9ca3af; cursor: pointer;
+    font-size: .85rem; padding: 4px 8px;
+    border-radius: 6px;
+}
+.exc-row:hover .exc-del-btn { opacity: 1; }
+.exc-del-btn:hover { color: #ef4444; background: #fef2f2; }
+</style>
+{% endblock %}
+
+{% block cl_content %}
+<div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">🗓️ Gestion des jours</h1>
+    <p class="text-sm text-gray-500 mt-1">Cliquez sur les dates, choisissez le type, puis validez.</p>
+</div>
+
+
+<div class="gestion-layout" style="display:grid; grid-template-columns: 1fr 320px; gap: 1.25rem; align-items: start;">
+
+    
+    <div id="cal-wrapper">
+        <div class="cal-card">
+            
+            <div class="cal-nav">
+                <button id="btn-prev" class="cal-nav-btn" title="Mois précédent">&#8249;</button>
+                <span id="cal-title" class="cal-nav-title"></span>
+                <button id="btn-next" class="cal-nav-btn" title="Mois suivant">&#8250;</button>
+            </div>
+
+            
+            <div class="cal-grid-wrap">
+                <div class="cal-grid" id="cal-headers"></div>
+                <div class="cal-grid" id="cal-grid"  style="margin-top:2px;"></div>
+            </div>
+
+            
+            <div style="display:flex; flex-wrap:wrap; gap:10px; padding:10px 14px 14px; border-top:1px solid #f3f4f6;">
+                <span style="display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;color:#92400e;">
+                    <span style="width:10px;height:10px;border-radius:3px;background:#f59e0b;display:inline-block;"></span> Vacances scolaires
+                </span>
+                <span style="display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;color:#1e40af;">
+                    <span style="width:10px;height:10px;border-radius:3px;background:#3b82f6;display:inline-block;"></span> Mercredi ordinaire
+                </span>
+                <span style="display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;color:#065f46;">
+                    <span style="width:10px;height:10px;border-radius:3px;background:#10b981;display:inline-block;"></span> Ouvert exceptionnel
+                </span>
+                <span style="display:flex;align-items:center;gap:5px;font-size:.72rem;font-weight:600;color:#991b1b;">
+                    <span style="width:10px;height:10px;border-radius:3px;background:#ef4444;display:inline-block;"></span> Fermé exceptionnel
+                </span>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="panel-lateral">
+        <form id="form-validation" method="post" style="background:#fff;border:1px solid #e5e7eb;border-radius:1rem;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+            {% csrf_token %}
+            <input type="hidden" name="action_type" value="multi_dates">
+            <input type="hidden" name="dates_json" id="dates-json-input" value="[]">
+            <input type="hidden" name="calendar_month" id="calendar-month-input" value="">
+
+            
+            <div style="background:oklch(52.7% 0.154 150.069);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-weight:700;color:#fff;font-size:.95rem;">Sélection</span>
+                <span class="sel-badge" id="sel-badge">0</span>
+            </div>
+
+            <div style="padding:16px;display:flex;flex-direction:column;gap:14px;">
+
+                
+                <div>
+                    <p style="font-size:.75rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Type de jour</p>
+                    <div style="display:flex;flex-direction:column;gap:6px;" id="type-radios">
+
+                        <label class="type-radio-label" id="lbl-vacances" onclick="setType('vacances',this)">
+                            <input type="radio" name="status" value="ouvert" id="r-vacances" style="margin-top:3px;accent-color:#f59e0b;" checked>
+                            <span>
+                                <span style="display:block;font-size:.82rem;font-weight:700;color:#92400e;">🏖️ Vacances scolaires</span>
+                                <span style="display:block;font-size:.72rem;color:#b45309;">Lun–Ven des vacances</span>
+                            </span>
+                        </label>
+
+                        <label class="type-radio-label" id="lbl-mercredi" onclick="setType('mercredi',this)">
+                            <input type="radio" name="status" value="ouvert" id="r-mercredi" style="margin-top:3px;accent-color:#3b82f6;">
+                            <span>
+                                <span style="display:block;font-size:.82rem;font-weight:700;color:#1e40af;">📅 Mercredi ordinaire</span>
+                                <span style="display:block;font-size:.72rem;color:#3b82f6;">Ouvert le mercredi</span>
+                            </span>
+                        </label>
+
+                        <label class="type-radio-label" id="lbl-ouvert" onclick="setType('ouvert',this)">
+                            <input type="radio" name="status" value="ouvert" id="r-ouvert" style="margin-top:3px;accent-color:#10b981;">
+                            <span>
+                                <span style="display:block;font-size:.82rem;font-weight:700;color:#065f46;">✅ Ouvert exceptionnel</span>
+                                <span style="display:block;font-size:.72rem;color:#059669;">Ex: WE, jour férié</span>
+                            </span>
+                        </label>
+
+                        <label class="type-radio-label" id="lbl-ferme" onclick="setType('ferme',this)">
+                            <input type="radio" name="status" value="ferme" id="r-ferme" style="margin-top:3px;accent-color:#ef4444;">
+                            <span>
+                                <span style="display:block;font-size:.82rem;font-weight:700;color:#991b1b;">🚫 Fermé exceptionnel</span>
+                                <span style="display:block;font-size:.72rem;color:#dc2626;">Fermeture imprévue</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                
+                <div>
+                    <label style="font-size:.75rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px;">Motif / Libellé</label>
+                    <select name="motif" id="motif-select"
+                        style="width:100%;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 11px;font-size:.82rem;color:#374151;background:#fff;appearance:auto;">
+                        <optgroup label="Vacances scolaires">
+                            <option value="Vacances de la Toussaint">🍂 Toussaint</option>
+                            <option value="Vacances de Noël">🎄 Noël</option>
+                            <option value="Vacances d'hiver">❄️ Hiver</option>
+                            <option value="Vacances de printemps">🌸 Printemps</option>
+                            <option value="Vacances d'été">☀️ Été</option>
+                        </optgroup>
+                        <optgroup label="Autre">
+                            <option value="Mercredi ordinaire">📅 Mercredi ordinaire</option>
+                            <option value="Ouverture exceptionnelle">✅ Ouverture exceptionnelle</option>
+                            <option value="Fermeture exceptionnelle">🚫 Fermeture exceptionnelle</option>
+                            <option value="">✏️ Saisir un libellé…</option>
+                        </optgroup>
+                    </select>
+                    <input type="text" name="motif_custom" id="motif-custom"
+                        placeholder="Libellé personnalisé…"
+                        style="width:100%;margin-top:6px;border:1.5px solid #e5e7eb;border-radius:8px;padding:9px 11px;font-size:.82rem;color:#374151;background:#fff;display:none;">
+                </div>
+
+                
+                <div id="dates-preview" style="display:none;">
+                    <p style="font-size:.75rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Dates sélectionnées</p>
+                    <div id="dates-list"
+                        style="max-height:130px;overflow-y:auto;background:#f9fafb;border:1px solid #f3f4f6;border-radius:8px;padding:8px 10px;font-size:.78rem;color:#4b5563;line-height:1.9;"></div>
+                </div>
+
+                
+                <button type="submit" id="btn-submit" disabled
+                    style="width:100%;padding:11px;border-radius:9px;font-weight:700;font-size:.875rem;color:white;background:oklch(52.7% 0.154 150.069);border:none;cursor:not-allowed;opacity:.45;transition:all .15s;">
+                    💾 Valider la sélection
+                </button>
+                <button type="button" id="btn-reset-default" disabled
+                    style="width:100%;padding:9px;border-radius:9px;font-weight:600;font-size:.82rem;color:#374151;background:#f3f4f6;border:1px solid #d1d5db;cursor:not-allowed;opacity:.45;transition:all .15s;"
+                    onclick="resetSelectedDates()">
+                    ↩️ Rétablir par défaut
+                </button>
+                <button type="button" onclick="clearSelection()"
+                    style="width:100%;padding:9px;border-radius:9px;font-weight:600;font-size:.82rem;color:white;background:oklch(52.7% 0.154 150.069);border:none;cursor:pointer;transition:background .15s;"
+                    onmouseover="this.style.background='oklch(60% 0.154 150.069)'" onmouseout="this.style.background='green'">
+                    🗑️ Effacer la sélection
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div style="margin-top:1.5rem;">
+    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:1rem;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+        <div style="padding:14px 20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;">
+            <h2 style="font-size:1rem;font-weight:700;color:#111827;">Jours configurés <span style="font-size:.8rem;font-weight:400;color:#9ca3af;">({{ jours|length }} entrée{{ jours|length|pluralize }})</span></h2>
+        </div>
+
+        {% if jours %}
+        <div>
+            {% for jour in jours %}
+            <div class="exc-row">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <span style="font-size:1.1rem;">{% if jour.status == 'ouvert' %}✅{% else %}⛔{% endif %}</span>
+                    <div>
+                        <p style="font-size:.85rem;font-weight:600;color:#1f2937;">{{ jour.date|date:"l d F Y" }}</p>
+                        <p style="font-size:.72rem;color:#9ca3af;">
+                            {% if jour.motif_fermeture %}{{ jour.motif_fermeture }}{% else %}Aucun motif{% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:99px;
+                        {% if jour.status == 'ouvert' %}background:#d1fae5;color:#065f46;border:1px solid #a7f3d0;{% else %}background:#fee2e2;color:#991b1b;border:1px solid #fca5a5;{% endif %}">
+                        {% if jour.status == 'ouvert' %}Ouvert{% else %}Fermé{% endif %}
+                    </span>
+                    <form method="post" style="display:inline;" onsubmit="return confirm('Supprimer cette exception ?')">
+                        {% csrf_token %}
+                        <input type="hidden" name="action_type" value="supprimer">
+                        <input type="hidden" name="jour_id" value="{{ jour.id }}">
+                        <button type="submit" class="exc-del-btn" title="Supprimer">✕</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="text-align:center;padding:40px 20px;color:#9ca3af;">
+            <div style="font-size:2.5rem;margin-bottom:10px;">🗓️</div>
+            <p style="font-size:.9rem;font-weight:500;">Aucun jour configuré.</p>
+            <p style="font-size:.8rem;margin-top:4px;">Sélectionnez des dates dans le calendrier ci-dessus.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+(function () {
+    const EXISTING = {{ jours_json|safe }};
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const displayedMonth = new URLSearchParams(window.location.search).get('month');
+    const displayedMonthMatch = displayedMonth && displayedMonth.match(/^(\d{4})-(\d{2})$/);
+    let year  = displayedMonthMatch ? Number(displayedMonthMatch[1]) : today.getFullYear();
+    let month = displayedMonthMatch ? Number(displayedMonthMatch[2]) - 1 : today.getMonth();
+    let selectedDates = new Set();  // 'YYYY-MM-DD'
+    let currentType = 'vacances';   // vacances | mercredi | ouvert | ferme
+    const calTitle     = document.getElementById('cal-title');
+    const calHeaders   = document.getElementById('cal-headers');
+    const calGrid      = document.getElementById('cal-grid');
+    const selBadge     = document.getElementById('sel-badge');
+    const datesInput   = document.getElementById('dates-json-input');
+    const calendarMonthInput = document.getElementById('calendar-month-input');
+    const btnSubmit    = document.getElementById('btn-submit');
+    const btnResetDefault = document.getElementById('btn-reset-default');
+    const datesList    = document.getElementById('dates-list');
+    const datesPreview = document.getElementById('dates-preview');
+    const motifSelect  = document.getElementById('motif-select');
+    const motifCustom  = document.getElementById('motif-custom');
+    const MONTHS_FR = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+    const DAYS_SHORT = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+    const DAYS_LONG  = ['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+    const SEL_CLASS = {
+        vacances: 'sel-vacances',
+        mercredi: 'sel-mercredi',
+        ouvert:   'sel-ouvert',
+        ferme:    'sel-ferme',
+    };
+    function existingClass(data) {
+        if (data.status === 'ferme') return 'st-ferme';
+        const m = (data.motif || '').toLowerCase();
+        if (m.includes('mercredi')) return 'st-mercredi';
+        if (m.includes('vacances') || m.includes('hiver') || m.includes('été') ||
+            m.includes('toussaint') || m.includes('noël') || m.includes('printemps'))
+            return 'st-vacances';
+        return 'st-ouvert';
+    }
+    function existingLabel(data) {
+        if (data.status === 'ferme') return 'Fermé';
+        const m = (data.motif || '').toLowerCase();
+        if (m.includes('mercredi')) return 'Mer';
+        if (m.includes('vacances') || m.includes('été') || m.includes('hiver') ||
+            m.includes('noël') || m.includes('toussaint') || m.includes('printemps'))
+            return 'Vac';
+        return 'Ouvert';
+    }
+    function toISO(y, m, d) {
+        return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    }
+    function formatFR(iso) {
+        const [y,m,d] = iso.split('-').map(Number);
+        const dt = new Date(y, m-1, d);
+        const wd = (dt.getDay() + 6) % 7; // 0=Lun
+        return `${DAYS_LONG[wd]} ${d} ${MONTHS_FR[m-1]} ${y}`;
+    }
+    function renderHeaders() {
+        calHeaders.innerHTML = '';
+        DAYS_SHORT.forEach((d, i) => {
+            const el = document.createElement('div');
+            el.className = 'cal-day-hdr' + (i >= 5 ? ' weekend' : '');
+            el.textContent = d;
+            calHeaders.appendChild(el);
+        });
+    }
+    function renderCalendar() {
+        calTitle.textContent = `${MONTHS_FR[month]} ${year}`;
+        calGrid.innerHTML = '';
+        const firstDow = (new Date(year, month, 1).getDay() + 6) % 7; // 0=Lun
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        for (let i = 0; i < firstDow; i++) {
+            const e = document.createElement('div');
+            e.className = 'cal-day empty';
+            calGrid.appendChild(e);
+        }
+        for (let d = 1; d <= daysInMonth; d++) {
+            const iso = toISO(year, month, d);
+            const dt  = new Date(year, month, d);
+            const dow = (dt.getDay() + 6) % 7; // 0=Lun…6=Dim
+            const isPast    = dt < today;
+            const isToday   = dt.getTime() === today.getTime();
+            const isWeekend = dow >= 5;
+            const isSelected = selectedDates.has(iso);
+            const existing   = EXISTING[iso];
+            const cell = document.createElement('div');
+            cell.className = 'cal-day';
+            if (isPast) {
+                cell.classList.add('past');
+            } else {
+                if (isToday)   cell.classList.add('today');
+                if (isWeekend) cell.classList.add('weekend');
+                if (isSelected) {
+                    cell.classList.add(SEL_CLASS[currentType]);
+                } else if (existing) {
+                    cell.classList.add(existingClass(existing));
+                    const lbl = document.createElement('span');
+                    lbl.className = 'cal-day-label';
+                    lbl.textContent = existingLabel(existing);
+                    cell._hasLabel = lbl;
+                }
+                cell.addEventListener('click', () => {
+                    selectedDates.has(iso) ? selectedDates.delete(iso) : selectedDates.add(iso);
+                    updateUI();
+                    renderCalendar();
+                });
+            }
+            const num = document.createElement('span');
+            num.textContent = d;
+            cell.appendChild(num);
+            if (cell._hasLabel) cell.appendChild(cell._hasLabel);
+            calGrid.appendChild(cell);
+        }
+    }
+    function updateUI() {
+        const count  = selectedDates.size;
+        const sorted = [...selectedDates].sort();
+        datesInput.value = JSON.stringify(sorted);
+        selBadge.textContent = count;
+        selBadge.classList.toggle('has-items', count > 0);
+        btnSubmit.disabled = count === 0;
+        btnSubmit.style.opacity = count > 0 ? '1' : '.45';
+        btnSubmit.style.cursor  = count > 0 ? 'pointer' : 'not-allowed';
+        btnSubmit.style.background = count > 0 ? 'green' : 'oklch(52.7% 0.154 150.069)';
+        btnResetDefault.disabled = count === 0;
+        btnResetDefault.style.opacity = count > 0 ? '1' : '.45';
+        btnResetDefault.style.cursor = count > 0 ? 'pointer' : 'not-allowed';
+        if (count > 0) {
+            datesPreview.style.display = 'block';
+            datesList.innerHTML = sorted.map(iso =>
+                `<div>· ${formatFR(iso)}</div>`
+            ).join('');
+        } else {
+            datesPreview.style.display = 'none';
+        }
+    }
+    window.clearSelection = function () {
+        selectedDates.clear();
+        updateUI();
+        renderCalendar();
+    };
+    window.resetSelectedDates = function () {
+        if (selectedDates.size === 0) return;
+        if (!confirm('Rétablir les dates sélectionnées par défaut ?')) return;
+        document.querySelector('#form-validation input[name="action_type"]').value = 'retablir_defaut';
+        calendarMonthInput.value = `${year}-${String(month + 1).padStart(2, '0')}`;
+        document.getElementById('form-validation').submit();
+    };
+    const typeLabels = ['vacances','mercredi','ouvert','ferme'];
+    window.setType = function (type, clickedLabel) {
+        currentType = type;
+        document.getElementById(`r-${type}`).checked = true;
+        document.querySelectorAll('input[name="status"]').forEach(r => {
+            const v = type === 'ferme' ? 'ferme' : 'ouvert';
+            r.value = v;
+        });
+        document.getElementById('r-ferme').value = 'ferme';
+        ['r-vacances','r-mercredi','r-ouvert'].forEach(id => {
+            document.getElementById(id).value = 'ouvert';
+        });
+        typeLabels.forEach(t => {
+            const lbl = document.getElementById(`lbl-${t}`);
+            lbl.className = 'type-radio-label' + (t === type ? ` checked-${t}` : '');
+        });
+        const motifMap = {
+            vacances: 'Vacances de la Toussaint',
+            mercredi: 'Mercredi ordinaire',
+            ouvert:   'Ouverture exceptionnelle',
+            ferme:    'Fermeture exceptionnelle',
+        };
+        motifSelect.value = motifMap[type];
+        motifCustom.style.display = 'none';
+        renderCalendar();
+    };
+    motifSelect.addEventListener('change', () => {
+        if (motifSelect.value === '') {
+            motifCustom.style.display = 'block';
+            motifCustom.name = 'motif';
+            motifSelect.removeAttribute('name');
+        } else {
+            motifCustom.style.display = 'none';
+            motifSelect.name = 'motif';
+            motifCustom.removeAttribute('name');
+        }
+    });
+    document.getElementById('btn-prev').addEventListener('click', () => {
+        month--; if (month < 0) { month = 11; year--; }
+        renderCalendar();
+    });
+    document.getElementById('btn-next').addEventListener('click', () => {
+        month++; if (month > 11) { month = 0; year++; }
+        renderCalendar();
+    });
+    document.getElementById('form-validation').addEventListener('submit', () => {
+        calendarMonthInput.value = `${year}-${String(month + 1).padStart(2, '0')}`;
+    });
+    renderHeaders();
+    renderCalendar();
+    updateUI();
+    document.getElementById('lbl-vacances').classList.add('checked-vacances');
+})();
+</script>
+{% endblock %}

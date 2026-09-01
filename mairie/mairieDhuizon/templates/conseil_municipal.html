@@ -1,0 +1,131 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}<title>Conseil Municipal — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Conseil municipal de Dhuizon : comptes-rendus, conseillers municipaux et prochain conseil.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+{% block content %}
+<main class="bg-gradient-to-b from-green-50 to-white min-h-screen text-gray-900">
+    <section id="conseil-municipal" class="mx-auto max-w-7xl px-4 md:px-6 pt-10 md:pt-14 pb-8 scroll-mt-6">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">Conseil Municipal</h1>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Comptes-rendus des séances, liste des élus et informations sur le prochain conseil.
+            </p>
+        </div>
+        {% if prochain_conseil %}
+        <div id="prochain-conseil" class="mb-12 bg-green-700 text-white rounded-2xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 scroll-mt-6">
+            <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/20">
+                <span class="material-symbols-outlined text-4xl">event</span>
+            </div>
+            <div>
+                <p class="text-sm font-semibold uppercase tracking-widest text-green-200 mb-1">Prochain conseil municipal</p>
+                <p class="text-2xl font-extrabold">{{ prochain_conseil.date }}</p>
+                {% if prochain_conseil.heure %}
+                <p class="text-green-100 mt-1">à {{ prochain_conseil.heure|time:"H:i" }}</p>
+                {% endif %}
+                {% if prochain_conseil.lieu %}
+                <p class="text-green-200 text-sm mt-1">{{ prochain_conseil.lieu }}</p>
+                {% endif %}
+                {% if prochain_conseil.notes %}
+                <p class="text-green-100 text-sm mt-2 italic">{{ prochain_conseil.notes }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        <div id="comptes-rendus" class="mb-16 scroll-mt-6">
+            <div class="flex items-center justify-center gap-4 mb-8">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap">Comptes-rendus</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                {% for conseil in all_conseil %}
+                <article class="group bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    <div class="h-2 bg-green-700 w-full"></div>
+                    <div class="p-6 flex flex-col h-full">
+                        <span class="text-sm font-semibold uppercase tracking-wider text-green-700 mb-1">{{ conseil.date }}</span>
+                        <h3 class="font-bold text-gray-900 mb-2">{{ conseil.titre }}</h3>
+                        {% if conseil.description %}
+                        {% endif %}
+                        <div class="mt-6">
+                            {% if conseil.pdf %}
+                            <a href="{{ conseil.pdf|upload_url }}" target="_blank" rel="noopener noreferrer"
+                               class="flex items-center justify-center gap-2 w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-xl transition duration-300 text-center">
+                                <span class="material-symbols-outlined text-lg">picture_as_pdf</span>
+                                Voir le PDF
+                            </a>
+                            {% else %}
+                            <p class="text-sm text-gray-500 text-center">PDF non disponible</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-500 text-lg">Aucun rapport de conseil municipal disponible pour le moment.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% if conseillers %}
+        <div id="elus" class="mb-16 pt-8 border-t border-green-200/80 scroll-mt-6">
+            <div class="flex items-center justify-center gap-4 mb-8">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap">Les élus</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                {% for conseiller in conseillers %}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden text-center p-4 hover:shadow-md transition">
+                    {% if conseiller.photo %}
+                    <img src="{{ conseiller.photo|upload_url }}" alt="{{ conseiller.prenom }} {{ conseiller.nom }}"
+                         class="w-20 h-20 rounded-full object-cover mx-auto mb-3 border-2 border-green-200">
+                    {% else %}
+                    <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                        <span class="material-symbols-outlined text-3xl text-green-700">person</span>
+                    </div>
+                    {% endif %}
+                    <p class="font-bold text-gray-900 text-sm">{{ conseiller.prenom }} {{ conseiller.nom }}</p>
+                    {% if conseiller.role %}
+                    <p class="text-xs text-green-800 font-medium mt-1">{{ conseiller.role }}</p>
+                    {% endif %}
+                    {% if conseiller.comissions %}
+                    <p class="text-xs text-gray-500 mt-1">{{ conseiller.comissions }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% if conseil_jeunes %}
+        <div id="conseil-jeunes" class="mb-12 pt-8 border-t border-green-200/80 scroll-mt-6">
+            <div class="flex items-center justify-center gap-4 mb-8">
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+                <h2 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap">Conseil municipal des jeunes</h2>
+                <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                {% for conseiller in conseil_jeunes %}
+                <div class="bg-white border border-green-200 rounded-2xl shadow-sm overflow-hidden text-center p-4 hover:shadow-md transition">
+                    {% if conseiller.photo %}
+                    <img src="{{ conseiller.photo|upload_url }}" alt="{{ conseiller.prenom }} {{ conseiller.nom }}"
+                         class="w-20 h-20 rounded-full object-cover mx-auto mb-3 border-2 border-green-300">
+                    {% else %}
+                    <div class="w-20 h-20 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-3 border-2 border-green-200">
+                        <span class="material-symbols-outlined text-3xl text-green-600">emoji_people</span>
+                    </div>
+                    {% endif %}
+                    <p class="font-bold text-gray-900 text-sm">{{ conseiller.prenom }} {{ conseiller.nom }}</p>
+                    {% if conseiller.role %}
+                    <p class="text-xs text-green-700 font-medium mt-1">{{ conseiller.role }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

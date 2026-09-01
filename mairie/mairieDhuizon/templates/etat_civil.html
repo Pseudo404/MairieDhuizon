@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}<title>État Civil — Mairie de Dhuizon</title>{% endblock %}
+{% block content %}
+<main class="bg-gradient-to-b from-green-50 to-white min-h-screen text-gray-900 pb-16">
+    <section class="mx-auto max-w-7xl px-4 md:px-6 pt-10 md:pt-14 pb-8">
+        <div class="mb-8">
+            <a href="{% url 'vie_pratique' %}#demarches" class="inline-flex items-center gap-2 text-green-700 hover:text-green-900 font-medium transition-colors">
+                <span class="material-symbols-outlined">arrow_back</span> Retour aux démarches
+            </a>
+        </div>
+        <div class="text-center mb-12">
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4 flex items-center justify-center gap-3">
+                <span class="material-symbols-outlined text-4xl lg:text-5xl text-green-700">assignment_ind</span>
+                État Civil
+            </h1>
+        </div>
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl shadow-sm mb-10">
+                <p class="text-lg text-blue-900 font-medium leading-relaxed">
+                    La délivrance d'acte civil est gratuite. Se présenter à la mairie impérativement avec le livret de famille ou la carte nationale d'identité. Acte de naissance, mariage, décès : accéder à la démarche en ligne ci-dessous.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <a href="https://www.service-public.fr/particuliers/vosdroits/F1427" target="_blank" rel="noopener noreferrer"
+                   class="group bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center text-center transition-all hover:shadow-xl hover:-translate-y-1 border-2 border-transparent hover:border-green-400">
+                    <span class="material-symbols-outlined text-green-700 text-5xl mb-4 group-hover:scale-110 transition-transform">child_care</span>
+                    <h3 class="text-base md:text-lg font-bold text-green-900 leading-tight">Acte de<br>naissance</h3>
+                </a>
+                <a href="https://www.service-public.fr/particuliers/vosdroits/F930" target="_blank" rel="noopener noreferrer"
+                   class="group bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center text-center transition-all hover:shadow-xl hover:-translate-y-1 border-2 border-transparent hover:border-green-400">
+                    <span class="material-symbols-outlined text-green-700 text-5xl mb-4 group-hover:scale-110 transition-transform">favorite</span>
+                    <h3 class="text-base md:text-lg font-bold text-green-900 leading-tight">Acte de<br>mariage</h3>
+                </a>
+                <a href="https://www.service-public.fr/particuliers/vosdroits/F1444" target="_blank" rel="noopener noreferrer"
+                   class="group bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center text-center transition-all hover:shadow-xl hover:-translate-y-1 border-2 border-transparent hover:border-green-400">
+                    <span class="material-symbols-outlined text-green-700 text-5xl mb-4 group-hover:scale-110 transition-transform">description</span>
+                    <h3 class="text-base md:text-lg font-bold text-green-900 leading-tight">Acte de<br>décès</h3>
+                </a>
+                <a href="https://www.service-public.fr/particuliers/vosdroits/F11991" target="_blank" rel="noopener noreferrer"
+                   class="group bg-white rounded-2xl shadow-md p-6 flex flex-col items-center justify-center text-center transition-all hover:shadow-xl hover:-translate-y-1 border-2 border-transparent hover:border-green-400">
+                    <span class="material-symbols-outlined text-green-700 text-5xl mb-4 group-hover:scale-110 transition-transform">auto_stories</span>
+                    <h3 class="text-base md:text-lg font-bold text-green-900 leading-tight">Livret de<br>famille</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

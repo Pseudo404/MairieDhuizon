@@ -1,0 +1,332 @@
+{% extends 'panel/centre_loisirs/_base_cl.html' %}
+{% load upload_tags %}
+
+{% block cl_content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">⏳ Réservations en attente</h1>
+    <p class="text-gray-500">Gérez les demandes d'inscription au centre de loisirs.</p>
+</div>
+
+{% if reservations %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for resa in reservations %}
+            <article class="panel-card flex flex-col justify-between p-0 overflow-hidden relative group">
+                
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 border-b border-blue-100 flex items-start justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide border border-amber-200">En attente</span>
+                            {% if resa.date.weekday == 2 %}
+                            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide border border-blue-200">Mercredi</span>
+                            {% else %}
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wide border border-purple-200">Vacances</span>
+                            {% endif %}
+                        </div>
+                        <p class="text-xl font-bold text-blue-900">{{ resa.date|date:"l d F Y" }}</p>
+                    </div>
+                    <div class="bg-white p-2 rounded-xl shadow-sm shrink-0">
+                        <span class="text-2xl">📅</span>
+                    </div>
+                </div>
+
+                
+                <div class="p-5 flex-1">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-100 to-emerald-200 text-emerald-700 flex items-center justify-center font-bold text-lg mr-4 shrink-0 shadow-sm">
+                            {{ resa.inscription.prenom_enfant|first|upper }}{{ resa.inscription.nom_enfant|first|upper }}
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 leading-tight">{{ resa.inscription.prenom_enfant }} {{ resa.inscription.nom_enfant }}</h3>
+                            <p class="text-sm font-medium text-gray-500">
+                                {{ resa.inscription.age }} ans
+                                {% if resa.inscription.age >= 6 %}
+                                    <span class="ml-1 bg-green-100 text-green-700 text-xs font-bold px-1.5 py-0.5 rounded-full">+ de 6 ans</span>
+                                {% else %}
+                                    <span class="ml-1 bg-red-100 text-red-700 text-xs font-bold px-1.5 py-0.5 rounded-full">- de 6 ans</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-3 text-sm text-gray-700 space-y-1.5 mb-4 border border-gray-100">
+                        <p>
+                            <span class="text-gray-400 font-medium block text-xs uppercase tracking-wide">Responsable Légal</span>
+                            {{ resa.inscription.prenom_responsable_1 }} {{ resa.inscription.nom_responsable_1 }}
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <span class="text-gray-400">✉️</span>
+                            <a href="mailto:{{ resa.inscription.email_1 }}" class="text-blue-600 hover:underline truncate">{{ resa.inscription.email_1 }}</a>
+                        </p>
+                        <p class="flex items-center gap-2">
+                            <span class="text-gray-400">📞</span>
+                            {{ resa.inscription.portable_1|default:resa.inscription.telephone_1 }}
+                        </p>
+                    </div>
+
+                    {% if resa.inscription.pai_sante %}
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 text-xs">
+                        <p class="font-bold text-red-700 uppercase tracking-wide mb-1">⚠️ PAI / Allergie</p>
+                        <p class="text-red-800">{{ resa.inscription.pai_sante|truncatechars:80 }}</p>
+                    </div>
+                    {% endif %}
+
+                    <button type="button" onclick="document.getElementById('details-modal-{{ resa.id }}').showModal()"
+                        class="text-sm text-blue-600 hover:text-blue-800 font-semibold flex items-center justify-center gap-1.5 w-full py-2 rounded-xl hover:bg-blue-50 transition-colors border border-blue-100">
+                        📄 Voir les détails et documents
+                    </button>
+                </div>
+
+                
+                <div class="p-4 border-t border-gray-100 bg-white flex gap-3">
+                    <button type="button" onclick="document.getElementById('valid-modal-{{ resa.id }}').showModal()"
+                        class="flex-1 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-sm hover:shadow-md hover:from-emerald-600 hover:to-emerald-700 transition-all text-sm flex items-center justify-center gap-2">
+                        ✅ Valider
+                    </button>
+                    <button type="button" onclick="document.getElementById('refus-modal-{{ resa.id }}').showModal()"
+                        class="flex-1 bg-white border border-red-200 text-red-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-red-50 transition-all text-sm flex items-center justify-center gap-2">
+                        ❌ Refuser
+                    </button>
+                </div>
+
+                
+                <dialog id="details-modal-{{ resa.id }}"
+                    class="p-0 rounded-2xl shadow-2xl backdrop:bg-black backdrop:bg-opacity-50 w-full max-w-2xl m-auto overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4 flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-white">Dossier de {{ resa.inscription.prenom_enfant }} {{ resa.inscription.nom_enfant }}</h3>
+                        <form method="dialog">
+                            <button class="text-white/70 hover:text-white font-bold text-xl w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors">&times;</button>
+                        </form>
+                    </div>
+
+                    <div class="p-6 space-y-5 text-sm max-h-[70vh] overflow-y-auto">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide">Informations Enfant</h4>
+                                <p><strong>Date de naissance :</strong> {{ resa.inscription.date_naissance|date:"d/m/Y" }}</p>
+                                <p><strong>Âge :</strong> {{ resa.inscription.age }} ans
+                                    {% if resa.inscription.age >= 6 %}
+                                        <span class="ml-1 bg-green-100 text-green-700 text-xs font-bold px-1.5 py-0.5 rounded-full">+ de 6 ans</span>
+                                    {% else %}
+                                        <span class="ml-1 bg-red-100 text-red-700 text-xs font-bold px-1.5 py-0.5 rounded-full">- de 6 ans</span>
+                                    {% endif %}
+                                </p>
+                                {% if resa.inscription.pai_sante %}
+                                <div class="bg-red-50 border border-red-200 rounded-xl p-2.5 mt-2">
+                                    <p class="font-bold text-red-700 text-xs uppercase mb-1">⚠️ PAI / Allergie</p>
+                                    <p class="text-red-800">{{ resa.inscription.pai_sante }}</p>
+                                </div>
+                                {% else %}
+                                <p><strong>PAI/Allergie :</strong> <span class="text-gray-400">Aucun</span></p>
+                                {% endif %}
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide">Responsable Légal 1</h4>
+                                <p><strong>Nom :</strong> {{ resa.inscription.prenom_responsable_1 }} {{ resa.inscription.nom_responsable_1 }}</p>
+                                <p><strong>Adresse :</strong> {{ resa.inscription.adresse_responsable_1 }}, {{ resa.inscription.code_postal_1 }} {{ resa.inscription.ville_1 }}</p>
+                                <p><strong>Tél :</strong> {{ resa.inscription.portable_1|default:"-" }} / {{ resa.inscription.telephone_1|default:"-" }}</p>
+                                <p><strong>Email :</strong> <a href="mailto:{{ resa.inscription.email_1 }}" class="text-blue-600 hover:underline">{{ resa.inscription.email_1 }}</a></p>
+                            </div>
+                            {% if resa.inscription.nom_responsable_2 %}
+                            <div class="space-y-2 md:col-span-2">
+                                <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide">Responsable Légal 2</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <p><strong>Nom :</strong> {{ resa.inscription.prenom_responsable_2 }} {{ resa.inscription.nom_responsable_2 }}</p>
+                                    <p><strong>Tél :</strong> {{ resa.inscription.portable_2|default:"-" }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide mb-3">Documents joints</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                {% if resa.inscription.justificatif_quotient_familial.name %}
+                                <a href="{{ resa.inscription.justificatif_quotient_familial|upload_url }}" target="_blank"
+                                    class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
+                                    📄 <span class="font-medium text-gray-700">Justificatif quotient familial</span>
+                                </a>
+                                {% endif %}
+                                {% if resa.inscription.livret_famille_doc.name %}
+                                <a href="{{ resa.inscription.livret_famille_doc|upload_url }}" target="_blank"
+                                    class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
+                                    📄 <span class="font-medium text-gray-700">Livret de famille</span>
+                                </a>
+                                {% endif %}
+                                {% if resa.inscription.vaccins.name %}
+                                <a href="{{ resa.inscription.vaccins|upload_url }}" target="_blank"
+                                    class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
+                                    📄 <span class="font-medium text-gray-700">Carnet de vaccins</span>
+                                </a>
+                                {% endif %}
+                                {% if resa.inscription.assurance_scolaire.name %}
+                                <a href="{{ resa.inscription.assurance_scolaire|upload_url }}" target="_blank"
+                                    class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors">
+                                    📄 <span class="font-medium text-gray-700">Assurance extra-scolaire</span>
+                                </a>
+                                {% endif %}
+                                {% if not resa.inscription.justificatif_quotient_familial.name and not resa.inscription.livret_famille_doc.name and not resa.inscription.vaccins.name and not resa.inscription.assurance_scolaire.name %}
+                                <p class="text-gray-400 italic col-span-2 text-center py-4">Aucun document joint</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="px-6 py-4 bg-gray-50 border-t text-right">
+                        <form method="dialog">
+                            <button class="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 font-bold rounded-xl text-gray-800 transition-colors">Fermer</button>
+                        </form>
+                    </div>
+                </dialog>
+
+                
+                <dialog id="valid-modal-{{ resa.id }}"
+                    class="p-0 rounded-2xl shadow-xl backdrop:bg-black backdrop:bg-opacity-50 w-full max-w-md m-auto overflow-hidden">
+                    <div class="bg-gradient-to-r from-emerald-500 to-green-600 px-6 py-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white text-xl">✅</div>
+                        <h3 class="text-lg font-bold text-white">Valider la demande</h3>
+                    </div>
+                    <form method="post" action="{% url 'admin_cl_valider_reservation' resa.id %}" class="p-6 space-y-4">
+                        {% csrf_token %}
+                        <p class="text-gray-600 text-sm">Vous allez valider la réservation de
+                            <strong class="text-gray-900">{{ resa.inscription.prenom_enfant }}</strong>
+                            pour le <strong class="text-gray-900">{{ resa.date|date:"d/m/Y" }}</strong>.
+                            Un email de confirmation sera envoyé.
+                        </p>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Message type (inclus dans l'email) :</label>
+                            <div class="space-y-2" id="valid-templates-{{ resa.id }}">
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-emerald-400 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50">
+                                    <input type="radio" name="message_type" value="" checked class="mt-0.5 accent-emerald-500">
+                                    <span class="text-sm text-gray-700"><strong>Aucun message</strong> — confirmation simple</span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-emerald-400 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50">
+                                    <input type="radio" name="message_type" value="Dossier complet, votre inscription est confirmée. À très bientôt !" class="mt-0.5 accent-emerald-500">
+                                    <span class="text-sm text-gray-700">✅ <strong>Dossier complet</strong> — inscription confirmée</span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-emerald-400 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50">
+                                    <input type="radio" name="message_type" value="Pensez à apporter le carnet de santé de votre enfant le premier jour." class="mt-0.5 accent-emerald-500">
+                                    <span class="text-sm text-gray-700">📒 Rappel : <strong>apporter le carnet de santé</strong></span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-emerald-400 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50">
+                                    <input type="radio" name="message_type" value="Le règlement s'effectue sur place, en espèces ou par chèque à l'ordre de la Mairie de Dhuizon." class="mt-0.5 accent-emerald-500">
+                                    <span class="text-sm text-gray-700">💳 Rappel : <strong>paiement sur place</strong></span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-emerald-400 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50">
+                                    <input type="radio" name="message_type" value="custom" id="valid-custom-radio-{{ resa.id }}" class="mt-0.5 accent-emerald-500">
+                                    <span class="text-sm text-gray-700">✏️ <strong>Message personnalisé</strong></span>
+                                </label>
+                            </div>
+                            <textarea name="message_personnalise" id="valid-custom-area-{{ resa.id }}" rows="3"
+                                class="w-full mt-3 border-gray-300 rounded-xl shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition-all p-3 text-sm hidden"
+                                placeholder="Saisissez votre message personnalisé…"></textarea>
+                        </div>
+
+                        <div class="flex justify-end gap-3 pt-2">
+                            <button type="button" onclick="document.getElementById('valid-modal-{{ resa.id }}').close()"
+                                class="px-5 py-2.5 font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">Annuler</button>
+                            <button type="submit"
+                                class="bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-sm hover:bg-emerald-700 transition-all">
+                                ✅ Confirmer la validation
+                            </button>
+                        </div>
+                    </form>
+                </dialog>
+
+                
+                <dialog id="refus-modal-{{ resa.id }}"
+                    class="p-0 rounded-2xl shadow-xl backdrop:bg-black backdrop:bg-opacity-50 w-full max-w-md m-auto overflow-hidden">
+                    <div class="bg-gradient-to-r from-red-500 to-rose-600 px-6 py-4 flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-white text-xl">⚠️</div>
+                        <h3 class="text-lg font-bold text-white">Refuser la demande</h3>
+                    </div>
+                    <form method="post" action="{% url 'admin_cl_refuser_reservation' resa.id %}" class="p-6 space-y-4">
+                        {% csrf_token %}
+                        <p class="text-gray-600 text-sm">Vous êtes sur le point de refuser la réservation de
+                            <strong class="text-gray-900">{{ resa.inscription.prenom_enfant }}</strong>
+                            pour le <strong class="text-gray-900">{{ resa.date|date:"d/m/Y" }}</strong>.
+                        </p>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Motif du refus (inclus dans l'email) :</label>
+                            <div class="space-y-2">
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-red-400 transition-all has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
+                                    <input type="radio" name="motif" value="Capacité maximale atteinte pour cette date." checked class="mt-0.5 accent-red-500">
+                                    <span class="text-sm text-gray-700">🔴 <strong>Capacité maximale atteinte</strong></span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-red-400 transition-all has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
+                                    <input type="radio" name="motif" value="Dossier incomplet — merci de nous contacter pour régulariser votre inscription." class="mt-0.5 accent-red-500">
+                                    <span class="text-sm text-gray-700">📋 <strong>Dossier incomplet</strong> — merci de nous contacter</span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-red-400 transition-all has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
+                                    <input type="radio" name="motif" value="Le centre est fermé exceptionnellement à cette date." class="mt-0.5 accent-red-500">
+                                    <span class="text-sm text-gray-700">🚫 <strong>Fermeture exceptionnelle</strong></span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-red-400 transition-all has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
+                                    <input type="radio" name="motif" value="L'enfant ne remplit pas les conditions d'âge requises pour cette période." class="mt-0.5 accent-red-500">
+                                    <span class="text-sm text-gray-700">🎂 <strong>Condition d'âge non remplie</strong></span>
+                                </label>
+                                <label class="flex items-start gap-3 p-3 rounded-xl border-2 border-gray-200 cursor-pointer hover:border-red-400 transition-all has-[:checked]:border-red-500 has-[:checked]:bg-red-50">
+                                    <input type="radio" name="motif" value="custom" id="refus-custom-radio-{{ resa.id }}" class="mt-0.5 accent-red-500">
+                                    <span class="text-sm text-gray-700">✏️ <strong>Autre motif</strong></span>
+                                </label>
+                            </div>
+                            <input type="text" id="refus-custom-input-{{ resa.id }}" name="motif_custom"
+                                placeholder="Précisez le motif…"
+                                class="w-full mt-3 border-gray-300 rounded-xl shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 transition-all p-3 text-sm hidden">
+                        </div>
+
+                        <div class="flex justify-end gap-3 pt-2">
+                            <button type="button" onclick="document.getElementById('refus-modal-{{ resa.id }}').close()"
+                                class="px-5 py-2.5 font-medium text-gray-600 hover:bg-gray-100 rounded-xl transition-colors">Annuler</button>
+                            <button type="submit"
+                                class="bg-red-600 text-white font-bold px-5 py-2.5 rounded-xl shadow-sm hover:bg-red-700 transition-all">
+                                ❌ Confirmer le refus
+                            </button>
+                        </div>
+                    </form>
+                </dialog>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="panel-card flex flex-col items-center justify-center py-16 px-4 text-center">
+        <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center text-4xl mb-4">✨</div>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Tout est à jour !</h2>
+        <p class="text-gray-500 max-w-md">Il n'y a aucune réservation en attente de validation pour le moment.</p>
+    </div>
+{% endif %}
+
+<script>
+document.querySelectorAll('[id^="valid-templates-"]').forEach(container => {
+    const suffix = container.id.replace('valid-templates-', '');
+    const customRadio = document.getElementById(`valid-custom-radio-${suffix}`);
+    const customArea  = document.getElementById(`valid-custom-area-${suffix}`);
+    if (!customRadio || !customArea) return;
+    container.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (customRadio.checked) {
+                customArea.classList.remove('hidden');
+            } else {
+                customArea.classList.add('hidden');
+            }
+        });
+    });
+});
+document.querySelectorAll('[id^="refus-custom-radio-"]').forEach(radio => {
+    const suffix = radio.id.replace('refus-custom-radio-', '');
+    const customInput = document.getElementById(`refus-custom-input-${suffix}`);
+    if (!customInput) return;
+    const allRadios = radio.closest('form').querySelectorAll('input[type="radio"][name="motif"]');
+    allRadios.forEach(r => {
+        r.addEventListener('change', () => {
+            if (radio.checked) {
+                customInput.classList.remove('hidden');
+            } else {
+                customInput.classList.add('hidden');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

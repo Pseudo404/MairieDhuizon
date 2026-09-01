@@ -1,0 +1,69 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}<title>Panneau de contrôle — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Panneau de contrôle de la Mairie de Dhuizon">
+{% include 'panel/_theme.html' %}
+{% endblock %}
+{% block content %}
+<main class="panel-bg py-16">
+    <section class="max-w-4xl mx-auto px-4 lg:px-6">
+        <div class="mb-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div>
+                <p class="text-sm uppercase tracking-widest text-green-700 font-semibold mb-2">Administration</p>
+                <h1 class="text-3xl font-semibold text-gray-900 mb-2">Panneau de contrôle</h1>
+                <p class="text-gray-500 text-lg">Bienvenue, <strong class="text-green-800">{{ user.first_name|default:user.username }}</strong> 👋</p>
+            </div>
+            <a href="{% url 'logout_admin' %}" class="panel-logout panel-btn shrink-0">🚪 Déconnexion</a>
+        </div>
+        {% if messages %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'success' %}panel-msg-success{% else %}panel-msg-error{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <a href="{% url 'admin_settings' %}" class="group block">
+                <article class="panel-card relative p-10 text-center overflow-hidden h-full flex flex-col items-center">
+                    <div class="panel-card-accent"></div>
+                    <div class="panel-icon-wrap panel-icon-green">⚙️</div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2 group-hover:text-green-800 transition-colors">Paramètres</h2>
+                    <p class="text-gray-500 leading-relaxed mb-4 flex-1">Gérer les menus, galeries, informations et autres contenus.</p>
+                    <span class="inline-block text-sm font-semibold text-green-700 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                        Accéder →
+                    </span>
+                </article>
+            </a>
+            <a href="{% url 'admin_stats' %}" class="group block">
+                <article class="panel-card relative p-10 text-center overflow-hidden h-full flex flex-col items-center">
+                    <div class="panel-card-accent panel-card-amber"></div>
+                    <div class="panel-icon-wrap panel-icon-amber">📈</div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2 group-hover:text-amber-700 transition-colors">Statistiques</h2>
+                    <p class="text-gray-500 leading-relaxed mb-4 flex-1">Dashboard analytique et fréquentation du site.</p>
+                    {% if views_today %}
+                    <span class="panel-badge panel-badge-amber mt-auto">{{ views_today }} vue{{ views_today|pluralize }} aujourd'hui</span>
+                    {% else %}
+                    <span class="inline-block text-sm font-semibold text-amber-700 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                        Voir le dashboard →
+                    </span>
+                    {% endif %}
+                </article>
+            </a>
+            
+            <a href="{% url 'admin_cl_dashboard' %}" class="group block md:col-span-2 max-w-2xl mx-auto w-full">
+                <article class="panel-card relative p-10 text-center overflow-hidden h-full flex flex-col items-center">
+                    <div class="panel-card-accent" style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, transparent 100%); border-color: rgba(59,130,246,0.3);"></div>
+                    <div class="panel-icon-wrap" style="background-color: #dbeafe; color: #1d4ed8;">⚽</div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors">Centre de Loisirs</h2>
+                    <p class="text-gray-500 leading-relaxed mb-4 flex-1">Gérer les inscriptions, les réservations et le calendrier du centre.</p>
+                    <span class="inline-block text-sm font-semibold text-blue-700 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                        Accéder au tableau de bord →
+                    </span>
+                </article>
+            </a>
+        </div>
+        <p class="text-center mt-12 text-sm text-gray-400"><a href="{% url 'home' %}" class="panel-back hover:no-underline">← Retour au site public</a></p>
+    </section>
+</main>
+{% endblock %}

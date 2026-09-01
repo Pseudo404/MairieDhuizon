@@ -1,0 +1,80 @@
+{% extends 'index.html' %}
+{% block title %}<title>{{ model_name_plural }} — Panneau de contrôle</title>{% endblock %}
+{% block extra_head %}{% include 'panel/_theme.html' %}{% endblock %}
+{% block content %}
+<main class="panel-bg py-12">
+    <div class="max-w-6xl mx-auto px-4 lg:px-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+            <div>
+                {% if parent_instance %}
+                    <a href="{% url 'panel_crud_list' app_label model_slug %}" class="panel-back inline-flex items-center gap-1 mb-2">← Sélection de l'entreprise</a>
+                    <h1 class="text-2xl font-semibold panel-title">Horaires : {{ parent_instance }}</h1>
+                {% else %}
+                    <a href="{% url 'admin_settings' %}" class="panel-back inline-flex items-center gap-1 mb-2">← Paramètres</a>
+                    <h1 class="text-2xl font-semibold panel-title">{{ model_name_plural }}</h1>
+                {% endif %}
+            </div>
+            <a href="{% url 'panel_crud_add' app_label model_slug %}{% if parent_instance %}?parent_id={{ parent_instance.pk }}{% endif %}" class="panel-btn-primary px-6 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg">
+                <span class="text-xl">+</span> Ajouter
+            </a>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="mb-6 p-4 rounded-xl {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} font-medium">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+        <div class="flex flex-col gap-3">
+            {% for obj in objects %}
+            <div class="panel-card flex flex-col sm:flex-row sm:items-center justify-between p-5 gap-4 group border-l-4 {% if is_admin_accounts and obj.is_super_admin %}border-l-amber-400{% elif is_admin_accounts and obj.is_centre_loisirs %}border-l-blue-400{% elif is_admin_accounts and obj.can_access_centre_loisirs %}border-l-purple-400{% else %}border-l-green-500{% endif %} border border-transparent hover:border-green-300 transition-all shadow-sm hover:shadow-md bg-white rounded-xl">
+                <div class="font-medium text-gray-800 text-base flex-1 truncate">
+                    {{ obj }}
+                    {% if is_admin_accounts %}
+                        {% if obj.is_super_admin %}
+                        <span class="ml-2 text-xs font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">⭐ Super Admin</span>
+                        {% elif obj.is_centre_loisirs %}
+                        <span class="ml-2 text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full">🏕️ Centre de Loisirs uniquement</span>
+                        {% elif obj.can_access_centre_loisirs %}
+                        <span class="ml-2 text-xs font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">🔑 Admin + Centre de Loisirs</span>
+                        {% else %}
+                        <span class="ml-2 text-xs font-semibold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">Employé</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="flex items-center gap-3">
+                    {% if model_slug == 'news' %}
+                    <form action="{% url 'panel_crud_toggle_publish' app_label model_slug obj.pk %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="w-32 justify-center px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-1 {% if obj.is_published %}btn-unpublish{% else %}btn-publish{% endif %}">
+                            <span class="material-symbols-outlined text-sm">{% if obj.is_published %}visibility{% else %}visibility_off{% endif %}</span> 
+                            {% if obj.is_published %}Dépublier{% else %}Publier{% endif %}
+                        </button>
+                    </form>
+                    {% endif %}
+                    {% if is_admin_accounts and obj.is_super_admin %}
+                        {# Les Super Admins sont protégés : on les affiche mais pas de modification possible #}
+                        <span class="text-xs text-amber-500 italic px-2 flex items-center gap-1">🔒 Compte protégé</span>
+                    {% else %}
+                    <a href="{% url 'panel_crud_edit' app_label model_slug obj.pk %}{% if parent_instance %}?parent_id={{ parent_instance.pk }}{% endif %}" class="px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 hover:text-green-800 rounded-lg font-semibold transition-colors flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">edit</span> Modifier
+                    </a>
+                    {% if not is_admin_accounts or obj.user_id != request.user.id %}
+                    <a href="{% url 'panel_crud_delete' app_label model_slug obj.pk %}{% if parent_instance %}?parent_id={{ parent_instance.pk }}{% endif %}" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-700 hover:text-red-800 rounded-lg font-semibold transition-colors flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">delete</span> Supprimer
+                    </a>
+                    {% else %}
+                    <span class="text-xs text-gray-400 italic px-2">Votre compte</span>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="panel-card p-12 py-4 text-center text-gray-500 font-medium bg-white rounded-xl shadow-sm">
+                Aucun élément trouvé. Cliquez sur <strong class="text-green-700">Ajouter</strong> pour commencer.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

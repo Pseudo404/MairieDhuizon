@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}
+<title>{{ news_item.title }} — Mairie de Dhuizon</title>
+{% endblock %}
+{% block extra_head %}
+<meta name="description" content="{{ news_item.short_description }}">
+{% endblock %}
+{% block content %}
+<main>
+    <section id="actualite-detail" class="mx-auto max-w-7xl px-4 md:px-6 py-8 scroll-mt-6">
+        <div class="mb-6">
+            <a href="{% url 'home' %}#actualite" class="inline-flex items-center text-green-800 hover:text-green-900 font-medium transition duration-200">
+                <span class="material-symbols-outlined mr-2">arrow_back</span> Retour aux actualités
+            </a>
+        </div>
+        <div class="flex items-center justify-center gap-4 mb-8">
+            <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+            <h1 class="text-2xl md:text-3xl font-extrabold uppercase tracking-wide text-green-900 whitespace-nowrap text-center">{{ news_item.title }}</h1>
+            <div class="hidden md:block h-[2px] bg-green-700 flex-1 max-w-[120px]"></div>
+        </div>
+        <div class="flex flex-col md:flex-row items-start gap-8 w-full">
+            <div class="w-full md:w-3/5 text-black leading-relaxed text-base tracking-wide py-2">
+                {{ news_item.content }}
+                <div class="mt-6 pt-4 border-t border-gray-200 flex flex-col gap-1">
+                    <div class="text-sm text-end text-green-800">
+                        <strong>Date :</strong> {{ news_item.event_date }}
+                    </div>
+                    {% if news_item.author %}
+                    <div class="text-sm text-end text-green-800">
+                        <strong>Auteur :</strong> {{ news_item.author }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if news_item.image %}
+            <div class="w-full md:w-2/5 py-2 mt-2 flex justify-center">
+                <img src="{{ news_item.image|upload_url }}" alt="{{ news_item.title }}" class="w-full object-contain rounded-2xl shadow-lg">
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</main>
+{% endblock %}

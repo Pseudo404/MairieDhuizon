@@ -1,0 +1,136 @@
+{% extends 'index.html' %}
+{% load static upload_tags %}
+{% block title %}<title>Découvrir Dhuizon — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Découvrez Dhuizon : histoire, patrimoine, présentation de la commune en plein cœur de la Sologne.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+{% endblock %}
+{% block content %}
+<main>
+    <section id="decouvrir" class="relative min-h-[32rem] py-16 flex flex-col items-center justify-center scroll-mt-6">
+        <img src="{{ hero_image.image|upload_url }}" class="-z-10 absolute inset-0 w-full h-full object-cover" alt="">
+        <div class="absolute inset-0 -z-9 bg-black/50"></div>
+        <div class="relative z-10 flex flex-col items-center gap-4 mb-8 text-white w-full px-4 md:w-1/3 text-center lg:w-1/4 xl:w-1/5">
+            <h1 style="color: rgb(0, 255, 0); filter: drop-shadow(0 0 4px rgb(0, 232, 0));"
+                class="tracking-normal text-5xl md:text-6xl font-normal text-center">Découvrir <strong
+                    class="tracking-widest font-bold text-white">Dhuizon</strong></h1>
+            <p class="text-white mt-4 font-medium text-lg tracking-wide w-full">Un village au cœur de la Sologne.</p>
+        </div>
+        <div class="relative z-10 w-full flex justify-center mt-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 place-items-center w-full max-w-4xl">
+                <div class="bg-white/95 w-4/5 text-gray-900 rounded-2xl p-2 shadow-md hover:shadow-xl transform transition duration-300 hover:-translate-y-1 flex flex-col items-center text-center">
+                    <span class="material-symbols-outlined text-green-600 text-3xl" style="font-size: var(--text-5xl); line-height: var(--tw-leading, var(--text-3xl--line-height));">people</span>
+                    <div class="mt-2 text-lg font-bold">
+                        {% if communeinfo and communeinfo.population %}
+                            {{ communeinfo.population }}
+                        {% else %}
+                            <span class="text-gray-400 text-base">—</span>
+                        {% endif %}
+                        <span class="text-sm font-medium">habitants</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">Population</div>
+                </div>
+                <div class="bg-white/95 w-4/5 text-gray-900 rounded-2xl p-2 shadow-md hover:shadow-xl transform transition duration-300 hover:-translate-y-1 flex flex-col items-center text-center">
+                    <span class="material-symbols-outlined text-green-600 text-3xl" style="font-size: var(--text-5xl); line-height: var(--tw-leading, var(--text-3xl--line-height));">square_foot</span>
+                    <div class="mt-2 text-lg font-bold">
+                        {% if communeinfo and communeinfo.superficie_ha %}
+                            {{ communeinfo.superficie_ha }}
+                        {% else %}
+                            <span class="text-gray-400 text-base">—</span>
+                        {% endif %}
+                        <span class="text-sm font-medium">ha</span>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">Superficie</div>
+                </div>
+                <div class="bg-white/95 w-4/5 text-gray-900 rounded-2xl p-2 shadow-md hover:shadow-xl transform transition duration-300 hover:-translate-y-1 flex flex-col items-center text-center">
+                    <span class="material-symbols-outlined text-green-600 text-3xl" style="font-size: var(--text-5xl); line-height: var(--tw-leading, var(--text-3xl--line-height));">location_on</span>
+                    <div class="mt-2 text-lg font-bold">
+                        {% if communeinfo and communeinfo.region %}
+                            {{ communeinfo.region }}
+                        {% else %}
+                            <span class="text-gray-400 text-base">—</span>
+                        {% endif %}
+                    </div>
+                    <div class="text-sm text-gray-600 mt-1">Région</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="presentation" class="mx-auto max-w-7xl px-6 py-2 mt-8 scroll-mt-6">
+        <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Présentation de la commune</h2>
+        <div class="flex flex-col md:flex-row items-start justify-between gap-8 w-full mt-8">
+            <div class="w-full md:w-1/2 flex flex-col items-start text-lg">
+                <p class="mb-6 text-black">{{ communeinfo.presentation|default:"Dhuizon est une commune de la Sologne, caractérisée par ses bois, ses étangs et sa vie locale dynamique." }}</p>
+                <div class="flex flex-wrap gap-4 mt-2">
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Dhuizon%2C+Centre-Val-de-Loire%2C+France&utm_source=chatgpt.com"
+                        class="bg-green-800 text-white font-bold py-2 px-6 rounded-2xl hover:scale-105 hover:text-green-300 hover:bg-green-900 transition-transform"
+                        target="_blank">Itinéraire</a>
+                    <a target="_blank" href="https://sologne-des-etangs.fr" 
+                        class="bg-green-800 text-white font-bold py-2 px-6 rounded-2xl hover:scale-105 hover:text-green-300 hover:bg-green-900 transition-transform">Communauté de communes</a>
+                </div>
+                <p class="text-gray-500 text-sm mt-4 italic">Appartient à la communauté de commune de la Sologne des étangs.</p>
+            </div>
+            <div class="w-full md:w-1/2 mt-8 md:mt-0">
+                <div class="w-full overflow-hidden rounded-2xl shadow-lg border border-gray-200" style="height: 350px;">
+                    <iframe class="w-full h-full" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        sandbox="allow-forms allow-scripts allow-same-origin"
+                        src="https://www.geoportail.gouv.fr/embed/visu.html?c=1.6545946339580326,47.586048180034624&z=13&l0=ORTHOIMAGERY.ORTHOPHOTOS::GEOPORTAIL:OGC:WMTS(1)&permalink=yes"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="histoire" class="mx-auto max-w-7xl px-6 py-2 mt-8 scroll-mt-6">
+        <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Histoire de Dhuizon</h2>
+        <div class="flex flex-col md:flex-row gap-8 items-start justify-between w-full mt-8">
+            <div class="mt-8 gap-2 grid grid-cols-1 w-full md:w-1/2">
+                {% for event in histoire %}
+                <div class="border-l-4 border-l-green-800 rounded-xl shadow-xl px-4 py-2 mb-4 transition duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    <span class="text-green-800 font-medium text-xl tracking-wider">{{ event.date_label }}</span>
+                    <p class="">{{ event.evenement }}</p>
+                </div>
+                {% empty %}
+                <p class="mt-4 text-gray-500 italic">Aucun événement historique n'a encore été ajouté.</p>
+                {% endfor %}
+            </div>
+            <div class="w-full md:w-1/2">
+                <img src="{{ hero_image.image|upload_url }}" alt="Histoire de Dhuizon" class="w-full h-full object-cover rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 hover:scale-105 hover:translate-y-20">
+            </div>
+        </div>
+    </section>
+    <section id="patrimoine" class="mx-auto max-w-7xl px-6 py-2 my-8 scroll-mt-6">
+        <h2 class="text-3xl font-bold text-gray-900 border-b-2 border-black w-full">Patrimoine &amp; lieux remarquables</h2>
+        {% if patrimoine %}
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8">
+            {% for lieu in patrimoine %}
+            <div class="group overflow-hidden rounded-3xl bg-white shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                {% if lieu.image %}
+                <div class="h-48 overflow-hidden">
+                    <img src="{{ lieu.image|upload_url }}" alt="{{ lieu.nom }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                </div>
+                {% else %}
+                <div class="h-2 bg-green-700 w-full"></div>
+                {% endif %}
+                <div class="flex flex-col gap-3 p-5">
+                    <h3 class="text-xl font-bold text-gray-900">{{ lieu.nom }}</h3>
+                    {% if lieu.description %}
+                    <p class="text-gray-700 text-sm leading-relaxed">{{ lieu.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="mt-8 text-center py-14 bg-white rounded-2xl border border-dashed border-gray-300 shadow-sm">
+            <span class="material-symbols-outlined text-5xl text-green-300 mb-3 block">account_balance</span>
+            <p class="text-gray-500 text-sm">Aucun lieu de patrimoine enregistré pour le moment.<br>
+                <span class="text-xs">Ajoutez-en depuis le panneau d'administration →
+                    <strong>Patrimoine &amp; lieux remarquables</strong>.
+                </span>
+            </p>
+        </div>
+        {% endif %}
+    </section>
+</main>
+{% endblock %}
