@@ -150,6 +150,23 @@ class ContactForm(forms.Form):
                      'focus:border-green-600 transition',
         }),
     )
+    verification = forms.IntegerField(
+        label="Vérification anti-robot : combien font 3 + 4 ?",
+        min_value=7,
+        max_value=7,
+        widget=forms.NumberInput(attrs={
+            'placeholder': 'Votre réponse',
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition',
+        }),
+        error_messages={
+            'required': 'Veuillez répondre à la question anti-robot.',
+            'invalid': 'Veuillez entrer un nombre.',
+            'min_value': 'Réponse incorrecte.',
+            'max_value': 'Réponse incorrecte.',
+        },
+    )
     message = forms.CharField(
         max_length=5000,
         label="Message",

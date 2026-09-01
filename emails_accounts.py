@@ -4,7 +4,7 @@ Vous pouvez modifier ces variables pour changer les adresses et les noms d'expé
 Note : Les adresses d'expédition (SENDER_EMAIL) doivent être validées sur votre compte Brevo.
 """
 
-MAIRIE_CONTACT_RECEPTION_EMAIL = "cizeautom@gmail.com"
+MAIRIE_CONTACT_RECEPTION_EMAIL = "mairie@dhuizon.fr"
 
 # acuses de reception
 MAIRIE_SENDER_EMAIL = "mairie@dhuizon.fr"
