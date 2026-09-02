@@ -2280,6 +2280,14 @@ class PeriscolaireInfo(BaseModel):
         return self.titre
 
 
+import datetime
+
+def current_year():
+    return datetime.date.today().isocalendar()[0]
+
+def current_week():
+    return datetime.date.today().isocalendar()[1]
+
 class MenuCantine(BaseModel):
     """
     Menu hebdomadaire de la cantine scolaire.
@@ -2295,10 +2303,12 @@ class MenuCantine(BaseModel):
 
     annee = models.IntegerField(
         verbose_name="Année",
+        default=current_year,
         help_text="Exemple : 2024",
     )
     numero_semaine = models.IntegerField(
         verbose_name="Numéro de la semaine",
+        default=current_week,
         help_text="Exemple : 34",
     )
     jour = models.CharField(
