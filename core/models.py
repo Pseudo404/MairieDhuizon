@@ -2278,3 +2278,71 @@ class PeriscolaireInfo(BaseModel):
 
     def __str__(self):
         return self.titre
+
+
+class MenuCantine(BaseModel):
+    """
+    Menu hebdomadaire de la cantine scolaire.
+    Chaque entrée correspond à un jour de la semaine pour une semaine donnée.
+    Le secrétariat remplit rapidement le menu via l'admin Django.
+    """
+    JOUR_CHOICES = [
+        ("lundi", "Lundi"),
+        ("mardi", "Mardi"),
+        ("mercredi", "Mercredi"),
+        ("jeudi", "Jeudi"),
+        ("vendredi", "Vendredi"),
+    ]
+
+    semaine = models.DateField(
+        verbose_name="Date du lundi de la semaine",
+        help_text="Indiquez le lundi de la semaine concernée (ex : 02/09/2026).",
+    )
+    jour = models.CharField(
+        max_length=10,
+        choices=JOUR_CHOICES,
+        verbose_name="Jour",
+    )
+    entree = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Entrée",
+    )
+    plat_principal = models.CharField(
+        max_length=200,
+        verbose_name="Plat principal",
+    )
+    accompagnement = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Accompagnement",
+    )
+    dessert = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Dessert",
+    )
+    laitage = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Laitage",
+    )
+    note = models.CharField(
+        max_length=300,
+        blank=True,
+        verbose_name="Note (allergènes, menu bio…)",
+    )
+
+    class Meta:
+        verbose_name = "Menu de la cantine"
+        verbose_name_plural = "Menus de la cantine"
+        ordering = ["semaine", "jour"]
+        unique_together = [("semaine", "jour")]
+
+    def __str__(self):
+        return f"Menu cantine – {self.get_jour_display()} {self.semaine.strftime('%d/%m/%Y')}"
+
+    @property
+    def jour_index(self):
+        mapping = {"lundi": 1, "mardi": 2, "mercredi": 3, "jeudi": 4, "vendredi": 5}
+        return mapping.get(self.jour, 0)

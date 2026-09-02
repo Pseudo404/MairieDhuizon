@@ -16,7 +16,7 @@ from django.db.models import Count, Avg
 from django.db.models.functions import TruncHour
 from django.apps import apps
 from django.forms import modelform_factory
-from core.models import (AgencePostale, CabaneCocou, ChildcareProfessional, CommuneInfo,Commerce, CommerceSchedule, Entreprise, GlassCollectionPoint, HealthCenter,Gite, HealthcareProfessional, Hebergement, LeisureCenter, LieuTouristique,Mediatheque, MunicipalCouncilReport,MunicipalCouncilor, News, NextCouncilMeeting, Nursery, PatrimoineItem, Pharmacy, QuickLink,CommuneMedia, HistoireDhuizon, RecyclingCenter, School, SeniorResidence,SportFacility, TextileCollectionPoint, Transport, WasteCollectionSchedule, PageView,DemarcheAdministrative, Randonnee)
+from core.models import (AgencePostale, CabaneCocou, ChildcareProfessional, CommuneInfo,Commerce, CommerceSchedule, Entreprise, GlassCollectionPoint, HealthCenter,Gite, HealthcareProfessional, Hebergement, LeisureCenter, LieuTouristique,Mediatheque, MenuCantine, MunicipalCouncilReport,MunicipalCouncilor, News, NextCouncilMeeting, Nursery, PatrimoineItem, Pharmacy, QuickLink,CommuneMedia, HistoireDhuizon, RecyclingCenter, School, SeniorResidence,SportFacility, TextileCollectionPoint, Transport, WasteCollectionSchedule, PageView,DemarcheAdministrative, Randonnee)
 from core.forms import ContactForm, NewsForm, AdminLoginForm, AdminAccountForm, InscriptionPeriscolaireForm
 from core.email_service import send_contact_email, send_confirmation_email, send_periscolaire_email
 from core.uploads import file_response_for_path
@@ -179,6 +179,23 @@ def vie_pratique(request):
         semaine_type = "impaire"
         poubelle_semaine = "verte"
 
+    # ── Menu cantine ──────────────────────────────────────────────────────────
+    # Calcul du lundi de la semaine en cours
+    today = now.date()
+    lundi_semaine = today - datetime.timedelta(days=today.weekday())
+    menus_semaine = list(
+        MenuCantine.objects.filter(semaine=lundi_semaine).order_by("jour")
+    )
+
+    # Plat du jour (uniquement en semaine)
+    jour_key_map = {0: "lundi", 1: "mardi", 2: "mercredi", 3: "jeudi", 4: "vendredi"}
+    jour_today_key = jour_key_map.get(today.weekday())
+    plat_du_jour = None
+    if jour_today_key:
+        plat_du_jour = next(
+            (m for m in menus_semaine if m.jour == jour_today_key), None
+        )
+
     return render(request, 'vie_pratiques.html', {
         'school': school_info,
         'health_center': health_center_info,
@@ -220,6 +237,8 @@ def vie_pratique(request):
         'week_number': week_number,
         'semaine_type': semaine_type,
         'poubelle_semaine': poubelle_semaine,
+        'menus_semaine': menus_semaine,
+        'plat_du_jour': plat_du_jour,
     })
 
 @ratelimit(key='ip', rate='30/m', block=True)

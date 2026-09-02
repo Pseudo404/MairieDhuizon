@@ -8,7 +8,7 @@ pour ajouter, modifier ou supprimer du contenu (une actualité, un lieu, etc.)
 sans avoir besoin de toucher au code informatique ou à la base de données directement.
 """
 from django.contrib import admin
-from .models import (CommuneInfo, News, MunicipalCouncilReport, Association, School, SportFacilityType, SportFacility, HealthCenter, HealthcareProfessional, Pharmacy, SeniorResidence, Nursery, WasteCollectionSchedule, RecyclingCenter, RecyclingCenterSchedule, QuickLink, CommuneMedia, HistoireDhuizon, PatrimoineItem, Commerce, CommerceSchedule, Entreprise, EntrepriseSchedule, AuditLog)
+from .models import (CommuneInfo, News, MunicipalCouncilReport, Association, School, SportFacilityType, SportFacility, HealthCenter, HealthcareProfessional, Pharmacy, SeniorResidence, Nursery, WasteCollectionSchedule, RecyclingCenter, RecyclingCenterSchedule, QuickLink, CommuneMedia, HistoireDhuizon, PatrimoineItem, Commerce, CommerceSchedule, Entreprise, EntrepriseSchedule, AuditLog, MenuCantine)
 
 @admin.register(CommuneInfo)
 class CommuneInfoAdmin(admin.ModelAdmin):
@@ -231,3 +231,63 @@ for model in missing_models:
     except admin.sites.AlreadyRegistered:
         pass
 
+
+# ──────────────────────────────────────────────────────────────────────────────
+#  Menu Cantine – saisie rapide pour le secrétariat
+# ──────────────────────────────────────────────────────────────────────────────
+
+class MenuCantineInline(admin.TabularInline):
+    """
+    Permet de saisir toute la semaine d'un coup sur une seule page :
+    une ligne par jour (Lundi → Vendredi).
+    """
+    model = MenuCantine
+    extra = 5          # 5 lignes vides affichées (une par jour ouvré)
+    max_num = 5
+    fields = ("jour", "entree", "plat_principal", "accompagnement", "dessert", "laitage", "note")
+    ordering = ["jour"]
+    verbose_name = "Repas"
+    verbose_name_plural = "Repas de la semaine"
+    can_delete = True
+
+
+class MenuCantineWeekProxy(MenuCantine):
+    """Proxy utilisé pour grouper les menus par semaine dans l'admin."""
+    class Meta:
+        proxy = True
+        verbose_name = "Semaine de menu cantine"
+        verbose_name_plural = "🍽️  Menus de la cantine (par semaine)"
+
+
+@admin.register(MenuCantine)
+class MenuCantineAdmin(admin.ModelAdmin):
+    """
+    Vue liste : toutes les entrées, classées par semaine puis par jour.
+    Pratique pour modifier un plat rapidement.
+    """
+    list_display = ("semaine_fr", "get_jour_display", "plat_principal", "entree", "dessert")
+    list_filter = ("semaine", "jour")
+    list_editable = ()          # on garde le list_display propre
+    search_fields = ("plat_principal", "entree", "dessert", "accompagnement")
+    ordering = ["-semaine", "jour"]
+    date_hierarchy = "semaine"
+
+    fieldsets = (
+        ("Semaine & Jour", {
+            "fields": ("semaine", "jour"),
+            "description": "👉 Sélectionnez le <b>lundi</b> de la semaine concernée et le jour du repas.",
+        }),
+        ("Menu", {
+            "fields": ("entree", "plat_principal", "accompagnement", "laitage", "dessert"),
+        }),
+        ("Informations complémentaires", {
+            "classes": ("collapse",),
+            "fields": ("note",),
+        }),
+    )
+
+    def semaine_fr(self, obj):
+        """Affiche la date en format lisible."""
+        return obj.semaine.strftime("Semaine du %d/%m/%Y")
+    semaine_fr.short_description = "Semaine"
+    semaine_fr.admin_order_field = "semaine"
