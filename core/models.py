@@ -2283,8 +2283,7 @@ class PeriscolaireInfo(BaseModel):
 class MenuCantine(BaseModel):
     """
     Menu hebdomadaire de la cantine scolaire.
-    Chaque entrée correspond à un jour de la semaine pour une semaine donnée.
-    Le secrétariat remplit rapidement le menu via l'admin Django.
+    Le secrétariat renseigne l'année et le numéro de la semaine, ce qui est plus simple.
     """
     JOUR_CHOICES = [
         ("lundi", "Lundi"),
@@ -2294,9 +2293,13 @@ class MenuCantine(BaseModel):
         ("vendredi", "Vendredi"),
     ]
 
-    semaine = models.DateField(
-        verbose_name="Date du lundi de la semaine",
-        help_text="Indiquez le lundi de la semaine concernée (ex : 02/09/2026).",
+    annee = models.IntegerField(
+        verbose_name="Année",
+        help_text="Exemple : 2024",
+    )
+    numero_semaine = models.IntegerField(
+        verbose_name="Numéro de la semaine",
+        help_text="Exemple : 34",
     )
     jour = models.CharField(
         max_length=10,
@@ -2336,11 +2339,21 @@ class MenuCantine(BaseModel):
     class Meta:
         verbose_name = "Menu de la cantine"
         verbose_name_plural = "Menus de la cantine"
-        ordering = ["semaine", "jour"]
-        unique_together = [("semaine", "jour")]
+        ordering = ["-annee", "-numero_semaine", "jour"]
+        unique_together = [("annee", "numero_semaine", "jour")]
 
     def __str__(self):
-        return f"Menu cantine – {self.get_jour_display()} {self.semaine.strftime('%d/%m/%Y')}"
+        return f"Menu cantine – Semaine {self.numero_semaine} ({self.annee}) - {self.get_jour_display()}"
+
+    @property
+    def date_calculee(self):
+        import datetime
+        mapping = {"lundi": 1, "mardi": 2, "mercredi": 3, "jeudi": 4, "vendredi": 5}
+        jour_idx = mapping.get(self.jour, 1)
+        try:
+            return datetime.date.fromisocalendar(self.annee, self.numero_semaine, jour_idx)
+        except Exception:
+            return None
 
     @property
     def jour_index(self):

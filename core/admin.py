@@ -291,3 +291,28 @@ class MenuCantineAdmin(admin.ModelAdmin):
         return obj.semaine.strftime("Semaine du %d/%m/%Y")
     semaine_fr.short_description = "Semaine"
     semaine_fr.admin_order_field = "semaine"
+
+# ------------------------------------------------------------------------------
+#  Menu Cantine
+# ------------------------------------------------------------------------------
+
+@admin.register(MenuCantine)
+class MenuCantineAdmin(admin.ModelAdmin):
+    list_display = ("annee", "numero_semaine", "get_jour_display", "plat_principal", "entree", "dessert")
+    list_filter = ("annee", "numero_semaine", "jour")
+    search_fields = ("plat_principal", "entree", "dessert", "accompagnement")
+    ordering = ["-annee", "-numero_semaine", "jour"]
+
+    fieldsets = (
+        ("Semaine & Jour", {
+            "fields": ("annee", "numero_semaine", "jour"),
+            "description": "?? Saisissez l'<b>année</b> et le <b>numéro de la semaine</b> concernée.",
+        }),
+        ("Menu", {
+            "fields": ("entree", "plat_principal", "accompagnement", "laitage", "dessert"),
+        }),
+        ("Informations complémentaires", {
+            "classes": ("collapse",),
+            "fields": ("note",),
+        }),
+    )

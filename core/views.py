@@ -180,15 +180,21 @@ def vie_pratique(request):
         poubelle_semaine = "verte"
 
     # ── Menu cantine ──────────────────────────────────────────────────────────
-    # Calcul du lundi de la semaine en cours
     today = now.date()
-    lundi_semaine = today - datetime.timedelta(days=today.weekday())
+    current_year = today.isocalendar()[0]
+    week_number = today.isocalendar()[1]
+    
     menus_semaine = []
     plat_du_jour = None
     try:
-        menus_semaine = list(
-            MenuCantine.objects.filter(semaine=lundi_semaine).order_by("jour")
-        )
+        # On récupère tous les menus de la semaine actuelle
+        menus = MenuCantine.objects.filter(annee=current_year, numero_semaine=week_number)
+        menus_semaine = list(menus)
+        
+        # On trie la liste en python par jour (Lundi -> Vendredi)
+        jour_order = {"lundi": 1, "mardi": 2, "mercredi": 3, "jeudi": 4, "vendredi": 5}
+        menus_semaine.sort(key=lambda m: jour_order.get(m.jour, 99))
+        
         # Plat du jour (uniquement en semaine, lundi=0 … vendredi=4)
         jour_key_map = {0: "lundi", 1: "mardi", 2: "mercredi", 3: "jeudi", 4: "vendredi"}
         jour_today_key = jour_key_map.get(today.weekday())
@@ -196,8 +202,8 @@ def vie_pratique(request):
             plat_du_jour = next(
                 (m for m in menus_semaine if m.jour == jour_today_key), None
             )
-    except Exception:
-        # Table pas encore migrée ou autre erreur DB → on affiche la page normalement
+    except Exception as e:
+        # Table pas encore migrée ou autre erreur DB
         menus_semaine = []
         plat_du_jour = None
 
