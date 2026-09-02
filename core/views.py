@@ -183,18 +183,23 @@ def vie_pratique(request):
     # Calcul du lundi de la semaine en cours
     today = now.date()
     lundi_semaine = today - datetime.timedelta(days=today.weekday())
-    menus_semaine = list(
-        MenuCantine.objects.filter(semaine=lundi_semaine).order_by("jour")
-    )
-
-    # Plat du jour (uniquement en semaine)
-    jour_key_map = {0: "lundi", 1: "mardi", 2: "mercredi", 3: "jeudi", 4: "vendredi"}
-    jour_today_key = jour_key_map.get(today.weekday())
+    menus_semaine = []
     plat_du_jour = None
-    if jour_today_key:
-        plat_du_jour = next(
-            (m for m in menus_semaine if m.jour == jour_today_key), None
+    try:
+        menus_semaine = list(
+            MenuCantine.objects.filter(semaine=lundi_semaine).order_by("jour")
         )
+        # Plat du jour (uniquement en semaine, lundi=0 … vendredi=4)
+        jour_key_map = {0: "lundi", 1: "mardi", 2: "mercredi", 3: "jeudi", 4: "vendredi"}
+        jour_today_key = jour_key_map.get(today.weekday())
+        if jour_today_key:
+            plat_du_jour = next(
+                (m for m in menus_semaine if m.jour == jour_today_key), None
+            )
+    except Exception:
+        # Table pas encore migrée ou autre erreur DB → on affiche la page normalement
+        menus_semaine = []
+        plat_du_jour = None
 
     return render(request, 'vie_pratiques.html', {
         'school': school_info,
