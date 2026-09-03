@@ -1,4 +1,5 @@
 import datetime
+import uuid
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
@@ -79,6 +80,7 @@ def centre_loisirs_formulaire(request):
                 if nom_enfant and prenom_enfant and date_naissance:
                     inscription = form.save(commit=False)
                     inscription.pk = None
+                    inscription.token = uuid.uuid4()
                     inscription.nom_enfant = nom_enfant
                     inscription.prenom_enfant = prenom_enfant
                     inscription.date_naissance = date_naissance
