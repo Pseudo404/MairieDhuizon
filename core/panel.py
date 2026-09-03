@@ -26,6 +26,7 @@ SETTINGS_MENU = [
         ('Horaires Déchetterie', 'Gérer les horaires été / hiver de la déchetterie', '🕒', 'panel_crud_list', {'app_label': 'core', 'model_name': 'recyclingcenterschedule'}),
         ('Agence postale', "Coordonnées et horaires de l'agence postale", '✉️', 'panel_crud_list', {'app_label': 'core', 'model_name': 'agencepostale'}),
         ('Horaires Agence postale', 'Gérer les horaires d\'ouverture de l\'agence postale', '🕒', 'panel_crud_list', {'app_label': 'core', 'model_name': 'agencepostaleschedule'}),
+        ('Menus de la cantine', 'Gérer les plats du jour et de la semaine', '🍽️', 'panel_crud_list', {'app_label': 'core', 'model_name': 'menucantine'}),
     ]),
     ('Loisirs', [
         ('Équipements sportifs', 'Terrains, salles et installations sportives', '⚽', 'panel_crud_list', {'app_label': 'core', 'model_name': 'sportfacility'}),

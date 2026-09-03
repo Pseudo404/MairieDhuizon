@@ -16,7 +16,7 @@ from django.db.models import Count, Avg
 from django.db.models.functions import TruncHour
 from django.apps import apps
 from django.forms import modelform_factory
-from core.models import (AgencePostale, CabaneCocou, ChildcareProfessional, CommuneInfo,Commerce, CommerceSchedule, Entreprise, GlassCollectionPoint, HealthCenter,Gite, HealthcareProfessional, Hebergement, LeisureCenter, LieuTouristique,Mediatheque, MunicipalCouncilReport,MunicipalCouncilor, News, NextCouncilMeeting, Nursery, PatrimoineItem, Pharmacy, QuickLink,CommuneMedia, HistoireDhuizon, RecyclingCenter, School, SeniorResidence,SportFacility, TextileCollectionPoint, Transport, WasteCollectionSchedule, PageView,DemarcheAdministrative, Randonnee)
+from core.models import (AgencePostale, CabaneCocou, ChildcareProfessional, CommuneInfo,Commerce, CommerceSchedule, Entreprise, GlassCollectionPoint, HealthCenter,Gite, HealthcareProfessional, Hebergement, LeisureCenter, LieuTouristique,Mediatheque, MenuCantine, MunicipalCouncilReport,MunicipalCouncilor, News, NextCouncilMeeting, Nursery, PatrimoineItem, Pharmacy, QuickLink,CommuneMedia, HistoireDhuizon, RecyclingCenter, School, SeniorResidence,SportFacility, TextileCollectionPoint, Transport, WasteCollectionSchedule, PageView,DemarcheAdministrative, Randonnee)
 from core.forms import ContactForm, NewsForm, AdminLoginForm, AdminAccountForm, InscriptionPeriscolaireForm
 from core.email_service import send_contact_email, send_confirmation_email, send_periscolaire_email
 from core.uploads import file_response_for_path
@@ -179,6 +179,34 @@ def vie_pratique(request):
         semaine_type = "impaire"
         poubelle_semaine = "verte"
 
+    # ── Menu cantine ──────────────────────────────────────────────────────────
+    today = now.date()
+    current_year = today.isocalendar()[0]
+    week_number = today.isocalendar()[1]
+    
+    menus_semaine = []
+    plat_du_jour = None
+    try:
+        # On récupère tous les menus de la semaine actuelle
+        menus = MenuCantine.objects.filter(annee=current_year, numero_semaine=week_number)
+        menus_semaine = list(menus)
+        
+        # On trie la liste en python par jour (Lundi -> Vendredi)
+        jour_order = {"lundi": 1, "mardi": 2, "mercredi": 3, "jeudi": 4, "vendredi": 5}
+        menus_semaine.sort(key=lambda m: jour_order.get(m.jour, 99))
+        
+        # Plat du jour (uniquement en semaine, lundi=0 … vendredi=4)
+        jour_key_map = {0: "lundi", 1: "mardi", 2: "mercredi", 3: "jeudi", 4: "vendredi"}
+        jour_today_key = jour_key_map.get(today.weekday())
+        if jour_today_key:
+            plat_du_jour = next(
+                (m for m in menus_semaine if m.jour == jour_today_key), None
+            )
+    except Exception as e:
+        # Table pas encore migrée ou autre erreur DB
+        menus_semaine = []
+        plat_du_jour = None
+
     return render(request, 'vie_pratiques.html', {
         'school': school_info,
         'health_center': health_center_info,
@@ -220,6 +248,8 @@ def vie_pratique(request):
         'week_number': week_number,
         'semaine_type': semaine_type,
         'poubelle_semaine': poubelle_semaine,
+        'menus_semaine': menus_semaine,
+        'plat_du_jour': plat_du_jour,
     })
 
 @ratelimit(key='ip', rate='30/m', block=True)
@@ -693,6 +723,7 @@ def panel_crud_list(request, app_label, model_name):
     elif hasattr(model, 'created_at'):
         objects = objects.order_by('-created_at')
         
+    import datetime
     return render(request, 'panel/crud_list.html', {
         'model_name': model._meta.verbose_name.title() if hasattr(model._meta, 'verbose_name') else model_name,
         'model_name_plural': model._meta.verbose_name_plural.title() if hasattr(model._meta, 'verbose_name_plural') else model_name + "s",
@@ -702,6 +733,7 @@ def panel_crud_list(request, app_label, model_name):
         'parent_instance': parent_instance,
         'is_admin_accounts': model_name.lower() == 'adminaccount',
         'current_user_is_super_admin': user_is_super_admin(request.user),
+        'current_week': datetime.date.today().isocalendar()[1] if model_name.lower() == 'menucantine' else None,
     })
 
 @require_admin_ip
@@ -765,15 +797,17 @@ def panel_crud_form(request, app_label, model_name, pk=None):
         else:
             form = FormClass(instance=instance, initial=initial)
         
+    import datetime
     return render(request, 'panel/crud_form.html', {
+        'form': form,
         'model_name': model._meta.verbose_name.title() if hasattr(model._meta, 'verbose_name') else model_name,
         'app_label': app_label,
         'model_slug': model_name,
-        'form': form,
         'is_edit': bool(pk),
         'instance': instance,
         'is_singleton': is_singleton,
         'parent_id': parent_id,
+        'current_week': datetime.date.today().isocalendar()[1] if model_name.lower() == 'menucantine' else None,
     })
 
 @require_admin_ip

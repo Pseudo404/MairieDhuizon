@@ -10,9 +10,14 @@
             {% else %}
                 <a href="{% url 'panel_crud_list' app_label model_slug %}{% if parent_id %}?parent_id={{ parent_id }}{% endif %}" class="panel-back inline-flex items-center gap-1 mb-2">← Retour à la liste</a>
             {% endif %}
-            <h1 class="text-2xl font-semibold panel-title">
-                {% if is_edit %}Modifier {{ model_name }}{% else %}Ajouter {{ model_name }}{% endif %}
-            </h1>
+            <div class="flex items-center gap-3">
+                <h1 class="text-2xl font-semibold panel-title">
+                    {% if is_edit %}Modifier {{ model_name }}{% else %}Ajouter {{ model_name }}{% endif %}
+                </h1>
+                {% if model_slug == 'menucantine' %}
+                <span class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Semaine actuelle : {{ current_week }}</span>
+                {% endif %}
+            </div>
         </div>
         {% if form.errors %}
         <div class="mb-6 p-4 bg-red-100 text-red-800 rounded-xl font-medium">

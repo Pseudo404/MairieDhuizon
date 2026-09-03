@@ -2278,3 +2278,94 @@ class PeriscolaireInfo(BaseModel):
 
     def __str__(self):
         return self.titre
+
+
+import datetime
+
+def current_year():
+    return datetime.date.today().isocalendar()[0]
+
+def current_week():
+    return datetime.date.today().isocalendar()[1]
+
+class MenuCantine(BaseModel):
+    """
+    Menu hebdomadaire de la cantine scolaire.
+    Le secrétariat renseigne l'année et le numéro de la semaine, ce qui est plus simple.
+    """
+    JOUR_CHOICES = [
+        ("lundi", "Lundi"),
+        ("mardi", "Mardi"),
+        ("mercredi", "Mercredi"),
+        ("jeudi", "Jeudi"),
+        ("vendredi", "Vendredi"),
+    ]
+
+    annee = models.IntegerField(
+        verbose_name="Année",
+        default=current_year,
+        help_text="Exemple : 2024",
+    )
+    numero_semaine = models.IntegerField(
+        verbose_name="Numéro de la semaine",
+        default=current_week,
+        help_text="Exemple : 34",
+    )
+    jour = models.CharField(
+        max_length=10,
+        choices=JOUR_CHOICES,
+        verbose_name="Jour",
+    )
+    entree = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Entrée",
+    )
+    plat_principal = models.CharField(
+        max_length=200,
+        verbose_name="Plat principal",
+    )
+    accompagnement = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Accompagnement",
+    )
+    dessert = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Dessert",
+    )
+    laitage = models.CharField(
+        max_length=200,
+        blank=True,
+        verbose_name="Laitage",
+    )
+    note = models.CharField(
+        max_length=300,
+        blank=True,
+        verbose_name="Note (allergènes, menu bio…)",
+    )
+
+    class Meta:
+        verbose_name = "Menu de la cantine"
+        verbose_name_plural = "Menus de la cantine"
+        ordering = ["-annee", "-numero_semaine", "jour"]
+        unique_together = [("annee", "numero_semaine", "jour")]
+
+    def __str__(self):
+        return f"Menu cantine – Semaine {self.numero_semaine} ({self.annee}) - {self.get_jour_display()}"
+
+    @property
+    def date_calculee(self):
+        import datetime
+        mapping = {"lundi": 1, "mardi": 2, "mercredi": 3, "jeudi": 4, "vendredi": 5}
+        jour_idx = mapping.get(self.jour, 1)
+        try:
+            return datetime.date.fromisocalendar(self.annee, self.numero_semaine, jour_idx)
+        except Exception:
+            return None
+
+    @property
+    def jour_index(self):
+        mapping = {"lundi": 1, "mardi": 2, "mercredi": 3, "jeudi": 4, "vendredi": 5}
+        return mapping.get(self.jour, 0)
