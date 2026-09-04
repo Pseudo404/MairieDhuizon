@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Néon RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="wrap">
+        <canvas id="game-canvas"></canvas>
+    </div>
+    
+    <!-- COUCHE D'INTERFACE (MENUS HTML) -->
+    <div id="ui-layer">
+        
+        <!-- MENU PRINCIPAL -->
+        <div id="screen-main" class="overlay">
+            <div class="homeWallet" aria-label="Crédits disponibles">⬡ <span id="home-credits">0</span> CRÉDITS</div>
+            <h1 class="title">NÉON <span>RPG</span></h1>
+            <p class="subtitle">Survis aux vagues et améliore ton héros</p>
+
+            <div id="home-hero-summary" class="homeHeroPanel"></div>
+            <button id="btn-play" class="btn">JOUER</button>
+            <div class="menuSubRow">
+                <button id="btn-heroes" class="btnSmall">Héros</button>
+                <button id="btn-bestiary" class="btnSmall">Bestiaire</button>
+                <button id="btn-trophies" class="btnSmall">Trophées</button>
+            </div>
+            <div class="homeGuide" aria-label="Objectif du jeu">
+                <span>⚔️ Survis</span>
+                <span>⬡ Gagne des crédits</span>
+                <span>✨ Débloque des héros</span>
+            </div>
+        </div>
+
+        <!-- MENU: SÉLECTION HÉROS -->
+        <div id="screen-heroes" class="overlay modalScreen hidden">
+            <h2 class="title">Héros</h2>
+            <div class="heroWallet">CRÉDITS <span id="hero-credits">0 ⬡</span></div>
+            <div class="modalScroll">
+                <!-- Héros 1: Base -->
+                <div class="perkCard hero-select-btn" data-hero="Player">
+                    <div class="perkIcon">🔵</div>
+                    <div>
+                        <div class="perkName">Héros Classique</div>
+                        <div class="perkDesc">Stats équilibrées</div>
+                        <div class="heroStatus"></div>
+                    </div>
+                </div>
+                <!-- Héros 2: Archère -->
+                <div class="perkCard hero-select-btn" data-hero="Archer">
+                    <div class="perkIcon">🏹</div>
+                    <div>
+                        <div class="perkName" style="color: #00e0ff;">Archère</div>
+                        <div class="perkDesc">Tire plus vite, fragile</div>
+                        <div class="heroStatus"></div>
+                    </div>
+                </div>
+                <!-- Héros 3 : Tank -->
+                <div class="perkCard hero-select-btn" data-hero="Tank">
+                    <div class="perkIcon">🛡️</div>
+                    <div>
+                        <div class="perkName" style="color: #38d6c8;">Tank</div>
+                        <div class="perkDesc">120 PV, puissant mais plus lent</div>
+                        <div class="heroStatus"></div>
+                    </div>
+                </div>
+                <!-- Héros 4 : Sniper -->
+                <div class="perkCard hero-select-btn" data-hero="Sniper">
+                    <div class="perkIcon">🔭</div>
+                    <div>
+                        <div class="perkName" style="color: #a78bfa;">Sniper</div>
+                        <div class="perkDesc">Très puissant, munitions perforantes</div>
+                        <div class="heroStatus"></div>
+                    </div>
+                </div>
+                <!-- Héros 5 : Mage -->
+                <div class="perkCard hero-select-btn" data-hero="Mage">
+                    <div class="perkIcon">🔮</div>
+                    <div>
+                        <div class="perkName" style="color: #ff4d6d;">Mage</div>
+                        <div class="perkDesc">Laser à chaleur croissante</div>
+                        <div class="heroStatus"></div>
+                    </div>
+                </div>
+                <!-- Héros 6 : Stealer -->
+                <div class="perkCard hero-select-btn" data-hero="Stealer">
+                    <div class="perkIcon">🩸</div>
+                    <div>
+                        <div class="perkName" style="color: #4ee6c8;">Stealer</div>
+                        <div class="perkDesc">Rapide, tire et récupère ses PV</div>
+                        <div class="heroStatus"></div>
+                    </div>
+                </div>
+            </div>
+            <p id="hero-selection-message" class="heroMessage" aria-live="polite"></p>
+            <div id="hero-detail" class="detailPanel" aria-live="polite"></div>
+            <button class="btnGhost btn-back">RETOUR</button>
+        </div>
+
+        <!-- MENU: BESTIAIRE -->
+        <div id="screen-bestiary" class="overlay modalScreen hidden">
+            <h2 class="title">Bestiaire</h2>
+            <div class="modalScroll">
+                <div class="bCard" data-enemy="Grunt">
+                    <div class="bCardIcon">🔴</div>
+                    <div class="bCardName">Grunt</div>
+                    <div class="bCardWave">Vague 1</div>
+                </div>
+                <div class="bCard" data-enemy="FastChaser">
+                    <div class="bCardIcon">⚡</div>
+                    <div class="bCardName">Chasseur Rapide</div>
+                    <div class="bCardWave">Vague 3</div>
+                </div>
+                <div class="bCard" data-enemy="Tank">
+                    <div class="bCardIcon">🟣</div>
+                    <div class="bCardName">Tank</div>
+                    <div class="bCardWave">Vague 5</div>
+                </div>
+                <div class="bCard" data-enemy="Shooter">
+                    <div class="bCardIcon">🔫</div>
+                    <div class="bCardName">Tireur</div>
+                    <div class="bCardWave">Vague 5</div>
+                </div>
+                <div class="bCard" data-enemy="Shadow">
+                    <div class="bCardIcon">👤</div>
+                    <div class="bCardName">Ombre</div>
+                    <div class="bCardWave">Vague 7</div>
+                </div>
+                <div class="bCard" data-enemy="Shield">
+                    <div class="bCardIcon">🛡️</div>
+                    <div class="bCardName">Bouclier</div>
+                    <div class="bCardWave">Vague 7</div>
+                </div>
+                <div class="bCard" data-enemy="Healer">
+                    <div class="bCardIcon">💚</div>
+                    <div class="bCardName">Soigneur</div>
+                    <div class="bCardWave">Vague 9</div>
+                </div>
+                <div class="bCard" data-enemy="Trapper">
+                    <div class="bCardIcon">🕸️</div>
+                    <div class="bCardName">Piégeur</div>
+                    <div class="bCardWave">Vague 9</div>
+                </div>
+                <div class="bCard" data-enemy="Jumper">
+                    <div class="bCardIcon">🦘</div>
+                    <div class="bCardName">Sauteur</div>
+                    <div class="bCardWave">Vague 11</div>
+                </div>
+                <div class="bCard" data-enemy="FastShooter">
+                    <div class="bCardIcon">💨</div>
+                    <div class="bCardName">Tireur Rapide</div>
+                    <div class="bCardWave">Vague 11</div>
+                </div>
+                <div class="bCard" data-enemy="Mage">
+                    <div class="bCardIcon">🔮</div>
+                    <div class="bCardName">Mage</div>
+                    <div class="bCardWave">Vague 13</div>
+                </div>
+                <div class="bCard" data-enemy="TrackingShooter">
+                    <div class="bCardIcon">🎯</div>
+                    <div class="bCardName">Tireur Guidé</div>
+                    <div class="bCardWave">Vague 13</div>
+                </div>
+                <div class="bCard" data-enemy="Mirage">
+                    <div class="bCardIcon">🪞</div>
+                    <div class="bCardName">Mirage</div>
+                    <div class="bCardWave">Vague 15</div>
+                </div>
+                <div class="bCard" data-enemy="Grapper">
+                    <div class="bCardIcon">🪝</div>
+                    <div class="bCardName">Grappeur</div>
+                    <div class="bCardWave">Vague 15</div>
+                </div>
+                <div class="bCard" data-enemy="Necromancer">
+                    <div class="bCardIcon">💀</div>
+                    <div class="bCardName">Nécromancien</div>
+                    <div class="bCardWave">Vague 18</div>
+                </div>
+                <div class="bCard" data-enemy="Summoner">
+                    <div class="bCardIcon">⭐</div>
+                    <div class="bCardName">Invocateur</div>
+                    <div class="bCardWave">Vague 20</div>
+                </div>
+                <div class="bCard" data-enemy="Duke">
+                    <div class="bCardIcon">👑</div>
+                    <div class="bCardName">Duc</div>
+                    <div class="bCardWave">Vague 25</div>
+                </div>
+            </div>
+            <div id="bestiary-detail" class="detailPanel">
+                <canvas id="bestiary-preview" width="300" height="200" style="display: none;"></canvas>
+                <p class="detailSummary">Clique sur un ennemi pour découvrir ses caractéristiques.</p>
+            </div>
+            <button class="btnGhost btn-back">RETOUR</button>
+        </div>
+
+        <!-- ECRAN: LEVEL UP -->
+        <div id="screen-levelup" class="overlay hidden">
+            <h2 class="title">LEVEL <span>UP</span> !</h2>
+            <p class="subtitle">Choisis une amélioration</p>
+            <div class="perkGrid" id="perk-container">
+                <!-- Les choix seront injectés ici par le JS -->
+            </div>
+        </div>
+
+        <!-- MENU: TROPHÉES -->
+        <div id="screen-trophies" class="overlay modalScreen hidden">
+            <h2 class="title">Trophées</h2>
+            <div class="modalScroll">
+                <div class="trophyItem locked">
+                    <div class="trophyIcon">🏆</div>
+                    <div>
+                        <div class="trophyName">Survivant</div>
+                        <div class="trophyDesc">Atteindre la vague 10</div>
+                    </div>
+                </div>
+            </div>
+            <button class="btnGhost btn-back">RETOUR</button>
+        </div>
+
+        <!-- MENU PAUSE -->
+        <div id="screen-pause" class="overlay modalScreen hidden">
+            <h2 class="title">Pause</h2>
+            <button id="btn-resume" class="btn">REPRENDRE</button>
+            <button id="btn-quit" class="btnGhost">QUITTER</button>
+        </div>
+
+        <!-- ECRAN: FIN DE PARTIE -->
+        <div id="screen-gameover" class="overlay hidden">
+            <h2 class="title">GAME <span>OVER</span></h2>
+            <p class="subtitle">Ton héros est tombé, mais la prochaine vague t'attend.</p>
+            <div class="statRow" aria-label="Résultats de la partie">
+                <div class="statBox">
+                    <div id="gameover-wave" class="statNum">VAGUE 1</div>
+                    <div class="statLbl">Atteinte</div>
+                </div>
+                <div class="statBox">
+                    <div id="gameover-score" class="statNum">0 PTS</div>
+                    <div class="statLbl">Score</div>
+                </div>
+                <div class="statBox">
+                    <div id="gameover-level" class="statNum">NIV 1</div>
+                    <div class="statLbl">Niveau</div>
+                </div>
+            </div>
+            <div class="gameoverCredits">
+                <span>CRÉDITS GAGNÉS <strong id="gameover-credits-earned">+0 ⬡</strong></span>
+                <span>TOTAL <strong id="gameover-credits-total">0 ⬡</strong></span>
+            </div>
+            <button id="btn-restart" class="btn">REJOUER</button>
+            <button id="btn-gameover-menu" class="btnGhost">MENU PRINCIPAL</button>
+        </div>
+
+        <!-- INTERFACE EN JEU (HUD / JOYSTICK) -->
+        <div id="screen-game" class="hidden">
+            <!-- HUD -->
+            <div id="hud">
+                <div class="topRow">
+                    <div id="hpWrap">
+                        <div id="hpBar"></div>
+                        <div id="hpText">100 / 100</div>
+                    </div>
+                    <div id="waveBadge">VAGUE 1</div>
+                    <button id="btn-pause" class="btnSmall">||</button>
+                </div>
+                <div id="xpWrap">
+                    <div id="xpBar"></div>
+                </div>
+                <div id="topInfo">
+                    <div id="lvlText">NIV 1</div>
+                    <div id="scoreText">0 PTS</div>
+                </div>
+            </div>
+            
+            <!-- Joystick Tactile -->
+            <div id="joystick-zone">
+                <div id="joystick">
+                    <div id="joystickKnob"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script type="module" src="main.js"></script>
+</body>
+</html>
