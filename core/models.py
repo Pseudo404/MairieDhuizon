@@ -2305,6 +2305,8 @@ class MenuCantine(BaseModel):
     )
     pdf = models.FileField(
         upload_to="documents/cantine/",
+        blank=True,
+        null=True,
         verbose_name="Fichier PDF du menu",
         validators=[validate_pdf_upload],
         help_text="Un seul PDF par semaine."
