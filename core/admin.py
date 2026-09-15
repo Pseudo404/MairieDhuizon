@@ -476,21 +476,19 @@ from .models import MenuCantine
 
 @admin.register(MenuCantine)
 class MenuCantineAdmin(admin.ModelAdmin):
-    list_display = ('annee', 'numero_semaine', 'get_jour_display', 'plat_principal', 'entree', 'dessert')
-    list_filter = ('annee', 'numero_semaine', 'jour')
-    search_fields = ('plat_principal', 'entree', 'dessert', 'accompagnement')
-    ordering = ['-annee', '-numero_semaine', 'jour']
+    list_display = ('annee', 'numero_semaine', 'pdf')
+    list_filter = ('annee', 'numero_semaine')
+    search_fields = ('annee', 'numero_semaine')
+    ordering = ['-annee', '-numero_semaine']
 
     fieldsets = (
-        ('Semaine & Jour', {
-            'fields': ('annee', 'numero_semaine', 'jour'),
+        ('Semaine', {
+            'fields': ('annee', 'numero_semaine'),
             'description': '👉 Saisissez l\'<b>année</b> et le <b>numéro de la semaine</b> concernée.',
         }),
         ('Menu', {
-            'fields': ('entree', 'plat_principal', 'accompagnement', 'laitage', 'dessert'),
-        }),
-        ('Informations complémentaires', {
-            'classes': ('collapse',),
-            'fields': ('note',),
+            'fields': ('pdf',),
+            'description': '👉 Uploadez le <b>PDF</b> du menu de la semaine.',
         }),
     )
+

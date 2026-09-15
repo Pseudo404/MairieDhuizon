@@ -223,68 +223,26 @@
                     <h3 class="text-white font-medium text-sm">Menu de la cantine – Cette semaine (Semaine {{ week_number }})</h3>
                 </div>
                 <div class="p-5">
-                    {% if menus_semaine %}
-                        {# Plat du jour mis en avant #}
-                        {% if plat_du_jour %}
-                        <div class="mb-4 flex items-start gap-3 rounded-xl bg-orange-50 border border-orange-200 p-4">
-                            <span class="material-symbols-outlined text-orange-600 text-2xl mt-0.5">today</span>
-                            <div>
-                                <p class="text-xs font-bold text-orange-600 uppercase tracking-widest mb-1">Aujourd'hui — {{ plat_du_jour.get_jour_display }}</p>
-                                <p class="font-semibold text-gray-900 text-base">{{ plat_du_jour.plat_principal }}</p>
-                                <div class="flex flex-wrap gap-x-4 gap-y-0.5 mt-1 text-sm text-gray-600">
-                                    {% if plat_du_jour.entree %}<span>🥗 {{ plat_du_jour.entree }}</span>{% endif %}
-                                    {% if plat_du_jour.accompagnement %}<span>🍚 {{ plat_du_jour.accompagnement }}</span>{% endif %}
-                                    {% if plat_du_jour.dessert %}<span>🍮 {{ plat_du_jour.dessert }}</span>{% endif %}
-                                    {% if plat_du_jour.laitage %}<span>🥛 {{ plat_du_jour.laitage }}</span>{% endif %}
-                                </div>
-                                {% if plat_du_jour.note %}<p class="text-xs text-gray-500 italic mt-1">{{ plat_du_jour.note }}</p>{% endif %}
-                            </div>
+                    {% if menu_hebdo and menu_hebdo.pdf %}
+                        <div class="mb-4 flex flex-col items-start gap-3">
+                            <p class="text-sm text-gray-700">Le menu de la semaine est disponible au format PDF.</p>
+                            <a href="{{ menu_hebdo.pdf.url }}" target="_blank" class="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-xl transition-colors">
+                                <span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                                Consulter le menu
+                            </a>
                         </div>
-                        {% endif %}
-                        {# Bouton Voir plus – menu de toute la semaine (accordéon natif) #}
-                        <details class="group">
+                        
+                        <details class="group mt-4">
                             <summary class="cursor-pointer inline-flex items-center gap-2 text-sm font-semibold text-orange-700 hover:text-orange-900 list-none marker:content-none [&::-webkit-details-marker]:hidden select-none">
                                 <span class="material-symbols-outlined text-base group-open:hidden">expand_more</span>
                                 <span class="material-symbols-outlined text-base hidden group-open:inline">expand_less</span>
-                                <span class="group-open:hidden">Voir le menu de toute la semaine</span>
-                                <span class="hidden group-open:inline">Masquer le menu</span>
+                                <span class="group-open:hidden">Aperçu direct du menu</span>
+                                <span class="hidden group-open:inline">Masquer l'aperçu</span>
                             </summary>
-                            <div class="mt-4 overflow-x-auto">
-                                <table class="w-full text-sm border-collapse">
-                                    <thead>
-                                        <tr class="bg-orange-50 text-left">
-                                            <th class="px-3 py-2 font-semibold text-orange-800 border-b border-orange-200 whitespace-nowrap">Jour</th>
-                                            <th class="px-3 py-2 font-semibold text-orange-800 border-b border-orange-200">Entrée</th>
-                                            <th class="px-3 py-2 font-semibold text-orange-800 border-b border-orange-200">Plat principal</th>
-                                            <th class="px-3 py-2 font-semibold text-orange-800 border-b border-orange-200">Accompagnement</th>
-                                            <th class="px-3 py-2 font-semibold text-orange-800 border-b border-orange-200">Dessert</th>
-                                            <th class="px-3 py-2 font-semibold text-orange-800 border-b border-orange-200">Laitage</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for menu in menus_semaine %}
-                                        <tr class="border-b border-gray-100 hover:bg-orange-50/40 transition-colors {% if plat_du_jour and menu.jour == plat_du_jour.jour %}bg-orange-50 font-medium{% endif %}">
-                                            <td class="px-3 py-2 font-semibold text-gray-800 whitespace-nowrap">
-                                                {% if plat_du_jour and menu.jour == plat_du_jour.jour %}
-                                                <span class="inline-flex items-center gap-1">{{ menu.get_jour_display }} <span class="text-xs text-orange-600 font-normal">(auj.)</span></span>
-                                                {% else %}
-                                                {{ menu.get_jour_display }}
-                                                {% endif %}
-                                            </td>
-                                            <td class="px-3 py-2 text-gray-600">{{ menu.entree|default:"—" }}</td>
-                                            <td class="px-3 py-2 text-gray-800">{{ menu.plat_principal }}</td>
-                                            <td class="px-3 py-2 text-gray-600">{{ menu.accompagnement|default:"—" }}</td>
-                                            <td class="px-3 py-2 text-gray-600">{{ menu.dessert|default:"—" }}</td>
-                                            <td class="px-3 py-2 text-gray-600">{{ menu.laitage|default:"—" }}</td>
-                                        </tr>
-                                        {% if menu.note %}
-                                        <tr class="border-b border-gray-100">
-                                            <td colspan="6" class="px-3 py-1 text-xs text-gray-500 italic">ℹ️ {{ menu.note }}</td>
-                                        </tr>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                            <div class="mt-4 w-full h-[600px] border border-gray-200 rounded-xl overflow-hidden">
+                                <object data="{{ menu_hebdo.pdf.url }}" type="application/pdf" width="100%" height="100%">
+                                    <p>Votre navigateur ne permet pas de lire les PDF. <a href="{{ menu_hebdo.pdf.url }}" class="text-blue-600 underline">Télécharger le PDF</a>.</p>
+                                </object>
                             </div>
                         </details>
                     {% else %}
