@@ -34,17 +34,12 @@
                             </p>
                         </div>
                     </div>
-                    {% if plat_du_jour %}
+                    {% if menu_hebdo %}
                     <div class="inline-flex flex-col sm:flex-row items-center gap-4 rounded-2xl p-5 bg-orange-50 border border-orange-200 shadow-sm transition-all hover:shadow-md">
                         <div class="flex h-14 w-14 items-center justify-center rounded-full bg-orange-100 text-orange-700">
                             <span class="material-symbols-outlined text-3xl">restaurant</span>
                         </div>
-                        <div class="text-center sm:text-left">
-                            <p class="text-sm font-bold text-orange-700 uppercase tracking-widest mb-1">🍽️ Menu cantine – Aujourd'hui</p>
-                            <p class="text-gray-800 font-semibold text-lg">{{ plat_du_jour.plat_principal }}</p>
-                            {% if plat_du_jour.entree %}<p class="text-sm text-gray-600">Entrée : {{ plat_du_jour.entree }}</p>{% endif %}
-                            {% if plat_du_jour.dessert %}<p class="text-sm text-gray-600">Dessert : {{ plat_du_jour.dessert }}</p>{% endif %}
-                        </div>
+                        <a href="{{ menu_hebdo.pdf.url }}" class="text-orange-700 font-semibold">Voir le menu de la semaine</a>
                     </div>
                     {% endif %}
                 </div>
