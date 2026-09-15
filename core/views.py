@@ -187,11 +187,17 @@ def vie_pratique(request):
     menus_semaine = []
     plat_du_jour = None
     try:
-        # On récupère le menu de la semaine actuelle
+        # Menu de la semaine actuelle
         menu_hebdo = MenuCantine.objects.filter(annee=current_year, numero_semaine=week_number).first()
+        
+        # Menus des semaines suivantes (même année mais semaine > actuelle, ou années futures)
+        from django.db.models import Q
+        menus_suivants = MenuCantine.objects.filter(
+            Q(annee=current_year, numero_semaine__gt=week_number) | Q(annee__gt=current_year)
+        ).exclude(pdf='').order_by('annee', 'numero_semaine')
     except Exception as e:
-        # Table pas encore migrée ou autre erreur DB
         menu_hebdo = None
+        menus_suivants = []
 
     return render(request, 'vie_pratiques.html', {
         'school': school_info,
@@ -235,6 +241,7 @@ def vie_pratique(request):
         'semaine_type': semaine_type,
         'poubelle_semaine': poubelle_semaine,
         'menu_hebdo': menu_hebdo,
+        'menus_suivants': menus_suivants,
     })
 
 @ratelimit(key='ip', rate='30/m', block=True)

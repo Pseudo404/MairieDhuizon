@@ -226,25 +226,36 @@
                     {% if menu_hebdo and menu_hebdo.pdf %}
                         <div class="mb-4 flex flex-col items-start gap-3">
                             <p class="text-sm text-gray-700">Le menu de la semaine est disponible au format PDF.</p>
-                            <a href="{{ menu_hebdo.pdf.url }}" target="_blank" class="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-xl transition-colors">
+                            <a href="{{ menu_hebdo.pdf.url }}" target="_blank" class="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-black font-semibold py-2 px-4 rounded-xl transition-colors">
                                 <span class="material-symbols-outlined text-base">picture_as_pdf</span>
                                 Consulter le menu
                             </a>
                         </div>
                         
-                        <details class="group mt-4">
+                    {% if menus_suivants %}
+                        <details class="group mt-6 border-t border-gray-100 pt-4">
                             <summary class="cursor-pointer inline-flex items-center gap-2 text-sm font-semibold text-orange-700 hover:text-orange-900 list-none marker:content-none [&::-webkit-details-marker]:hidden select-none">
                                 <span class="material-symbols-outlined text-base group-open:hidden">expand_more</span>
                                 <span class="material-symbols-outlined text-base hidden group-open:inline">expand_less</span>
-                                <span class="group-open:hidden">Aperçu direct du menu</span>
-                                <span class="hidden group-open:inline">Masquer l'aperçu</span>
+                                <span class="group-open:hidden">Aperçu des menus des semaines suivantes</span>
+                                <span class="hidden group-open:inline">Masquer l'aperçu des semaines suivantes</span>
                             </summary>
-                            <div class="mt-4 w-full h-[600px] border border-gray-200 rounded-xl overflow-hidden">
-                                <object data="{{ menu_hebdo.pdf.url }}" type="application/pdf" width="100%" height="100%">
-                                    <p>Votre navigateur ne permet pas de lire les PDF. <a href="{{ menu_hebdo.pdf.url }}" class="text-blue-600 underline">Télécharger le PDF</a>.</p>
-                                </object>
+                            <div class="mt-4 flex flex-col gap-3">
+                                {% for menu in menus_suivants %}
+                                    <div class="flex items-center justify-between bg-orange-50 rounded-xl p-3 border border-orange-100">
+                                        <div class="flex items-center gap-2">
+                                            <span class="material-symbols-outlined text-orange-600">calendar_month</span>
+                                            <span class="text-sm font-medium text-orange-900">Semaine {{ menu.numero_semaine }} ({{ menu.annee }})</span>
+                                        </div>
+                                        <a href="{{ menu.pdf.url }}" target="_blank" class="text-xs font-semibold bg-white border border-orange-200 text-orange-700 hover:bg-orange-600 hover:text-white transition-colors px-3 py-1.5 rounded-lg inline-flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">download</span>
+                                            Consulter
+                                        </a>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </details>
+                    {% endif %}
                     {% else %}
                         <p class="text-sm text-gray-500 italic">Le menu de la semaine n'a pas encore été renseigné.</p>
                     {% endif %}
