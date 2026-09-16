@@ -34,7 +34,7 @@
                             </p>
                         </div>
                     </div>
-                    {% if menu_hebdo %}
+                    {% if menu_hebdo and menu_hebdo.pdf and menu_hebdo.pdf.name %}
                     <a target="_blank" href="{{ menu_hebdo.pdf.url }}" class="text-orange-700 font-semibold flex">
                         <div class="inline-flex flex-row sm:flex-row items-center gap-4 rounded-2xl p-5 bg-orange-50 border border-orange-200 shadow-sm transition-all hover:shadow-md">
                             <div class="flex h-14 w-14 items-center justify-center rounded-full bg-orange-100 text-orange-700">
@@ -220,7 +220,7 @@
                     <h3 class="text-white font-medium text-sm">Menu de la cantine – Cette semaine (Semaine {{ week_number }})</h3>
                 </div>
                 <div class="p-5">
-                    {% if menu_hebdo and menu_hebdo.pdf %}
+                    {% if menu_hebdo and menu_hebdo.pdf and menu_hebdo.pdf.name %}
                         <div class="mb-4 flex flex-col items-start gap-3">
                             <p class="text-sm text-gray-700">Le menu de la semaine est disponible au format PDF.</p>
                             <a href="{{ menu_hebdo.pdf.url }}" target="_blank" class="inline-flex items-center gap-2 bg-green-700 hover:bg-green-800 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
@@ -310,7 +310,7 @@
                         {% if centres_loisirs.email %}<a href="mailto:{{ centres_loisirs.email }}" class="text-green-700 hover:underline break-all">{{ centres_loisirs.email }}</a>{% endif %}
                     </div>
                     {% if centres_loisirs.horaires %}<p class="whitespace-pre-line">{{ centres_loisirs.horaires }}</p>{% endif %}
-                    {% if centres_loisirs.menu_pdf %}
+                    {% if centres_loisirs.menu_pdf and centres_loisirs.menu_pdf.name %}
                     <div class="mt-3">
                         <a href="{{ centres_loisirs.menu_pdf.url }}" target="_blank" class="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow hover:shadow-md transition-all duration-300">
                             <span class="material-symbols-outlined text-base">restaurant</span>
