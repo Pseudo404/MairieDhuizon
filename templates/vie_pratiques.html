@@ -21,7 +21,6 @@
             {% endif %}
             <div class="mt-8 flex flex-col items-center gap-4 justify-center">
 
-                {{/* Carte poubelle — en haut, centrée */}}
                 <div class="inline-flex flex-col sm:flex-row items-center gap-4 rounded-2xl p-5 {% if semaine_type == 'paire' %}bg-yellow-200 border border-yellow-200{% else %}bg-green-500 border border-green-200{% endif %} shadow-sm transition-all hover:shadow-md">
                     <div class="flex h-14 w-14 items-center justify-center rounded-full {% if semaine_type == 'paire' %}bg-white text-yellow-800{% else %}bg-green-200 text-green-800{% endif %}">
                         <span class="material-symbols-outlined text-3xl">delete</span>
@@ -36,7 +35,6 @@
                     </div>
                 </div>
 
-                {{/* Cartes menus — côte à côte en dessous */}}
                 {% if menu_hebdo and menu_hebdo.pdf and menu_hebdo.pdf.name or centres_loisirs and centres_loisirs.menu_pdf and centres_loisirs.menu_pdf.name %}
                 <div class="flex flex-col sm:flex-row items-center gap-4 flex-wrap justify-center mt-2">
 
