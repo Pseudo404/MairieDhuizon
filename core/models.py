@@ -1293,6 +1293,14 @@ class LeisureCenter(BaseModel):
         verbose_name="Capacité journalière maximale",
         help_text="Nombre maximum d'enfants pouvant être accueillis par jour."
     )
+    menu_pdf = models.FileField(
+        upload_to="documents/centre_loisirs/",
+        blank=True,
+        null=True,
+        verbose_name="Menu (PDF)",
+        validators=[validate_pdf_upload],
+        help_text="Un seul PDF contenant le menu pour le centre de loisirs."
+    )
 
     class Meta:
         verbose_name = "Centre de loisirs"

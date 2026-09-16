@@ -1,4 +1,4 @@
-Django==4.2
+Django>=4.2.20
 python-dotenv==1.2.2
 django-tailwind==4.4.2
 whitenoise==6.12.0
