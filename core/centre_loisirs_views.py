@@ -96,11 +96,49 @@ def centre_loisirs_formulaire(request):
                     inscription.jugement_familial = jugement
                     inscription.personnes_habilitees_identite = identite
 
+                    # --- Réutilisation des documents d'une inscription précédente ---
+                    # Recherche la dernière inscription de cet enfant (même nom+prénom)
+                    # ayant au moins un document fourni.
+                    from django.db.models import Q as _Q
+                    inscription_precedente = InscriptionCentreLoisirs.objects.filter(
+                        nom_enfant__iexact=nom_enfant,
+                        prenom_enfant__iexact=prenom_enfant,
+                    ).filter(
+                        _Q(justificatif_quotient_familial__isnull=False) |
+                        _Q(livret_famille_doc__isnull=False) |
+                        _Q(jugement_familial__isnull=False) |
+                        _Q(personnes_habilitees_identite__isnull=False) |
+                        _Q(vaccins__isnull=False) |
+                        _Q(assurance_scolaire__isnull=False)
+                    ).order_by('-created_at').first()
+
+                    if inscription_precedente:
+                        # Stratégie de mixage champ par champ :
+                        # pour chaque document manquant dans la nouvelle inscription,
+                        # on vérifie si l'ancienne en possède un et on lie docs_source.
+                        doc_fields_communs = [
+                            'justificatif_quotient_familial',
+                            'livret_famille_doc',
+                            'jugement_familial',
+                            'personnes_habilitees_identite',
+                            'vaccins',
+                            'assurance_scolaire',
+                        ]
+                        for field in doc_fields_communs:
+                            val_actuel = getattr(inscription, field)
+                            if not val_actuel:
+                                val_ancien = inscription_precedente.get_doc_effectif(field)
+                                if val_ancien and val_ancien.name:
+                                    inscription.docs_source = inscription_precedente
+                                    break  # un seul lien suffit, le reste est résolu via get_doc_effectif
+
+
                     from django.core.exceptions import ValidationError
                     try:
                         # Force la validation du modèle (y compris les extensions de fichiers)
                         inscription.full_clean()
                     except ValidationError as e:
+
                         error_msgs = []
                         for field, errors in e.message_dict.items():
                             for err in errors:

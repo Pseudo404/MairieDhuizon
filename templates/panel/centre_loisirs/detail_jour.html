@@ -1,4 +1,5 @@
 {% extends 'panel/centre_loisirs/_base_cl.html' %}
+{% load upload_tags %}
 
 {% block cl_content %}
 <div class="mb-4">
@@ -44,6 +45,7 @@
                         <th class="p-3">Responsable</th>
                         <th class="p-3">Contact</th>
                         <th class="p-3">Allergies/PAI</th>
+                        <th class="p-3">Dossier</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,7 +74,207 @@
                                 <span class="text-gray-400 font-normal text-sm">Aucun PAI</span>
                             {% endif %}
                         </td>
+                        <td class="p-3">
+                            <button type="button"
+                                onclick="document.getElementById('dossier-modal-{{ resa.id }}').showModal()"
+                                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-1.5 px-3 rounded-lg text-xs flex items-center gap-1.5 transition-colors shadow-sm">
+                                📋 Voir le dossier
+                            </button>
+                        </td>
                     </tr>
+
+                    {# ====== MODAL DOSSIER COMPLET ENFANT ====== #}
+                    <dialog id="dossier-modal-{{ resa.id }}"
+                        class="p-0 rounded-2xl shadow-2xl backdrop:bg-black backdrop:bg-opacity-50 w-full max-w-2xl m-auto overflow-hidden">
+
+                        {# En-tête #}
+                        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4 flex items-center justify-between">
+                            <div>
+                                <h3 class="text-lg font-bold text-white">
+                                    Dossier de {{ resa.inscription.prenom_enfant }} {{ resa.inscription.nom_enfant }}
+                                </h3>
+                                <p class="text-blue-200 text-xs mt-0.5">Réservation du {{ resa.date|date:"d/m/Y" }}</p>
+                            </div>
+                            <form method="dialog">
+                                <button class="text-white/70 hover:text-white font-bold text-xl w-8 h-8 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors">&times;</button>
+                            </form>
+                        </div>
+
+                        <div class="p-6 space-y-5 text-sm max-h-[75vh] overflow-y-auto">
+
+                            {# Informations enfant #}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide">Informations Enfant</h4>
+                                    <p><strong>Nom :</strong> {{ resa.inscription.prenom_enfant }} {{ resa.inscription.nom_enfant }}</p>
+                                    <p><strong>Date de naissance :</strong> {{ resa.inscription.date_naissance|date:"d/m/Y" }}</p>
+                                    <p><strong>Âge :</strong> {{ resa.inscription.age }} ans
+                                        {% if resa.inscription.age >= 6 %}
+                                            <span class="ml-1 bg-green-100 text-green-700 text-xs font-bold px-1.5 py-0.5 rounded-full">+ de 6 ans</span>
+                                        {% else %}
+                                            <span class="ml-1 bg-red-100 text-red-700 text-xs font-bold px-1.5 py-0.5 rounded-full">- de 6 ans</span>
+                                        {% endif %}
+                                    </p>
+                                    {% if resa.inscription.pai_sante %}
+                                    <div class="bg-red-50 border border-red-200 rounded-xl p-2.5 mt-2">
+                                        <p class="font-bold text-red-700 text-xs uppercase mb-1">⚠️ PAI / Allergie</p>
+                                        <p class="text-red-800">{{ resa.inscription.pai_sante }}</p>
+                                    </div>
+                                    {% else %}
+                                    <p><strong>PAI/Allergie :</strong> <span class="text-gray-400">Aucun</span></p>
+                                    {% endif %}
+                                    {% if resa.inscription.coefficient_familial %}
+                                    <p><strong>Quotient familial :</strong> {{ resa.inscription.coefficient_familial }}</p>
+                                    {% endif %}
+                                </div>
+
+                                {# Responsable 1 #}
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide">Responsable Légal 1</h4>
+                                    <p><strong>Nom :</strong> {{ resa.inscription.prenom_responsable_1 }} {{ resa.inscription.nom_responsable_1 }}</p>
+                                    <p><strong>Adresse :</strong> {{ resa.inscription.adresse_responsable_1 }}, {{ resa.inscription.code_postal_1 }} {{ resa.inscription.ville_1 }}</p>
+                                    <p><strong>Tél :</strong> {{ resa.inscription.portable_1|default:"-" }}
+                                        {% if resa.inscription.telephone_1 %} / {{ resa.inscription.telephone_1 }}{% endif %}
+                                    </p>
+                                    <p><strong>Email :</strong> <a href="mailto:{{ resa.inscription.email_1 }}" class="text-blue-600 hover:underline">{{ resa.inscription.email_1 }}</a></p>
+                                </div>
+
+                                {# Responsable 2 #}
+                                {% if resa.inscription.nom_responsable_2 %}
+                                <div class="space-y-2 md:col-span-2">
+                                    <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide">Responsable Légal 2</h4>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <p><strong>Nom :</strong> {{ resa.inscription.prenom_responsable_2 }} {{ resa.inscription.nom_responsable_2 }}</p>
+                                        <p><strong>Tél :</strong> {{ resa.inscription.portable_2|default:"-" }}</p>
+                                        {% if resa.inscription.adresse_responsable_2 %}
+                                        <p class="col-span-2"><strong>Adresse :</strong> {{ resa.inscription.adresse_responsable_2 }}, {{ resa.inscription.code_postal_2 }} {{ resa.inscription.ville_2 }}</p>
+                                        {% endif %}
+                                        {% if resa.inscription.email_2 %}
+                                        <p><strong>Email :</strong> <a href="mailto:{{ resa.inscription.email_2 }}" class="text-blue-600 hover:underline">{{ resa.inscription.email_2 }}</a></p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            {# Personnes habilitées #}
+                            {% if resa.inscription.personnes_habilitees_texte %}
+                            <div>
+                                <h4 class="font-bold text-gray-700 border-b border-gray-200 pb-1.5 text-xs uppercase tracking-wide mb-2">Personnes habilitées à récupérer l'enfant</h4>
+                                <p class="text-gray-700 whitespace-pre-line bg-gray-50 rounded-xl p-3 border border-gray-100">{{ resa.inscription.personnes_habilitees_texte }}</p>
+                            </div>
+                            {% endif %}
+
+                            {# Documents #}
+                            <div>
+                                <div class="flex items-center justify-between border-b border-gray-200 pb-1.5 mb-3">
+                                    <h4 class="font-bold text-gray-700 text-xs uppercase tracking-wide">Documents joints</h4>
+                                    {% if resa.inscription.docs_source %}
+                                    <span class="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full font-medium">
+                                        🔄 Certains documents proviennent de l'inscription du {{ resa.inscription.docs_source.created_at|date:"d/m/Y" }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+
+                                {% with docs=resa.inscription.docs_effectifs %}
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+                                    {% if docs.justificatif_quotient_familial %}
+                                    <a href="{{ docs.justificatif_quotient_familial|upload_url }}" target="_blank"
+                                        class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors group">
+                                        <span class="text-xl">📄</span>
+                                        <div class="min-w-0">
+                                            <p class="font-medium text-gray-700 group-hover:text-blue-700 truncate">Justificatif quotient familial</p>
+                                            {% if not resa.inscription.justificatif_quotient_familial and resa.inscription.docs_source %}
+                                            <p class="text-xs text-amber-600">Repris du {{ resa.inscription.docs_source.created_at|date:"d/m/Y" }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if docs.livret_famille_doc %}
+                                    <a href="{{ docs.livret_famille_doc|upload_url }}" target="_blank"
+                                        class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors group">
+                                        <span class="text-xl">📄</span>
+                                        <div class="min-w-0">
+                                            <p class="font-medium text-gray-700 group-hover:text-blue-700 truncate">Livret de famille</p>
+                                            {% if not resa.inscription.livret_famille_doc and resa.inscription.docs_source %}
+                                            <p class="text-xs text-amber-600">Repris du {{ resa.inscription.docs_source.created_at|date:"d/m/Y" }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if docs.jugement_familial %}
+                                    <a href="{{ docs.jugement_familial|upload_url }}" target="_blank"
+                                        class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors group">
+                                        <span class="text-xl">📄</span>
+                                        <div class="min-w-0">
+                                            <p class="font-medium text-gray-700 group-hover:text-blue-700 truncate">Jugement familial</p>
+                                            {% if not resa.inscription.jugement_familial and resa.inscription.docs_source %}
+                                            <p class="text-xs text-amber-600">Repris du {{ resa.inscription.docs_source.created_at|date:"d/m/Y" }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if docs.personnes_habilitees_identite %}
+                                    <a href="{{ docs.personnes_habilitees_identite|upload_url }}" target="_blank"
+                                        class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors group">
+                                        <span class="text-xl">📄</span>
+                                        <div class="min-w-0">
+                                            <p class="font-medium text-gray-700 group-hover:text-blue-700 truncate">Pièce d'identité (personnes habilitées)</p>
+                                            {% if not resa.inscription.personnes_habilitees_identite and resa.inscription.docs_source %}
+                                            <p class="text-xs text-amber-600">Repris du {{ resa.inscription.docs_source.created_at|date:"d/m/Y" }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if docs.vaccins %}
+                                    <a href="{{ docs.vaccins|upload_url }}" target="_blank"
+                                        class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors group">
+                                        <span class="text-xl">💉</span>
+                                        <div class="min-w-0">
+                                            <p class="font-medium text-gray-700 group-hover:text-blue-700 truncate">Carnet de vaccins</p>
+                                            {% if not resa.inscription.vaccins and resa.inscription.docs_source %}
+                                            <p class="text-xs text-amber-600">Repris du {{ resa.inscription.docs_source.created_at|date:"d/m/Y" }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if docs.assurance_scolaire %}
+                                    <a href="{{ docs.assurance_scolaire|upload_url }}" target="_blank"
+                                        class="flex items-center gap-2.5 p-3 border border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 transition-colors group">
+                                        <span class="text-xl">🛡️</span>
+                                        <div class="min-w-0">
+                                            <p class="font-medium text-gray-700 group-hover:text-blue-700 truncate">Assurance extra-scolaire</p>
+                                            {% if not resa.inscription.assurance_scolaire and resa.inscription.docs_source %}
+                                            <p class="text-xs text-amber-600">Repris du {{ resa.inscription.docs_source.created_at|date:"d/m/Y" }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    {% endif %}
+
+                                    {% if not docs.justificatif_quotient_familial and not docs.livret_famille_doc and not docs.jugement_familial and not docs.personnes_habilitees_identite and not docs.vaccins and not docs.assurance_scolaire %}
+                                    <p class="text-gray-400 italic col-span-2 text-center py-4">Aucun document disponible</p>
+                                    {% endif %}
+
+                                </div>
+                                {% endwith %}
+                            </div>
+
+                        </div>{# /body #}
+
+                        <div class="px-6 py-4 bg-gray-50 border-t text-right">
+                            <form method="dialog">
+                                <button class="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 font-bold rounded-xl text-gray-800 transition-colors">Fermer</button>
+                            </form>
+                        </div>
+                    </dialog>
+                    {# ====== FIN MODAL ====== #}
+
                     {% endfor %}
                 </tbody>
             </table>

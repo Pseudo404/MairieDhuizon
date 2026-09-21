@@ -1377,6 +1377,16 @@ class InscriptionCentreLoisirs(BaseModel):
 
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
+    # Lien vers une inscription précédente dont les documents sont réutilisés
+    docs_source = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True, blank=True,
+        related_name='inscriptions_utilisant_ces_docs',
+        verbose_name="Documents repris depuis l'inscription",
+        help_text="Si la famille n'a pas fourni de nouveaux fichiers, pointe vers l'inscription précédente qui possède les documents.",
+    )
+
     class Meta:
         verbose_name = "Inscription au centre de loisirs"
         verbose_name_plural = "Inscriptions au centre de loisirs"
@@ -1390,6 +1400,45 @@ class InscriptionCentreLoisirs(BaseModel):
         import datetime
         today = datetime.date.today()
         return today.year - self.date_naissance.year - ((today.month, today.day) < (self.date_naissance.month, self.date_naissance.day))
+
+    def get_doc_effectif(self, field_name):
+        """
+        Retourne le fichier effectif pour un champ document donné.
+        Si le champ est vide sur cette inscription, on remonte vers docs_source
+        (une seule génération), puis on retourne None si toujours vide.
+        """
+        value = getattr(self, field_name)
+        if value and value.name:
+            return value
+        if self.docs_source_id:
+            source_value = getattr(self.docs_source, field_name)
+            if source_value and source_value.name:
+                return source_value
+        return None
+
+    @property
+    def docs_effectifs(self):
+        """
+        Retourne un dict {field_name: FileField ou None} en résolvant chaque
+        document champ par champ : on prend le fichier de cette inscription
+        s'il existe, sinon celui de docs_source.
+        """
+        doc_fields = [
+            'justificatif_quotient_familial',
+            'livret_famille_doc',
+            'jugement_familial',
+            'personnes_habilitees_identite',
+            'vaccins',
+            'assurance_scolaire',
+        ]
+        return {f: self.get_doc_effectif(f) for f in doc_fields}
+
+    @property
+    def docs_source_date(self):
+        """Date de création de l'inscription source des documents (si applicable)."""
+        if self.docs_source_id:
+            return self.docs_source.created_at
+        return None
 
 class ReservationCentreLoisirs(BaseModel):
     """ Une réservation pour un jour donné """
