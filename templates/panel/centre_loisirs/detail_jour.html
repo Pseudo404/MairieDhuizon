@@ -86,9 +86,9 @@
                     {# ====== MODAL DOSSIER COMPLET ENFANT ====== #}
                     <dialog id="dossier-modal-{{ resa.id }}"
                         class="p-0 rounded-2xl shadow-2xl backdrop:bg-black backdrop:bg-opacity-50 w-full max-w-2xl m-auto overflow-hidden">
-                        <div class="flex flex-col max-h-[90vh]">
+                        <div class="flex flex-col">
                             {# En-tête #}
-                            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4 flex items-center justify-between shrink-0">
+                            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-6 py-4 flex items-center justify-between shrink-0 rounded-t-2xl">
                                 <div>
                                     <h3 class="text-lg font-bold text-white">
                                         Dossier de {{ resa.inscription.prenom_enfant }} {{ resa.inscription.nom_enfant }}
@@ -100,7 +100,7 @@
                                 </form>
                             </div>
     
-                            <div class="p-6 space-y-5 text-sm overflow-y-auto flex-1">
+                            <div class="p-6 space-y-5 text-sm flex-1 overflow-y-auto max-h-[70vh]">
 
                             {# Informations enfant #}
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -267,7 +267,7 @@
 
                         </div>{# /body #}
 
-                        <div class="px-6 py-4 bg-gray-50 border-t text-right shrink-0">
+                        <div class="px-6 py-4 bg-gray-50 border-t text-right shrink-0 rounded-b-2xl">
                             <form method="dialog">
                                 <button class="px-5 py-2.5 bg-gray-200 hover:bg-gray-300 font-bold rounded-xl text-gray-800 transition-colors">Fermer</button>
                             </form>
