@@ -492,3 +492,28 @@ class MenuCantineAdmin(admin.ModelAdmin):
         }),
     )
 
+
+from core.models import Defibrillateur, Signalement, SignalementPhoto
+
+@admin.register(Defibrillateur)
+class DefibrillateurAdmin(admin.ModelAdmin):
+    list_display = ['nom', 'adresse', 'est_actif', 'created_at']
+    list_filter = ['est_actif']
+    search_fields = ['nom', 'adresse']
+
+class SignalementPhotoInline(admin.TabularInline):
+    model = SignalementPhoto
+    extra = 0
+    readonly_fields = ['image', 'order']
+
+@admin.register(Signalement)
+class SignalementAdmin(admin.ModelAdmin):
+    list_display = ['categorie', 'description_courte', 'statut', 'created_at']
+    list_filter = ['categorie', 'statut']
+    search_fields = ['description', 'adresse_approximative', 'email_signalant']
+    inlines = [SignalementPhotoInline]
+    readonly_fields = ['created_at', 'updated_at', 'latitude', 'longitude']
+
+    def description_courte(self, obj):
+        return obj.description[:60]
+    description_courte.short_description = 'Description'

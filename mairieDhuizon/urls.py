@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from core import views, centre_loisirs_views, centre_loisirs_admin_views
 
 urlpatterns = [
@@ -55,6 +55,7 @@ urlpatterns = [
     path('control-panel/centre-loisirs/historique/', centre_loisirs_admin_views.admin_cl_historique, name='admin_cl_historique'),
     path('control-panel/centre-loisirs/jours/<str:date>/', centre_loisirs_admin_views.admin_cl_detail_jour, name='admin_cl_detail_jour'),
     path('control-panel/centre-loisirs/calendrier/', centre_loisirs_admin_views.admin_cl_calendrier, name='admin_cl_calendrier'),
+    path('api/v1/', include('core.api.urls')),
 ]
 
 from django.conf import settings

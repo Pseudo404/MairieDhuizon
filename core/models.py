@@ -1,15 +1,15 @@
 """
-models.py – Site de mairie Django
-Architecture de base de données propre, scalable et adaptée à l'ORM Django.
+models.py â Site de mairie Django
+Architecture de base de donnÃ©es propre, scalable et adaptÃ©e Ã  l'ORM Django.
 
 Conventions :
-- BaseModel abstrait pour éviter la duplication de created_at / updated_at
-- Champs verbose_name sur chaque modèle et chaque champ
-- Choices centralisés dans les modèles concernés
-- Slugs auto-générables (à câbler dans save() ou avec django-autoslug)
-- ImageField : pensez à configurer MEDIA_ROOT / MEDIA_URL dans settings.py
+- BaseModel abstrait pour Ã©viter la duplication de created_at / updated_at
+- Champs verbose_name sur chaque modÃ¨le et chaque champ
+- Choices centralisÃ©s dans les modÃ¨les concernÃ©s
+- Slugs auto-gÃ©nÃ©rables (Ã  cÃ¢bler dans save() ou avec django-autoslug)
+- ImageField : pensez Ã  configurer MEDIA_ROOT / MEDIA_URL dans settings.py
 - FileField (PDF) : idem
-- PostgreSQL : tous les types sont nativement supportés par le backend psycopg2
+- PostgreSQL : tous les types sont nativement supportÃ©s par le backend psycopg2
 """
 
 import uuid
@@ -20,7 +20,7 @@ from django.urls import reverse
 from core.validators import validate_image_upload, validate_pdf_upload, validate_safe_link_url, validate_document_upload, validate_inscription_document_size
 
 class BaseModel(models.Model):
-    """ Modèle de base """
+    """ ModÃ¨le de base """
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -45,7 +45,7 @@ class BaseSchedule(BaseModel):
 class CommuneInfo(BaseModel):
     """ Informations de la commune """
     presentation = models.TextField(
-        verbose_name="Texte de présentation de la commune",
+        verbose_name="Texte de prÃ©sentation de la commune",
     )
     population = models.PositiveIntegerField(
         verbose_name="Nombre d'habitants",
@@ -58,7 +58,7 @@ class CommuneInfo(BaseModel):
     region = models.CharField(
         max_length=100,
         default="Centre-Val de Loire",
-        verbose_name="Région",
+        verbose_name="RÃ©gion",
     )
 
     adresse = models.CharField(
@@ -71,7 +71,7 @@ class CommuneInfo(BaseModel):
     )
     telephone = models.CharField(
         max_length=20,
-        verbose_name="Téléphone de la mairie",
+        verbose_name="TÃ©lÃ©phone de la mairie",
     )
     horaires = models.TextField(
         verbose_name="Horaires d'ouverture",
@@ -82,7 +82,7 @@ class CommuneInfo(BaseModel):
         blank=True,
         null=True,
         verbose_name="Logo de la commune",
-        help_text="Logo affiché dans le header du site et sur les formulaires. Laissez vide pour utiliser le logo par défaut.",
+        help_text="Logo affichÃ© dans le header du site et sur les formulaires. Laissez vide pour utiliser le logo par dÃ©faut.",
         validators=[validate_image_upload],
     )
 
@@ -94,11 +94,11 @@ class CommuneInfo(BaseModel):
         return "Informations de la commune"
 
     def clean(self):
-        """Empêche la création d'une seconde instance (pattern singleton)."""
+        """EmpÃªche la crÃ©ation d'une seconde instance (pattern singleton)."""
         from django.core.exceptions import ValidationError
         if not self.pk and CommuneInfo.objects.exists():
             raise ValidationError(
-                "Une seule entrée 'Informations commune' est autorisée."
+                "Une seule entrÃ©e 'Informations commune' est autorisÃ©e."
             )
 
 class CommuneInfoSchedule(BaseSchedule):
@@ -123,7 +123,7 @@ class CommuneInfoSchedule(BaseSchedule):
     heure_fermeture = models.TimeField(verbose_name="Heure de fermeture")
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
+        verbose_name="FermÃ© ce jour",
     )
 
     class Meta:
@@ -132,10 +132,10 @@ class CommuneInfoSchedule(BaseSchedule):
         ordering = ["jour_index", "heure_ouverture"]
 
     def __str__(self):
-        return f"{self.get_jour_display()} — Mairie"
+        return f"{self.get_jour_display()} â Mairie"
 
 class News(BaseModel):
-    """ Actualité """
+    """ ActualitÃ© """
     title = models.CharField(
         max_length=255,
         verbose_name="Titre",
@@ -144,12 +144,12 @@ class News(BaseModel):
         max_length=270,
         unique=True,
         verbose_name="Slug (URL)",
-        help_text="Généré automatiquement depuis le titre.",
+        help_text="GÃ©nÃ©rÃ© automatiquement depuis le titre.",
     )
     short_description = models.TextField(
         max_length=500,
         verbose_name="Description courte",
-        help_text="Résumé affiché sur la liste des actualités.",
+        help_text="RÃ©sumÃ© affichÃ© sur la liste des actualitÃ©s.",
     )
     content = models.TextField(
         verbose_name="Contenu complet",
@@ -162,30 +162,30 @@ class News(BaseModel):
         validators=[validate_image_upload],
     )
     event_date = models.DateField(
-        verbose_name="Date de l'événement",
-        help_text="Date à laquelle l'événement se déroule.",
+        verbose_name="Date de l'Ã©vÃ©nement",
+        help_text="Date Ã  laquelle l'Ã©vÃ©nement se dÃ©roule.",
     )
     author = models.CharField(
         max_length=150,
         blank=True,
         verbose_name="Auteur",
-        help_text="Optionnel – nom de l'auteur de l'article.",
+        help_text="Optionnel â nom de l'auteur de l'article.",
     )
     is_published = models.BooleanField(
         default=True,
-        verbose_name="Publié",
+        verbose_name="PubliÃ©",
     )
 
     class Meta:
-        verbose_name = "Actualité"
-        verbose_name_plural = "Actualités"
+        verbose_name = "ActualitÃ©"
+        verbose_name_plural = "ActualitÃ©s"
         ordering = ["event_date"]
 
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
-        """Auto-génération du slug à la création."""
+        """Auto-gÃ©nÃ©ration du slug Ã  la crÃ©ation."""
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -210,7 +210,7 @@ class MunicipalCouncilReport(BaseModel):
     description = models.TextField(
         blank=True,
         verbose_name="Description",
-        help_text="Optionnel – résumé du conseil.",
+        help_text="Optionnel â rÃ©sumÃ© du conseil.",
     )
 
     class Meta:
@@ -235,7 +235,7 @@ class Association(BaseModel):
         unique=True,
         blank=True,
         verbose_name="Slug (URL)",
-        help_text="Généré automatiquement depuis le nom.",
+        help_text="GÃ©nÃ©rÃ© automatiquement depuis le nom.",
     )
     description = models.TextField(
         verbose_name="Description",
@@ -248,7 +248,7 @@ class Association(BaseModel):
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     site_web = models.URLField(
         blank=True,
@@ -271,7 +271,7 @@ class Association(BaseModel):
         return self.nom
 
     def save(self, *args, **kwargs):
-        """Auto-génération du slug à la création."""
+        """Auto-gÃ©nÃ©ration du slug Ã  la crÃ©ation."""
         if not self.slug:
             base_slug = slugify(self.nom)
             slug = base_slug
@@ -286,10 +286,10 @@ class Association(BaseModel):
         return "/vie-associative/{}".format(self.slug)
 
 class School(BaseModel):
-    """ École """
+    """ Ãcole """
     nom = models.CharField(
         max_length=255,
-        verbose_name="Nom de l'école",
+        verbose_name="Nom de l'Ã©cole",
     )
     adresse = models.CharField(
         max_length=255,
@@ -297,7 +297,7 @@ class School(BaseModel):
     )
     telephone = models.CharField(
         max_length=20,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         validators=[EmailValidator()],
@@ -308,10 +308,10 @@ class School(BaseModel):
         verbose_name="Nom de la directrice / directeur",
     )
     nb_eleves = models.PositiveIntegerField(
-        verbose_name="Nombre d'élèves",
+        verbose_name="Nombre d'Ã©lÃ¨ves",
     )
     nb_inscrits_rentree = models.PositiveIntegerField(
-        verbose_name="Inscrits à la dernière rentrée",
+        verbose_name="Inscrits Ã  la derniÃ¨re rentrÃ©e",
     )
     horaires_cours = models.TextField(
         verbose_name="Horaires des cours",
@@ -319,8 +319,8 @@ class School(BaseModel):
     )
 
     class Meta:
-        verbose_name = "École"
-        verbose_name_plural = "Écoles"
+        verbose_name = "Ãcole"
+        verbose_name_plural = "Ãcoles"
         ordering = ["nom"]
 
     def __str__(self):
@@ -334,18 +334,18 @@ class SportFacilityType(BaseModel):
     nom = models.CharField(
         max_length=150,
         unique=True,
-        verbose_name="Type d'équipement",
+        verbose_name="Type d'Ã©quipement",
     )
     icone = models.CharField(
         max_length=50,
         blank=True,
-        verbose_name="Icône (classe CSS ou emoji)",
-        help_text="Optionnel – ex: 'fas fa-futbol' ou '⚽'",
+        verbose_name="IcÃ´ne (classe CSS ou emoji)",
+        help_text="Optionnel â ex: 'fas fa-futbol' ou 'â½'",
     )
 
     class Meta:
-        verbose_name = "Type d'équipement sportif"
-        verbose_name_plural = "Types d'équipements sportifs"
+        verbose_name = "Type d'Ã©quipement sportif"
+        verbose_name_plural = "Types d'Ã©quipements sportifs"
         ordering = ["nom"]
 
     def __str__(self):
@@ -355,13 +355,13 @@ class SportFacility(BaseModel):
     """ Installation sportive """
     nom = models.CharField(
         max_length=255,
-        verbose_name="Nom de l'équipement",
+        verbose_name="Nom de l'Ã©quipement",
     )
     type_equipement = models.ForeignKey(
         SportFacilityType,
         on_delete=models.PROTECT,
         related_name="equipements",
-        verbose_name="Type d'équipement",
+        verbose_name="Type d'Ã©quipement",
     )
     description = models.TextField(
         blank=True,
@@ -394,15 +394,15 @@ class SportFacility(BaseModel):
     )
 
     class Meta:
-        verbose_name = "Équipement sportif"
-        verbose_name_plural = "Équipements sportifs"
+        verbose_name = "Ãquipement sportif"
+        verbose_name_plural = "Ãquipements sportifs"
         ordering = ["type_equipement", "nom"]
 
     def __str__(self):
         return f"{self.nom} ({self.type_equipement})"
 
 class HealthCenter(BaseModel):
-    """ Maison de santé """
+    """ Maison de santÃ© """
     nom = models.CharField(
         max_length=255,
         verbose_name="Nom",
@@ -413,7 +413,7 @@ class HealthCenter(BaseModel):
     )
     telephone = models.CharField(
         max_length=20,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -422,8 +422,8 @@ class HealthCenter(BaseModel):
     )
 
     class Meta:
-        verbose_name = "Maison de santé"
-        verbose_name_plural = "Maisons de santé"
+        verbose_name = "Maison de santÃ©"
+        verbose_name_plural = "Maisons de santÃ©"
         ordering = ["nom"]
 
     def __str__(self):
@@ -433,16 +433,16 @@ class HealthCenter(BaseModel):
         return "/vie-pratique#sante-{}".format(self.pk)
 
 class HealthcareProfessional(BaseModel):
-    """ Professionnel de santé """
+    """ Professionnel de santÃ© """
     centre = models.ForeignKey(
         HealthCenter,
         on_delete=models.CASCADE,
         related_name="professionnels",
-        verbose_name="Maison de santé",
+        verbose_name="Maison de santÃ©",
     )
     prenom = models.CharField(
         max_length=100,
-        verbose_name="Prénom",
+        verbose_name="PrÃ©nom",
     )
     nom = models.CharField(
         max_length=100,
@@ -451,12 +451,12 @@ class HealthcareProfessional(BaseModel):
     profession = models.CharField(
         max_length=150,
         verbose_name="Profession",
-        help_text="Exemple : Médecin généraliste, Kinésithérapeute…",
+        help_text="Exemple : MÃ©decin gÃ©nÃ©raliste, KinÃ©sithÃ©rapeuteâ¦",
     )
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -467,27 +467,27 @@ class HealthcareProfessional(BaseModel):
         max_length=255,
         blank=True,
         verbose_name="Adresse",
-        help_text="Utile pour les praticiens hors maison de santé (ex: dentistes).",
+        help_text="Utile pour les praticiens hors maison de santÃ© (ex: dentistes).",
     )
     infos_complementaires = models.TextField(
         blank=True,
-        verbose_name="Informations complémentaires",
-        help_text="Horaires personnalisés, secteur conventionnel, informations d'accès…",
+        verbose_name="Informations complÃ©mentaires",
+        help_text="Horaires personnalisÃ©s, secteur conventionnel, informations d'accÃ¨sâ¦",
     )
 
     order = models.PositiveSmallIntegerField(
         default=0,
         verbose_name="Ordre d'affichage",
-        help_text="Les professionnels sont triés par ordre croissant, puis par profession et nom.",
+        help_text="Les professionnels sont triÃ©s par ordre croissant, puis par profession et nom.",
     )
 
     class Meta:
-        verbose_name = "Professionnel de santé"
-        verbose_name_plural = "Professionnels de santé"
+        verbose_name = "Professionnel de santÃ©"
+        verbose_name_plural = "Professionnels de santÃ©"
         ordering = ["order", "profession", "nom", "prenom"]
 
     def __str__(self):
-        return f"{self.prenom} {self.nom} – {self.profession}"
+        return f"{self.prenom} {self.nom} â {self.profession}"
 
 class Pharmacy(BaseModel):
     """ Pharmacie """
@@ -501,7 +501,7 @@ class Pharmacy(BaseModel):
     )
     telephone = models.CharField(
         max_length=20,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         validators=[EmailValidator()],
@@ -509,8 +509,8 @@ class Pharmacy(BaseModel):
     )
     horaires = models.TextField(
         blank=True,
-        verbose_name="Informations complémentaires",
-        help_text="Ex. : garde de nuit, fermetures exceptionnelles… Les horaires pour le statut « ouvert / fermé » se gèrent ci-dessous.",
+        verbose_name="Informations complÃ©mentaires",
+        help_text="Ex. : garde de nuit, fermetures exceptionnellesâ¦ Les horaires pour le statut Â« ouvert / fermÃ© Â» se gÃ¨rent ci-dessous.",
     )
 
     class Meta:
@@ -544,7 +544,7 @@ class PharmacySchedule(BaseSchedule):
     heure_fermeture = models.TimeField(verbose_name="Heure de fermeture")
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
+        verbose_name="FermÃ© ce jour",
     )
 
     class Meta:
@@ -553,10 +553,10 @@ class PharmacySchedule(BaseSchedule):
         ordering = ["jour_index", "heure_ouverture"]
 
     def __str__(self):
-        return f"{self.get_jour_display()} — {self.pharmacie.nom}"
+        return f"{self.get_jour_display()} â {self.pharmacie.nom}"
 
 class SeniorResidence(BaseModel):
-    """ Résidence pour personnes âgées """
+    """ RÃ©sidence pour personnes Ã¢gÃ©es """
     nom = models.CharField(
         max_length=255,
         verbose_name="Nom",
@@ -567,7 +567,7 @@ class SeniorResidence(BaseModel):
     )
     telephone = models.CharField(
         max_length=20,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -576,20 +576,20 @@ class SeniorResidence(BaseModel):
     )
     horaires = models.TextField(
         blank=True,
-        verbose_name="Informations complémentaires",
-        help_text="Précisions d'accueil. Les horaires pour le statut « ouvert / fermé » se gèrent ci-dessous.",
+        verbose_name="Informations complÃ©mentaires",
+        help_text="PrÃ©cisions d'accueil. Les horaires pour le statut Â« ouvert / fermÃ© Â» se gÃ¨rent ci-dessous.",
     )
 
     class Meta:
-        verbose_name = "Résidence senior"
-        verbose_name_plural = "Résidences seniors"
+        verbose_name = "RÃ©sidence senior"
+        verbose_name_plural = "RÃ©sidences seniors"
         ordering = ["nom"]
 
     def __str__(self):
         return self.nom
 
 class SeniorResidenceSchedule(BaseSchedule):
-    """ Horaires de la résidence sénior """
+    """ Horaires de la rÃ©sidence sÃ©nior """
 
     class Weekday(models.TextChoices):
         LUNDI = "lundi", "Lundi"
@@ -604,26 +604,26 @@ class SeniorResidenceSchedule(BaseSchedule):
         SeniorResidence,
         on_delete=models.CASCADE,
         related_name="horaires_planning",
-        verbose_name="Résidence",
+        verbose_name="RÃ©sidence",
     )
     jour = models.CharField(max_length=10, choices=Weekday.choices, verbose_name="Jour")
     heure_ouverture = models.TimeField(verbose_name="Heure d'ouverture")
     heure_fermeture = models.TimeField(verbose_name="Heure de fermeture")
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
+        verbose_name="FermÃ© ce jour",
     )
 
     class Meta:
-        verbose_name = "Horaire résidence seniors"
-        verbose_name_plural = "Horaires résidence seniors"
+        verbose_name = "Horaire rÃ©sidence seniors"
+        verbose_name_plural = "Horaires rÃ©sidence seniors"
         ordering = ["jour_index", "heure_ouverture"]
 
     def __str__(self):
-        return f"{self.get_jour_display()} — {self.residence.nom}"
+        return f"{self.get_jour_display()} â {self.residence.nom}"
 
 class Nursery(BaseModel):
-    """ Crèche """
+    """ CrÃ¨che """
     nom = models.CharField(
         max_length=255,
         verbose_name="Nom",
@@ -634,7 +634,7 @@ class Nursery(BaseModel):
     )
     telephone = models.CharField(
         max_length=20,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         validators=[EmailValidator()],
@@ -647,21 +647,21 @@ class Nursery(BaseModel):
     lien = models.URLField(
         blank=True,
         validators=[validate_safe_link_url],
-        verbose_name="Lien vers le site de la crèche",
-        help_text="Lien vers le site de la crèche ou de la gestionnaire.",
+        verbose_name="Lien vers le site de la crÃ¨che",
+        help_text="Lien vers le site de la crÃ¨che ou de la gestionnaire.",
     )
 
     logo = models.ImageField(
         upload_to="images/creches/",
         blank=True,
         null=True,
-        verbose_name="Logo de la crèche",
+        verbose_name="Logo de la crÃ¨che",
         validators=[validate_image_upload],
     )
 
     class Meta:
-        verbose_name = "Crèche"
-        verbose_name_plural = "Crèches"
+        verbose_name = "CrÃ¨che"
+        verbose_name_plural = "CrÃ¨ches"
         ordering = ["nom"]
 
     def __str__(self):
@@ -671,14 +671,14 @@ class Nursery(BaseModel):
         return "/vie-pratique#petite-enfance"
 
 class WasteCollectionSchedule(BaseSchedule):
-    """ Calendrier de collecte des déchets """
+    """ Calendrier de collecte des dÃ©chets """
 
     class WasteType(models.TextChoices):
-        MENAGERS       = "menagers",    "Déchets ménagers"
-        RECYCLABLES    = "recyclables", "Recyclables (tri sélectif)"
+        MENAGERS       = "menagers",    "DÃ©chets mÃ©nagers"
+        RECYCLABLES    = "recyclables", "Recyclables (tri sÃ©lectif)"
         VERRE          = "verre",       "Verre"
         ENCOMBRANTS    = "encombrants", "Encombrants"
-        VEGETAUX       = "vegetaux",    "Déchets verts / végétaux"
+        VEGETAUX       = "vegetaux",    "DÃ©chets verts / vÃ©gÃ©taux"
         AUTRE          = "autre",       "Autre"
 
     class Weekday(models.TextChoices):
@@ -692,7 +692,7 @@ class WasteCollectionSchedule(BaseSchedule):
     type_dechet = models.CharField(
         max_length=20,
         choices=WasteType.choices,
-        verbose_name="Type de déchet",
+        verbose_name="Type de dÃ©chet",
     )
     jour = models.CharField(
         max_length=10,
@@ -707,23 +707,23 @@ class WasteCollectionSchedule(BaseSchedule):
     )
     description = models.TextField(
         blank=True,
-        verbose_name="Description / précisions",
+        verbose_name="Description / prÃ©cisions",
     )
 
     class Meta:
-        verbose_name = "Planning de collecte des déchets"
-        verbose_name_plural = "Plannings de collecte des déchets"
+        verbose_name = "Planning de collecte des dÃ©chets"
+        verbose_name_plural = "Plannings de collecte des dÃ©chets"
         ordering = ["jour_index", "type_dechet"]
         unique_together = [("type_dechet", "jour")]
 
     def __str__(self):
-        return f"{self.get_type_dechet_display()} – {self.get_jour_display()}"
+        return f"{self.get_type_dechet_display()} â {self.get_jour_display()}"
     
     def get_absolute_url(self):
         return "/vie-pratique#collecte-dechets"
 
 class RecyclingCenter(BaseModel):
-    """ Déchetterie """
+    """ DÃ©chetterie """
     nom = models.CharField(
         max_length=255,
         verbose_name="Nom",
@@ -734,7 +734,7 @@ class RecyclingCenter(BaseModel):
     )
     telephone = models.CharField(
         max_length=20,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -743,8 +743,8 @@ class RecyclingCenter(BaseModel):
     )
 
     class Meta:
-        verbose_name = "Déchetterie"
-        verbose_name_plural = "Déchetteries"
+        verbose_name = "DÃ©chetterie"
+        verbose_name_plural = "DÃ©chetteries"
         ordering = ["nom"]
 
     def __str__(self):
@@ -755,11 +755,11 @@ class RecyclingCenter(BaseModel):
     
 
 class RecyclingCenterSchedule(BaseSchedule):
-    """ Horaires de la déchetterie """
+    """ Horaires de la dÃ©chetterie """
 
     class Season(models.TextChoices):
-        ETE   = "ete",   "Été (01/04 → 31/10)"
-        HIVER = "hiver", "Hiver (01/11 → 31/03)"
+        ETE   = "ete",   "ÃtÃ© (01/04 â 31/10)"
+        HIVER = "hiver", "Hiver (01/11 â 31/03)"
 
     class Weekday(models.TextChoices):
         LUNDI    = "lundi",    "Lundi"
@@ -774,7 +774,7 @@ class RecyclingCenterSchedule(BaseSchedule):
         RecyclingCenter,
         on_delete=models.CASCADE,
         related_name="horaires",
-        verbose_name="Déchetterie",
+        verbose_name="DÃ©chetterie",
     )
     saison = models.CharField(
         max_length=10,
@@ -794,96 +794,96 @@ class RecyclingCenterSchedule(BaseSchedule):
     )
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
-        help_text="Cocher si la déchetterie est fermée ce jour-là pour cette saison.",
+        verbose_name="FermÃ© ce jour",
+        help_text="Cocher si la dÃ©chetterie est fermÃ©e ce jour-lÃ  pour cette saison.",
     )
 
     class Meta:
-        verbose_name = "Horaire de déchetterie"
-        verbose_name_plural = "Horaires de déchetterie"
+        verbose_name = "Horaire de dÃ©chetterie"
+        verbose_name_plural = "Horaires de dÃ©chetterie"
         ordering = ["centre", "saison", "jour_index"]
         unique_together = [("centre", "saison", "jour")]
 
     def __str__(self):
         return (
-            f"{self.centre} – {self.get_saison_display()} – "
+            f"{self.centre} â {self.get_saison_display()} â "
             f"{self.get_jour_display()} : "
-            f"{self.heure_ouverture:%H:%M}–{self.heure_fermeture:%H:%M}"
+            f"{self.heure_ouverture:%H:%M}â{self.heure_fermeture:%H:%M}"
         )
 
 class QuickLink(BaseModel):
     """ Lien rapide """
     ICONS_CHOICES = [
-        ('school', '🎓'),
-        ('sports_soccer', '⚽'),
-        ('local_pharmacy', '💊'),
-        ('home', '🏠'),
-        ('info', 'ℹ️'),
-        ('restaurant', '🍽️'),
-        ('room_service', '🛎️'),
-        ('kebab_dining', '🍢'),
-        ('local_pizza', '🍕'),
-        ('partly_cloudy_day', '⛅'),
-        ('sunny', '☀️'),
-        ('cloud', '☁️'),
-        ('rainy_snow', '🌧️'),
-        ('thunderstorm', '⛈️'),
-        ('rainy', '🌧️'),
-        ('health_and_safety', '🩺'),
-        ('health_cross', '➕'),
-        ('location_on', '📍'),
-        ('phone', '☎️'),
-        ('email', '✉️'),
-        ('people', '👥'),
-        ('event', '📅'),
-        ('library_books', '📚'),
-        ('elderly_woman', '👵'),
-        ('child_care', '👶'),
-        ('recycling', '♻️'),
-        ('delete', '🗑️'),
-        ('medical_services', '🏥'),
-        ('directions_car', '🚌'),
-        ('shopping_cart', '🛒'),
-        ('park', '🌳'),
-        ('directions', '🗺️'),
-        ('account_balance', '🏛️'),
-        ('newspaper', '📰'),
-        ('calendar_month', '📅'),
-        ('mail', '📧'),
-        ('alarm', '🕒'),
-        ('pin_drop', '📍'),
-        ('book_ribbon', '📚'),
-        ('celebration', '🎉'),
-        ('construction', '🏗️'),
-        ('home_repair_service', '🔨'),
-        ('forest', '🌲'),
-        ('compost', '♻️'),
-        ('how_to_vote', '🗳️'),
-        ('diversity_3', '👥'),
-        ('trophy', '🏆'),
-        ('comedy_mask', '🎭'),
-        ('festival', '🎪'),
-        ('shield', '🛡️'),
-        ('badge', '👮'),
-        ('local_fire_department', '🔥'),
-        ('map', '🗺️'),
-        ('church', '⛪'),
-        ('file_export', '📄'),
-        ('assignment', '📋'),
-        ('photo', '🖼️'),
-        ('send', '📨'),
-        ('accessibility', '♿'),
+        ('school', 'ð'),
+        ('sports_soccer', 'â½'),
+        ('local_pharmacy', 'ð'),
+        ('home', 'ð '),
+        ('info', 'â¹ï¸'),
+        ('restaurant', 'ð½ï¸'),
+        ('room_service', 'ðï¸'),
+        ('kebab_dining', 'ð¢'),
+        ('local_pizza', 'ð'),
+        ('partly_cloudy_day', 'â'),
+        ('sunny', 'âï¸'),
+        ('cloud', 'âï¸'),
+        ('rainy_snow', 'ð§ï¸'),
+        ('thunderstorm', 'âï¸'),
+        ('rainy', 'ð§ï¸'),
+        ('health_and_safety', 'ð©º'),
+        ('health_cross', 'â'),
+        ('location_on', 'ð'),
+        ('phone', 'âï¸'),
+        ('email', 'âï¸'),
+        ('people', 'ð¥'),
+        ('event', 'ð'),
+        ('library_books', 'ð'),
+        ('elderly_woman', 'ðµ'),
+        ('child_care', 'ð¶'),
+        ('recycling', 'â»ï¸'),
+        ('delete', 'ðï¸'),
+        ('medical_services', 'ð¥'),
+        ('directions_car', 'ð'),
+        ('shopping_cart', 'ð'),
+        ('park', 'ð³'),
+        ('directions', 'ðºï¸'),
+        ('account_balance', 'ðï¸'),
+        ('newspaper', 'ð°'),
+        ('calendar_month', 'ð'),
+        ('mail', 'ð§'),
+        ('alarm', 'ð'),
+        ('pin_drop', 'ð'),
+        ('book_ribbon', 'ð'),
+        ('celebration', 'ð'),
+        ('construction', 'ðï¸'),
+        ('home_repair_service', 'ð¨'),
+        ('forest', 'ð²'),
+        ('compost', 'â»ï¸'),
+        ('how_to_vote', 'ð³ï¸'),
+        ('diversity_3', 'ð¥'),
+        ('trophy', 'ð'),
+        ('comedy_mask', 'ð­'),
+        ('festival', 'ðª'),
+        ('shield', 'ð¡ï¸'),
+        ('badge', 'ð®'),
+        ('local_fire_department', 'ð¥'),
+        ('map', 'ðºï¸'),
+        ('church', 'âª'),
+        ('file_export', 'ð'),
+        ('assignment', 'ð'),
+        ('photo', 'ð¼ï¸'),
+        ('send', 'ð¨'),
+        ('accessibility', 'â¿'),
     ]
     label = models.CharField(
         max_length=100,
-        verbose_name="Libellé",
-        help_text="Texte affiché sous l'icône (ex: École, Sport…)",
+        verbose_name="LibellÃ©",
+        help_text="Texte affichÃ© sous l'icÃ´ne (ex: Ãcole, Sportâ¦)",
     )
     icon = models.CharField(
         max_length=50,
         choices=ICONS_CHOICES,
-        verbose_name="Icône",
-        help_text="Sélectionnez une icône prédéfinie",
+        verbose_name="IcÃ´ne",
+        help_text="SÃ©lectionnez une icÃ´ne prÃ©dÃ©finie",
     )
     url = models.CharField(
         max_length=255,
@@ -911,10 +911,10 @@ class QuickLink(BaseModel):
         return self.icon
 
 class CommuneMedia(BaseModel):
-    """ Média de la commune """
+    """ MÃ©dia de la commune """
     title = models.CharField(
         max_length=200,
-        verbose_name="Titre / légende",
+        verbose_name="Titre / lÃ©gende",
     )
     image = models.ImageField(
         upload_to="images/galerie/",
@@ -924,7 +924,7 @@ class CommuneMedia(BaseModel):
     description = models.TextField(
         blank=True,
         verbose_name="Description",
-        help_text="Optionnel – description détaillée de la photo.",
+        help_text="Optionnel â description dÃ©taillÃ©e de la photo.",
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -932,12 +932,12 @@ class CommuneMedia(BaseModel):
     )
     is_hero = models.BooleanField(
         default=False,
-        verbose_name="Image héro (fond accueil)",
+        verbose_name="Image hÃ©ro (fond accueil)",
         help_text="Cocher pour utiliser cette photo comme fond de la section principale.",
     )
     is_hero_tourisme = models.BooleanField(
         default=False,
-        verbose_name="Image héro (fond tourisme)",
+        verbose_name="Image hÃ©ro (fond tourisme)",
         help_text="Cocher pour utiliser cette photo comme fond de la page Tourisme.",
     )
 
@@ -953,38 +953,38 @@ class HistoireDhuizon(BaseModel):
     """ Histoire de Dhuizon """
     date_label = models.CharField(
         max_length=100,
-        verbose_name="Date / période",
-        help_text="Texte affiché comme repère temporel (ex: 1000, XIXe siècle, Aujourd'hui…)",
+        verbose_name="Date / pÃ©riode",
+        help_text="Texte affichÃ© comme repÃ¨re temporel (ex: 1000, XIXe siÃ¨cle, Aujourd'huiâ¦)",
     )
     evenement = models.TextField(
-        verbose_name="Événement",
-        help_text="Description de l'événement historique.",
+        verbose_name="ÃvÃ©nement",
+        help_text="Description de l'Ã©vÃ©nement historique.",
     )
     order = models.PositiveSmallIntegerField(
         default=0,
         verbose_name="Ordre d'affichage",
-        help_text="Les événements sont affichés par ordre croissant.",
+        help_text="Les Ã©vÃ©nements sont affichÃ©s par ordre croissant.",
     )
 
     class Meta:
-        verbose_name = "Événement historique"
-        verbose_name_plural = "Événements historiques"
+        verbose_name = "ÃvÃ©nement historique"
+        verbose_name_plural = "ÃvÃ©nements historiques"
         ordering = ["order", "date_label"]
 
     def __str__(self):
-        return f"{self.date_label} – {self.evenement[:50]}"
+        return f"{self.date_label} â {self.evenement[:50]}"
 
 class PatrimoineItem(BaseModel):
     """ Patrimoine de Dhuizon """
     nom = models.CharField(
         max_length=200,
         verbose_name="Nom du lieu",
-        help_text="Ex: Mairie, Église Saint-Pierre, Étangs…",
+        help_text="Ex: Mairie, Ãglise Saint-Pierre, Ãtangsâ¦",
     )
     description = models.TextField(
         blank=True,
         verbose_name="Description",
-        help_text="Texte affiché sous le nom du lieu.",
+        help_text="Texte affichÃ© sous le nom du lieu.",
     )
     image = models.ImageField(
         upload_to="images/patrimoine/",
@@ -996,23 +996,23 @@ class PatrimoineItem(BaseModel):
     order = models.PositiveSmallIntegerField(
         default=0,
         verbose_name="Ordre d'affichage",
-        help_text="Les éléments sont affichés par ordre croissant.",
+        help_text="Les Ã©lÃ©ments sont affichÃ©s par ordre croissant.",
     )
 
     class Meta:
-        verbose_name = "Élément de patrimoine"
-        verbose_name_plural = "Éléments de patrimoine"
+        verbose_name = "ÃlÃ©ment de patrimoine"
+        verbose_name_plural = "ÃlÃ©ments de patrimoine"
         ordering = ["order", "nom"]
 
     def __str__(self):
         return self.nom
 
 class AdminAllowedIP(BaseModel):
-    """ IP autorisée pour l'administration """
+    """ IP autorisÃ©e pour l'administration """
     label = models.CharField(
         max_length=120,
-        verbose_name="Libellé",
-        help_text="Ex. : Mairie de Dhuizon, Bureau du maire…",
+        verbose_name="LibellÃ©",
+        help_text="Ex. : Mairie de Dhuizon, Bureau du maireâ¦",
     )
     ip_address = models.GenericIPAddressField(
         verbose_name="Adresse IP",
@@ -1029,13 +1029,13 @@ class AdminAllowedIP(BaseModel):
     )
 
     class Meta:
-        verbose_name = "IP autorisée (/admin/)"
-        verbose_name_plural = "IP autorisées (/admin/)"
+        verbose_name = "IP autorisÃ©e (/admin/)"
+        verbose_name_plural = "IP autorisÃ©es (/admin/)"
         ordering = ['label', 'ip_address']
 
     def __str__(self):
         status = 'active' if self.is_active else 'inactive'
-        return f'{self.label} — {self.ip_address} ({status})'
+        return f'{self.label} â {self.ip_address} ({status})'
 
 class AdminAccount(BaseModel):
     """ Compte Administrateur """
@@ -1043,17 +1043,17 @@ class AdminAccount(BaseModel):
     is_super_admin = models.BooleanField(
         default=False,
         verbose_name="Est Super Admin (Mairie)",
-        help_text="Les Super Admins peuvent créer et gérer d'autres administrateurs."
+        help_text="Les Super Admins peuvent crÃ©er et gÃ©rer d'autres administrateurs."
     )
     is_centre_loisirs = models.BooleanField(
         default=False,
         verbose_name="Est Admin Centre de Loisirs uniquement",
-        help_text="Accès restreint au panneau de gestion du centre de loisirs (pas d'accès au panel général)."
+        help_text="AccÃ¨s restreint au panneau de gestion du centre de loisirs (pas d'accÃ¨s au panel gÃ©nÃ©ral)."
     )
     can_access_centre_loisirs = models.BooleanField(
         default=False,
-        verbose_name="Accès Centre de Loisirs",
-        help_text="En plus de l'accès au panel général, cet admin peut aussi accéder au centre de loisirs."
+        verbose_name="AccÃ¨s Centre de Loisirs",
+        help_text="En plus de l'accÃ¨s au panel gÃ©nÃ©ral, cet admin peut aussi accÃ©der au centre de loisirs."
     )
 
     class Meta:
@@ -1076,7 +1076,7 @@ class PageView(BaseModel):
     """ Vue de page (statistique) """
     path = models.CharField(
         max_length=500,
-        verbose_name="Page visitée",
+        verbose_name="Page visitÃ©e",
     )
     country = models.CharField(
         max_length=100,
@@ -1106,7 +1106,7 @@ class PageView(BaseModel):
     session_key = models.CharField(
         max_length=40,
         blank=True,
-        verbose_name="Clé de session",
+        verbose_name="ClÃ© de session",
     )
     time_on_page = models.PositiveIntegerField(
         null=True,
@@ -1125,10 +1125,10 @@ class PageView(BaseModel):
         ]
 
     def __str__(self):
-        return f"{self.path} — {self.created_at:%d/%m/%Y %H:%M}"
+        return f"{self.path} â {self.created_at:%d/%m/%Y %H:%M}"
 
 class NextCouncilMeeting(BaseModel):
-    """ Prochaine réunion du conseil """
+    """ Prochaine rÃ©union du conseil """
     date = models.DateField(
         verbose_name="Date du prochain conseil",
     )
@@ -1158,7 +1158,7 @@ class NextCouncilMeeting(BaseModel):
     def clean(self):
         from django.core.exceptions import ValidationError
         if not self.pk and NextCouncilMeeting.objects.exists():
-            raise ValidationError("Une seule entrée est autorisée.")
+            raise ValidationError("Une seule entrÃ©e est autorisÃ©e.")
         
     def get_absolute_url(self):
         return "/conseil-municipal#prochain-conseil"
@@ -1167,7 +1167,7 @@ class MunicipalCouncilor(BaseModel):
     """ Conseiller municipaux """
     prenom = models.CharField(
         max_length=100,
-        verbose_name="Prénom",
+        verbose_name="PrÃ©nom",
     )
     nom = models.CharField(
         max_length=100,
@@ -1176,14 +1176,14 @@ class MunicipalCouncilor(BaseModel):
     role = models.CharField(
         max_length=150,
         blank=True,
-        verbose_name="Rôle / fonction",
-        help_text="Ex: Maire, Adjoint au maire, Conseiller municipal…",
+        verbose_name="RÃ´le / fonction",
+        help_text="Ex: Maire, Adjoint au maire, Conseiller municipalâ¦",
     )
     comissions = models.CharField(
         max_length=255,
         blank=True,
         verbose_name="Commissions",
-        help_text="Ex: Urbanisme, Environnement, Culture…",
+        help_text="Ex: Urbanisme, Environnement, Cultureâ¦",
     )
     photo = models.ImageField(
         upload_to="images/conseillers/",
@@ -1208,7 +1208,7 @@ class MunicipalCouncilor(BaseModel):
         ordering = ["order", "nom", "prenom"]
 
     def __str__(self):
-        return f"{self.prenom} {self.nom} — {self.role}"
+        return f"{self.prenom} {self.nom} â {self.role}"
     
     def get_absolute_url(self):
         return "/conseil-municipal#elus"
@@ -1218,7 +1218,7 @@ class Transport(BaseModel):
 
     class TransportType(models.TextChoices):
         SCOLAIRE  = "scolaire",  "Transport scolaire"
-        REGULIER  = "regulier",  "Transport régulier"
+        REGULIER  = "regulier",  "Transport rÃ©gulier"
 
     type_transport = models.CharField(
         max_length=20,
@@ -1227,12 +1227,12 @@ class Transport(BaseModel):
     )
     nom = models.CharField(
         max_length=255,
-        verbose_name="Nom / numéro de ligne",
+        verbose_name="Nom / numÃ©ro de ligne",
     )
     description = models.TextField(
         blank=True,
         verbose_name="Description",
-        help_text="Trajet, arrêts, fréquence…",
+        help_text="Trajet, arrÃªts, frÃ©quenceâ¦",
     )
     horaires = models.TextField(
         blank=True,
@@ -1241,7 +1241,7 @@ class Transport(BaseModel):
     lien = models.URLField(
         blank=True,
         verbose_name="Lien",
-        help_text="Lien vers le site de l'opérateur ou les horaires en ligne.",
+        help_text="Lien vers le site de l'opÃ©rateur ou les horaires en ligne.",
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -1254,7 +1254,7 @@ class Transport(BaseModel):
         ordering = ["type_transport", "order", "nom"]
 
     def __str__(self):
-        return f"{self.get_type_transport_display()} — {self.nom}"
+        return f"{self.get_type_transport_display()} â {self.nom}"
     
     def get_absolute_url(self):
         return "/vie-pratique#transports"
@@ -1273,7 +1273,7 @@ class LeisureCenter(BaseModel):
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -1290,8 +1290,8 @@ class LeisureCenter(BaseModel):
     )
     capacite_max = models.PositiveIntegerField(
         default=30,
-        verbose_name="Capacité journalière maximale",
-        help_text="Nombre maximum d'enfants pouvant être accueillis par jour."
+        verbose_name="CapacitÃ© journaliÃ¨re maximale",
+        help_text="Nombre maximum d'enfants pouvant Ãªtre accueillis par jour."
     )
     menu_pdf = models.FileField(
         upload_to="documents/centre_loisirs/",
@@ -1319,7 +1319,7 @@ class LeisureDayStatus(BaseModel):
     date = models.DateField(verbose_name="Date")
     status = models.CharField(
         max_length=20,
-        choices=[('ouvert', 'Ouvert'), ('ferme', 'Fermé'), ('ferie', 'Férié')],
+        choices=[('ouvert', 'Ouvert'), ('ferme', 'FermÃ©'), ('ferie', 'FÃ©riÃ©')],
         default='ouvert',
         verbose_name="Statut"
     )
@@ -1341,24 +1341,24 @@ class LeisureDayStatus(BaseModel):
 class InscriptionCentreLoisirs(BaseModel):
     """ Fiche d'inscription d'un enfant au centre de loisirs """
     nom_enfant = models.CharField(max_length=100, verbose_name="Nom de l'enfant")
-    prenom_enfant = models.CharField(max_length=100, verbose_name="Prénom de l'enfant")
+    prenom_enfant = models.CharField(max_length=100, verbose_name="PrÃ©nom de l'enfant")
     date_naissance = models.DateField(verbose_name="Date de naissance")
     
     nom_responsable_1 = models.CharField(max_length=100, verbose_name="Nom (Responsable 1)")
-    prenom_responsable_1 = models.CharField(max_length=100, verbose_name="Prénom (Responsable 1)")
+    prenom_responsable_1 = models.CharField(max_length=100, verbose_name="PrÃ©nom (Responsable 1)")
     adresse_responsable_1 = models.CharField(max_length=255, verbose_name="Adresse (Responsable 1)")
     code_postal_1 = models.CharField(max_length=20, verbose_name="Code postal (Responsable 1)")
     ville_1 = models.CharField(max_length=100, verbose_name="Ville (Responsable 1)")
-    telephone_1 = models.CharField(max_length=20, blank=True, verbose_name="Téléphone (Responsable 1)")
+    telephone_1 = models.CharField(max_length=20, blank=True, verbose_name="TÃ©lÃ©phone (Responsable 1)")
     portable_1 = models.CharField(max_length=20, verbose_name="Portable (Responsable 1)")
     email_1 = models.EmailField(verbose_name="Email (Responsable 1)")
 
     nom_responsable_2 = models.CharField(max_length=100, blank=True, verbose_name="Nom (Responsable 2)")
-    prenom_responsable_2 = models.CharField(max_length=100, blank=True, verbose_name="Prénom (Responsable 2)")
+    prenom_responsable_2 = models.CharField(max_length=100, blank=True, verbose_name="PrÃ©nom (Responsable 2)")
     adresse_responsable_2 = models.CharField(max_length=255, blank=True, verbose_name="Adresse (Responsable 2)")
     code_postal_2 = models.CharField(max_length=20, blank=True, verbose_name="Code postal (Responsable 2)")
     ville_2 = models.CharField(max_length=100, blank=True, verbose_name="Ville (Responsable 2)")
-    telephone_2 = models.CharField(max_length=20, blank=True, verbose_name="Téléphone (Responsable 2)")
+    telephone_2 = models.CharField(max_length=20, blank=True, verbose_name="TÃ©lÃ©phone (Responsable 2)")
     portable_2 = models.CharField(max_length=20, blank=True, verbose_name="Portable (Responsable 2)")
     email_2 = models.EmailField(blank=True, verbose_name="Email (Responsable 2)")
 
@@ -1368,23 +1368,23 @@ class InscriptionCentreLoisirs(BaseModel):
     livret_famille = models.BooleanField(default=False, verbose_name="Livret de famille fourni (Ancien)")
     livret_famille_doc = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Livret de famille (Document)")
     jugement_familial = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Jugement familial")
-    personnes_habilitees_identite = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Pièce d'identité (Personnes habilitées)")
-    personnes_habilitees_texte = models.TextField(blank=True, verbose_name="Personnes habilitées à venir chercher l'enfant")
+    personnes_habilitees_identite = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="PiÃ¨ce d'identitÃ© (Personnes habilitÃ©es)")
+    personnes_habilitees_texte = models.TextField(blank=True, verbose_name="Personnes habilitÃ©es Ã  venir chercher l'enfant")
     
-    pai_sante = models.TextField(blank=True, verbose_name="PAI informations de santé (lunettes, fauteuil, etc.)")
+    pai_sante = models.TextField(blank=True, verbose_name="PAI informations de santÃ© (lunettes, fauteuil, etc.)")
     vaccins = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Vaccins")
     assurance_scolaire = models.FileField(upload_to='inscriptions_cl/', validators=[validate_document_upload, validate_inscription_document_size], blank=True, null=True, verbose_name="Assurance extra-scolaire")
 
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
-    # Lien vers une inscription précédente dont les documents sont réutilisés
+    # Lien vers une inscription prÃ©cÃ©dente dont les documents sont rÃ©utilisÃ©s
     docs_source = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
         null=True, blank=True,
         related_name='inscriptions_utilisant_ces_docs',
         verbose_name="Documents repris depuis l'inscription",
-        help_text="Si la famille n'a pas fourni de nouveaux fichiers, pointe vers l'inscription précédente qui possède les documents.",
+        help_text="Si la famille n'a pas fourni de nouveaux fichiers, pointe vers l'inscription prÃ©cÃ©dente qui possÃ¨de les documents.",
     )
 
     class Meta:
@@ -1403,9 +1403,9 @@ class InscriptionCentreLoisirs(BaseModel):
 
     def get_doc_effectif(self, field_name):
         """
-        Retourne le fichier effectif pour un champ document donné.
+        Retourne le fichier effectif pour un champ document donnÃ©.
         Si le champ est vide sur cette inscription, on remonte vers docs_source
-        (une seule génération), puis on retourne None si toujours vide.
+        (une seule gÃ©nÃ©ration), puis on retourne None si toujours vide.
         """
         value = getattr(self, field_name)
         if value and value.name:
@@ -1419,7 +1419,7 @@ class InscriptionCentreLoisirs(BaseModel):
     @property
     def docs_effectifs(self):
         """
-        Retourne un dict {field_name: FileField ou None} en résolvant chaque
+        Retourne un dict {field_name: FileField ou None} en rÃ©solvant chaque
         document champ par champ : on prend le fichier de cette inscription
         s'il existe, sinon celui de docs_source.
         """
@@ -1435,21 +1435,21 @@ class InscriptionCentreLoisirs(BaseModel):
 
     @property
     def docs_source_date(self):
-        """Date de création de l'inscription source des documents (si applicable)."""
+        """Date de crÃ©ation de l'inscription source des documents (si applicable)."""
         if self.docs_source_id:
             return self.docs_source.created_at
         return None
 
 class ReservationCentreLoisirs(BaseModel):
-    """ Une réservation pour un jour donné """
+    """ Une rÃ©servation pour un jour donnÃ© """
     STATUT_CHOICES = [
         ('en_attente', 'En attente'),
-        ('validee', 'Validée'),
-        ('refusee', 'Refusée'),
-        ('annulee', 'Annulée'),
+        ('validee', 'ValidÃ©e'),
+        ('refusee', 'RefusÃ©e'),
+        ('annulee', 'AnnulÃ©e'),
     ]
     inscription = models.ForeignKey('InscriptionCentreLoisirs', on_delete=models.CASCADE, related_name='reservations')
-    date = models.DateField(verbose_name="Date réservée")
+    date = models.DateField(verbose_name="Date rÃ©servÃ©e")
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente', verbose_name="Statut")
     token_annulation = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     date_validation = models.DateTimeField(null=True, blank=True, verbose_name="Date de validation/refus")
@@ -1457,8 +1457,8 @@ class ReservationCentreLoisirs(BaseModel):
     motif_refus = models.CharField(max_length=255, blank=True, verbose_name="Motif de refus")
 
     class Meta:
-        verbose_name = "Réservation centre de loisirs"
-        verbose_name_plural = "Réservations centre de loisirs"
+        verbose_name = "RÃ©servation centre de loisirs"
+        verbose_name_plural = "RÃ©servations centre de loisirs"
         unique_together = ('inscription', 'date')
         ordering = ['-date']
 
@@ -1469,7 +1469,7 @@ class ChildcareProfessional(BaseModel):
     """ Nourisses """
     prenom = models.CharField(
         max_length=100,
-        verbose_name="Prénom",
+        verbose_name="PrÃ©nom",
     )
     nom = models.CharField(
         max_length=100,
@@ -1478,7 +1478,7 @@ class ChildcareProfessional(BaseModel):
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -1510,8 +1510,8 @@ class GlassCollectionPoint(BaseModel):
     nom = models.CharField(
         max_length=255,
         blank=True,
-        verbose_name="Nom / libellé",
-        help_text="Ex: Parking de la Mairie, Rue de la Forêt…",
+        verbose_name="Nom / libellÃ©",
+        help_text="Ex: Parking de la Mairie, Rue de la ForÃªtâ¦",
     )
     adresse = models.CharField(
         max_length=255,
@@ -1519,7 +1519,7 @@ class GlassCollectionPoint(BaseModel):
     )
     description = models.TextField(
         blank=True,
-        verbose_name="Description / précisions",
+        verbose_name="Description / prÃ©cisions",
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -1542,7 +1542,7 @@ class TextileCollectionPoint(BaseModel):
     nom = models.CharField(
         max_length=255,
         blank=True,
-        verbose_name="Nom / libellé",
+        verbose_name="Nom / libellÃ©",
     )
     adresse = models.CharField(
         max_length=255,
@@ -1550,7 +1550,7 @@ class TextileCollectionPoint(BaseModel):
     )
     description = models.TextField(
         blank=True,
-        verbose_name="Description / précisions",
+        verbose_name="Description / prÃ©cisions",
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -1569,11 +1569,11 @@ class TextileCollectionPoint(BaseModel):
         return "/vie-pratique#collecte-dechets"
 
 class Mediatheque(BaseModel):
-    """ Médiathèque """
+    """ MÃ©diathÃ¨que """
     nom = models.CharField(
         max_length=255,
         verbose_name="Nom",
-        default="Médiathèque de Dhuizon",
+        default="MÃ©diathÃ¨que de Dhuizon",
     )
     adresse = models.CharField(
         max_length=255,
@@ -1583,7 +1583,7 @@ class Mediatheque(BaseModel):
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -1596,12 +1596,12 @@ class Mediatheque(BaseModel):
     )
     infos = models.TextField(
         blank=True,
-        verbose_name="Informations complémentaires",
+        verbose_name="Informations complÃ©mentaires",
     )
 
     class Meta:
-        verbose_name = "Médiathèque"
-        verbose_name_plural = "Médiathèque"
+        verbose_name = "MÃ©diathÃ¨que"
+        verbose_name_plural = "MÃ©diathÃ¨que"
 
     def __str__(self):
         return self.nom
@@ -1609,13 +1609,13 @@ class Mediatheque(BaseModel):
     def clean(self):
         from django.core.exceptions import ValidationError
         if not self.pk and Mediatheque.objects.exists():
-            raise ValidationError("Une seule entrée médiathèque est autorisée.")
+            raise ValidationError("Une seule entrÃ©e mÃ©diathÃ¨que est autorisÃ©e.")
         
     def get_absolute_url(self):
         return "/vie-pratique#mairie-mediatheque"
 
 class MediathequeSchedule(BaseSchedule):
-    """ Horaires de la médiathèque """
+    """ Horaires de la mÃ©diathÃ¨que """
     class Weekday(models.TextChoices):
         LUNDI = "lundi", "Lundi"
         MARDI = "mardi", "Mardi"
@@ -1629,23 +1629,23 @@ class MediathequeSchedule(BaseSchedule):
         Mediatheque,
         on_delete=models.CASCADE,
         related_name="horaires_planning",
-        verbose_name="Médiathèque",
+        verbose_name="MÃ©diathÃ¨que",
     )
     jour = models.CharField(max_length=10, choices=Weekday.choices, verbose_name="Jour")
     heure_ouverture = models.TimeField(verbose_name="Heure d'ouverture")
     heure_fermeture = models.TimeField(verbose_name="Heure de fermeture")
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
+        verbose_name="FermÃ© ce jour",
     )
 
     class Meta:
-        verbose_name = "Horaire médiathèque"
-        verbose_name_plural = "Horaires médiathèque"
+        verbose_name = "Horaire mÃ©diathÃ¨que"
+        verbose_name_plural = "Horaires mÃ©diathÃ¨que"
         ordering = ["jour_index", "heure_ouverture"]
 
     def __str__(self):
-        return f"{self.get_jour_display()} — {self.mediatheque.nom}"
+        return f"{self.get_jour_display()} â {self.mediatheque.nom}"
 
 class LieuTouristique(BaseModel):
     """ Lieu touristique """
@@ -1661,7 +1661,7 @@ class LieuTouristique(BaseModel):
         max_length=100,
         blank=True,
         verbose_name="Temps de trajet",
-        help_text="Ex : 15 min en voiture, 30 min à vélo…",
+        help_text="Ex : 15 min en voiture, 30 min Ã  vÃ©loâ¦",
     )
     distance_km = models.DecimalField(
         max_digits=6,
@@ -1701,9 +1701,9 @@ class LieuTouristique(BaseModel):
 class CabaneCocou(BaseModel):
     """ Cabane Cocou """
     class Statut(models.TextChoices):
-        EN_PROJET      = "en_projet",      "🔜 En projet"
-        EN_CONSTRUCTION = "en_construction", "🚧 En construction"
-        OUVERT         = "ouvert",         "✅ Ouvert"
+        EN_PROJET      = "en_projet",      "ð En projet"
+        EN_CONSTRUCTION = "en_construction", "ð§ En construction"
+        OUVERT         = "ouvert",         "â Ouvert"
 
     nom = models.CharField(
         max_length=255,
@@ -1721,18 +1721,18 @@ class CabaneCocou(BaseModel):
     capacite = models.PositiveSmallIntegerField(
         blank=True,
         null=True,
-        verbose_name="Capacité (personnes)",
+        verbose_name="CapacitÃ© (personnes)",
     )
     tarif = models.CharField(
         max_length=150,
         blank=True,
         verbose_name="Tarif indicatif",
-        help_text="Ex : À partir de 120€/nuit",
+        help_text="Ex : Ã partir de 120â¬/nuit",
     )
     lien = models.URLField(
         blank=True,
         validators=[validate_safe_link_url],
-        verbose_name="Lien de réservation / site",
+        verbose_name="Lien de rÃ©servation / site",
     )
     image = models.ImageField(
         upload_to="images/tourisme/cabanes/",
@@ -1758,17 +1758,17 @@ class CabaneCocou(BaseModel):
         return "/tourisme#cabanes-cocou"
 
 class Hebergement(BaseModel):
-    """ Hébergement """
+    """ HÃ©bergement """
     class TypeHebergement(models.TextChoices):
         AUBERGE = "auberge", "Auberge"
-        HOTEL   = "hotel",   "Hôtel"
-        GITE    = "gite",    "Gîte"
+        HOTEL   = "hotel",   "HÃ´tel"
+        GITE    = "gite",    "GÃ®te"
         CAMPING = "camping", "Camping"
         AUTRE   = "autre",   "Autre"
 
     nom = models.CharField(
         max_length=255,
-        verbose_name="Nom de l'hébergement",
+        verbose_name="Nom de l'hÃ©bergement",
     )
     type_hebergement = models.CharField(
         max_length=20,
@@ -1787,7 +1787,7 @@ class Hebergement(BaseModel):
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -1812,8 +1812,8 @@ class Hebergement(BaseModel):
     )
 
     class Meta:
-        verbose_name = "Hébergement"
-        verbose_name_plural = "Hébergements"
+        verbose_name = "HÃ©bergement"
+        verbose_name_plural = "HÃ©bergements"
         ordering = ["order", "nom"]
 
     def __str__(self):
@@ -1823,10 +1823,10 @@ class Hebergement(BaseModel):
         return "/tourisme#hebergements"
 
 class Gite(BaseModel):
-    """ Gîte """
+    """ GÃ®te """
     nom = models.CharField(
         max_length=255,
-        verbose_name="Nom du gîte",
+        verbose_name="Nom du gÃ®te",
     )
     description = models.TextField(
         blank=True,
@@ -1839,7 +1839,7 @@ class Gite(BaseModel):
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     email = models.EmailField(
         blank=True,
@@ -1854,13 +1854,13 @@ class Gite(BaseModel):
     capacite = models.PositiveSmallIntegerField(
         blank=True,
         null=True,
-        verbose_name="Capacité (personnes)",
+        verbose_name="CapacitÃ© (personnes)",
     )
     tarif = models.CharField(
         max_length=100,
         blank=True,
         verbose_name="Tarif indicatif",
-        help_text="Ex : À partir de 80 € / nuit",
+        help_text="Ex : Ã partir de 80 â¬ / nuit",
     )
     image = models.ImageField(
         upload_to="images/tourisme/gites/",
@@ -1875,8 +1875,8 @@ class Gite(BaseModel):
     )
 
     class Meta:
-        verbose_name = "Gîte"
-        verbose_name_plural = "Gîtes"
+        verbose_name = "GÃ®te"
+        verbose_name_plural = "GÃ®tes"
         ordering = ["order", "nom"]
 
     def __str__(self):
@@ -1889,7 +1889,7 @@ class Commerce(BaseModel):
     """ Commerce """
     nom_activite = models.CharField(
         max_length=255,
-        verbose_name="Nom de l'activité",
+        verbose_name="Nom de l'activitÃ©",
     )
     adresse = models.CharField(
         max_length=255,
@@ -1899,12 +1899,12 @@ class Commerce(BaseModel):
         max_length=255,
         blank=True,
         verbose_name="Personnel / Responsable",
-        help_text="Nom(s) du ou des responsables / gérants.",
+        help_text="Nom(s) du ou des responsables / gÃ©rants.",
     )
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -1948,18 +1948,18 @@ class CommerceSchedule(BaseSchedule):
         null=True,
         blank=True,
         verbose_name="Heure d'ouverture",
-        help_text="Laisser vide si fermé toute la journée.",
+        help_text="Laisser vide si fermÃ© toute la journÃ©e.",
     )
     heure_fermeture = models.TimeField(
         null=True,
         blank=True,
         verbose_name="Heure de fermeture",
-        help_text="Laisser vide si fermé toute la journée.",
+        help_text="Laisser vide si fermÃ© toute la journÃ©e.",
     )
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
-        help_text="Cocher si le commerce est fermé ce jour-là.",
+        verbose_name="FermÃ© ce jour",
+        help_text="Cocher si le commerce est fermÃ© ce jour-lÃ .",
     )
 
     class Meta:
@@ -1969,19 +1969,19 @@ class CommerceSchedule(BaseSchedule):
 
     def __str__(self):
         if self.ferme:
-            return f"{self.get_jour_display()} — {self.commerce.nom_activite} : Fermé"
+            return f"{self.get_jour_display()} â {self.commerce.nom_activite} : FermÃ©"
         if self.heure_ouverture and self.heure_fermeture:
             return (
-                f"{self.get_jour_display()} — {self.commerce.nom_activite} : "
-                f"{self.heure_ouverture:%H:%M}–{self.heure_fermeture:%H:%M}"
+                f"{self.get_jour_display()} â {self.commerce.nom_activite} : "
+                f"{self.heure_ouverture:%H:%M}â{self.heure_fermeture:%H:%M}"
             )
-        return f"{self.get_jour_display()} — {self.commerce.nom_activite} : Non renseigné"
+        return f"{self.get_jour_display()} â {self.commerce.nom_activite} : Non renseignÃ©"
 
 class Entreprise(BaseModel):
     """ Entreprises """
     nom_activite = models.CharField(
         max_length=255,
-        verbose_name="Nom de l'activité",
+        verbose_name="Nom de l'activitÃ©",
     )
     adresse = models.CharField(
         max_length=255,
@@ -1991,12 +1991,12 @@ class Entreprise(BaseModel):
         max_length=255,
         blank=True,
         verbose_name="Personnel / Responsable",
-        help_text="Nom(s) du ou des responsables / gérants.",
+        help_text="Nom(s) du ou des responsables / gÃ©rants.",
     )
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     order = models.PositiveSmallIntegerField(
         default=0,
@@ -2041,18 +2041,18 @@ class EntrepriseSchedule(BaseSchedule):
         null=True,
         blank=True,
         verbose_name="Heure d'ouverture",
-        help_text="Laisser vide si fermé toute la journée.",
+        help_text="Laisser vide si fermÃ© toute la journÃ©e.",
     )
     heure_fermeture = models.TimeField(
         null=True,
         blank=True,
         verbose_name="Heure de fermeture",
-        help_text="Laisser vide si fermé toute la journée.",
+        help_text="Laisser vide si fermÃ© toute la journÃ©e.",
     )
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
-        help_text="Cocher si l'entreprise est fermée ce jour-là.",
+        verbose_name="FermÃ© ce jour",
+        help_text="Cocher si l'entreprise est fermÃ©e ce jour-lÃ .",
     )
 
     class Meta:
@@ -2062,13 +2062,13 @@ class EntrepriseSchedule(BaseSchedule):
 
     def __str__(self):
         if self.ferme:
-            return f"{self.get_jour_display()} — {self.entreprise.nom_activite} : Fermé"
+            return f"{self.get_jour_display()} â {self.entreprise.nom_activite} : FermÃ©"
         if self.heure_ouverture and self.heure_fermeture:
             return (
-                f"{self.get_jour_display()} — {self.entreprise.nom_activite} : "
-                f"{self.heure_ouverture:%H:%M}–{self.heure_fermeture:%H:%M}"
+                f"{self.get_jour_display()} â {self.entreprise.nom_activite} : "
+                f"{self.heure_ouverture:%H:%M}â{self.heure_fermeture:%H:%M}"
             )
-        return f"{self.get_jour_display()} — {self.entreprise.nom_activite} : Non renseigné"
+        return f"{self.get_jour_display()} â {self.entreprise.nom_activite} : Non renseignÃ©"
 
 class AgencePostale(BaseModel):
     """ Agence postale """
@@ -2084,7 +2084,7 @@ class AgencePostale(BaseModel):
     telephone = models.CharField(
         max_length=20,
         blank=True,
-        verbose_name="Téléphone",
+        verbose_name="TÃ©lÃ©phone",
     )
     horaires = models.TextField(
         blank=True,
@@ -2102,7 +2102,7 @@ class AgencePostale(BaseModel):
     def clean(self):
         from django.core.exceptions import ValidationError
         if not self.pk and AgencePostale.objects.exists():
-            raise ValidationError("Une seule entrée agence postale est autorisée.")
+            raise ValidationError("Une seule entrÃ©e agence postale est autorisÃ©e.")
         
     def get_absolute_url(self):
         return "/vie-pratique#agence-postale"
@@ -2129,7 +2129,7 @@ class AgencePostaleSchedule(BaseSchedule):
     heure_fermeture = models.TimeField(verbose_name="Heure de fermeture")
     ferme = models.BooleanField(
         default=False,
-        verbose_name="Fermé ce jour",
+        verbose_name="FermÃ© ce jour",
     )
 
     class Meta:
@@ -2138,20 +2138,20 @@ class AgencePostaleSchedule(BaseSchedule):
         ordering = ["jour_index", "heure_ouverture"]
 
     def __str__(self):
-        return f"{self.get_jour_display()} — {self.agence_postale.nom}"
+        return f"{self.get_jour_display()} â {self.agence_postale.nom}"
 
 class DemarcheAdministrative(BaseModel):
-    """ Démarche administrative """
-    titre = models.CharField(max_length=255, verbose_name="Titre de la démarche")
+    """ DÃ©marche administrative """
+    titre = models.CharField(max_length=255, verbose_name="Titre de la dÃ©marche")
     description = models.TextField(verbose_name="Description / Explications", blank=True)
     lien_service_public = models.URLField(verbose_name="Lien externe (ex: service-public.fr)", blank=True)
-    fichier_pdf = models.FileField(upload_to="demarches/", validators=[validate_pdf_upload], verbose_name="Fichier PDF à télécharger (ex: CERFA)", blank=True, null=True)
-    icone = models.CharField(max_length=50, default="article", verbose_name="Icône Google Material", help_text="Ex: 'description', 'favorite', 'home'")
+    fichier_pdf = models.FileField(upload_to="demarches/", validators=[validate_pdf_upload], verbose_name="Fichier PDF Ã  tÃ©lÃ©charger (ex: CERFA)", blank=True, null=True)
+    icone = models.CharField(max_length=50, default="article", verbose_name="IcÃ´ne Google Material", help_text="Ex: 'description', 'favorite', 'home'")
     ordre = models.PositiveSmallIntegerField(default=10, verbose_name="Ordre d'affichage")
 
     class Meta:
-        verbose_name = "Démarche administrative"
-        verbose_name_plural = "Démarches administratives"
+        verbose_name = "DÃ©marche administrative"
+        verbose_name_plural = "DÃ©marches administratives"
         ordering = ["ordre", "titre"]
 
     def __str__(self):
@@ -2163,9 +2163,9 @@ class DemarcheAdministrative(BaseModel):
 class AuditLog(models.Model):
     """ Journal d'audit """
     class Action(models.TextChoices):
-        CREE     = "cree",      "Créé"
-        MODIFIE  = "modifie",   "Modifié"
-        SUPPRIME = "supprime",  "Supprimé"
+        CREE     = "cree",      "CrÃ©Ã©"
+        MODIFIE  = "modifie",   "ModifiÃ©"
+        SUPPRIME = "supprime",  "SupprimÃ©"
 
     user = models.ForeignKey(
         'auth.User',
@@ -2183,17 +2183,17 @@ class AuditLog(models.Model):
     section_slug = models.CharField(
         max_length=100,
         verbose_name="Section du panneau",
-        help_text="Slug de la section concernée (ex : sante-professionnels)",
+        help_text="Slug de la section concernÃ©e (ex : sante-professionnels)",
     )
     section_label = models.CharField(
         max_length=200,
         blank=True,
-        verbose_name="Libellé de la section",
+        verbose_name="LibellÃ© de la section",
     )
     model_name = models.CharField(
         max_length=100,
-        verbose_name="Modèle concerné",
-        help_text="Nom du modèle Django (ex : HealthcareProfessional)",
+        verbose_name="ModÃ¨le concernÃ©",
+        help_text="Nom du modÃ¨le Django (ex : HealthcareProfessional)",
     )
     object_pk = models.CharField(
         max_length=50,
@@ -2201,13 +2201,13 @@ class AuditLog(models.Model):
     )
     object_repr = models.CharField(
         max_length=500,
-        verbose_name="Représentation de l'objet",
+        verbose_name="ReprÃ©sentation de l'objet",
         help_text="Valeur __str__ de l'objet au moment de l'action",
     )
     changes = models.TextField(
         blank=True,
-        verbose_name="Détail des modifications",
-        help_text="JSON : champs modifiés avec valeurs avant / après",
+        verbose_name="DÃ©tail des modifications",
+        help_text="JSON : champs modifiÃ©s avec valeurs avant / aprÃ¨s",
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -2226,11 +2226,11 @@ class AuditLog(models.Model):
         ]
 
     def __str__(self):
-        user_str = self.user.get_full_name() or self.user.username if self.user else "Système"
-        return f"[{self.get_action_display()}] {self.object_repr} par {user_str} — {self.created_at:%d/%m/%Y %H:%M}"
+        user_str = self.user.get_full_name() or self.user.username if self.user else "SystÃ¨me"
+        return f"[{self.get_action_display()}] {self.object_repr} par {user_str} â {self.created_at:%d/%m/%Y %H:%M}"
 
     def get_changes_display(self):
-        """Désérialise le JSON des modifications pour affichage."""
+        """DÃ©sÃ©rialise le JSON des modifications pour affichage."""
         import json
         if not self.changes:
             return []
@@ -2240,7 +2240,7 @@ class AuditLog(models.Model):
             return []
 
 class Randonnee(BaseModel):
-    """ Randonnée """
+    """ RandonnÃ©e """
     NIVEAU_CHOICES = [
         ('facile', 'Facile'),
         ('moyen', 'Moyen'),
@@ -2249,34 +2249,34 @@ class Randonnee(BaseModel):
 
     nom = models.CharField(
         max_length=255,
-        verbose_name="Nom de la randonnée",
+        verbose_name="Nom de la randonnÃ©e",
     )
     slug = models.SlugField(
         max_length=255,
         unique=True,
         blank=True,
         verbose_name="Slug (URL)",
-        help_text="Généré automatiquement si laissé vide.",
+        help_text="GÃ©nÃ©rÃ© automatiquement si laissÃ© vide.",
     )
     description_courte = models.CharField(
         max_length=500,
         verbose_name="Description courte",
-        help_text="Affichée sur la carte dans la liste des loisirs.",
+        help_text="AffichÃ©e sur la carte dans la liste des loisirs.",
     )
     description_detaillee = models.TextField(
-        verbose_name="Description détaillée",
-        help_text="Affichée sur la page dédiée à la randonnée.",
+        verbose_name="Description dÃ©taillÃ©e",
+        help_text="AffichÃ©e sur la page dÃ©diÃ©e Ã  la randonnÃ©e.",
     )
     temps_parcours = models.CharField(
         max_length=100,
-        verbose_name="Temps de parcours estimé",
+        verbose_name="Temps de parcours estimÃ©",
         help_text="Ex: 2h30",
     )
     niveau_difficulte = models.CharField(
         max_length=20,
         choices=NIVEAU_CHOICES,
         default='facile',
-        verbose_name="Niveau de difficulté",
+        verbose_name="Niveau de difficultÃ©",
     )
     distance_km = models.DecimalField(
         max_digits=5,
@@ -2288,21 +2288,21 @@ class Randonnee(BaseModel):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name="Lieu de départ",
-        help_text="Adresse ou point de repère.",
+        verbose_name="Lieu de dÃ©part",
+        help_text="Adresse ou point de repÃ¨re.",
     )
     image_principale = models.ImageField(
         upload_to="images/randonnees/",
         blank=True,
         null=True,
-        verbose_name="Image de présentation",
+        verbose_name="Image de prÃ©sentation",
         validators=[validate_image_upload],
     )
     carte_image = models.ImageField(
         upload_to="images/randonnees/cartes/",
         blank=True,
         null=True,
-        verbose_name="Image de la carte du tracé",
+        verbose_name="Image de la carte du tracÃ©",
         validators=[validate_image_upload],
     )
     order = models.PositiveSmallIntegerField(
@@ -2311,8 +2311,8 @@ class Randonnee(BaseModel):
     )
 
     class Meta:
-        verbose_name = "Randonnée"
-        verbose_name_plural = "Randonnées"
+        verbose_name = "RandonnÃ©e"
+        verbose_name_plural = "RandonnÃ©es"
         ordering = ["order", "nom"]
 
     def __str__(self):
@@ -2324,14 +2324,14 @@ class Randonnee(BaseModel):
         super().save(*args, **kwargs)
 
 class PeriscolaireInfo(BaseModel):
-    titre = models.CharField(max_length=255, default="Inscription aux services périscolaires", verbose_name="Titre de la section")
-    presentation = models.TextField(blank=True, verbose_name="Texte de présentation", help_text="Ce texte s'affichera au-dessus du formulaire d'inscription.")
-    reglement_cantine_pdf = models.FileField(upload_to="documents/periscolaire/", blank=True, null=True, verbose_name="Règlement de la cantine (PDF)", validators=[validate_pdf_upload])
-    reglement_garderie_pdf = models.FileField(upload_to="documents/periscolaire/", blank=True, null=True, verbose_name="Règlement de la garderie (PDF)", validators=[validate_pdf_upload])
+    titre = models.CharField(max_length=255, default="Inscription aux services pÃ©riscolaires", verbose_name="Titre de la section")
+    presentation = models.TextField(blank=True, verbose_name="Texte de prÃ©sentation", help_text="Ce texte s'affichera au-dessus du formulaire d'inscription.")
+    reglement_cantine_pdf = models.FileField(upload_to="documents/periscolaire/", blank=True, null=True, verbose_name="RÃ¨glement de la cantine (PDF)", validators=[validate_pdf_upload])
+    reglement_garderie_pdf = models.FileField(upload_to="documents/periscolaire/", blank=True, null=True, verbose_name="RÃ¨glement de la garderie (PDF)", validators=[validate_pdf_upload])
 
     class Meta:
-        verbose_name = "Information Périscolaire"
-        verbose_name_plural = "Informations Périscolaires"
+        verbose_name = "Information PÃ©riscolaire"
+        verbose_name_plural = "Informations PÃ©riscolaires"
 
     def __str__(self):
         return self.titre
@@ -2348,15 +2348,15 @@ def current_week():
 class MenuCantine(BaseModel):
     """
     Menu hebdomadaire de la cantine scolaire en PDF.
-    Le secrétariat uploade un PDF par semaine.
+    Le secrÃ©tariat uploade un PDF par semaine.
     """
     annee = models.IntegerField(
-        verbose_name="Année",
+        verbose_name="AnnÃ©e",
         default=current_year,
         help_text="Exemple : 2024",
     )
     numero_semaine = models.IntegerField(
-        verbose_name="Numéro de la semaine",
+        verbose_name="NumÃ©ro de la semaine",
         default=current_week,
         help_text="Exemple : 34",
     )
@@ -2376,4 +2376,142 @@ class MenuCantine(BaseModel):
         unique_together = [("annee", "numero_semaine")]
 
     def __str__(self):
-        return f"Menu cantine – Semaine {self.numero_semaine} ({self.annee})"
+        return f"Menu cantine â Semaine {self.numero_semaine} ({self.annee})"
+
+
+
+class Defibrillateur(BaseModel):
+    """ Défibrillateur automatisé externe (DAE) """
+    nom = models.CharField(
+        max_length=255,
+        verbose_name="Nom / lieu",
+        help_text="Ex: Mairie, Salle des fêtes, École..."
+    )
+    adresse = models.CharField(
+        max_length=255,
+        verbose_name="Adresse"
+    )
+    latitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        verbose_name="Latitude GPS"
+    )
+    longitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        verbose_name="Longitude GPS"
+    )
+    description = models.TextField(
+        blank=True,
+        verbose_name="Informations complémentaires",
+        help_text="Accès, disponibilité 24h/24, étage..."
+    )
+    est_actif = models.BooleanField(
+        default=True,
+        verbose_name="Actif",
+        help_text="Décocher si le défibrillateur est hors service."
+    )
+
+    class Meta:
+        verbose_name = "Défibrillateur (DAE)"
+        verbose_name_plural = "Défibrillateurs (DAE)"
+        ordering = ["nom"]
+
+    def __str__(self):
+        return f"{self.nom} — {self.adresse}"
+
+
+class Signalement(BaseModel):
+    """ Signalement d'un habitant à la mairie """
+
+    class Categorie(models.TextChoices):
+        VOIRIE         = 'voirie',        'Voirie / Route'
+        ECLAIRAGE      = 'eclairage',     'Éclairage public'
+        DECHETS        = 'dechets',       'Déchets / Propreté'
+        ESPACES_VERTS  = 'espaces_verts', 'Espaces verts'
+        BATIMENT       = 'batiment',      'Bâtiment communal'
+        AUTRE          = 'autre',         'Autre'
+
+    class Statut(models.TextChoices):
+        NOUVEAU   = 'nouveau',   '🆕 Nouveau'
+        EN_COURS  = 'en_cours',  '🔄 En cours de traitement'
+        RESOLU    = 'resolu',    '✅ Résolu'
+        REJETE    = 'rejete',    '❌ Rejeté'
+
+    categorie = models.CharField(
+        max_length=20,
+        choices=Categorie.choices,
+        verbose_name="Catégorie"
+    )
+    description = models.TextField(
+        verbose_name="Description du problème"
+    )
+    latitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+        verbose_name="Latitude GPS"
+    )
+    longitude = models.DecimalField(
+        max_digits=9,
+        decimal_places=6,
+        null=True,
+        blank=True,
+        verbose_name="Longitude GPS"
+    )
+    adresse_approximative = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Adresse approximative",
+        help_text="Fournie par l'habitant ou calculée depuis les coordonnées GPS."
+    )
+    statut = models.CharField(
+        max_length=20,
+        choices=Statut.choices,
+        default=Statut.NOUVEAU,
+        verbose_name="Statut"
+    )
+    email_signalant = models.EmailField(
+        blank=True,
+        verbose_name="Email du signalant (optionnel)",
+        help_text="Pour pouvoir notifier l'habitant du traitement de son signalement."
+    )
+    commentaire_mairie = models.TextField(
+        blank=True,
+        verbose_name="Commentaire interne mairie"
+    )
+
+    class Meta:
+        verbose_name = "Signalement"
+        verbose_name_plural = "Signalements"
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"[{self.get_categorie_display()}] {self.description[:60]} — {self.get_statut_display()}"
+
+
+class SignalementPhoto(BaseModel):
+    """ Photo attachée à un signalement """
+    signalement = models.ForeignKey(
+        Signalement,
+        on_delete=models.CASCADE,
+        related_name='photos',
+        verbose_name="Signalement"
+    )
+    image = models.ImageField(
+        upload_to='signalements/',
+        verbose_name="Photo"
+    )
+    order = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name="Ordre"
+    )
+
+    class Meta:
+        verbose_name = "Photo de signalement"
+        verbose_name_plural = "Photos de signalement"
+        ordering = ["order"]
+
+    def __str__(self):
+        return f"Photo #{self.order} — {self.signalement}"
