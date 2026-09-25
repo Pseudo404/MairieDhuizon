@@ -16,7 +16,7 @@ from django.db.models import Count, Avg
 from django.db.models.functions import TruncHour
 from django.apps import apps
 from django.forms import modelform_factory
-from core.models import (AgencePostale, CabaneCocou, ChildcareProfessional, CommuneInfo,Commerce, CommerceSchedule, Entreprise, GlassCollectionPoint, HealthCenter,Gite, HealthcareProfessional, Hebergement, LeisureCenter, LieuTouristique,Mediatheque, MenuCantine, MunicipalCouncilReport,MunicipalCouncilor, News, NextCouncilMeeting, Nursery, PatrimoineItem, Pharmacy, QuickLink,CommuneMedia, HistoireDhuizon, RecyclingCenter, School, SeniorResidence,SportFacility, TextileCollectionPoint, Transport, WasteCollectionSchedule, PageView,DemarcheAdministrative, Randonnee)
+from core.models import (AgencePostale, CabaneCocou, ChildcareProfessional, CommuneInfo,Commerce, CommerceSchedule, Entreprise, GlassCollectionPoint, HealthCenter,Gite, HealthcareProfessional, Hebergement, LeisureCenter, LieuTouristique,Mediatheque, MenuCantine, MunicipalCouncilReport,MunicipalCouncilor, News, NextCouncilMeeting, Nursery, PatrimoineItem, Pharmacy, QuickLink,CommuneMedia, HistoireDhuizon, RecyclingCenter, School, SeniorResidence,SportFacility, TextileCollectionPoint, Transport, WasteCollectionSchedule, PageView,DemarcheAdministrative, Randonnee, Signalement, SignalementPhoto)
 from core.forms import ContactForm, NewsForm, AdminLoginForm, AdminAccountForm, InscriptionPeriscolaireForm
 from core.email_service import send_contact_email, send_confirmation_email, send_periscolaire_email
 from core.uploads import file_response_for_path
@@ -385,6 +385,78 @@ def control_panel(request):
     return render(request, 'control_panel.html', {
         'views_today': views_today,
     })
+
+# ── App Mobile ─────────────────────────────────────────────────────────────────
+
+@require_admin_ip
+@login_required(login_url='login_admin')
+@ratelimit(key='ip', rate='10/m', block=True)
+def admin_app_mobile(request):
+    if not user_is_panel_admin(request.user):
+        return custom_403(request)
+    signalements_nouveaux = Signalement.objects.filter(statut=Signalement.Statut.NOUVEAU).count()
+    return render(request, 'panel/app_mobile/dashboard.html', {
+        'signalements_nouveaux': signalements_nouveaux,
+    })
+
+
+@require_admin_ip
+@login_required(login_url='login_admin')
+@ratelimit(key='ip', rate='20/m', block=True)
+def admin_app_mobile_signalements(request):
+    if not user_is_panel_admin(request.user):
+        return custom_403(request)
+
+    qs = Signalement.objects.prefetch_related('photos').order_by('-created_at')
+
+    filtre_categorie = request.GET.get('categorie', '')
+    filtre_statut = request.GET.get('statut', '')
+
+    if filtre_categorie:
+        qs = qs.filter(categorie=filtre_categorie)
+    if filtre_statut:
+        qs = qs.filter(statut=filtre_statut)
+
+    from django.core.paginator import Paginator
+    paginator = Paginator(qs, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'panel/app_mobile/signalements.html', {
+        'signalements': page_obj,
+        'page_obj': page_obj,
+        'is_paginated': paginator.num_pages > 1,
+        'total': qs.count(),
+        'categories': Signalement.Categorie.choices,
+        'statuts': Signalement.Statut.choices,
+        'filtre_categorie': filtre_categorie,
+        'filtre_statut': filtre_statut,
+    })
+
+
+@require_admin_ip
+@login_required(login_url='login_admin')
+@require_POST
+def admin_app_mobile_signalement_statut(request):
+    if not user_is_panel_admin(request.user):
+        return custom_403(request)
+
+    pk = request.POST.get('pk')
+    nouveau_statut = request.POST.get('statut')
+    commentaire = request.POST.get('commentaire_mairie', '')
+
+    signalement = get_object_or_404(Signalement, pk=pk)
+    statuts_valides = [s[0] for s in Signalement.Statut.choices]
+
+    if nouveau_statut not in statuts_valides:
+        messages.error(request, "Statut invalide.")
+    else:
+        signalement.statut = nouveau_statut
+        signalement.commentaire_mairie = commentaire
+        signalement.save()
+        messages.success(request, f"Signalement #{pk} mis à jour : {signalement.get_statut_display()}")
+
+    return redirect('admin_app_mobile_signalements')
 
 @require_admin_ip
 @login_required(login_url='login_admin')

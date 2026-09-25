@@ -1,0 +1,65 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}<title>App Mobile — Panneau de contrôle — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Gestion de l'application mobile — Mairie de Dhuizon">
+{% include 'panel/_theme.html' %}
+{% endblock %}
+{% block content %}
+<main class="panel-bg py-16">
+    <section class="max-w-4xl mx-auto px-4 lg:px-6">
+
+        {# ── En-tête ── #}
+        <div class="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div>
+                <p class="text-sm uppercase tracking-widest font-semibold mb-2" style="color: #7c3aed;">App Mobile</p>
+                <h1 class="text-3xl font-semibold text-gray-900 mb-1">📱 Gestion de l'application mobile</h1>
+                <p class="text-gray-500">Consultez et traitez les données envoyées par les habitants depuis l'application.</p>
+            </div>
+            <a href="{% url 'control_panel' %}" class="panel-back shrink-0">← Retour au panneau</a>
+        </div>
+
+        {# ── Messages flash ── #}
+        {% if messages %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'success' %}panel-msg-success{% else %}panel-msg-error{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {# ── Rubriques ── #}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            {# Signalements #}
+            <a href="{% url 'admin_app_mobile_signalements' %}" class="group block">
+                <article class="panel-card relative p-10 text-center overflow-hidden h-full flex flex-col items-center">
+                    <div class="panel-card-accent" style="background: linear-gradient(135deg, rgba(239,68,68,0.1) 0%, transparent 100%); border-color: rgba(239,68,68,0.25);"></div>
+                    <div class="panel-icon-wrap" style="background-color: #fee2e2; color: #dc2626;">🚨</div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2 group-hover:text-red-700 transition-colors">Signalements</h2>
+                    <p class="text-gray-500 leading-relaxed mb-4 flex-1">Problèmes signalés par les habitants (voirie, éclairage, déchets…)</p>
+                    {% if signalements_nouveaux > 0 %}
+                    <span class="panel-badge" style="background: #fee2e2; color: #dc2626;">{{ signalements_nouveaux }} nouveau{{ signalements_nouveaux|pluralize }}</span>
+                    {% else %}
+                    <span class="inline-block text-sm font-semibold text-red-700 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                        Voir les signalements →
+                    </span>
+                    {% endif %}
+                </article>
+            </a>
+
+            {# Espace réservé pour futures rubriques #}
+            <div class="panel-empty flex flex-col items-center justify-center p-10 text-center">
+                <span class="text-4xl mb-3">➕</span>
+                <p class="text-gray-400 font-medium">Prochaines rubriques</p>
+                <p class="text-gray-300 text-sm mt-1">D'autres fonctionnalités de l'app mobile seront disponibles ici.</p>
+            </div>
+
+        </div>
+
+        <p class="text-center mt-12 text-sm text-gray-400">
+            <a href="{% url 'control_panel' %}" class="panel-back hover:no-underline">← Retour au panneau de contrôle</a>
+        </p>
+    </section>
+</main>
+{% endblock %}

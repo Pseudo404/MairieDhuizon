@@ -1,0 +1,275 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}<title>Signalements — App Mobile — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Signalements de l'application mobile — Mairie de Dhuizon">
+{% include 'panel/_theme.html' %}
+<style>
+    .statut-nouveau    { background:#fee2e2; color:#dc2626; }
+    .statut-en_cours   { background:#dbeafe; color:#1d4ed8; }
+    .statut-resolu     { background:#dcfce7; color:#15803d; }
+    .statut-rejete     { background:#f3f4f6; color:#6b7280; }
+
+    .sig-photo-thumb {
+        width: 3rem;
+        height: 3rem;
+        object-fit: cover;
+        border-radius: .5rem;
+        border: 1px solid #e5e7eb;
+        cursor: pointer;
+        transition: transform .2s;
+    }
+    .sig-photo-thumb:hover { transform: scale(1.08); }
+
+    /* Lightbox */
+    #lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.82);
+        z-index: 9999;
+        align-items: center;
+        justify-content: center;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img  { max-height: 88vh; max-width: 92vw; border-radius: 1rem; }
+    #lightbox-close {
+        position: absolute;
+        top: 1.25rem;
+        right: 1.5rem;
+        color: #fff;
+        font-size: 2rem;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    /* Modale de changement de statut */
+    #statut-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.4);
+        z-index: 8888;
+        align-items: center;
+        justify-content: center;
+    }
+    #statut-modal.open { display: flex; }
+    #statut-modal-box {
+        background: #fff;
+        border-radius: 1.25rem;
+        padding: 2rem;
+        width: min(28rem, 94vw);
+        box-shadow: 0 20px 60px rgba(0,0,0,.18);
+    }
+</style>
+{% endblock %}
+{% block content %}
+<main class="panel-bg py-16">
+  <section class="max-w-6xl mx-auto px-4 lg:px-6">
+
+    {# ── En-tête ── #}
+    <div class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <p class="text-sm uppercase tracking-widest font-semibold mb-1" style="color:#7c3aed;">App Mobile › Signalements</p>
+        <h1 class="text-3xl font-semibold text-gray-900">🚨 Signalements habitants</h1>
+        <p class="text-gray-500 mt-1">{{ total }} signalement{{ total|pluralize }} au total</p>
+      </div>
+      <a href="{% url 'admin_app_mobile' %}" class="panel-back shrink-0">← Retour App Mobile</a>
+    </div>
+
+    {# ── Messages flash ── #}
+    {% if messages %}
+    <div class="mb-6 space-y-2">
+      {% for message in messages %}
+        <div class="{% if message.tags == 'success' %}panel-msg-success{% else %}panel-msg-error{% endif %}">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# ── Filtres ── #}
+    <form method="get" class="mb-6 flex flex-wrap gap-3 items-end">
+      <div>
+        <label class="panel-field-label">Catégorie</label>
+        <select name="categorie">
+          <option value="">Toutes</option>
+          {% for val, label in categories %}
+          <option value="{{ val }}" {% if filtre_categorie == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="panel-field-label">Statut</label>
+        <select name="statut">
+          <option value="">Tous</option>
+          {% for val, label in statuts %}
+          <option value="{{ val }}" {% if filtre_statut == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="panel-btn panel-btn-primary panel-btn-sm">Filtrer</button>
+      {% if filtre_categorie or filtre_statut %}
+      <a href="{% url 'admin_app_mobile_signalements' %}" class="panel-btn panel-btn-secondary panel-btn-sm">Tout afficher</a>
+      {% endif %}
+    </form>
+
+    {# ── Tableau ── #}
+    {% if signalements %}
+    <div class="panel-table-wrap">
+      <table class="panel-table w-full text-sm">
+        <thead>
+          <tr class="text-left text-xs text-gray-500 uppercase tracking-wide">
+            <th class="px-4 py-3">Catégorie</th>
+            <th class="px-4 py-3">Description</th>
+            <th class="px-4 py-3">Localisation</th>
+            <th class="px-4 py-3">Photos</th>
+            <th class="px-4 py-3">Email habitant</th>
+            <th class="px-4 py-3">Statut</th>
+            <th class="px-4 py-3">Date</th>
+            <th class="px-4 py-3">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in signalements %}
+          <tr>
+            <td class="px-4 py-3 font-medium text-gray-800 whitespace-nowrap">{{ s.get_categorie_display }}</td>
+            <td class="px-4 py-3 text-gray-600 max-w-xs">
+              <p class="line-clamp-2" title="{{ s.description }}">{{ s.description }}</p>
+              {% if s.commentaire_mairie %}
+              <p class="mt-1 text-xs text-gray-400 italic">📝 {{ s.commentaire_mairie|truncatechars:60 }}</p>
+              {% endif %}
+            </td>
+            <td class="px-4 py-3 text-gray-500 text-xs">
+              {% if s.latitude and s.longitude %}
+              <a href="https://maps.google.com/?q={{ s.latitude }},{{ s.longitude }}"
+                 target="_blank" rel="noopener"
+                 class="text-blue-600 hover:underline font-medium">
+                📍 Voir sur Maps
+              </a>
+              {% endif %}
+              {% if s.adresse_approximative %}
+              <br><span class="text-gray-400">{{ s.adresse_approximative }}</span>
+              {% endif %}
+              {% if not s.latitude and not s.adresse_approximative %}
+              <span class="text-gray-300">—</span>
+              {% endif %}
+            </td>
+            <td class="px-4 py-3">
+              <div class="flex gap-1 flex-wrap">
+                {% for photo in s.photos.all %}
+                <img src="{% url 'serve_upload' photo.image %}"
+                     alt="Photo"
+                     class="sig-photo-thumb"
+                     onclick="openLightbox('{% url 'serve_upload' photo.image %}')">
+                {% empty %}
+                <span class="text-gray-300 text-xs">—</span>
+                {% endfor %}
+              </div>
+            </td>
+            <td class="px-4 py-3 text-gray-500 text-xs">
+              {{ s.email_signalant|default:"—" }}
+            </td>
+            <td class="px-4 py-3">
+              <span class="panel-badge statut-{{ s.statut }}">{{ s.get_statut_display }}</span>
+            </td>
+            <td class="px-4 py-3 text-gray-400 text-xs whitespace-nowrap">{{ s.created_at|date:"d/m/Y H:i" }}</td>
+            <td class="px-4 py-3">
+              <button class="panel-btn panel-btn-sm panel-btn-edit"
+                      onclick="openStatutModal({{ s.pk }}, '{{ s.statut }}', `{{ s.commentaire_mairie|escapejs }}`)">
+                ✏️ Traiter
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {# Pagination #}
+    {% if is_paginated %}
+    <div class="mt-6 flex gap-2 justify-center">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}&categorie={{ filtre_categorie }}&statut={{ filtre_statut }}"
+         class="panel-btn panel-btn-secondary panel-btn-sm">← Précédent</a>
+      {% endif %}
+      <span class="panel-badge panel-badge-gray px-4">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}&categorie={{ filtre_categorie }}&statut={{ filtre_statut }}"
+         class="panel-btn panel-btn-secondary panel-btn-sm">Suivant →</a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="panel-empty text-center py-20">
+      <p class="text-5xl mb-4">🎉</p>
+      <p class="text-gray-500 font-medium text-lg">Aucun signalement {% if filtre_categorie or filtre_statut %}pour ces filtres{% else %}pour l'instant{% endif %}.</p>
+    </div>
+    {% endif %}
+
+    <p class="text-center mt-12 text-sm text-gray-400">
+      <a href="{% url 'admin_app_mobile' %}" class="panel-back hover:no-underline">← Retour App Mobile</a>
+    </p>
+  </section>
+</main>
+
+{# ── Lightbox photos ── #}
+<div id="lightbox" onclick="closeLightbox()">
+  <span id="lightbox-close" onclick="closeLightbox()">✕</span>
+  <img id="lightbox-img" src="" alt="Photo agrandie">
+</div>
+
+{# ── Modale changement de statut ── #}
+<div id="statut-modal">
+  <div id="statut-modal-box">
+    <h2 class="text-lg font-semibold text-gray-900 mb-5">✏️ Traiter le signalement</h2>
+    <form method="post" action="{% url 'admin_app_mobile_signalement_statut' %}">
+      {% csrf_token %}
+      <input type="hidden" name="pk" id="modal-pk">
+
+      <div class="mb-4">
+        <label class="panel-field-label">Statut</label>
+        <select name="statut" id="modal-statut">
+          {% for val, label in statuts %}
+          <option value="{{ val }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-6">
+        <label class="panel-field-label">Commentaire interne mairie (optionnel)</label>
+        <textarea name="commentaire_mairie" id="modal-commentaire" rows="3"
+                  placeholder="Notes internes sur le traitement de ce signalement…"></textarea>
+      </div>
+
+      <div class="flex gap-3 justify-end">
+        <button type="button" onclick="closeStatutModal()" class="panel-btn panel-btn-secondary">Annuler</button>
+        <button type="submit" class="panel-btn panel-btn-primary">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+function openStatutModal(pk, statut, commentaire) {
+  document.getElementById('modal-pk').value = pk;
+  document.getElementById('modal-statut').value = statut;
+  document.getElementById('modal-commentaire').value = commentaire;
+  document.getElementById('statut-modal').classList.add('open');
+}
+function closeStatutModal() {
+  document.getElementById('statut-modal').classList.remove('open');
+}
+// Fermer en cliquant à l'extérieur
+document.getElementById('statut-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeStatutModal();
+});
+</script>
+{% endblock %}

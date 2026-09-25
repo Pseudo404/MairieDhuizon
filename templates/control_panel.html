@@ -51,7 +51,7 @@
                 </article>
             </a>
             
-            <a href="{% url 'admin_cl_dashboard' %}" class="group block md:col-span-2 max-w-2xl mx-auto w-full">
+            <a href="{% url 'admin_cl_dashboard' %}" class="group block">
                 <article class="panel-card relative p-10 text-center overflow-hidden h-full flex flex-col items-center">
                     <div class="panel-card-accent" style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, transparent 100%); border-color: rgba(59,130,246,0.3);"></div>
                     <div class="panel-icon-wrap" style="background-color: #dbeafe; color: #1d4ed8;">⚽</div>
@@ -59,6 +59,18 @@
                     <p class="text-gray-500 leading-relaxed mb-4 flex-1">Gérer les inscriptions, les réservations et le calendrier du centre.</p>
                     <span class="inline-block text-sm font-semibold text-blue-700 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
                         Accéder au tableau de bord →
+                    </span>
+                </article>
+            </a>
+
+            <a href="{% url 'admin_app_mobile' %}" class="group block">
+                <article class="panel-card relative p-10 text-center overflow-hidden h-full flex flex-col items-center">
+                    <div class="panel-card-accent" style="background: linear-gradient(135deg, rgba(124,58,237,0.1) 0%, transparent 100%); border-color: rgba(124,58,237,0.3);"></div>
+                    <div class="panel-icon-wrap" style="background-color: #ede9fe; color: #7c3aed;">📱</div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2 group-hover:text-violet-700 transition-colors">App Mobile</h2>
+                    <p class="text-gray-500 leading-relaxed mb-4 flex-1">Gérer les signalements et autres données envoyées depuis l'application mobile.</p>
+                    <span class="inline-block text-sm font-semibold text-violet-700 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                        Accéder →
                     </span>
                 </article>
             </a>
