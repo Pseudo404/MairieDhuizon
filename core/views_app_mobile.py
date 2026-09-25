@@ -6,6 +6,13 @@ from core.models import Signalement, SignalementPhoto, News
 
 
 def manifest_json(request):
+    from core.models import CommuneInfo
+    commune = CommuneInfo.objects.only("logo").first()
+    
+    logo_url = "/static/images/logo-dhuizon.webp"
+    if commune and commune.logo:
+        logo_url = commune.logo.url
+
     manifest = {
         "name": "Mairie de Dhuizon",
         "short_name": "Dhuizon",
@@ -16,14 +23,14 @@ def manifest_json(request):
         "theme_color": "#16a34a",
         "icons": [
             {
-                "src": "/static/images/logo-dhuizon.webp",
+                "src": logo_url,
                 "sizes": "192x192",
-                "type": "image/webp"
+                "type": "image/png"
             },
             {
-                "src": "/static/images/logo-dhuizon.webp",
+                "src": logo_url,
                 "sizes": "512x512",
-                "type": "image/webp"
+                "type": "image/png"
             }
         ]
     }

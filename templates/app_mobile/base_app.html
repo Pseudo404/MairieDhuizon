@@ -10,8 +10,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Dhuizon">
     
-    <link rel="manifest" href="{% url 'manifest_json' %}">
-    <link rel="apple-touch-icon" href="{% static 'images/logo-dhuizon.webp' %}">
+        <link rel="manifest" href="{% url 'manifest_json' %}">
+    {% if site_logo_url %}
+        <link rel="apple-touch-icon" href="{{ site_logo_url }}">
+    {% else %}
+        <link rel="apple-touch-icon" href="{% static 'images/logo-dhuizon.webp' %}">
+    {% endif %}
     
     {% block title %}<title>Application Mairie de Dhuizon</title>{% endblock %}
     
