@@ -407,6 +407,22 @@ def admin_app_mobile_signalements(request):
     if not user_is_panel_admin(request.user):
         return custom_403(request)
 
+    # Nettoyage automatique des signalements résolus ou rejetés de plus de 7 jours
+    seven_days_ago = timezone.now() - timedelta(days=7)
+    old_signalements = Signalement.objects.filter(
+        statut__in=['resolu', 'rejete'],
+        updated_at__lt=seven_days_ago
+    )
+    if old_signalements.exists():
+        for sig in old_signalements:
+            for photo in sig.photos.all():
+                if photo.image:
+                    try:
+                        photo.image.delete(save=False)
+                    except Exception:
+                        pass
+            sig.delete()
+
     qs = Signalement.objects.prefetch_related('photos').order_by('-created_at')
 
     filtre_categorie = request.GET.get('categorie', '')
