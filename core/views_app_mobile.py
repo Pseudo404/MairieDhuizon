@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Signalement, SignalementPhoto, News
-from core.forms import SignalementForm  # We'll need to create this or do it manually
+
 
 def manifest_json(request):
     manifest = {
