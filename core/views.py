@@ -488,26 +488,27 @@ def admin_stats(request):
         return custom_403(request)
 
     now = timezone.now()
-    today = now.date()
-    first_day_of_month = today.replace(day=1)
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    today_end = today_start + timedelta(days=1)
+    first_day_of_month = today_start.replace(day=1)
 
-    if today.month == 1:
-        first_day_prev_month = today.replace(year=today.year - 1, month=12, day=1)
+    if first_day_of_month.month == 1:
+        first_day_prev_month = first_day_of_month.replace(year=first_day_of_month.year - 1, month=12)
     else:
-        first_day_prev_month = today.replace(month=today.month - 1, day=1)
+        first_day_prev_month = first_day_of_month.replace(month=first_day_of_month.month - 1)
 
-    views_today = PageView.objects.filter(created_at__date=today).count()
-    views_month = PageView.objects.filter(created_at__date__gte=first_day_of_month).count()
+    views_today = PageView.objects.filter(created_at__gte=today_start, created_at__lt=today_end).count()
+    views_month = PageView.objects.filter(created_at__gte=first_day_of_month).count()
     views_prev_month = PageView.objects.filter(
-        created_at__date__gte=first_day_prev_month,
-        created_at__date__lt=first_day_of_month
+        created_at__gte=first_day_prev_month,
+        created_at__lt=first_day_of_month
     ).count()
 
     unique_today = PageView.objects.filter(
-        created_at__date=today
+        created_at__gte=today_start, created_at__lt=today_end
     ).values('session_key').distinct().count()
     unique_month = PageView.objects.filter(
-        created_at__date__gte=first_day_of_month
+        created_at__gte=first_day_of_month
     ).values('session_key').distinct().count()
 
     avg_time_result = PageView.objects.filter(
@@ -520,35 +521,41 @@ def admin_stats(request):
     else:
         growth = 100.0 if views_month > 0 else 0.0
 
-    thirty_days_ago = today - timedelta(days=29)
+    thirty_days_ago = today_start - timedelta(days=29)
+    # Optimization: do not group by Date in DB, do it in python if DB date is slow, but TruncDate is ok if indexed.
+    # We will use TruncDate which is faster than __date
+    from django.db.models.functions import TruncDate, TruncHour
+    
     daily_views = (
         PageView.objects
-        .filter(created_at__date__gte=thirty_days_ago)
-        .values('created_at__date')
+        .filter(created_at__gte=thirty_days_ago)
+        .annotate(day=TruncDate('created_at'))
+        .values('day')
         .annotate(count=Count('id'))
-        .order_by('created_at__date')
+        .order_by('day')
     )
-    daily_data = {e['created_at__date']: e['count'] for e in daily_views}
+    daily_data = {e['day']: e['count'] for e in daily_views if e['day']}
 
     daily_unique = (
         PageView.objects
-        .filter(created_at__date__gte=thirty_days_ago)
-        .values('created_at__date')
+        .filter(created_at__gte=thirty_days_ago)
+        .annotate(day=TruncDate('created_at'))
+        .values('day')
         .annotate(count=Count('session_key', distinct=True))
-        .order_by('created_at__date')
+        .order_by('day')
     )
-    daily_unique_data = {e['created_at__date']: e['count'] for e in daily_unique}
+    daily_unique_data = {e['day']: e['count'] for e in daily_unique if e['day']}
 
     chart_labels, chart_data, chart_unique_data = [], [], []
     for i in range(30):
-        day = thirty_days_ago + timedelta(days=i)
+        day = (thirty_days_ago + timedelta(days=i)).date()
         chart_labels.append(day.strftime('%d/%m'))
         chart_data.append(daily_data.get(day, 0))
         chart_unique_data.append(daily_unique_data.get(day, 0))
 
     hourly_views = (
         PageView.objects
-        .filter(created_at__date=today)
+        .filter(created_at__gte=today_start, created_at__lt=today_end)
         .annotate(hour=TruncHour('created_at'))
         .values('hour')
         .annotate(count=Count('id'))
@@ -578,8 +585,8 @@ def admin_stats(request):
 
     total_views = PageView.objects.count()
 
-    app_views_today = PageView.objects.filter(created_at__date=today, path__startswith='/app/').count()
-    app_views_month = PageView.objects.filter(created_at__date__gte=first_day_of_month, path__startswith='/app/').count()
+    app_views_today = PageView.objects.filter(created_at__gte=today_start, created_at__lt=today_end, path__startswith='/app/').count()
+    app_views_month = PageView.objects.filter(created_at__gte=first_day_of_month, path__startswith='/app/').count()
 
     context = {
         'views_today': views_today,

@@ -21,10 +21,11 @@ def get_jour_statut(date_obj, centre):
     status = LeisureDayStatus.objects.filter(centre=centre, date=date_obj).first()
     if status:
         if status.status == 'ouvert':
-            if centre:
-                resa_validees = ReservationCentreLoisirs.objects.filter(date=date_obj, statut='validee').count()
-                if resa_validees >= centre.capacite_max:
-                    return 'complet'
+            resa_total = ReservationCentreLoisirs.objects.filter(
+                date=date_obj, statut__in=['validee', 'en_attente']
+            ).count()
+            if resa_total >= 24:
+                return 'complet'
             return 'ouvert'
         return status.status
 
@@ -58,6 +59,72 @@ def centre_loisirs_formulaire(request):
             return render(request, 'centre_loisirs/inscription.html', {'form': form, 'centre': centre})
 
         if form.is_valid():
+            # Préparation des enfants pour vérifier l'âge
+            MAX_ENFANTS = 10
+            enfant_indices = sorted({
+                int(key.rsplit('_', 1)[1])
+                for key in request.POST
+                if key.startswith('nom_enfant_') and key.rsplit('_', 1)[1].isdigit()
+            })[:MAX_ENFANTS]
+
+            enfants_data = []
+            for i in enfant_indices:
+                nom = request.POST.get(f'nom_enfant_{i}')
+                prenom = request.POST.get(f'prenom_enfant_{i}')
+                date_naissance_str = request.POST.get(f'date_naissance_{i}')
+                if nom and prenom and date_naissance_str:
+                    try:
+                        dn = datetime.datetime.strptime(date_naissance_str, '%Y-%m-%d').date()
+                        enfants_data.append({'nom': nom, 'prenom': prenom, 'date_naissance': dn, 'index': i})
+                    except ValueError:
+                        pass
+
+            # VERIFICATION LIMITE < 6 ANS (10 enfants max) et LIMITE TOTALE (24 enfants max)
+            has_error = False
+            jours_fr = {0:'lundi', 1:'mardi', 2:'mercredi', 3:'jeudi', 4:'vendredi', 5:'samedi', 6:'dimanche'}
+            mois_fr = {1:'janvier', 2:'février', 3:'mars', 4:'avril', 5:'mai', 6:'juin', 7:'juillet', 8:'août', 9:'septembre', 10:'octobre', 11:'novembre', 12:'décembre'}
+            
+            for d in dates:
+                jour_nom = f"{jours_fr[d.weekday()]} {d.day} {mois_fr[d.month]} {d.year}"
+                
+                # Vérifier limite totale 24 par sécurité côté serveur
+                total_db = ReservationCentreLoisirs.objects.filter(
+                    date=d, statut__in=['validee', 'en_attente']
+                ).count()
+                
+                if total_db + len(enfants_data) > 24:
+                    messages.error(request, f"La capacité maximale (24 enfants) est atteinte pour le {jour_nom}.")
+                    has_error = True
+                    break
+
+                # Vérifier limite < 6 ans
+                under_6_current = 0
+                for e in enfants_data:
+                    age = d.year - e['date_naissance'].year - ((d.month, d.day) < (e['date_naissance'].month, e['date_naissance'].day))
+                    if age < 6:
+                        under_6_current += 1
+                
+                if under_6_current > 0:
+                    existing_resas = ReservationCentreLoisirs.objects.filter(
+                        date=d, statut__in=['validee', 'en_attente']
+                    ).select_related('inscription')
+                    
+                    under_6_db = 0
+                    for r in existing_resas:
+                        dn = r.inscription.date_naissance
+                        if dn:
+                            age = d.year - dn.year - ((d.month, d.day) < (dn.month, dn.day))
+                            if age < 6:
+                                under_6_db += 1
+                    
+                    if under_6_current + under_6_db > 10:
+                        has_error = True
+                        messages.error(request, f"Trop d'enfants de moins de 6 ans pour ce jour-là ({jour_nom}). La limite de 10 est atteinte.")
+                        break
+
+            if has_error:
+                return render(request, 'centre_loisirs/inscription.html', {'form': form, 'centre': centre})
+
             justificatif = request.FILES.get('justificatif_quotient_familial')
             livret = request.FILES.get('livret_famille_doc')
             jugement = request.FILES.get('jugement_familial')
@@ -66,16 +133,12 @@ def centre_loisirs_formulaire(request):
             inscriptions_creees = []
             resas_creees_global = []
 
-            MAX_ENFANTS = 10
-            enfant_indices = sorted({
-                int(key.rsplit('_', 1)[1])
-                for key in request.POST
-                if key.startswith('nom_enfant_') and key.rsplit('_', 1)[1].isdigit()
-            })[:MAX_ENFANTS]
-            for i in enfant_indices:
-                nom_enfant = request.POST.get(f'nom_enfant_{i}')
-                prenom_enfant = request.POST.get(f'prenom_enfant_{i}')
-                date_naissance = request.POST.get(f'date_naissance_{i}')
+            for e in enfants_data:
+                i = e['index']
+                nom_enfant = e['nom']
+                prenom_enfant = e['prenom']
+                date_naissance = e['date_naissance']
+
                 
                 if nom_enfant and prenom_enfant and date_naissance:
                     inscription = form.save(commit=False)

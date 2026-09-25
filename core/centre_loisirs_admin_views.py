@@ -326,6 +326,14 @@ def admin_cl_detail_jour(request, date):
 def admin_cl_calendrier(request):
     if denied := _require_cl_admin(request): return denied
 
+    import datetime
+    today = datetime.date.today()
+    total_mois = ReservationCentreLoisirs.objects.filter(
+        date__year=today.year,
+        date__month=today.month,
+        statut='validee'
+    ).count()
+
     # Récupérer le nombre de réservations validées par jour pour le calendrier
     counts = ReservationCentreLoisirs.objects.filter(statut='validee').values('date').annotate(total=Count('id'))
     events = []
@@ -359,5 +367,6 @@ def admin_cl_calendrier(request):
         })
 
     return render(request, 'panel/centre_loisirs/calendrier.html', {
-        'events_json': json.dumps(events)
+        'events_json': json.dumps(events),
+        'total_mois': total_mois
     })
