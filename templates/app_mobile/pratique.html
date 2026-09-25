@@ -3,39 +3,71 @@
 {% block content %}
 <div class="safe-top bg-white px-5 py-6 shadow-sm mb-4">
     <h1 class="text-2xl font-bold text-gray-900">Vie Pratique</h1>
+    <p class="text-sm text-gray-500 mt-1">Toutes les infos utiles de Dhuizon</p>
 </div>
 
-<div class="px-5 pb-8 space-y-4">
-    <a href="{% url 'vie_pratique' %}#ecole" class="block bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between active:bg-gray-50 transition-colors">
+<div class="px-4 pb-8 space-y-3 max-w-lg mx-auto w-full">
+
+    <a href="{% url 'app_pratique_dechets' %}" class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-xl">🎓</div>
-            <span class="font-semibold text-gray-800">École & Périscolaire</span>
+            <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center text-2xl">&#128465;</div>
+            <div>
+                <p class="font-semibold text-gray-800">Déchets & Collecte</p>
+                {% if semaine_type %}
+                <p class="text-xs text-gray-500 mt-0.5">Cette semaine → poubelle <strong class="{% if semaine_type == 'paire' %}text-yellow-600{% else %}text-green-600{% endif %}">{{ poubelle_semaine }}</strong></p>
+                {% endif %}
+            </div>
         </div>
-        <span class="text-gray-400">→</span>
+        <span class="text-gray-400 text-xl">&#8250;</span>
     </a>
 
-    <a href="{% url 'vie_pratique' %}#sante" class="block bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between active:bg-gray-50 transition-colors">
+    <a href="{% url 'app_pratique_sante' %}" class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-xl">🏥</div>
-            <span class="font-semibold text-gray-800">Santé & Urgences</span>
+            <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center text-2xl">&#128138;</div>
+            <div>
+                <p class="font-semibold text-gray-800">Santé & Urgences</p>
+                {% if pharmacy_status %}
+                <p class="text-xs mt-0.5 {% if 'Ouvert' in pharmacy_status %}text-green-600{% else %}text-red-500{% endif %}">Pharmacie : {{ pharmacy_status }}</p>
+                {% endif %}
+            </div>
         </div>
-        <span class="text-gray-400">→</span>
+        <span class="text-gray-400 text-xl">&#8250;</span>
     </a>
 
-    <a href="{% url 'vie_pratique' %}#dechets" class="block bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between active:bg-gray-50 transition-colors">
+    <a href="{% url 'app_pratique_ecole' %}" class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-xl">♻️</div>
-            <span class="font-semibold text-gray-800">Déchets & Collecte</span>
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-2xl">&#127979;</div>
+            <div>
+                <p class="font-semibold text-gray-800">École & Périscolaire</p>
+                <p class="text-xs text-gray-500 mt-0.5">Inscriptions cantine, garderie, loisirs</p>
+            </div>
         </div>
-        <span class="text-gray-400">→</span>
+        <span class="text-gray-400 text-xl">&#8250;</span>
     </a>
 
-    <a href="{% url 'contact' %}" class="block bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between active:bg-gray-50 transition-colors">
+    <a href="{% url 'app_pratique_mairie' %}" class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
         <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-green-50 rounded-xl flex items-center justify-center text-xl">✉️</div>
-            <span class="font-semibold text-gray-800">Nous contacter</span>
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-2xl">&#127963;</div>
+            <div>
+                <p class="font-semibold text-gray-800">Mairie & Services</p>
+                {% if commune_status %}
+                <p class="text-xs mt-0.5 {% if 'Ouvert' in commune_status %}text-green-600{% else %}text-red-500{% endif %}">Mairie : {{ commune_status }}</p>
+                {% endif %}
+            </div>
         </div>
-        <span class="text-gray-400">→</span>
+        <span class="text-gray-400 text-xl">&#8250;</span>
     </a>
+
+    <a href="{% url 'contact' %}" class="flex items-center justify-between bg-white p-4 rounded-2xl shadow-sm border border-gray-100 active:bg-gray-50 transition-colors">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center text-2xl">&#9993;</div>
+            <div>
+                <p class="font-semibold text-gray-800">Nous contacter</p>
+                <p class="text-xs text-gray-500 mt-0.5">Formulaire de contact</p>
+            </div>
+        </div>
+        <span class="text-gray-400 text-xl">&#8250;</span>
+    </a>
+
 </div>
 {% endblock %}

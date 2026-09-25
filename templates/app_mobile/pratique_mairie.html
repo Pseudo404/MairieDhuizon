@@ -1,0 +1,188 @@
+{% extends 'app_mobile/base_app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="safe-top bg-white px-5 py-5 shadow-sm flex items-center gap-4 sticky top-0 z-50">
+    <button onclick="history.back()" class="p-2 rounded-full bg-gray-100 text-gray-700 active:bg-gray-200 flex items-center justify-center">
+        <span class="text-2xl leading-none">&larr;</span>
+    </button>
+    <h1 class="text-xl font-bold text-gray-900">Mairie & Services</h1>
+</div>
+
+<div class="px-4 pt-6 pb-12 space-y-5 max-w-lg mx-auto w-full">
+
+    <!-- Mairie -->
+    {% if commune_info %}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-green-700 px-5 py-4">
+            <p class="text-white font-bold text-sm">&#127963; Mairie de Dhuizon</p>
+        </div>
+        <div class="px-5 py-4 space-y-3 text-sm">
+            {% if commune_status %}
+            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full {% if 'Ouvert' in commune_status %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                {{ commune_status }}
+            </span>
+            {% endif %}
+            {% if commune_info.adresse %}
+            <div class="flex items-start gap-3 text-gray-700">
+                <span class="text-green-600 text-lg mt-0.5">&#128205;</span>
+                <span>{{ commune_info.adresse }}</span>
+            </div>
+            {% endif %}
+            {% if commune_info.telephone %}
+            <a href="tel:{{ commune_info.telephone }}" class="flex items-center gap-3 text-green-700 font-medium">
+                <span class="text-lg">&#128222;</span>
+                <span>{{ commune_info.telephone }}</span>
+            </a>
+            {% endif %}
+            {% if commune_today_slots %}
+            <div class="pt-2 border-t border-gray-100">
+                <p class="font-semibold text-gray-800 mb-1">Aujourd'hui :</p>
+                {% for slot in commune_today_slots %}<p class="text-gray-600">{{ slot }}</p>{% endfor %}
+            </div>
+            {% endif %}
+            {% if commune_info.horaires_planning.all %}
+            <details class="text-sm">
+                <summary class="cursor-pointer font-semibold text-green-700">Voir tous les horaires</summary>
+                <ul class="mt-2 space-y-1 text-gray-600">
+                    {% for h in commune_info.horaires_planning.all %}
+                    <li><span class="font-medium text-gray-800">{{ h.get_jour_display }}</span> :
+                        {% if h.ferme %}<span class="text-red-600">Fermé</span>
+                        {% else %}{{ h.heure_ouverture|time:"H:i" }} – {{ h.heure_fermeture|time:"H:i" }}{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Agence postale -->
+    {% if agence_postale %}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-yellow-500 px-5 py-4">
+            <p class="text-white font-bold text-sm">&#128138; Agence Postale</p>
+            <p class="text-yellow-100 text-xs mt-1">{{ agence_postale.nom }}</p>
+        </div>
+        <div class="px-5 py-4 space-y-3 text-sm">
+            {% if agence_postale_status %}
+            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full {% if 'Ouvert' in agence_postale_status %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                {{ agence_postale_status }}
+            </span>
+            {% endif %}
+            {% if agence_postale.adresse %}
+            <div class="flex items-start gap-3 text-gray-700">
+                <span class="text-yellow-600 text-lg mt-0.5">&#128205;</span>
+                <span>{{ agence_postale.adresse }}</span>
+            </div>
+            {% endif %}
+            {% if agence_postale.telephone %}
+            <a href="tel:{{ agence_postale.telephone }}" class="flex items-center gap-3 text-yellow-700 font-medium">
+                <span class="text-lg">&#128222;</span>
+                <span>{{ agence_postale.telephone }}</span>
+            </a>
+            {% endif %}
+            {% if agence_postale.horaires_planning.all %}
+            <details class="text-sm">
+                <summary class="cursor-pointer font-semibold text-yellow-700">Voir tous les horaires</summary>
+                <ul class="mt-2 space-y-1 text-gray-600">
+                    {% for h in agence_postale.horaires_planning.all %}
+                    <li><span class="font-medium text-gray-800">{{ h.get_jour_display }}</span> :
+                        {% if h.ferme %}<span class="text-red-600">Fermé</span>
+                        {% else %}{{ h.heure_ouverture|time:"H:i" }} – {{ h.heure_fermeture|time:"H:i" }}{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Médiathèque -->
+    {% if mediatheque %}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-indigo-600 px-5 py-4">
+            <p class="text-white font-bold text-sm">&#128218; {{ mediatheque.nom }}</p>
+        </div>
+        <div class="px-5 py-4 space-y-3 text-sm">
+            {% if mediatheque_status %}
+            <span class="inline-block text-xs font-bold px-3 py-1 rounded-full {% if 'Ouvert' in mediatheque_status %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %}">
+                {{ mediatheque_status }}
+            </span>
+            {% endif %}
+            {% if mediatheque.adresse %}
+            <div class="flex items-start gap-3 text-gray-700">
+                <span class="text-indigo-600 text-lg mt-0.5">&#128205;</span>
+                <span>{{ mediatheque.adresse }}</span>
+            </div>
+            {% endif %}
+            {% if mediatheque.telephone %}
+            <a href="tel:{{ mediatheque.telephone }}" class="flex items-center gap-3 text-indigo-700 font-medium">
+                <span class="text-lg">&#128222;</span>
+                <span>{{ mediatheque.telephone }}</span>
+            </a>
+            {% endif %}
+            {% if mediatheque.email %}
+            <a href="mailto:{{ mediatheque.email }}" class="flex items-center gap-3 text-indigo-700 font-medium break-all">
+                <span class="text-lg">&#9993;</span>
+                <span>{{ mediatheque.email }}</span>
+            </a>
+            {% endif %}
+            {% if mediatheque.horaires_planning.all %}
+            <details class="text-sm">
+                <summary class="cursor-pointer font-semibold text-indigo-700">Voir tous les horaires</summary>
+                <ul class="mt-2 space-y-1 text-gray-600">
+                    {% for h in mediatheque.horaires_planning.all %}
+                    <li><span class="font-medium text-gray-800">{{ h.get_jour_display }}</span> :
+                        {% if h.ferme %}<span class="text-red-600">Fermé</span>
+                        {% else %}{{ h.heure_ouverture|time:"H:i" }} – {{ h.heure_fermeture|time:"H:i" }}{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </details>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Démarches -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-gray-700 px-5 py-4">
+            <p class="text-white font-bold text-sm">&#128196; Démarches administratives</p>
+        </div>
+        <div class="divide-y divide-gray-100">
+            <a href="{% url 'etat_civil' %}" class="flex items-center justify-between px-5 py-4 active:bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-lg">&#128210;</div>
+                    <p class="font-semibold text-gray-800">État Civil</p>
+                </div>
+                <span class="text-gray-400 text-xl">&#8250;</span>
+            </a>
+            <a href="https://www.service-public.fr/particuliers/vosdroits/N360" target="_blank" class="flex items-center justify-between px-5 py-4 active:bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-lg">&#128196;</div>
+                    <p class="font-semibold text-gray-800">Carte d'identité / Passeport</p>
+                </div>
+                <span class="text-gray-400 text-xl">&#8250;</span>
+            </a>
+            <a href="https://www.service-public.fr/particuliers/vosdroits/F870" target="_blank" class="flex items-center justify-between px-5 py-4 active:bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center text-lg">&#127891;</div>
+                    <p class="font-semibold text-gray-800">Recensement Citoyen</p>
+                </div>
+                <span class="text-gray-400 text-xl">&#8250;</span>
+            </a>
+            <a href="https://www.service-public.fr/particuliers/vosdroits/N47" target="_blank" class="flex items-center justify-between px-5 py-4 active:bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center text-lg">&#128683;</div>
+                    <p class="font-semibold text-gray-800">Listes électorales</p>
+                </div>
+                <span class="text-gray-400 text-xl">&#8250;</span>
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

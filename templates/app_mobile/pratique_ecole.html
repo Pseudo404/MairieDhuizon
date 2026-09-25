@@ -1,0 +1,140 @@
+{% extends 'app_mobile/base_app.html' %}
+{% load static %}
+
+{% block content %}
+<div class="safe-top bg-white px-5 py-5 shadow-sm flex items-center gap-4 sticky top-0 z-50">
+    <button onclick="history.back()" class="p-2 rounded-full bg-gray-100 text-gray-700 active:bg-gray-200 flex items-center justify-center">
+        <span class="text-2xl leading-none">&larr;</span>
+    </button>
+    <h1 class="text-xl font-bold text-gray-900">École & Périscolaire</h1>
+</div>
+
+<div class="px-4 pt-6 pb-12 space-y-5 max-w-lg mx-auto w-full">
+
+    <!-- École -->
+    {% if school %}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-blue-600 px-5 py-4">
+            <p class="text-white font-bold text-sm">&#127979; {{ school.nom }}</p>
+        </div>
+        <div class="px-5 py-4 space-y-3 text-sm">
+            {% if school.adresse %}
+            <div class="flex items-start gap-3 text-gray-700">
+                <span class="text-blue-600 text-lg mt-0.5">&#128205;</span>
+                <span>{{ school.adresse }}</span>
+            </div>
+            {% endif %}
+            {% if school.telephone %}
+            <a href="tel:{{ school.telephone }}" class="flex items-center gap-3 text-blue-700 font-medium">
+                <span class="text-lg">&#128222;</span>
+                <span>{{ school.telephone }}</span>
+            </a>
+            {% endif %}
+            {% if school.email %}
+            <a href="mailto:{{ school.email }}" class="flex items-center gap-3 text-blue-700 font-medium break-all">
+                <span class="text-lg">&#9993;</span>
+                <span>{{ school.email }}</span>
+            </a>
+            {% endif %}
+            {% if school.nom_directrice %}
+            <div class="flex items-center gap-3 text-gray-700 pt-2 border-t border-gray-100">
+                <span class="text-lg">&#128100;</span>
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide">Direction</p>
+                    <p class="font-medium">{{ school.nom_directrice }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {% if school.nb_eleves %}
+            <div class="flex items-center gap-3 text-gray-700">
+                <span class="text-lg">&#128101;</span>
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide">Effectif</p>
+                    <p class="font-medium">{{ school.nb_eleves }} élèves</p>
+                </div>
+            </div>
+            {% endif %}
+            {% if school.horaires_cours %}
+            <div class="pt-2 border-t border-gray-100">
+                <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Horaires des cours</p>
+                <p class="text-gray-800 whitespace-pre-line">{{ school.horaires_cours }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Inscriptions -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-green-700 px-5 py-4">
+            <p class="text-white font-bold text-sm">&#128221; Inscriptions en ligne</p>
+        </div>
+        <div class="divide-y divide-gray-100">
+            <a href="{% url 'centre_loisirs_inscription' %}" class="flex items-center justify-between px-5 py-4 active:bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-xl">&#127918;</div>
+                    <div>
+                        <p class="font-semibold text-gray-800">Centre de Loisirs</p>
+                        <p class="text-xs text-gray-500">Mercredis et vacances</p>
+                    </div>
+                </div>
+                <span class="text-gray-400 text-xl">&#8250;</span>
+            </a>
+            <a href="{% url 'inscription_periscolaire' %}?service=cantine" class="flex items-center justify-between px-5 py-4 active:bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center text-xl">&#127860;</div>
+                    <div>
+                        <p class="font-semibold text-gray-800">Cantine Scolaire</p>
+                        <p class="text-xs text-gray-500">Inscription en ligne</p>
+                    </div>
+                </div>
+                <span class="text-gray-400 text-xl">&#8250;</span>
+            </a>
+            <a href="{% url 'inscription_periscolaire' %}?service=garderie" class="flex items-center justify-between px-5 py-4 active:bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center text-xl">&#128122;</div>
+                    <div>
+                        <p class="font-semibold text-gray-800">Garderie</p>
+                        <p class="text-xs text-gray-500">Matin et soir</p>
+                    </div>
+                </div>
+                <span class="text-gray-400 text-xl">&#8250;</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Centre de loisirs -->
+    {% if centres_loisirs %}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="px-5 py-4" style="background:#0f766e">
+            <p class="text-white font-bold text-sm">&#127881; {{ centres_loisirs.nom }}</p>
+        </div>
+        <div class="px-5 py-4 space-y-3 text-sm">
+            {% if centres_loisirs.description %}<p class="text-gray-700">{{ centres_loisirs.description }}</p>{% endif %}
+            {% if centres_loisirs.telephone %}
+            <a href="tel:{{ centres_loisirs.telephone }}" class="flex items-center gap-3 text-green-700 font-medium">
+                <span class="text-lg">&#128222;</span><span>{{ centres_loisirs.telephone }}</span>
+            </a>
+            {% endif %}
+            {% if centres_loisirs.email %}
+            <a href="mailto:{{ centres_loisirs.email }}" class="flex items-center gap-3 text-green-700 font-medium break-all">
+                <span class="text-lg">&#9993;</span><span>{{ centres_loisirs.email }}</span>
+            </a>
+            {% endif %}
+            {% if centres_loisirs.horaires %}
+            <div class="pt-2 border-t border-gray-100">
+                <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Horaires</p>
+                <p class="whitespace-pre-line text-gray-800">{{ centres_loisirs.horaires }}</p>
+            </div>
+            {% endif %}
+            {% if menu_hebdo and menu_hebdo.pdf and menu_hebdo.pdf.name %}
+            <a href="{{ menu_hebdo.pdf.url }}" target="_blank" class="inline-flex items-center gap-2 bg-green-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl mt-2">
+                &#128196; Voir le menu de la semaine {{ week_number }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}
