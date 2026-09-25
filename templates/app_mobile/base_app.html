@@ -1,4 +1,4 @@
-{% load static %}
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -15,9 +15,8 @@
     
     {% block title %}<title>Application Mairie de Dhuizon</title>{% endblock %}
     
-    <!-- Tailwind CSS (via le même script que le site principal ou en link) -->
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS (via le même script que le site principal) -->
+    {% tailwind_css %}
 
     <style>
         /* Base styles for the mobile app */
