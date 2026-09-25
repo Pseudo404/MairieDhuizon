@@ -257,15 +257,20 @@ def contact(request):
         form = ContactForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
-            success, error_msg = send_contact_email(
-                nom=data['nom'],
-                prenom=data['prenom'],
-                email=data['email'],
-                telephone=data.get('telephone', ''),
-                objet=data['objet'],
-                message=data['message'],
-                piece_jointe=data.get('piece_jointe')
-            )
+            try:
+                success, error_msg = send_contact_email(
+                    nom=data['nom'],
+                    prenom=data['prenom'],
+                    email=data['email'],
+                    telephone=data.get('telephone', ''),
+                    objet=data['objet'],
+                    message=data['message'],
+                    piece_jointe=data.get('piece_jointe')
+                )
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).error(f"Exception non gérée dans send_contact_email: {e}", exc_info=True)
+                success, error_msg = False, "Une erreur inattendue est survenue. Veuillez réessayer ou nous contacter directement."
             if success:
                 send_confirmation_email(data['email'], data['prenom'])
                 messages.success(

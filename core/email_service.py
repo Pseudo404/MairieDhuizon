@@ -1,4 +1,5 @@
 import logging
+import base64
 from django.conf import settings
 from django.utils.html import escape
 import sib_api_v3_sdk
@@ -58,7 +59,6 @@ def send_contact_email(nom, prenom, email, telephone, objet, message, piece_join
     attachments = []
     if piece_jointe:
         try:
-            import base64
             b64_content = base64.b64encode(piece_jointe.read()).decode('utf-8')
             attachments.append(
                 sib_api_v3_sdk.SendSmtpEmailAttachment(
