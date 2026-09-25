@@ -1,20 +1,10 @@
-{% extends 'app_mobile/base_app.html' %}
-{% load static %}
+import re
 
-{% block content %}
-<div class="safe-top bg-green-600 rounded-b-3xl shadow-md pb-6 pt-12 px-6 flex justify-center items-center">
-    {% if site_logo_url %}
-        <img src="{{ site_logo_url }}" alt="Mairie de Dhuizon" class="h-24 w-auto object-contain drop-shadow-md">
-    {% else %}
-        <img src="{% static 'images/logo-dhuizon.webp' %}" alt="Mairie de Dhuizon" class="h-24 w-auto object-contain drop-shadow-md">
-    {% endif %}
-</div>
+with open('templates/app_mobile/accueil.html', 'r', encoding='utf-8') as f:
+    content = f.read()
 
-<div class="px-5 -mt-4 relative z-10">
-    <!-- PWA Install Banner (will be triggered via JS if needed, or just let browser handle) -->
-    
-    <!-- Quick Actions -->
-    <h2 class="text-lg font-bold text-gray-800 mt-6 mb-4">Accès rapide</h2>
+# Replace the Quick Actions grid
+new_grid = """
     <div class="grid grid-cols-2 gap-4">
         <a href="{% url 'app_signalement' %}" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center active:scale-95 transition-transform">
             <span class="text-3xl mb-2">&#128248;</span>
@@ -33,32 +23,27 @@
             <span class="font-semibold text-gray-700">Pratique</span>
         </a>
     </div>
+"""
 
-    <!-- Alertes récentes -->
-    <h2 class="text-lg font-bold text-gray-800 mt-8 mb-4">Dernières actualités</h2>
-    <div class="space-y-4 mb-8">
-        {% for alerte in alertes %}
-        <a href="{% url 'actualite_detail' news_id=alerte.id %}" class="block bg-white p-4 rounded-2xl shadow-sm border border-gray-100 border-l-4 {% if 'alerte' in alerte.title|lower %}border-l-red-500{% else %}border-l-green-500{% endif %} active:scale-[0.98] transition-transform">
-            <p class="text-xs text-gray-400 font-semibold mb-1">{{ alerte.created_at|date:"d M Y" }}</p>
-            <h3 class="font-bold text-gray-800">{{ alerte.title }}</h3>
-            {% if alerte.image %}
-            <div class="mt-3 rounded-xl overflow-hidden h-32 relative mb-2">
-                <img src="{{ alerte.image.url }}" alt="{{ alerte.title }}" class="w-full h-full object-cover">
-            </div>
-            {% endif %}
-            <p class="text-gray-600 text-sm mt-2 line-clamp-3">{{ alerte.content }}</p>
-            <div class="text-green-600 text-xs font-semibold mt-3 flex items-center justify-end">
-                Lire la suite <span class="text-lg leading-none ml-1">&#8250;</span>
-            </div>
-        </a>
-        {% empty %}
-        <div class="text-center text-gray-500 py-6">
-            Aucune information récente.
-        </div>
-        {% endfor %}
-    </div>
-</div>
+# Find the grid in the original file
+content = re.sub(
+    r'<div class="grid grid-cols-2 gap-4">.*?</div>\s*<!-- Alertes',
+    new_grid.strip() + '\n\n    <!-- Alertes',
+    content,
+    flags=re.DOTALL
+)
 
+# Also replace the header for Alertes récentes
+content = content.replace(
+    'Dernires informations',
+    'Dernières actualités'
+).replace(
+    'Dernières informations',
+    'Dernières actualités'
+)
+
+# Add the modal at the bottom before {% endblock %}
+modal_html = """
 <!-- Contact Modal -->
 <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center px-4 transition-opacity">
     <div class="bg-white rounded-3xl w-full max-w-sm p-6 shadow-xl transform transition-all">
@@ -96,5 +81,9 @@
         </button>
     </div>
 </div>
+"""
 
-{% endblock %}
+content = content.replace('{% endblock %}', modal_html + '\n{% endblock %}')
+
+with open('templates/app_mobile/accueil.html', 'w', encoding='utf-8') as f:
+    f.write(content)
