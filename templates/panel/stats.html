@@ -94,6 +94,28 @@
             <p class="text-sky-700 text-xs mt-2">par page</p>
         </div>
     </div>
+
+    <!-- Section App Mobile -->
+    <div class="glass rounded-2xl p-6 mb-8 anim-5">
+        <h2 class="text-lg font-bold text-gray-900 mb-4">📱 App Mobile (PWA)</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 flex items-center justify-between">
+                <div>
+                    <span class="block text-gray-500 text-xs font-semibold mb-1">VUES AUJOURD'HUI</span>
+                    <span class="text-2xl font-bold text-gray-800">{{ app_views_today }}</span>
+                </div>
+                <span class="text-3xl">👀</span>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 border border-gray-100 flex items-center justify-between">
+                <div>
+                    <span class="block text-gray-500 text-xs font-semibold mb-1">VUES CE MOIS-CI</span>
+                    <span class="text-2xl font-bold text-gray-800">{{ app_views_month }}</span>
+                </div>
+                <span class="text-3xl">📅</span>
+            </div>
+        </div>
+    </div>
+
     <div class="glass rounded-2xl p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold text-gray-900">📊 Visites des 30 derniers jours</h2>

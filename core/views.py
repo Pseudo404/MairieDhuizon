@@ -578,9 +578,14 @@ def admin_stats(request):
 
     total_views = PageView.objects.count()
 
+    app_views_today = PageView.objects.filter(created_at__date=today, path__startswith='/app/').count()
+    app_views_month = PageView.objects.filter(created_at__date__gte=first_day_of_month, path__startswith='/app/').count()
+
     context = {
         'views_today': views_today,
         'views_month': views_month,
+        'app_views_today': app_views_today,
+        'app_views_month': app_views_month,
         'unique_today': unique_today,
         'unique_month': unique_month,
         'avg_time': avg_time,
