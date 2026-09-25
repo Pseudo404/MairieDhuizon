@@ -16,14 +16,14 @@ def manifest_json(request):
         "theme_color": "#16a34a",
         "icons": [
             {
-                "src": "/static/images/icon-192.png",
+                "src": "/static/images/logo-dhuizon.webp",
                 "sizes": "192x192",
-                "type": "image/png"
+                "type": "image/webp"
             },
             {
-                "src": "/static/images/icon-512.png",
+                "src": "/static/images/logo-dhuizon.webp",
                 "sizes": "512x512",
-                "type": "image/png"
+                "type": "image/webp"
             }
         ]
     }
@@ -34,8 +34,7 @@ def serviceworker_js(request):
 const CACHE_NAME = 'dhuizon-pwa-v1';
 const urlsToCache = [
   '/app/',
-  '/static/images/icon-192.png',
-  '/static/images/icon-512.png'
+  '/static/images/logo-dhuizon.webp'
 ];
 
 self.addEventListener('install', event => {
