@@ -254,7 +254,7 @@ def actualite_detail(request, news_id):
 @ratelimit(key='ip', rate='5/m', block=True)
 def contact(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = ContactForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
             success, error_msg = send_contact_email(
@@ -264,6 +264,7 @@ def contact(request):
                 telephone=data.get('telephone', ''),
                 objet=data['objet'],
                 message=data['message'],
+                piece_jointe=data.get('piece_jointe')
             )
             if success:
                 send_confirmation_email(data['email'], data['prenom'])

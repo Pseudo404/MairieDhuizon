@@ -178,6 +178,25 @@ class ContactForm(forms.Form):
                      'focus:border-green-600 transition resize-none',
         }),
     )
+    piece_jointe = forms.FileField(
+        required=False,
+        label="Pièce jointe (Optionnel, 5 Mo max)",
+        help_text="Taille maximale : 5 Mo. Formats acceptés : Images, PDF, Word.",
+        widget=forms.ClearableFileInput(attrs={
+            'class': 'w-full px-5 py-4 rounded-2xl border border-gray-200 bg-white '
+                     'focus:outline-none focus:ring-4 focus:ring-green-100 '
+                     'focus:border-green-600 transition',
+            'accept': '.pdf,.doc,.docx,.jpg,.jpeg,.png'
+        }),
+    )
+
+    def clean_piece_jointe(self):
+        file = self.cleaned_data.get('piece_jointe')
+        if file:
+            max_size = 5 * 1024 * 1024  # 5 Mo
+            if file.size > max_size:
+                raise forms.ValidationError("Le fichier est trop volumineux. La taille maximale est de 5 Mo.")
+        return file
 
 class NewsForm(forms.ModelForm):
     class Meta:
