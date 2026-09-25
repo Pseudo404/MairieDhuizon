@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <!-- PWA Meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#16a34a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Dhuizon">
+    
+    <link rel="manifest" href="{% url 'manifest_json' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/icon-192.png' %}">
+    
+    {% block title %}<title>Application Mairie de Dhuizon</title>{% endblock %}
+    
+    <!-- Tailwind CSS (via le même script que le site principal ou en link) -->
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Base styles for the mobile app */
+        body {
+            background-color: #f3f4f6; /* gray-100 */
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        .safe-top {
+            padding-top: env(safe-area-inset-top);
+        }
+        
+        /* Bottom Tab Bar */
+        .tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-around;
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 50;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem 0;
+            color: #6b7280; /* gray-500 */
+            font-size: 0.75rem;
+            flex: 1;
+        }
+        
+        .tab-item.active {
+            color: #16a34a; /* green-600 */
+        }
+        
+        .tab-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Hide scrollbar for a more native feel */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="text-gray-900 antialiased pb-20">
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="tab-bar">
+        <a href="{% url 'app_home' %}" class="tab-item {% if request.resolver_match.url_name == 'app_home' %}active{% endif %}">
+            <span class="tab-icon">🏠</span>
+            <span>Accueil</span>
+        </a>
+        <a href="{% url 'app_signalement' %}" class="tab-item {% if request.resolver_match.url_name == 'app_signalement' %}active{% endif %}">
+            <span class="tab-icon">🚨</span>
+            <span>Signalement</span>
+        </a>
+        <a href="{% url 'app_alertes' %}" class="tab-item {% if request.resolver_match.url_name == 'app_alertes' %}active{% endif %}">
+            <span class="tab-icon">🔔</span>
+            <span>Alertes</span>
+        </a>
+        <a href="{% url 'app_pratique' %}" class="tab-item {% if request.resolver_match.url_name == 'app_pratique' %}active{% endif %}">
+            <span class="tab-icon">📌</span>
+            <span>Pratique</span>
+        </a>
+    </nav>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register("{% url 'serviceworker_js' %}")
+                    .then(reg => console.log('Service Worker enregistré'))
+                    .catch(err => console.error('Erreur SW', err));
+            });
+        }
+    </script>
+</body>
+</html>

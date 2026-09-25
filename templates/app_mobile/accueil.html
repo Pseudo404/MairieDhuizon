@@ -1,0 +1,54 @@
+{% extends 'app_mobile/base_app.html' %}
+
+{% block content %}
+<div class="safe-top bg-green-600 text-white rounded-b-3xl shadow-md pb-6 pt-12 px-6">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-3xl font-bold">Mairie de Dhuizon</h1>
+            <p class="text-green-100 mt-1">L'application officielle</p>
+        </div>
+        <img src="/static/images/blason.png" alt="Blason" class="w-12 h-12 object-contain" onerror="this.style.display='none'">
+    </div>
+</div>
+
+<div class="px-5 -mt-4 relative z-10">
+    <!-- PWA Install Banner (will be triggered via JS if needed, or just let browser handle) -->
+    
+    <!-- Quick Actions -->
+    <h2 class="text-lg font-bold text-gray-800 mt-6 mb-4">Accès rapide</h2>
+    <div class="grid grid-cols-2 gap-4">
+        <a href="{% url 'app_signalement' %}" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center active:scale-95 transition-transform">
+            <span class="text-3xl mb-2">📸</span>
+            <span class="font-semibold text-gray-700">Signaler un problème</span>
+        </a>
+        <a href="tel:0254764422" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center active:scale-95 transition-transform">
+            <span class="text-3xl mb-2">📞</span>
+            <span class="font-semibold text-gray-700">Appeler la mairie</span>
+        </a>
+        <a href="{% url 'app_alertes' %}" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center active:scale-95 transition-transform">
+            <span class="text-3xl mb-2">📢</span>
+            <span class="font-semibold text-gray-700">Dernières alertes</span>
+        </a>
+        <a href="https://www.dhuizon.fr" target="_blank" class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center active:scale-95 transition-transform">
+            <span class="text-3xl mb-2">🌐</span>
+            <span class="font-semibold text-gray-700">Site complet</span>
+        </a>
+    </div>
+
+    <!-- Alertes récentes -->
+    <h2 class="text-lg font-bold text-gray-800 mt-8 mb-4">Dernières informations</h2>
+    <div class="space-y-4 mb-8">
+        {% for alerte in alertes %}
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 border-l-4 {% if 'alerte' in alerte.title|lower %}border-l-red-500{% else %}border-l-green-500{% endif %}">
+            <p class="text-xs text-gray-400 font-semibold mb-1">{{ alerte.created_at|date:"d M Y" }}</p>
+            <h3 class="font-bold text-gray-800">{{ alerte.title }}</h3>
+            <p class="text-gray-600 text-sm mt-2 line-clamp-3">{{ alerte.content }}</p>
+        </div>
+        {% empty %}
+        <div class="text-center text-gray-500 py-6">
+            Aucune information récente.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

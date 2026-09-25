@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from core import views, centre_loisirs_views, centre_loisirs_admin_views
+from core import views, centre_loisirs_views, centre_loisirs_admin_views, views_app_mobile
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -59,7 +59,17 @@ urlpatterns = [
     path('control-panel/centre-loisirs/jours/<str:date>/', centre_loisirs_admin_views.admin_cl_detail_jour, name='admin_cl_detail_jour'),
     path('control-panel/centre-loisirs/calendrier/', centre_loisirs_admin_views.admin_cl_calendrier, name='admin_cl_calendrier'),
     path('api/v1/', include('core.api.urls')),
+
+    # ── PWA & App Mobile ──
+    path('manifest.json', views_app_mobile.manifest_json, name='manifest_json'),
+    path('serviceworker.js', views_app_mobile.serviceworker_js, name='serviceworker_js'),
+    path('app/', views_app_mobile.app_home, name='app_home'),
+    path('app/signalement/', views_app_mobile.app_signalement, name='app_signalement'),
+    path('app/signalement/merci/', views_app_mobile.app_signalement_success, name='app_signalement_success'),
+    path('app/alertes/', views_app_mobile.app_alertes, name='app_alertes'),
+    path('app/pratique/', views_app_mobile.app_pratique, name='app_pratique'),
 ]
+
 
 from django.conf import settings
 from django.conf.urls.static import static
