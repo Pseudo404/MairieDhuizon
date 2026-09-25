@@ -67,6 +67,7 @@ urlpatterns = [
     path('app/signalement/', views_app_mobile.app_signalement, name='app_signalement'),
     path('app/signalement/merci/', views_app_mobile.app_signalement_success, name='app_signalement_success'),
     path('app/alertes/', views_app_mobile.app_alertes, name='app_alertes'),
+    path('app/actualite/<int:news_id>/', views_app_mobile.app_actualite_detail, name='app_actualite_detail'),
     path('app/pratique/', views_app_mobile.app_pratique, name='app_pratique'),
 ]
 

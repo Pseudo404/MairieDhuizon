@@ -37,7 +37,7 @@
     <h2 class="text-lg font-bold text-gray-800 mt-8 mb-4">Dernières actualités</h2>
     <div class="space-y-4 mb-8">
         {% for alerte in alertes %}
-        <a href="{% url 'actualite_detail' news_id=alerte.id %}" class="block bg-white p-4 rounded-2xl shadow-sm border border-gray-100 border-l-4 {% if 'alerte' in alerte.title|lower %}border-l-red-500{% else %}border-l-green-500{% endif %} active:scale-[0.98] transition-transform">
+        <a href="{% url 'app_actualite_detail' news_id=alerte.id %}" class="block bg-white p-4 rounded-2xl shadow-sm border border-gray-100 border-l-4 {% if 'alerte' in alerte.title|lower %}border-l-red-500{% else %}border-l-green-500{% endif %} active:scale-[0.98] transition-transform">
             <p class="text-xs text-gray-400 font-semibold mb-1">{{ alerte.created_at|date:"d M Y" }}</p>
             <h3 class="font-bold text-gray-800">{{ alerte.title }}</h3>
             <p class="text-gray-600 text-sm mt-2 line-clamp-3">{{ alerte.content }}</p>
