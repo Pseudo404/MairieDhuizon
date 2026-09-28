@@ -35,6 +35,7 @@ urlpatterns = [
     path('control-panel/app-mobile/', views.admin_app_mobile, name='admin_app_mobile'),
     path('control-panel/app-mobile/signalements/', views.admin_app_mobile_signalements, name='admin_app_mobile_signalements'),
     path('control-panel/app-mobile/signalements/statut/', views.admin_app_mobile_signalement_statut, name='admin_app_mobile_signalement_statut'),
+    path('control-panel/app-mobile/notifications/', views.admin_app_mobile_notifications, name='admin_app_mobile_notifications'),
     path('api/realtime-count/', views.api_realtime_count, name='api_realtime_count'),
     path('api/track-time/', views.api_track_time, name='api_track_time'),
     path('api/export-csv/', views.api_export_csv, name='api_export_csv'),

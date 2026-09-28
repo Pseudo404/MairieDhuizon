@@ -2515,3 +2515,19 @@ class SignalementPhoto(BaseModel):
 
     def __str__(self):
         return f"Photo #{self.order} — {self.signalement}"
+
+class AppNotification(BaseModel):
+    titre = models.CharField(max_length=200, verbose_name="Titre")
+    message = models.TextField(verbose_name="Message")
+    lien = models.URLField(blank=True, null=True, verbose_name="Lien (optionnel)")
+    date_programmee = models.DateTimeField(blank=True, null=True, verbose_name="Date et heure d'envoi programmée")
+    est_envoye = models.BooleanField(default=False, verbose_name="Déjà envoyé ?")
+    date_envoi = models.DateTimeField(blank=True, null=True, verbose_name="Date d'envoi réel")
+
+    class Meta:
+        verbose_name = "Notification Mobile"
+        verbose_name_plural = "Notifications Mobiles"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.titre

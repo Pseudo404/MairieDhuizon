@@ -1,0 +1,131 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}<title>Notifications Push — App Mobile — Mairie de Dhuizon</title>{% endblock %}
+{% block extra_head %}
+<meta name="description" content="Gestion des notifications push de l'application mobile.">
+{% include 'panel/_theme.html' %}
+{% endblock %}
+
+{% block content %}
+<main class="panel-bg py-16">
+    <section class="max-w-6xl mx-auto px-4 lg:px-6">
+
+        {# ── En-tête ── #}
+        <div class="mb-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div>
+                <div class="flex items-center gap-2 mb-2">
+                    <a href="{% url 'admin_app_mobile' %}" class="text-sm uppercase tracking-widest font-semibold text-blue-600 hover:underline">App Mobile</a>
+                    <span class="text-gray-400">/</span>
+                    <span class="text-sm uppercase tracking-widest font-semibold text-gray-400">Notifications</span>
+                </div>
+                <h1 class="text-3xl font-semibold text-gray-900 mb-1">🔔 Notifications Push</h1>
+                <p class="text-gray-500">Envoyez des alertes instantanées sur les téléphones des habitants.</p>
+            </div>
+            <a href="{% url 'admin_app_mobile' %}" class="panel-back shrink-0">← Retour Dashboard</a>
+        </div>
+
+        {# ── Messages flash ── #}
+        {% if messages %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+                <div class="{% if message.tags == 'success' %}panel-msg-success{% else %}panel-msg-error{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {# Formulaire de nouvelle notification #}
+            <div class="lg:col-span-1">
+                <div class="panel-card p-6 sticky top-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">Nouvelle notification</h2>
+                    <form method="POST" action="{% url 'admin_app_mobile_notifications' %}">
+                        {% csrf_token %}
+                        <div class="space-y-4">
+                            <div>
+                                <label for="titre" class="block text-sm font-medium text-gray-700 mb-1">Titre de l'alerte *</label>
+                                <input type="text" id="titre" name="titre" required class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" placeholder="Ex: Alerte météo">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+                                <textarea id="message" name="message" rows="3" required class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" placeholder="Contenu de la notification..."></textarea>
+                            </div>
+
+                            <div>
+                                <label for="lien" class="block text-sm font-medium text-gray-700 mb-1">Lien (optionnel)</label>
+                                <input type="url" id="lien" name="lien" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" placeholder="https://...">
+                                <p class="text-xs text-gray-500 mt-1">Où l'utilisateur sera redirigé s'il clique.</p>
+                            </div>
+
+                            <div>
+                                <label for="date_programmee" class="block text-sm font-medium text-gray-700 mb-1">Programmer l'envoi (optionnel)</label>
+                                <input type="datetime-local" id="date_programmee" name="date_programmee" min="{{ now_iso }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                <p class="text-xs text-gray-500 mt-1">Laissez vide pour envoyer <strong>immédiatement</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Envoyer / Programmer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {# Liste des notifications #}
+            <div class="lg:col-span-2 space-y-6">
+                <h2 class="text-xl font-semibold text-gray-800">Historique et Programmations</h2>
+                
+                {% if notifications %}
+                    <div class="bg-white shadow overflow-hidden sm:rounded-md border border-gray-100">
+                        <ul role="list" class="divide-y divide-gray-200">
+                            {% for notif in notifications %}
+                            <li class="px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-gray-50">
+                                <div>
+                                    <div class="flex items-center gap-3 mb-1">
+                                        <h3 class="text-md font-semibold text-gray-900">{{ notif.titre }}</h3>
+                                        {% if notif.est_envoye %}
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                Envoyé
+                                            </span>
+                                        {% else %}
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                Programmé
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2">{{ notif.message|truncatechars:100 }}</p>
+                                    <div class="text-xs text-gray-500 flex flex-wrap gap-x-4 gap-y-1">
+                                        {% if notif.date_envoi %}
+                                            <span><strong>Envoi réel :</strong> {{ notif.date_envoi|date:"d M Y à H:i" }}</span>
+                                        {% elif notif.date_programmee %}
+                                            <span><strong>Prévu le :</strong> {{ notif.date_programmee|date:"d M Y à H:i" }}</span>
+                                        {% endif %}
+                                        
+                                        {% if notif.lien %}
+                                            <a href="{{ notif.lien }}" target="_blank" class="text-blue-500 hover:underline">Lien associé</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="shrink-0 flex items-center">
+                                    <a href="?delete={{ notif.id }}" onclick="return confirm('Confirmer la suppression de cette notification ?');" class="text-red-500 hover:text-red-700 text-sm font-medium p-2 bg-red-50 rounded-md hover:bg-red-100 transition">
+                                        Supprimer
+                                    </a>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="panel-empty p-8 text-center rounded-lg border border-dashed border-gray-300">
+                        <span class="text-3xl mb-2 block">📭</span>
+                        <p class="text-gray-500">Aucune notification pour le moment.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </section>
+</main>
+{% endblock %}

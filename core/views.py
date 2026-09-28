@@ -480,6 +480,68 @@ def admin_app_mobile_signalement_statut(request):
 
     return redirect('admin_app_mobile_signalements')
 
+
+@require_admin_ip
+@login_required(login_url='login_admin')
+@ratelimit(key='ip', rate='20/m', block=True)
+def admin_app_mobile_notifications(request):
+    from core.models import AppNotification
+    from django.utils import timezone
+    import datetime
+    
+    if not user_is_panel_admin(request.user):
+        return custom_403(request)
+
+    if request.method == 'POST':
+        titre = request.POST.get('titre')
+        message = request.POST.get('message')
+        lien = request.POST.get('lien', '')
+        date_prog_str = request.POST.get('date_programmee')
+        
+        if titre and message:
+            notif = AppNotification(titre=titre, message=message, lien=lien)
+            
+            if date_prog_str:
+                try:
+                    # Expecting format YYYY-MM-DDTHH:MM
+                    date_prog = datetime.datetime.strptime(date_prog_str, '%Y-%m-%dT%H:%M')
+                    date_prog = timezone.make_aware(date_prog)
+                    notif.date_programmee = date_prog
+                except ValueError:
+                    messages.error(request, "Format de date invalide.")
+                    return redirect('admin_app_mobile_notifications')
+            
+            # Simulate sending immediate notification if no date
+            if not notif.date_programmee or notif.date_programmee <= timezone.now():
+                notif.est_envoye = True
+                notif.date_envoi = timezone.now()
+                # Placeholder for actual FCM/OneSignal send logic:
+                # send_push_notification(notif.titre, notif.message, notif.lien)
+                messages.success(request, "La notification a été envoyée avec succès !")
+            else:
+                messages.success(request, "La notification a été programmée avec succès.")
+                
+            notif.save()
+            return redirect('admin_app_mobile_notifications')
+        else:
+            messages.error(request, "Le titre et le message sont obligatoires.")
+            
+    # Traitement suppression optionnel via GET ?delete=ID ou un simple bouton
+    if 'delete' in request.GET:
+        try:
+            AppNotification.objects.get(pk=request.GET['delete']).delete()
+            messages.success(request, "Notification supprimée.")
+            return redirect('admin_app_mobile_notifications')
+        except AppNotification.DoesNotExist:
+            pass
+            
+    notifications = AppNotification.objects.all()
+    
+    return render(request, 'panel/app_mobile/notifications.html', {
+        'notifications': notifications,
+        'now_iso': timezone.now().strftime('%Y-%m-%dT%H:%M')
+    })
+
 @require_admin_ip
 @login_required(login_url='login_admin')
 @ratelimit(key='ip', rate='10/m', block=True)

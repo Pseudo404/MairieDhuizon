@@ -150,32 +150,17 @@ def send_reservation_demande_email(inscription, dates):
         <p>Cordialement,<br>La Mairie de Dhuizon</p>
     </body></html>
     """
-    attachments = []
-    if piece_jointe:
-        try:
-            import base64
-            b64_content = base64.b64encode(piece_jointe.read()).decode('utf-8')
-            attachments.append(
-                sib_api_v3_sdk.SendSmtpEmailAttachment(
-                    content=b64_content,
-                    name=piece_jointe.name
-                )
-            )
-        except Exception as e:
-            logger.error(f"Erreur d'encodage piece jointe: {e}")
-
     send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
-        to=[{"email": emails_config.MAIRIE_CONTACT_RECEPTION_EMAIL, "name": "Mairie de Dhuizon"}],
+        to=[{"email": inscription.email_1, "name": f"{inscription.prenom_responsable_1} {inscription.nom_responsable_1}"}],
         sender={"email": emails_config.MAIRIE_SENDER_EMAIL, "name": emails_config.MAIRIE_SENDER_NAME},
-        reply_to={"email": email, "name": sanitize_email_header(f"{prenom} {nom}", 100)},
-        subject=f"[Contact Mairie] {objet_subject}",
+        subject=f"Centre de loisirs – Demande de réservation reçue pour {inscription.prenom_enfant} {inscription.nom_enfant}",
         html_content=html_content,
-        attachment=attachments if attachments else None
     )
     try:
         api_instance.send_transac_email(send_smtp_email)
         return True, None
     except Exception as e:
+        logger.error("Erreur envoi email demande réservation: %s", e)
         return False, str(e)
 
 def send_reservation_validee_email(reservation, request, message_personnalise=None):
@@ -198,32 +183,17 @@ def send_reservation_validee_email(reservation, request, message_personnalise=No
         <p>Cordialement,<br>La Mairie de Dhuizon</p>
     </body></html>
     """
-    attachments = []
-    if piece_jointe:
-        try:
-            import base64
-            b64_content = base64.b64encode(piece_jointe.read()).decode('utf-8')
-            attachments.append(
-                sib_api_v3_sdk.SendSmtpEmailAttachment(
-                    content=b64_content,
-                    name=piece_jointe.name
-                )
-            )
-        except Exception as e:
-            logger.error(f"Erreur d'encodage piece jointe: {e}")
-
     send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
-        to=[{"email": emails_config.MAIRIE_CONTACT_RECEPTION_EMAIL, "name": "Mairie de Dhuizon"}],
+        to=[{"email": inscription.email_1, "name": f"{inscription.prenom_responsable_1} {inscription.nom_responsable_1}"}],
         sender={"email": emails_config.MAIRIE_SENDER_EMAIL, "name": emails_config.MAIRIE_SENDER_NAME},
-        reply_to={"email": email, "name": sanitize_email_header(f"{prenom} {nom}", 100)},
-        subject=f"[Contact Mairie] {objet_subject}",
+        subject=f"Centre de loisirs – Réservation validée pour {inscription.prenom_enfant} {inscription.nom_enfant}",
         html_content=html_content,
-        attachment=attachments if attachments else None
     )
     try:
         api_instance.send_transac_email(send_smtp_email)
         return True, None
     except Exception as e:
+        logger.error("Erreur envoi email réservation validée: %s", e)
         return False, str(e)
 
 def send_reservation_refusee_email(reservation, motif):
@@ -239,32 +209,17 @@ def send_reservation_refusee_email(reservation, motif):
         <p>Cordialement,<br>La Mairie de Dhuizon</p>
     </body></html>
     """
-    attachments = []
-    if piece_jointe:
-        try:
-            import base64
-            b64_content = base64.b64encode(piece_jointe.read()).decode('utf-8')
-            attachments.append(
-                sib_api_v3_sdk.SendSmtpEmailAttachment(
-                    content=b64_content,
-                    name=piece_jointe.name
-                )
-            )
-        except Exception as e:
-            logger.error(f"Erreur d'encodage piece jointe: {e}")
-
     send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
-        to=[{"email": emails_config.MAIRIE_CONTACT_RECEPTION_EMAIL, "name": "Mairie de Dhuizon"}],
+        to=[{"email": inscription.email_1, "name": f"{inscription.prenom_responsable_1} {inscription.nom_responsable_1}"}],
         sender={"email": emails_config.MAIRIE_SENDER_EMAIL, "name": emails_config.MAIRIE_SENDER_NAME},
-        reply_to={"email": email, "name": sanitize_email_header(f"{prenom} {nom}", 100)},
-        subject=f"[Contact Mairie] {objet_subject}",
+        subject=f"Centre de loisirs – Réservation non retenue pour {inscription.prenom_enfant} {inscription.nom_enfant}",
         html_content=html_content,
-        attachment=attachments if attachments else None
     )
     try:
         api_instance.send_transac_email(send_smtp_email)
         return True, None
     except Exception as e:
+        logger.error("Erreur envoi email réservation refusée: %s", e)
         return False, str(e)
 
 def send_reservation_annulee_email(reservation):
@@ -279,32 +234,17 @@ def send_reservation_annulee_email(reservation):
         <p>Cordialement,<br>La Mairie de Dhuizon</p>
     </body></html>
     """
-    attachments = []
-    if piece_jointe:
-        try:
-            import base64
-            b64_content = base64.b64encode(piece_jointe.read()).decode('utf-8')
-            attachments.append(
-                sib_api_v3_sdk.SendSmtpEmailAttachment(
-                    content=b64_content,
-                    name=piece_jointe.name
-                )
-            )
-        except Exception as e:
-            logger.error(f"Erreur d'encodage piece jointe: {e}")
-
     send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
-        to=[{"email": emails_config.MAIRIE_CONTACT_RECEPTION_EMAIL, "name": "Mairie de Dhuizon"}],
+        to=[{"email": inscription.email_1, "name": f"{inscription.prenom_responsable_1} {inscription.nom_responsable_1}"}],
         sender={"email": emails_config.MAIRIE_SENDER_EMAIL, "name": emails_config.MAIRIE_SENDER_NAME},
-        reply_to={"email": email, "name": sanitize_email_header(f"{prenom} {nom}", 100)},
-        subject=f"[Contact Mairie] {objet_subject}",
+        subject=f"Centre de loisirs – Annulation confirmée pour {inscription.prenom_enfant} {inscription.nom_enfant}",
         html_content=html_content,
-        attachment=attachments if attachments else None
     )
     try:
         api_instance.send_transac_email(send_smtp_email)
         return True, None
     except Exception as e:
+        logger.error("Erreur envoi email annulation: %s", e)
         return False, str(e)
 
 

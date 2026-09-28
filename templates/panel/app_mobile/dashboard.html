@@ -48,12 +48,18 @@
                 </article>
             </a>
 
-            {# Espace réservé pour futures rubriques #}
-            <div class="panel-empty flex flex-col items-center justify-center p-10 text-center">
-                <span class="text-4xl mb-3">➕</span>
-                <p class="text-gray-400 font-medium">Prochaines rubriques</p>
-                <p class="text-gray-300 text-sm mt-1">D'autres fonctionnalités de l'app mobile seront disponibles ici.</p>
-            </div>
+            {# Notifications #}
+            <a href="{% url 'admin_app_mobile_notifications' %}" class="group block">
+                <article class="panel-card relative p-10 text-center overflow-hidden h-full flex flex-col items-center">
+                    <div class="panel-card-accent" style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, transparent 100%); border-color: rgba(59,130,246,0.25);"></div>
+                    <div class="panel-icon-wrap" style="background-color: #dbeafe; color: #2563eb;">🔔</div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors">Notifications Push</h2>
+                    <p class="text-gray-500 leading-relaxed mb-4 flex-1">Envoyer ou programmer des notifications push sur les téléphones des habitants.</p>
+                    <span class="inline-block text-sm font-semibold text-blue-700 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                        Gérer les notifications →
+                    </span>
+                </article>
+            </a>
 
         </div>
 
