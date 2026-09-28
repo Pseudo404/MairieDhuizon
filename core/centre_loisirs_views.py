@@ -111,11 +111,26 @@ def centre_loisirs_formulaire(request):
                     
                     under_6_db = 0
                     for r in existing_resas:
-                        dn = r.inscription.date_naissance
-                        if dn:
-                            age = d.year - dn.year - ((d.month, d.day) < (dn.month, dn.day))
-                            if age < 6:
-                                under_6_db += 1
+                        if not r.inscription_id:
+                            continue
+                        # Use defensively: handle potential None or missing inscription
+                        try:
+                            dn = r.inscription.date_naissance
+                            if dn:
+                                # SQLite sometimes returns string for dates if format was bad
+                                if isinstance(dn, str):
+                                    import datetime
+                                    try:
+                                        dn = datetime.datetime.strptime(dn, '%Y-%m-%d').date()
+                                    except ValueError:
+                                        # Cannot parse, ignore age check
+                                        continue
+                                age = d.year - dn.year - int((d.month, d.day) < (dn.month, dn.day))
+                                if age < 6:
+                                    under_6_db += 1
+                        except Exception:
+                            # Safely catch any other error (e.g. inscription not found despite ID)
+                            pass
                     
                     if under_6_current + under_6_db > 10:
                         has_error = True
