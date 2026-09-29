@@ -119,7 +119,6 @@ def centre_loisirs_formulaire(request):
                             if dn:
                                 # SQLite sometimes returns string for dates if format was bad
                                 if isinstance(dn, str):
-                                    import datetime
                                     try:
                                         dn = datetime.datetime.strptime(dn, '%Y-%m-%d').date()
                                     except ValueError:

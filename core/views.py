@@ -167,7 +167,6 @@ def vie_pratique(request):
     mediatheque_open, mediatheque_status, mediatheque_today_slots = get_schedule(mediatheque_info)
     agence_postale_open, agence_postale_status, agence_postale_today_slots = get_schedule(agence_postale)
 
-    import datetime
     now = datetime.datetime.now()
     week_number = now.isocalendar()[1]
     is_even_week = (week_number % 2 == 0)
@@ -487,7 +486,6 @@ def admin_app_mobile_signalement_statut(request):
 def admin_app_mobile_notifications(request):
     from core.models import AppNotification
     from django.utils import timezone
-    import datetime
     
     if not user_is_panel_admin(request.user):
         return custom_403(request)
@@ -883,7 +881,6 @@ def panel_crud_list(request, app_label, model_name):
     elif hasattr(model, 'created_at'):
         objects = objects.order_by('-created_at')
         
-    import datetime
     return render(request, 'panel/crud_list.html', {
         'model_name': model._meta.verbose_name.title() if hasattr(model._meta, 'verbose_name') else model_name,
         'model_name_plural': model._meta.verbose_name_plural.title() if hasattr(model._meta, 'verbose_name_plural') else model_name + "s",
@@ -957,7 +954,6 @@ def panel_crud_form(request, app_label, model_name, pk=None):
         else:
             form = FormClass(instance=instance, initial=initial)
         
-    import datetime
     return render(request, 'panel/crud_form.html', {
         'form': form,
         'model_name': model._meta.verbose_name.title() if hasattr(model._meta, 'verbose_name') else model_name,
@@ -1041,7 +1037,6 @@ def inscription_periscolaire(request):
     # Plus de préremplissage avec un service unique puisque c'est une grille
     initial = {}
 
-    import datetime
     now = datetime.datetime.now()
     if now.month < 7:
         annee_scolaire = f"{now.year - 1}-{now.year}"

@@ -326,7 +326,6 @@ def admin_cl_detail_jour(request, date):
 def admin_cl_calendrier(request):
     if denied := _require_cl_admin(request): return denied
 
-    import datetime
     today = datetime.date.today()
     total_mois = ReservationCentreLoisirs.objects.filter(
         date__year=today.year,
